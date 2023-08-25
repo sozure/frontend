@@ -1,0 +1,8 @@
+version: '3'
+services:
+  vgmanager-frontend:
+    image: vgmanager-frontend
+    container_name: vgmanager-frontend
+    ports:
+      - "3000:3000"
+    restart: "no"
