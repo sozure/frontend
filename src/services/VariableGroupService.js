@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const baseUrl = "https://localhost:7210/api";
+var backendUrl = process.env.REACT_APP_BACKEND_BASE_URL;
+var backendPort = process.env.REACT_APP_BACKEND_PORT_NUM;
+
+const baseUrl = `${backendUrl}:${backendPort}/api`;
 const variableGroupUrl = `${baseUrl}/variablegroups`;
 const secretUrl = `${baseUrl}/secrets`;
 
@@ -32,6 +35,9 @@ const sendListRequest = (message, valueRegexChange, callbackForDataSaving) => {
     .then(res => {
       callbackForDataSaving(res.data);
       callbackForLoading(false);
+    })
+    .catch(err => {
+      handleError(callbackForLoading, err);
     });
 }
 
@@ -42,6 +48,9 @@ const sendListSecretRequest = (keyVaultName, secretRegex, callbackForDataSaving,
     .then(res => {
       callbackForDataSaving(res.data);
       callbackForLoading(false);
+    })
+    .catch(err => {
+      handleError(callbackForLoading, err);
     });
 }
 
@@ -57,6 +66,9 @@ const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, 
       callbackForDataSaving(res.data);
       callbackForLoading(false)
       callbackForOnDelete(false)
+    })
+    .catch(err => {
+      handleError(callbackForLoading, err);
     });
 }
 
@@ -68,8 +80,11 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
   axios.post(url, body)
     .then(res => {
       callbackForDataSaving(res.data);
-      callbackForLoading(false)
-      callback(false)
+      callbackForLoading(false);
+      callback(false);
+    })
+    .catch(err => {
+      handleError(callbackForLoading, err);
     }); 
 }
 
@@ -101,3 +116,9 @@ export {
     sendUpdateRequest,
     sendListSecretRequest
 };
+
+const handleError = (callbackForLoading, err) => {
+  callbackForLoading(false);
+  console.log(err);
+  alert(`${err.message} occur during request. Check inspector for detailed error message!`);
+}
