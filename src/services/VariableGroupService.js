@@ -29,7 +29,7 @@ const sendListRequest = (message, valueRegexChange, callbackForDataSaving) => {
   let keyRegex = message["keyRegex"];
   let callbackForLoading = message["setLoading"];
   let organizationName = message["organizationName"];
-  let url = `${variableGroupUrl}/getvariablegroups?organization=${organizationName}&project=${projectName}&pat=${pat}&variableGroupFilter=${vgRegex}&keyFilter=${keyRegex}${valueRegexChange !== ""? "&valueFilter=" + valueRegexChange: ""}`;
+  let url = `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegexChange !== ""? "&ValueFilter=" + valueRegexChange: ""}`;
   callbackForLoading(true);
   axios.get(url)
     .then(res => {
