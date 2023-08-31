@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import "../../../CSS/Buttons.css";
-import { sendDeleteSecretRequest } from '../../../services/VariableGroupService';
+import { sendDeleteSecretRequest } from '../../../services/SecretService';
 
 import { 
   KeyVaultNameContext,

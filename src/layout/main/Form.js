@@ -1,7 +1,7 @@
 import "../../CSS/Form.css";
 import React, { useContext, useEffect } from 'react';
-
-import { sendListRequest, sendListSecretRequest } from "../../services/VariableGroupService";
+import { sendListSecretRequest } from "../../services/SecretService";
+import { sendListRequest } from "../../services/VariableGroupService";
 
 import { 
   ActionTypeContext, 
