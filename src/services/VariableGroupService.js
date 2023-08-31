@@ -1,11 +1,7 @@
 import axios from "axios";
+import { GetBaseUrl, handleError } from "./CommonService";
 
-var backendUrl = process.env.REACT_APP_BACKEND_BASE_URL;
-var backendPort = process.env.REACT_APP_BACKEND_PORT_NUM;
-
-const baseUrl = `${backendUrl}:${backendPort}/api`;
-const variableGroupUrl = `${baseUrl}/variablegroups`;
-const secretUrl = `${baseUrl}/secrets`;
+const variableGroupUrl = `${GetBaseUrl()}/variablegroups`;
 
 const buildRequestBody = (message) => {
     let projectName = message["projectName"];
@@ -23,49 +19,13 @@ const buildRequestBody = (message) => {
 }
 
 const sendListRequest = (message, valueRegexChange, callbackForDataSaving) => {
-  let projectName = message["projectName"];
-  let pat = message["pat"];
-  let vgRegex = message["vgRegex"];
-  let keyRegex = message["keyRegex"];
   let callbackForLoading = message["setLoading"];
-  let organizationName = message["organizationName"];
-  let url = `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegexChange !== ""? "&ValueFilter=" + valueRegexChange: ""}`;
+  let url = buildUrl(message, valueRegexChange);
   callbackForLoading(true);
-  axios.get(url)
+  axios.get(url, )
     .then(res => {
       callbackForDataSaving(res.data);
       callbackForLoading(false);
-    })
-    .catch(err => {
-      handleError(callbackForLoading, err);
-    });
-}
-
-const sendListSecretRequest = (keyVaultName, secretRegex, callbackForDataSaving, callbackForLoading) => {
-  let url = `${secretUrl}/getsecrets?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}`;
-  callbackForLoading(true);
-  axios.get(url)
-    .then(res => {
-      callbackForDataSaving(res.data);
-      callbackForLoading(false);
-    })
-    .catch(err => {
-      handleError(callbackForLoading, err);
-    });
-}
-
-const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, callbackForDataSaving, callbackForOnDelete) => {
-  callbackForLoading(true);
-  let url = `${secretUrl}/deletesecret`;
-  let body = {
-    "keyVaultName": keyVaultName,
-    "secretFilter": secretRegex
-  }
-  axios.post(url, body)
-    .then(res => {
-      callbackForDataSaving(res.data);
-      callbackForLoading(false)
-      callbackForOnDelete(false)
     })
     .catch(err => {
       handleError(callbackForLoading, err);
@@ -108,17 +68,18 @@ const sendDeleteRequest = (message, valueRegexChange, callbackForOnDelete) => {
   sendRequest("deletevariable", body, callbackForOnDelete, message);
 }
 
+const buildUrl = (message, valueRegexChange) => {
+  let projectName = message["projectName"];
+  let pat = message["pat"];
+  let vgRegex = message["vgRegex"];
+  let keyRegex = message["keyRegex"];
+  let organizationName = message["organizationName"];
+  return `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegexChange !== ""? "&ValueFilter=" + valueRegexChange: ""}`;
+}
+
 export {
     sendListRequest,
-    sendDeleteSecretRequest,
     sendAddRequest,
     sendDeleteRequest,
-    sendUpdateRequest,
-    sendListSecretRequest
+    sendUpdateRequest
 };
-
-const handleError = (callbackForLoading, err) => {
-  callbackForLoading(false);
-  console.log(err);
-  alert(`${err.message} occur during request. Check inspector for detailed error message!`);
-}
