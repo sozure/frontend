@@ -1,10 +1,23 @@
 import "../../../CSS/ResultTable.css";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { SecretContext } from "../../../contexts/Contexts";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
+  const [paginationCounter, setPaginationCounter] = useState(0);
+
+  const number = 10;
+
+  const increasePaginationCounter = () => {
+    let increasedPaginationCounter = paginationCounter + number;
+    setPaginationCounter(increasedPaginationCounter);
+  }
+
+  const decreasedPaginationCounter = () => {
+    let increasedPaginationCounter = paginationCounter - number <= 0 ? 0: paginationCounter - number;
+    setPaginationCounter(increasedPaginationCounter);
+  }
 
   return (
     <div>
@@ -26,7 +39,7 @@ function KVResultTable() {
               </tr>
             </thead>
             <tbody>
-              {secrets.map((secret) => {
+              {secrets.slice(paginationCounter, paginationCounter + number).map((secret) => {
                 return (
                   <tr key={Math.random()}>
                     <td key={Math.random()}>{secret.secretName}</td>
@@ -36,6 +49,12 @@ function KVResultTable() {
               })}
             </tbody>
           </table>
+          <button class="previous" disabled={paginationCounter === 0} onClick={() => decreasedPaginationCounter()}>
+            &laquo; Previous
+          </button>
+          <button class="next" disabled={paginationCounter + number >= secrets.length} onClick={() => increasePaginationCounter()}>
+            Next &raquo;
+          </button>
         </>
       )}
     </div>
