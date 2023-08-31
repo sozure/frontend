@@ -33,7 +33,6 @@ function VGResultTable() {
           </tr>)
         })}
         </tbody>
-        
       </table>
       </>}
     </div>

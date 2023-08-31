@@ -18,9 +18,9 @@ const buildRequestBody = (message) => {
     };
 }
 
-const sendListRequest = (message, valueRegexChange, callbackForDataSaving) => {
+const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
   let callbackForLoading = message["setLoading"];
-  let url = buildUrl(message, valueRegexChange);
+  let url = buildUrl(message, valueRegex);
   callbackForLoading(true);
   axios.get(url, )
     .then(res => {
@@ -48,33 +48,34 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     }); 
 }
 
-const sendUpdateRequest = (message, newValue, valueRegexChange, callbackForOnUpdate) => {
+const sendUpdateRequest = (message, newValue, valueRegex, callbackForOnUpdate) => {
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
-  body["valueFilter"] = valueRegexChange !== ""? valueRegexChange: null;
+  body["valueFilter"] = valueRegex !== ""? valueRegex: null;
   sendRequest("updatevariablegroups", body, callbackForOnUpdate, message)
 }
 
-const sendAddRequest = (message, newKey, newValue, callbackForOnAdd) => {
+const sendAddRequest = (message, newKey, newValue, valueRegex, callbackForOnAdd) => {
   let body = buildRequestBody(message);
   body["key"] = newKey;
   body["value"] = newValue;
+  body["valueFilter"] = valueRegex !== ""? valueRegex: null;
   sendRequest("addvariable", body, callbackForOnAdd, message)
 }
 
-const sendDeleteRequest = (message, valueRegexChange, callbackForOnDelete) => {
+const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
   let body = buildRequestBody(message);
-  body["valueFilter"] = valueRegexChange !== ""? valueRegexChange: null;
+  body["valueFilter"] = valueRegex !== ""? valueRegex: null;
   sendRequest("deletevariable", body, callbackForOnDelete, message);
 }
 
-const buildUrl = (message, valueRegexChange) => {
+const buildUrl = (message, valueRegex) => {
   let projectName = message["projectName"];
   let pat = message["pat"];
   let vgRegex = message["vgRegex"];
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
-  return `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegexChange !== ""? "&ValueFilter=" + valueRegexChange: ""}`;
+  return `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegex !== ""? "&ValueFilter=" + valueRegex: ""}`;
 }
 
 export {

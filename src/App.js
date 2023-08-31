@@ -30,7 +30,7 @@ function App() {
   const [pat, setPat] = useState("");
   const [projectName, setProjectName] = useState("");
   const [organizationName, setOrganizationName] = useState("");
-  const [valueRegexChange, setValueRegexChange] = useState("");
+  const [valueRegex, setValueRegex] = useState("");
   const [vgRegex, setVgRegex] = useState("");
   const [secretRegex, setSecretRegex] = useState("");
   const [keyRegex, setKeyRegex] = useState("");
@@ -50,7 +50,7 @@ function App() {
         <TableTypeContext.Provider value={{tableType, setTableType}}>
           <PATContext.Provider value={{pat, setPat}}>
             <ProjectNameContext.Provider value={{projectName, setProjectName}}>
-              <ValueRegexContext.Provider value={{valueRegexChange, setValueRegexChange}}>
+              <ValueRegexContext.Provider value={{valueRegex, setValueRegex}}>
                 <VGRegexContext.Provider value={{vgRegex, setVgRegex}}>
                   <SecretRegexContext.Provider value={{secretRegex, setSecretRegex}}>
                     <KeyRegexContext.Provider value={{keyRegex, setKeyRegex}}>
