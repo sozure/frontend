@@ -1,7 +1,7 @@
 import axios from "axios";
-import { GetBaseUrl, handleError } from "./CommonService";
+import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
 
-const variableGroupUrl = `${GetBaseUrl()}/variablegroups`;
+const variableGroupUrl = `${getBaseUrl()}/variablegroups`;
 
 const buildRequestBody = (message) => {
     let projectName = message["projectName"];
@@ -24,8 +24,9 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
   callbackForLoading(true);
   axios.get(url, )
     .then(res => {
-      callbackForDataSaving(res.data);
+      callbackForDataSaving(res.data.variableGroups);
       callbackForLoading(false);
+      alert(getResponseMessage(res.data.status))
     })
     .catch(err => {
       handleError(callbackForLoading, err);
@@ -39,9 +40,10 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
   let url = `${variableGroupUrl}/${controllerSegment}`;
   axios.post(url, body)
     .then(res => {
-      callbackForDataSaving(res.data);
+      callbackForDataSaving(res.data.variableGroups);
       callbackForLoading(false);
       callback(false);
+      alert(getResponseMessage(res.data.status))
     })
     .catch(err => {
       handleError(callbackForLoading, err);

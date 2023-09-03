@@ -13,14 +13,16 @@ import {
   VariableGroupsContext
 } from "../../../../contexts/Contexts";
 
+import VariableGroupBaseForm from "./VariableGroupBaseForm";
+
 const VariableGroupDeleteForm = () => {
   const {setOnDelete} = useContext(OnDeleteContext);
   const {setLoading} = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
-  const { pat, setPat } = useContext(PATContext);
-  const { projectName, setProjectName } = useContext(ProjectNameContext);
-  const { vgRegex, setVgRegex } = useContext(VGRegexContext);
-  const { organizationName, setOrganizationName } = useContext(OrganizationContext);
+  const { pat } = useContext(PATContext);
+  const { projectName } = useContext(ProjectNameContext);
+  const { vgRegex } = useContext(VGRegexContext);
+  const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   
@@ -55,42 +57,7 @@ const VariableGroupDeleteForm = () => {
   return (
     <div>
       <div id="form">
-        <input
-          type="password"
-          id="pat"
-          name="pat"
-          placeholder="Personal Access Token"
-          value={pat}
-          onChange={(event) => setPat(event.target.value)}
-        />
-
-        <input
-          type="text"
-          id="organizationName"
-          name="organizationName"
-          placeholder="Name of organization"
-          value={organizationName}
-          onChange={(event) => setOrganizationName(event.target.value)}
-        />
-
-        <input
-          type="text"
-          id="projectName"
-          name="projectName"
-          placeholder="Name of project"
-          value={projectName}
-          onChange={(event) => setProjectName(event.target.value)}
-        />
-
-        <input
-          type="text"
-          id="filter"
-          name="filter"
-          placeholder={"Variable group regex"}
-          value={vgRegex}
-          onChange={(event) => setVgRegex(event.target.value)}
-        />
-
+      <VariableGroupBaseForm/>
         <input
           type="text"
           id="filter"

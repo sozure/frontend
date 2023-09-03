@@ -1,7 +1,7 @@
 import axios from "axios";
-import { GetBaseUrl, handleError } from "./CommonService";
+import { getBaseUrl, handleError } from "./CommonService";
 
-const secretUrl = `${GetBaseUrl()}/secrets`;
+const secretUrl = `${ getBaseUrl() }/secrets`;
 
 const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, callbackForDataSaving, callbackForOnDelete) => {
     callbackForLoading(true);
@@ -12,7 +12,7 @@ const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, 
     }
     axios.post(url, body)
       .then(res => {
-        callbackForDataSaving(res.data);
+        callbackForDataSaving(res.data.Secrets);
         callbackForLoading(false)
         callbackForOnDelete(false)
       })
@@ -26,7 +26,7 @@ const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, 
     callbackForLoading(true);
     axios.get(url)
       .then(res => {
-        callbackForDataSaving(res.data);
+        callbackForDataSaving(res.data.Secrets);
         callbackForLoading(false);
       })
       .catch(err => {
