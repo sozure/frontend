@@ -10,6 +10,6 @@ const Result = () => {
   return (
     <div>{tableType === "KV" ? <KVResultTable /> : <VGResultTable />}</div>
   );
-}
+};
 
 export default Result;

@@ -12,12 +12,13 @@ function KVResultTable() {
   const increasePaginationCounter = () => {
     let increasedPaginationCounter = paginationCounter + number;
     setPaginationCounter(increasedPaginationCounter);
-  }
+  };
 
   const decreasedPaginationCounter = () => {
-    let increasedPaginationCounter = paginationCounter - number <= 0 ? 0: paginationCounter - number;
+    let increasedPaginationCounter =
+      paginationCounter - number <= 0 ? 0 : paginationCounter - number;
     setPaginationCounter(increasedPaginationCounter);
-  }
+  };
 
   return (
     <div>
@@ -39,20 +40,30 @@ function KVResultTable() {
               </tr>
             </thead>
             <tbody>
-              {secrets.slice(paginationCounter, paginationCounter + number).map((secret) => {
-                return (
-                  <tr key={Math.random()}>
-                    <td key={Math.random()}>{secret.secretName}</td>
-                    <td key={Math.random()}>{secret.secretValue}</td>
-                  </tr>
-                );
-              })}
+              {secrets
+                .slice(paginationCounter, paginationCounter + number)
+                .map((secret) => {
+                  return (
+                    <tr key={Math.random()}>
+                      <td key={Math.random()}>{secret.secretName}</td>
+                      <td key={Math.random()}>{secret.secretValue}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
-          <button className="previous" disabled={paginationCounter === 0} onClick={() => decreasedPaginationCounter()}>
+          <button
+            className="previous"
+            disabled={paginationCounter === 0}
+            onClick={() => decreasedPaginationCounter()}
+          >
             &laquo; Previous
           </button>
-          <button className="next" disabled={paginationCounter + number >= secrets.length} onClick={() => increasePaginationCounter()}>
+          <button
+            className="next"
+            disabled={paginationCounter + number >= secrets.length}
+            onClick={() => increasePaginationCounter()}
+          >
             Next &raquo;
           </button>
         </>
