@@ -19,3 +19,5 @@ export const MessageContext = createContext();
 export const OrganizationContext = createContext();
 export const ProjectsContext = createContext();
 export const VGAuthorizedContext = createContext();
+export const NewKeyContext = createContext();
+export const NewValueContext = createContext();

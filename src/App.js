@@ -22,7 +22,9 @@ import {
   VGAuthorizedContext, 
   VGRegexContext, 
   ValueRegexContext,
-  VariableGroupsContext
+  VariableGroupsContext,
+  NewKeyContext,
+  NewValueContext
  } from "./contexts/Contexts";
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
+  const [newKey, setNewKey] = useState("");
+  const [newValue, setNewValue] = useState("");
 
   return (
     <KeyVaultNameContext.Provider value={{keyVaultName, setKeyVaultName}}>
@@ -65,13 +69,17 @@ function App() {
                                   <MessageContext.Provider value={{message, setMessage}}>
                                     <OrganizationContext.Provider value={{organizationName, setOrganizationName}}>
                                       <ProjectsContext.Provider value={{projects, setProjects}}>
-                                      <VGAuthorizedContext.Provider value={{vgAuthorized, setVgAuthorized}}>
-                                          <BrowserRouter>
-                                            <Routes>
-                                              <Route path="/" element={<Main/>}/>
-                                              <Route path="/last-change" element={<LastChange/>}/>
-                                            </Routes>
-                                          </BrowserRouter>
+                                        <VGAuthorizedContext.Provider value={{vgAuthorized, setVgAuthorized}}>
+                                          <NewKeyContext.Provider value={{newKey, setNewKey}}>
+                                            <NewValueContext.Provider value={{newValue, setNewValue}}>
+                                              <BrowserRouter>
+                                                <Routes>
+                                                  <Route path="/" element={<Main/>}/>
+                                                  <Route path="/last-change" element={<LastChange/>}/>
+                                                </Routes>
+                                              </BrowserRouter>
+                                            </NewValueContext.Provider>
+                                          </NewKeyContext.Provider>
                                         </VGAuthorizedContext.Provider>
                                       </ProjectsContext.Provider>
                                     </OrganizationContext.Provider>

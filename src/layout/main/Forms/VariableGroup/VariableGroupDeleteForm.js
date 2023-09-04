@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendDeleteRequest } from "../../../../Services/VariableGroupService";
+import { sendListRequest } from "../../../../Services/VariableGroupService";
 
 import {
   PATContext,
@@ -16,7 +16,7 @@ import {
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 
 const VariableGroupDeleteForm = () => {
-  const {setOnDelete} = useContext(OnDeleteContext);
+  const { setOnDelete } = useContext(OnDeleteContext);
   const {setLoading} = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
@@ -36,7 +36,8 @@ const VariableGroupDeleteForm = () => {
       organizationName: organizationName,
       keyRegex: keyRegex,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups
+      setVariableGroups: setVariableGroups,
+      secretIncluded: false
     });
   }, [projectName, pat, vgRegex, keyRegex, organizationName, setLoading, setVariableGroups, setMessage]);
 
@@ -49,7 +50,8 @@ const VariableGroupDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendDeleteRequest(message, "", setOnDelete);
+      sendListRequest(message, "", setVariableGroups);
+      setOnDelete(true);
     }
   };
 

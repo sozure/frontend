@@ -1,20 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { sendListRequest } from "../../../../Services/VariableGroupService";
 import { ValueRegexContext } from "../../../../contexts/Contexts";
+import "../../../../CSS/Checkbox.css"
 
 import {
-    PATContext,
-    ProjectNameContext,
-    VGRegexContext,
-    OrganizationContext,
-    MessageContext,
-    KeyRegexContext,
-    VariableGroupsContext,
-    LoadingContext
-  } from "../../../../contexts/Contexts";
+  PATContext,
+  ProjectNameContext,
+  VGRegexContext,
+  OrganizationContext,
+  MessageContext,
+  KeyRegexContext,
+  VariableGroupsContext,
+  LoadingContext,
+} from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
-
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -26,7 +26,8 @@ const VariableGroupGetForm = () => {
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
   const { message, setMessage } = useContext(MessageContext);
-  
+  const [secretIncluded, setSecretIncluded] = useState(false);
+
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
   useEffect(() => {
@@ -37,9 +38,20 @@ const VariableGroupGetForm = () => {
       organizationName: organizationName,
       keyRegex: keyRegex,
       valueRegex: valueRegex,
-      setLoading: setLoading
+      setLoading: setLoading,
+      secretIncluded: secretIncluded
     });
-  }, [projectName, pat, vgRegex, keyRegex, valueRegex, organizationName, setLoading, setMessage]);
+  }, [
+    projectName,
+    pat,
+    vgRegex,
+    keyRegex,
+    valueRegex,
+    organizationName,
+    setLoading,
+    setMessage,
+    secretIncluded
+  ]);
 
   const send = () => {
     let incorrectFill = false;
@@ -57,7 +69,7 @@ const VariableGroupGetForm = () => {
   return (
     <div>
       <div id="form">
-      <VariableGroupBaseForm/>
+        <VariableGroupBaseForm />
 
         <input
           type="text"
@@ -76,13 +88,21 @@ const VariableGroupGetForm = () => {
           value={valueRegex}
           onChange={(event) => setValueRegex(event.target.value)}
         />
-
+        <label className="checkbox-inline" htmlFor="secret_needed">
+          Secret included:{" "}
+        </label>
+        <input
+          type="checkbox"
+          id="secret_needed"
+          name="secret_needed"
+          onChange={() => setSecretIncluded(!secretIncluded)}
+        />
         <button id="submit_button" onClick={() => send()}>
           Send request
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default VariableGroupGetForm
+export default VariableGroupGetForm;

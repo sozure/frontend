@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { sendUpdateRequest } from "../../../../Services/VariableGroupService";
-import { OnUpdateContext } from "../../../../contexts/Contexts";
+import { sendListRequest } from "../../../../Services/VariableGroupService";
+import { NewValueContext, OnUpdateContext } from "../../../../contexts/Contexts";
 
 import {
   PATContext,
@@ -25,7 +25,7 @@ const VariableGroupUpdateForm = () => {
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
-  const [newValue, setNewValue] = useState("");
+  const {newValue, setNewValue } = useContext(NewValueContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
@@ -37,7 +37,8 @@ const VariableGroupUpdateForm = () => {
       organizationName: organizationName,
       keyRegex: keyRegex,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups
+      setVariableGroups: setVariableGroups,
+      secretIncluded: false
     });
   }, [
     projectName,
@@ -59,7 +60,8 @@ const VariableGroupUpdateForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendUpdateRequest(message, newValue, "", setOnUpdate);
+      sendListRequest(message, "", setVariableGroups);
+      setOnUpdate(true);
     }
   };
 

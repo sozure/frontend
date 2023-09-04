@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { sendAddRequest } from "../../../../Services/VariableGroupService";
+import React, { useContext, useEffect } from "react";
+import { sendListRequest } from "../../../../Services/VariableGroupService";
 
 import {
   PATContext,
@@ -9,7 +9,9 @@ import {
   MessageContext,
   LoadingContext,
   VariableGroupsContext,
-  OnAddContext
+  OnAddContext,
+  NewKeyContext,
+  NewValueContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -23,8 +25,8 @@ const VariableGroupAddForm = () => {
   const { vgRegex } = useContext(VGRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
-  const [newKey, setNewKey] = useState("");
-  const [newValue, setNewValue] = useState("");
+  const {newKey, setNewKey} = useContext(NewKeyContext);
+  const {newValue, setNewValue} = useContext(NewValueContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
 
@@ -36,7 +38,8 @@ const VariableGroupAddForm = () => {
       keyRegex: ".*",
       organizationName: organizationName,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups
+      setVariableGroups: setVariableGroups,
+      secretIncluded: false
     });
   }, [
     projectName,
@@ -57,7 +60,8 @@ const VariableGroupAddForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendAddRequest(message, newKey, newValue, "", setOnAdd);
+      sendListRequest(message, "", setVariableGroups);
+      setOnAdd(true);
     }
   };
 
