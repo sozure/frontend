@@ -1,124 +1,109 @@
 import axios from "axios";
+import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
 
-var backendUrl = process.env.REACT_APP_BACKEND_BASE_URL;
-var backendPort = process.env.REACT_APP_BACKEND_PORT_NUM;
-
-const baseUrl = `${backendUrl}:${backendPort}/api`;
-const variableGroupUrl = `${baseUrl}/variablegroups`;
-const secretUrl = `${baseUrl}/secrets`;
+const variableGroupUrl = `${getBaseUrl()}/variablegroups`;
 
 const buildRequestBody = (message) => {
-    let projectName = message["projectName"];
-    let pat = message["pat"];
-    let vgRegex = message["vgRegex"];
-    let keyRegex = message["keyRegex"];
-    let organizationName = message["organizationName"];
-    return {
-      "organization": organizationName, 
-      "project": projectName, 
-      "pat": pat, 
-      "variableGroupFilter": vgRegex, 
-      "keyFilter": keyRegex, 
-    };
-}
-
-const sendListRequest = (message, valueRegexChange, callbackForDataSaving) => {
   let projectName = message["projectName"];
   let pat = message["pat"];
   let vgRegex = message["vgRegex"];
   let keyRegex = message["keyRegex"];
-  let callbackForLoading = message["setLoading"];
   let organizationName = message["organizationName"];
-  let url = `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}${valueRegexChange !== ""? "&ValueFilter=" + valueRegexChange: ""}`;
-  callbackForLoading(true);
-  axios.get(url)
-    .then(res => {
-      callbackForDataSaving(res.data);
-      callbackForLoading(false);
-    })
-    .catch(err => {
-      handleError(callbackForLoading, err);
-    });
-}
+  let secretIncluded = message["secretIncluded"]
+  return {
+    organization: organizationName,
+    project: projectName,
+    pat: pat,
+    variableGroupFilter: vgRegex,
+    keyFilter: keyRegex,
+    containsSecrets: secretIncluded
+  };
+};
 
-const sendListSecretRequest = (keyVaultName, secretRegex, callbackForDataSaving, callbackForLoading) => {
-  let url = `${secretUrl}/getsecrets?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}`;
+const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
+  let callbackForLoading = message["setLoading"];
+  let url = buildUrl(message, valueRegex);
   callbackForLoading(true);
-  axios.get(url)
-    .then(res => {
-      callbackForDataSaving(res.data);
+  axios
+    .get(url)
+    .then((res) => {
+      let status = res.data.status;
+      callbackForDataSaving(res.data.variableGroups);
       callbackForLoading(false);
+      if (status !== 0) {
+        alert(getResponseMessage(res.data.status));
+      }
     })
-    .catch(err => {
+    .catch((err) => {
       handleError(callbackForLoading, err);
     });
-}
-
-const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, callbackForDataSaving, callbackForOnDelete) => {
-  callbackForLoading(true);
-  let url = `${secretUrl}/deletesecret`;
-  let body = {
-    "keyVaultName": keyVaultName,
-    "secretFilter": secretRegex
-  }
-  axios.post(url, body)
-    .then(res => {
-      callbackForDataSaving(res.data);
-      callbackForLoading(false)
-      callbackForOnDelete(false)
-    })
-    .catch(err => {
-      handleError(callbackForLoading, err);
-    });
-}
+};
 
 const sendRequest = async (controllerSegment, body, callback, message) => {
   let callbackForLoading = message["setLoading"];
   let callbackForDataSaving = message["setVariableGroups"];
-  callbackForLoading(true)
+  callbackForLoading(true);
   let url = `${variableGroupUrl}/${controllerSegment}`;
-  axios.post(url, body)
-    .then(res => {
-      callbackForDataSaving(res.data);
+  axios
+    .post(url, body)
+    .then((res) => {
+      callbackForDataSaving(res.data.variableGroups);
       callbackForLoading(false);
       callback(false);
+      alert(getResponseMessage(res.data.status));
     })
-    .catch(err => {
+    .catch((err) => {
       handleError(callbackForLoading, err);
-    }); 
-}
+    });
+};
 
-const sendUpdateRequest = (message, newValue, valueRegexChange, callbackForOnUpdate) => {
+const sendUpdateRequest = (
+  message,
+  newValue,
+  valueRegex,
+  callbackForOnUpdate
+) => {
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
-  body["valueFilter"] = valueRegexChange !== ""? valueRegexChange: null;
-  sendRequest("updatevariablegroups", body, callbackForOnUpdate, message)
-}
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  sendRequest("updatevariablegroups", body, callbackForOnUpdate, message);
+};
 
-const sendAddRequest = (message, newKey, newValue, callbackForOnAdd) => {
+const sendAddRequest = (
+  message,
+  newKey,
+  newValue,
+  valueRegex,
+  callbackForOnAdd
+) => {
   let body = buildRequestBody(message);
   body["key"] = newKey;
   body["value"] = newValue;
-  sendRequest("addvariable", body, callbackForOnAdd, message)
-}
-
-const sendDeleteRequest = (message, valueRegexChange, callbackForOnDelete) => {
-  let body = buildRequestBody(message);
-  body["valueFilter"] = valueRegexChange !== ""? valueRegexChange: null;
-  sendRequest("deletevariable", body, callbackForOnDelete, message);
-}
-
-export {
-    sendListRequest,
-    sendDeleteSecretRequest,
-    sendAddRequest,
-    sendDeleteRequest,
-    sendUpdateRequest,
-    sendListSecretRequest
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  sendRequest("addvariable", body, callbackForOnAdd, message);
 };
 
-const handleError = (callbackForLoading, err) => {
-  callbackForLoading(false);
-  console.log(err);
-  alert(`${err.message} occur during request. Check inspector for detailed error message!`);
-}
+const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
+  let body = buildRequestBody(message);
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  sendRequest("deletevariable", body, callbackForOnDelete, message);
+};
+
+const buildUrl = (message, valueRegex) => {
+  let secretIncluded = message["secretIncluded"]
+  let projectName = message["projectName"];
+  let pat = message["pat"];
+  let vgRegex = message["vgRegex"];
+  let keyRegex = message["keyRegex"];
+  let organizationName = message["organizationName"];
+  return `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}&ContainsSecrets=${secretIncluded}${
+    valueRegex !== "" ? "&ValueFilter=" + valueRegex : ""
+  }`;
+};
+
+export {
+  sendListRequest,
+  sendAddRequest,
+  sendDeleteRequest,
+  sendUpdateRequest,
+};
