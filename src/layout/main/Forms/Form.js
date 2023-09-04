@@ -1,7 +1,11 @@
 import "../../../CSS/Form.css";
 import React, { useContext } from "react";
 
-import { ActionTypeContext, TableTypeContext } from "../../../contexts/Contexts";
+import {
+  ActionTypeContext,
+  TableTypeContext,
+  VGAuthorizedContext
+} from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
 import VariableGroupGetForm from "./VariableGroup/VariableGroupGetForm";
@@ -9,10 +13,12 @@ import VariableGroupDeleteForm from "./VariableGroup/VariableGroupDeleteForm";
 import VariableGroupAddForm from "./VariableGroup/VariableGroupAddForm";
 import VariableGroupUpdateForm from "./VariableGroup/VariableGroupUpdateForm";
 import KeyVaultDeleteForm from "./KeyVault/KeyVaultDeleteForm";
+import AuthorizeForm from "./Authorize/AuthorizeForm";
 
 function Form() {
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
+  const { vgAuthorized } = useContext(VGAuthorizedContext);
 
   return (
     <div>
@@ -44,13 +50,18 @@ function Form() {
         <option value="KV">Secrets</option>
         <option value="VG">Variable groups</option>
       </select>
-      
+
       {tableType === "KV" ? (
         actionType === "List" ? (
           <KeyVaultGetForm />
         ) : (
           <KeyVaultDeleteForm />
         )
+      ) : (
+        <AuthorizeForm />
+      )}
+      {tableType === "KV" || !vgAuthorized? (
+        <></>
       ) : actionType === "List" ? (
         <VariableGroupGetForm />
       ) : actionType === "Add" ? (

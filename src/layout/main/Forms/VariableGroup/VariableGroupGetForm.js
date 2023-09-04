@@ -51,7 +51,6 @@ const VariableGroupGetForm = () => {
     });
     if (!incorrectFill) {
       sendListRequest(message, valueRegex, setVariableGroups);
-      //alert("Everything is fine! Get VG!");
     }
   };
 
@@ -62,8 +61,8 @@ const VariableGroupGetForm = () => {
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="key_regex"
+          name="key_regex"
           placeholder={"Variable key regex"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
@@ -71,8 +70,8 @@ const VariableGroupGetForm = () => {
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="value_regex"
+          name="value_regex"
           placeholder={"Variable value regex"}
           value={valueRegex}
           onChange={(event) => setValueRegex(event.target.value)}

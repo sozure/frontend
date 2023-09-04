@@ -17,3 +17,5 @@ export const OnDeleteContext = createContext();
 export const SecretContext = createContext();
 export const MessageContext = createContext();
 export const OrganizationContext = createContext();
+export const ProjectsContext = createContext();
+export const VGAuthorizedContext = createContext();

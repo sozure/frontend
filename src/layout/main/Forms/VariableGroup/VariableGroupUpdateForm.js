@@ -60,7 +60,6 @@ const VariableGroupUpdateForm = () => {
     });
     if (!incorrectFill) {
       sendUpdateRequest(message, newValue, "", setOnUpdate);
-      //alert("Everything is fine! Update VG!");
     }
   };
 
@@ -71,8 +70,8 @@ const VariableGroupUpdateForm = () => {
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="variable_key"
+          name="variable_key"
           placeholder={"Variable's key"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
@@ -80,8 +79,8 @@ const VariableGroupUpdateForm = () => {
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="new_value"
+          name="new_value"
           placeholder={"Variable's new value"}
           value={newValue}
           onChange={(event) => setNewValue(event.target.value)}

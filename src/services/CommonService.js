@@ -19,6 +19,11 @@ const handleError = (callbackForLoading, err) => {
     alert(`${err.message} occur during request. Check inspector for detailed error message!`);
 }
 
+const handleError2 = (err) => {
+    console.log(err);
+    alert(`${err.message} occur during request. Check inspector for detailed error message!`);
+}
+
 const getResponseMessage = (responseCode) => {
     return responseCodes[responseCode];
 }
@@ -26,5 +31,6 @@ const getResponseMessage = (responseCode) => {
 export {
     getBaseUrl,
     handleError,
+    handleError2,
     getResponseMessage
 }

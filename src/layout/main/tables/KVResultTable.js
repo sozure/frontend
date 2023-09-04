@@ -49,10 +49,10 @@ function KVResultTable() {
               })}
             </tbody>
           </table>
-          <button class="previous" disabled={paginationCounter === 0} onClick={() => decreasedPaginationCounter()}>
+          <button className="previous" disabled={paginationCounter === 0} onClick={() => decreasedPaginationCounter()}>
             &laquo; Previous
           </button>
-          <button class="next" disabled={paginationCounter + number >= secrets.length} onClick={() => increasePaginationCounter()}>
+          <button className="next" disabled={paginationCounter + number >= secrets.length} onClick={() => increasePaginationCounter()}>
             Next &raquo;
           </button>
         </>

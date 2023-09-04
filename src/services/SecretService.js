@@ -27,9 +27,12 @@ const sendDeleteSecretRequest = (keyVaultName, secretRegex, callbackForLoading, 
     callbackForLoading(true);
     axios.get(url)
       .then(res => {
+        let status = res.data.status;
         callbackForDataSaving(res.data.secrets);
         callbackForLoading(false);
-        alert(getResponseMessage(res.data.status))
+        if (status !== 0) {
+          alert(getResponseMessage(res.data.status));
+        }
       })
       .catch(err => {
         handleError(callbackForLoading, err);

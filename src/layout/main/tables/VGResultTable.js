@@ -66,7 +66,7 @@ function VGResultTable() {
           <button className={paginationCounter === 0 ? "previous": "next"} disabled={paginationCounter === 0} onClick={() => decreasedPaginationCounter()}>
             &laquo; Previous
           </button>
-          <button class={paginationCounter + number >= variableGroups.length? "previous": "next"} disabled={paginationCounter + number >= variableGroups.length | variableGroups.length < 10} onClick={() => increasePaginationCounter()}>
+          <button className={paginationCounter + number >= variableGroups.length? "previous": "next"} disabled={paginationCounter + number >= variableGroups.length | variableGroups.length < 10} onClick={() => increasePaginationCounter()}>
             Next &raquo;
           </button>
         </>

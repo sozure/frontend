@@ -58,7 +58,6 @@ const VariableGroupAddForm = () => {
     });
     if (!incorrectFill) {
       sendAddRequest(message, newKey, newValue, "", setOnAdd);
-      //alert("Everything is fine! Add VG!");
     }
   };
 
@@ -66,11 +65,11 @@ const VariableGroupAddForm = () => {
     <div>
       <div id="form">
         <VariableGroupBaseForm/>
-
+        
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="new_key"
+          name="new_key"
           placeholder={"New variable's key"}
           value={newKey}
           onChange={(event) => setNewKey(event.target.value)}
@@ -78,8 +77,8 @@ const VariableGroupAddForm = () => {
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="new_value"
+          name="new_value"
           placeholder={"New variable's value"}
           value={newValue}
           onChange={(event) => setNewValue(event.target.value)}

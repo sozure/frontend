@@ -1,51 +1,32 @@
 import React, {useContext} from 'react'
 
 import {
-    PATContext,
     ProjectNameContext,
     VGRegexContext,
-    OrganizationContext,
+    ProjectsContext
   } from "../../../../contexts/Contexts";
 
 const VariableGroupBaseForm = () => {
-    const { pat, setPat } = useContext(PATContext);
-    const { projectName, setProjectName } = useContext(ProjectNameContext);
+    const { setProjectName } = useContext(ProjectNameContext);
     const { vgRegex, setVgRegex } = useContext(VGRegexContext);
-    const { organizationName, setOrganizationName } = useContext(OrganizationContext);
+    const { projects } = useContext(ProjectsContext);
 
   return (
     <>
-        <input
-          type="password"
-          id="pat"
-          name="pat"
-          placeholder="Personal Access Token"
-          value={pat}
-          onChange={(event) => setPat(event.target.value)}
-        />
-
-        <input
-          type="text"
-          id="organizationName"
-          name="organizationName"
-          placeholder="Name of organization"
-          value={organizationName}
-          onChange={(event) => setOrganizationName(event.target.value)}
-        />
-
-        <input
-          type="text"
+        <select
           id="projectName"
-          name="projectName"
-          placeholder="Name of project"
-          value={projectName}
           onChange={(event) => setProjectName(event.target.value)}
-        />
+        >
+          {projects.map(project => {
+            let projectName = project.name;
+            return <option value={projectName} key={projectName}>{projectName}</option>
+          })}
+        </select>
 
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="variable_group_regex"
+          name="variable_group_regex"
           placeholder={"Variable group regex"}
           value={vgRegex}
           onChange={(event) => setVgRegex(event.target.value)}

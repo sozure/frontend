@@ -50,7 +50,6 @@ const VariableGroupDeleteForm = () => {
     });
     if (!incorrectFill) {
       sendDeleteRequest(message, "", setOnDelete);
-      //alert("Everything is fine! Delete VG!");
     }
   };
 
@@ -60,8 +59,8 @@ const VariableGroupDeleteForm = () => {
       <VariableGroupBaseForm/>
         <input
           type="text"
-          id="filter"
-          name="filter"
+          id="variable_key"
+          name="variable_key"
           placeholder={"Variable's key"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
