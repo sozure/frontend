@@ -9,14 +9,14 @@ const buildRequestBody = (message) => {
   let vgRegex = message["vgRegex"];
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
-  let secretIncluded = message["secretIncluded"]
+  let secretIncluded = message["secretIncluded"];
   return {
     organization: organizationName,
     project: projectName,
     pat: pat,
     variableGroupFilter: vgRegex,
     keyFilter: keyRegex,
-    containsSecrets: secretIncluded
+    containsSecrets: secretIncluded,
   };
 };
 
@@ -28,9 +28,11 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
     .get(url)
     .then((res) => {
       let status = res.data.status;
-      callbackForDataSaving(res.data.variableGroups);
+      let variableGroups = res.data.variableGroups;
       callbackForLoading(false);
-      if (status !== 0) {
+      if (status === 0) {
+        callbackForDataSaving(variableGroups);
+      } else {
         alert(getResponseMessage(res.data.status));
       }
     })
@@ -47,10 +49,15 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
   axios
     .post(url, body)
     .then((res) => {
-      callbackForDataSaving(res.data.variableGroups);
+      let status = res.data.status;
+      let variableGroups = res.data.variableGroups;
       callbackForLoading(false);
       callback(false);
-      alert(getResponseMessage(res.data.status));
+      if (status === 0) {
+        callbackForDataSaving(variableGroups);
+      } else {
+        alert(getResponseMessage(res.data.status));
+      }
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
@@ -90,7 +97,7 @@ const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
 };
 
 const buildUrl = (message, valueRegex) => {
-  let secretIncluded = message["secretIncluded"]
+  let secretIncluded = message["secretIncluded"];
   let projectName = message["projectName"];
   let pat = message["pat"];
   let vgRegex = message["vgRegex"];
