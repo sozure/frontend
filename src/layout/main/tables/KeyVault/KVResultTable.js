@@ -1,7 +1,7 @@
-import "../../../CSS/ResultTable.css";
+import "../../../../CSS/ResultTable.css";
 import React, { useContext, useState } from "react";
 
-import { SecretContext } from "../../../contexts/Contexts";
+import { SecretContext } from "../../../../contexts/Contexts";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);

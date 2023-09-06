@@ -1,10 +1,15 @@
 import "../../../CSS/Form.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import {
   ActionTypeContext,
   TableTypeContext,
-  VGAuthorizedContext
+  VGAuthorizedContext,
+  KeyRegexContext,
+  ValueRegexContext,
+  VGRegexContext,
+  NewKeyContext,
+  NewValueContext
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -19,6 +24,20 @@ function Form() {
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
+  const { setKeyRegex } = useContext(KeyRegexContext);
+  const { setValueRegex } = useContext(ValueRegexContext);
+  const { setVgRegex } = useContext(VGRegexContext);
+  const { setNewKey } = useContext(NewKeyContext);
+  const { setNewValue } = useContext(NewValueContext);
+
+
+  useEffect(() => {
+    setKeyRegex("");
+    setValueRegex("");
+    setVgRegex("");
+    setNewKey("");
+    setNewValue("");
+  }, [actionType, setKeyRegex, setValueRegex, setVgRegex, setNewKey, setNewValue])
 
   return (
     <div>

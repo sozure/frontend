@@ -1,8 +1,4 @@
-label.checkbox-inline {
-    display: inline-block;
-    margin-right: 10px; /* Optional spacing between the label and checkbox */
-}
-
 input[type="checkbox"] {
     display: inline-block;
+    margin-top: 1rem;
 }

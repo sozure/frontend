@@ -1,20 +1,32 @@
 import "../../../../CSS/ResultTable.css";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { VariableGroupsContext } from "../../../../contexts/Contexts";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);
   const [paginationCounter, setPaginationCounter] = useState(0);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [actualPageNumber, setActualPageNumber] = useState(1);
 
   const number = 10;
 
+
+  useEffect(() => {
+    let variableGroupsLength = variableGroups.length;
+    setPageNumber(Math.ceil(variableGroupsLength / number));
+  }, [variableGroups])
+
   const increasePaginationCounter = () => {
+    let helperPageNum = actualPageNumber + 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter = paginationCounter + number;
     setPaginationCounter(increasedPaginationCounter);
   };
 
   const decreasedPaginationCounter = () => {
+    let helperPageNum = actualPageNumber - 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter =
       paginationCounter - number <= 0 ? 0 : paginationCounter - number;
     setPaginationCounter(increasedPaginationCounter);
@@ -22,14 +34,15 @@ function OtherVGTable() {
 
   return (
     <div>
-      <h2>Matched variable groups</h2>
       {variableGroups.length === 0 ? (
-        <p>No variable group found.</p>
+        <h2>No variables found.</h2>
       ) : (
         <>
+        <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
           <table>
             <thead>
               <tr>
+                <th>Project</th>
                 <th>Variable group name</th>
                 <th>Variable Key</th>
                 <th>Variable value</th>
@@ -41,8 +54,10 @@ function OtherVGTable() {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
+                  let project = variableGroup.project;
                   return (
                     <tr key={Math.random()}>
+                      <td key={Math.random()}>{project.length > 11? `${project.slice(0, 11)}...`: project}</td>
                       <td key={Math.random()}>{variableGroupName}</td>
                       <td key={Math.random()}>
                         {variableGroup.variableGroupKey}
@@ -101,6 +116,7 @@ function OtherVGTable() {
               </button>
             </>
           )}
+          <span>{`Page: ${actualPageNumber}/${pageNumber}`}</span>
         </>
       )}
     </div>
