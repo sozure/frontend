@@ -61,6 +61,7 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
+      callback(false);
     });
 };
 

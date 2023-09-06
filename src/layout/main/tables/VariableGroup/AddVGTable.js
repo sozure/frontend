@@ -6,15 +6,26 @@ const AddVGTable = () => {
   const { variableGroups } = useContext(VariableGroupsContext);
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [uniqueVariableGroups, setUniqueVariableGroups] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [actualPageNumber, setActualPageNumber] = useState(1);
 
   const number = 10;
 
+  useEffect(() => {
+    let uniqueVariableGroupsLength = uniqueVariableGroups.length;
+    setPageNumber(Math.ceil(uniqueVariableGroupsLength / number));
+  }, [uniqueVariableGroups])
+
   const increasePaginationCounter = () => {
+    let helperPageNum = actualPageNumber + 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter = paginationCounter + number;
     setPaginationCounter(increasedPaginationCounter);
   };
 
   const decreasedPaginationCounter = () => {
+    let helperPageNum = actualPageNumber - 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter =
       paginationCounter - number <= 0 ? 0 : paginationCounter - number;
     setPaginationCounter(increasedPaginationCounter);
@@ -32,11 +43,11 @@ const AddVGTable = () => {
 
   return (
     <div>
-      <h2>Add variable to these variable groups</h2>
       {uniqueVariableGroups.length === 0 ? (
-        <p>No variable group found.</p>
+        <h2>No variable groups found.</h2>
       ) : (
         <>
+        <h2>Add variable to these variable groups (Found variable groups: {uniqueVariableGroups.length}).</h2>
           <table>
             <thead>
               <tr>
@@ -83,6 +94,7 @@ const AddVGTable = () => {
               </button>
             </>
           )}
+          <span>{`Page: ${actualPageNumber}/${pageNumber}`}</span>
         </>
       )}
     </div>

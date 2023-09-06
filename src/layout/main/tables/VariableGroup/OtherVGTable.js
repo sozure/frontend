@@ -1,20 +1,32 @@
 import "../../../../CSS/ResultTable.css";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { VariableGroupsContext } from "../../../../contexts/Contexts";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);
   const [paginationCounter, setPaginationCounter] = useState(0);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [actualPageNumber, setActualPageNumber] = useState(1);
 
   const number = 10;
 
+
+  useEffect(() => {
+    let variableGroupsLength = variableGroups.length;
+    setPageNumber(Math.ceil(variableGroupsLength / number));
+  }, [variableGroups])
+
   const increasePaginationCounter = () => {
+    let helperPageNum = actualPageNumber + 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter = paginationCounter + number;
     setPaginationCounter(increasedPaginationCounter);
   };
 
   const decreasedPaginationCounter = () => {
+    let helperPageNum = actualPageNumber - 1;
+    setActualPageNumber(helperPageNum);
     let increasedPaginationCounter =
       paginationCounter - number <= 0 ? 0 : paginationCounter - number;
     setPaginationCounter(increasedPaginationCounter);
@@ -22,11 +34,11 @@ function OtherVGTable() {
 
   return (
     <div>
-      <h2>Matched variable groups</h2>
       {variableGroups.length === 0 ? (
-        <p>No variable group found.</p>
+        <h2>No variables found.</h2>
       ) : (
         <>
+        <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
           <table>
             <thead>
               <tr>
@@ -101,6 +113,7 @@ function OtherVGTable() {
               </button>
             </>
           )}
+          <span>{`Page: ${actualPageNumber}/${pageNumber}`}</span>
         </>
       )}
     </div>
