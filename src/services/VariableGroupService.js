@@ -20,9 +20,9 @@ const buildRequestBody = (message) => {
   };
 };
 
-const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
+const sendListRequest = (message, valueRegex, callbackForDataSaving, multipleProjects) => {
   let callbackForLoading = message["setLoading"];
-  let url = buildUrl(message, valueRegex);
+  let url = buildUrl(message, valueRegex, multipleProjects);
   callbackForLoading(true);
   axios
     .get(url)
@@ -49,6 +49,7 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
   axios
     .post(url, body)
     .then((res) => {
+      console.log(res.data);
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       callbackForLoading(false);
@@ -69,12 +70,14 @@ const sendUpdateRequest = (
   message,
   newValue,
   valueRegex,
-  callbackForOnUpdate
+  callbackForOnUpdate,
+  multipleProjects
 ) => {
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  sendRequest("updatevariablegroups", body, callbackForOnUpdate, message);
+  let endpoint = multipleProjects ? "UpdateFromMultipleProjects": "update";
+  sendRequest(endpoint, body, callbackForOnUpdate, message);
 };
 
 const sendAddRequest = (
@@ -82,31 +85,54 @@ const sendAddRequest = (
   newKey,
   newValue,
   valueRegex,
-  callbackForOnAdd
+  callbackForOnAdd,
+  multipleProjects
 ) => {
   let body = buildRequestBody(message);
   body["key"] = newKey;
   body["value"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  sendRequest("addvariable", body, callbackForOnAdd, message);
+  let endpoint = multipleProjects ? "AddFromMultipleProjects": "add";
+  sendRequest(endpoint, body, callbackForOnAdd, message);
 };
 
-const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
+const sendDeleteRequest = (message, valueRegex, callbackForOnDelete, multipleProjects) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  sendRequest("deletevariable", body, callbackForOnDelete, message);
+  let endpoint = multipleProjects ? "DeleteFromMultipleProjects": "delete";
+  sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
-const buildUrl = (message, valueRegex) => {
+const buildUrl = (message, valueRegex, multipleProjects) => {
   let secretIncluded = message["secretIncluded"];
   let projectName = message["projectName"];
   let pat = message["pat"];
   let vgRegex = message["vgRegex"];
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
-  return `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}&ContainsSecrets=${secretIncluded}${
+
+  let result =
+  `${
+    variableGroupUrl
+  }/${
+    multipleProjects? "GetFromMultipleProjects": ""
+  }?Organization=${
+    organizationName
+  }&Project=${
+    projectName
+  }&PAT=${
+    pat
+  }&VariableGroupFilter=${
+    vgRegex
+  }&KeyFilter=${
+    keyRegex
+  }&ContainsSecrets=${
+    secretIncluded
+  }${
     valueRegex !== "" ? "&ValueFilter=" + valueRegex : ""
   }`;
+
+  return result;
 };
 
 export {

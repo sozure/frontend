@@ -60,7 +60,7 @@ const VariableGroupUpdateForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListRequest(message, "", setVariableGroups, projectName === "All");
       setOnUpdate(true);
     }
   };

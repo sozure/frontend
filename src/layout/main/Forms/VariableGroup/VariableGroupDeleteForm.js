@@ -50,7 +50,7 @@ const VariableGroupDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListRequest(message, "", setVariableGroups, projectName === "All");
       setOnDelete(true);
     }
   };

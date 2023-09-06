@@ -18,6 +18,7 @@ const VariableGroupBaseForm = () => {
           value={projectName}
           onChange={(event) => setProjectName(event.target.value)}
         >
+          <option value={"All"} key={"All"}>{"All"}</option>
           {projects.map(project => {
             let selectedProjectName = project.name;
             return <option value={selectedProjectName} key={selectedProjectName}>{selectedProjectName}</option>
