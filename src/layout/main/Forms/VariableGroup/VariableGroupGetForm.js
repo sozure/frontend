@@ -96,7 +96,7 @@ const VariableGroupGetForm = () => {
           id="secret_needed"
           name="secret_needed"
           onChange={() => setSecretIncluded(!secretIncluded)}
-        />
+        /><br/>
         <button id="submit_button" onClick={() => send()}>
           Send request
         </button>

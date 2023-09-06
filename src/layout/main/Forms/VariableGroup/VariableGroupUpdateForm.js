@@ -16,7 +16,7 @@ import {
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 
 const VariableGroupUpdateForm = () => {
-  const {setLoading} = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { setOnUpdate } = useContext(OnUpdateContext);
   const { pat } = useContext(PATContext);
@@ -25,7 +25,7 @@ const VariableGroupUpdateForm = () => {
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
-  const {newValue, setNewValue } = useContext(NewValueContext);
+  const { newValue, setNewValue } = useContext(NewValueContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 

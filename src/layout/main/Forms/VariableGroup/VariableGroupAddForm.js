@@ -17,8 +17,8 @@ import {
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 
 const VariableGroupAddForm = () => {
-  const {setOnAdd} = useContext(OnAddContext);
-  const {setLoading} = useContext(LoadingContext);
+  const { setOnAdd } = useContext(OnAddContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);

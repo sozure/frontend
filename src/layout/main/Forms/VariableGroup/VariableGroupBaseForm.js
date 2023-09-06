@@ -7,7 +7,7 @@ import {
   } from "../../../../contexts/Contexts";
 
 const VariableGroupBaseForm = () => {
-    const { setProjectName } = useContext(ProjectNameContext);
+    const { projectName, setProjectName } = useContext(ProjectNameContext);
     const { vgRegex, setVgRegex } = useContext(VGRegexContext);
     const { projects } = useContext(ProjectsContext);
 
@@ -15,11 +15,12 @@ const VariableGroupBaseForm = () => {
     <>
         <select
           id="projectName"
+          value={projectName}
           onChange={(event) => setProjectName(event.target.value)}
         >
           {projects.map(project => {
-            let projectName = project.name;
-            return <option value={projectName} key={projectName}>{projectName}</option>
+            let selectedProjectName = project.name;
+            return <option value={selectedProjectName} key={selectedProjectName}>{selectedProjectName}</option>
           })}
         </select>
 

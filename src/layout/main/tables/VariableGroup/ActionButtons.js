@@ -35,8 +35,6 @@ const ActionButtons = () => {
   };
 
   const updateVariables = () => {
-    console.log(newValue);
-    console.log(message);
     sendUpdateRequest(message, newValue, "", setOnUpdate);
   };
 
