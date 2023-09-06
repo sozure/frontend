@@ -1,12 +1,12 @@
 body {
     padding:20px;
-    max-width:800px;
+    max-width:80rem;
     margin:auto auto;
     font-family:sans;
   }
   
   table {
-    width: 60rem;
+    width:100%;
     background: #f1eeee;
   } th {
     background:#666;

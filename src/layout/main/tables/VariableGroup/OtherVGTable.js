@@ -42,6 +42,7 @@ function OtherVGTable() {
           <table>
             <thead>
               <tr>
+                <th>Project</th>
                 <th>Variable group name</th>
                 <th>Variable Key</th>
                 <th>Variable value</th>
@@ -53,8 +54,10 @@ function OtherVGTable() {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
+                  let project = variableGroup.project;
                   return (
                     <tr key={Math.random()}>
+                      <td key={Math.random()}>{project.length > 11? `${project.slice(0, 11)}...`: project}</td>
                       <td key={Math.random()}>{variableGroupName}</td>
                       <td key={Math.random()}>
                         {variableGroup.variableGroupKey}
