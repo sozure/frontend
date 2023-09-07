@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { sendListSecretRequest } from "../../../../Services/SecretService";
+import { sendListSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 
 import {

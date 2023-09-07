@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../../../../CSS/Buttons.css";
-import { sendDeleteSecretRequest } from "../../../../Services/SecretService";
+import { sendDeleteSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 
 import {

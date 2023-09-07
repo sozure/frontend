@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { sendListRequest } from "../../../../Services/VariableGroupService";
+import { sendListRequest } from "../../../../services/VariableGroupService";
 import { NewValueContext, OnUpdateContext } from "../../../../contexts/Contexts";
 
 import {
