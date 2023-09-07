@@ -19,7 +19,7 @@ import {
 
 const ActionButtons = () => {
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
-  const { variableGroups } = useContext(VariableGroupsContext);
+  const { variableGroups, setVariableGroups } = useContext(VariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
@@ -63,7 +63,16 @@ const ActionButtons = () => {
             >
               Yes
             </button>
-            <button>No</button>
+            <button onClick={() => {
+              if (onDelete) {
+                setOnDelete(false);
+              } else if (onAdd) {
+                setOnAdd(false);
+              } else {
+                setOnUpdate(false);
+              }
+              setVariableGroups([]);
+            }}>No</button>
           </div>
         ) : (
           <></>

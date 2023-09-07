@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
 
-const secretUrl = `${getBaseUrl()}/secrets`;
+const secretUrl = `${getBaseUrl()}/secret`;
 
 const sendDeleteSecretRequest = (
   keyVaultName,
@@ -11,7 +11,7 @@ const sendDeleteSecretRequest = (
   callbackForOnDelete
 ) => {
   callbackForLoading(true);
-  let url = `${secretUrl}/deletesecret`;
+  let url = `${secretUrl}/delete`;
   let body = {
     keyVaultName: keyVaultName,
     secretFilter: secretRegex,
@@ -40,7 +40,7 @@ const sendListSecretRequest = (
   callbackForDataSaving,
   callbackForLoading
 ) => {
-  let url = `${secretUrl}/getsecrets?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}`;
+  let url = `${secretUrl}?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}`;
   callbackForLoading(true);
   axios
     .get(url)

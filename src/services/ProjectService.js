@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
-const baseUrl = `${ getBaseUrl() }/projects`;
+const baseUrl = `${ getBaseUrl() }/project`;
 
 const getProjects = (organizationName, PAT, setResult, setAuthorized, setProjectName) => {
     const url = `${baseUrl}?organization=${organizationName}&pat=${PAT}`;
