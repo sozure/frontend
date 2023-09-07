@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
 
-const variableGroupUrl = `${getBaseUrl()}/variablegroups`;
+const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
 const buildRequestBody = (message) => {
   let projectName = message["projectName"];
@@ -76,7 +76,7 @@ const sendUpdateRequest = (
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "UpdateFromMultipleProjects": "update";
+  let endpoint = multipleProjects ? "UpdateFromMultipleProjects": "Update";
   sendRequest(endpoint, body, callbackForOnUpdate, message);
 };
 
@@ -92,14 +92,14 @@ const sendAddRequest = (
   body["key"] = newKey;
   body["value"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "AddFromMultipleProjects": "add";
+  let endpoint = multipleProjects ? "AddFromMultipleProjects": "Add";
   sendRequest(endpoint, body, callbackForOnAdd, message);
 };
 
 const sendDeleteRequest = (message, valueRegex, callbackForOnDelete, multipleProjects) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "DeleteFromMultipleProjects": "delete";
+  let endpoint = multipleProjects ? "DeleteFromMultipleProjects": "Delete";
   sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
@@ -114,8 +114,8 @@ const buildUrl = (message, valueRegex, multipleProjects) => {
   let result =
   `${
     variableGroupUrl
-  }/${
-    multipleProjects? "GetFromMultipleProjects": ""
+  }${
+    multipleProjects? "/GetFromMultipleProjects": ""
   }?Organization=${
     organizationName
   }&Project=${
