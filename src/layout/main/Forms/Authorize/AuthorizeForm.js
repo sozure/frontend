@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { getProjects } from "../../../../Services/ProjectService";
+import { getProjects } from "../../../../services/ProjectService";
 
 import {
   PATContext,
