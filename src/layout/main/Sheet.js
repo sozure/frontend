@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Form from './Forms/Form';
-import Result from './Tables/Result';
+import Result from './Results/Result';
 
 import { 
   LoadingContext
