@@ -9,7 +9,10 @@ import {
   ValueRegexContext,
   VGRegexContext,
   NewKeyContext,
-  NewValueContext
+  NewValueContext,
+  OnAddContext,
+  OnDeleteContext,
+  OnUpdateContext
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -29,6 +32,9 @@ function Form() {
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
+  const { setOnAdd } = useContext(OnAddContext);
+  const { setOnDelete } = useContext(OnDeleteContext);
+  const { setOnUpdate } = useContext(OnUpdateContext);
 
 
   useEffect(() => {
@@ -44,7 +50,15 @@ function Form() {
       {tableType === "VG" ? (
         <select
           id="action_type"
-          onChange={(event) => setActionType(event.target.value)}
+          onChange={(event) => {
+            let newActionType = event.target.value;
+            if(newActionType){
+              setOnAdd(false);
+              setOnDelete(false);
+              setOnUpdate(false);
+            };
+            setActionType(event.target.value);
+          }}
         >
           <option value="List">List elements</option>
           <option value="Add">Add elements</option>
