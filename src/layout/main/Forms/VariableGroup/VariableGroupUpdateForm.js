@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
 import { NewValueContext, OnUpdateContext } from "../../../../contexts/Contexts";
 
