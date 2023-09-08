@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import "../../../../CSS/Buttons.css";
-import { sendDeleteSecretRequest } from "../../../../services/SecretService";
+//import { sendDeleteSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 
 import {
   KeyVaultNameContext,
   SecretRegexContext,
-  SecretContext,
-  LoadingContext,
+  // SecretContext,
+  // LoadingContext,
 } from "../../../../contexts/Contexts";
 
 const KeyVaultDeleteForm = () => {
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex } = useContext(SecretRegexContext);
-  const { setLoading } = useContext(LoadingContext);
-  const { setSecrets } = useContext(SecretContext);
+  // const { setLoading } = useContext(LoadingContext);
+  // const { setSecrets } = useContext(SecretContext);
 
   const mandatoryFields = [keyVaultName, secretRegex];
 
