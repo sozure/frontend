@@ -51,7 +51,7 @@ const ActionButtons = () => {
           <div>
             <p>
               Are you sure you want to{" "}
-              {onDelete ? "delete" : onAdd ? "add" : "update"} variables?
+              {onDelete ? "delete" : onAdd ? "add" : "update"} {variableGroups.length > 1? "variables?": "variable?"}
             </p>
             <br />
             <button
