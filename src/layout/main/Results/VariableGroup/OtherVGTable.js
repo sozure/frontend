@@ -1,4 +1,4 @@
-import "../../../../CSS/ResultTable.css";
+import "../../../../CSS/style.css";
 import React, { useContext, useEffect, useState } from "react";
 
 import { VariableGroupsContext } from "../../../../contexts/Contexts";
