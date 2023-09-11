@@ -10,7 +10,8 @@ import {
   MessageContext,
   KeyRegexContext,
   LoadingContext,
-  VariableGroupsContext
+  VariableGroupsContext,
+  ValueRegexContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -26,6 +27,7 @@ const VariableGroupUpdateForm = () => {
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { newValue, setNewValue } = useContext(NewValueContext);
+  const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
@@ -60,7 +62,7 @@ const VariableGroupUpdateForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups, projectName === "All");
+      sendListRequest(message, valueRegex, setVariableGroups, projectName === "All");
       setOnUpdate(true);
     }
   };
@@ -74,7 +76,7 @@ const VariableGroupUpdateForm = () => {
           type="text"
           id="variable_key"
           name="variable_key"
-          placeholder={"Variable's key"}
+          placeholder={"Key of existing variable"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
         />
@@ -86,6 +88,15 @@ const VariableGroupUpdateForm = () => {
           placeholder={"Variable's new value"}
           value={newValue}
           onChange={(event) => setNewValue(event.target.value)}
+        />
+
+        <input
+          type="text"
+          id="value_regex"
+          name="value_regex"
+          placeholder={"Value (regex) of variable [OPTIONAL]"}
+          value={valueRegex}
+          onChange={(event) => setValueRegex(event.target.value)}
         />
 
         <button id="submit_button" onClick={() => send()}>

@@ -36,7 +36,6 @@ function Form() {
   const { setOnDelete } = useContext(OnDeleteContext);
   const { setOnUpdate } = useContext(OnUpdateContext);
 
-
   useEffect(() => {
     setKeyRegex("");
     setValueRegex("");
@@ -50,6 +49,7 @@ function Form() {
       {tableType === "VG" ? (
         <select
           id="action_type"
+          value={actionType}
           onChange={(event) => {
             let newActionType = event.target.value;
             if(newActionType){
@@ -68,6 +68,7 @@ function Form() {
       ) : (
         <select
           id="action_type"
+          value={actionType}
           onChange={(event) => setActionType(event.target.value)}
         >
           <option value="List">List elements</option>

@@ -29,7 +29,7 @@ const VariableGroupBaseForm = () => {
           type="text"
           id="variable_group_regex"
           name="variable_group_regex"
-          placeholder={"Variable group regex"}
+          placeholder={"Name (regex) of variable group"}
           value={vgRegex}
           onChange={(event) => setVgRegex(event.target.value)}
         />
