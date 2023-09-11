@@ -75,7 +75,7 @@ const VariableGroupGetForm = () => {
           type="text"
           id="key_regex"
           name="key_regex"
-          placeholder={"Variable key regex"}
+          placeholder={"Key (regex) of variable"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
         />
@@ -84,13 +84,14 @@ const VariableGroupGetForm = () => {
           type="text"
           id="value_regex"
           name="value_regex"
-          placeholder={"Variable value regex"}
+          placeholder={"Value (regex) of variable [OPTIONAL]"}
           value={valueRegex}
           onChange={(event) => setValueRegex(event.target.value)}
         />
         <label className="checkbox-inline" htmlFor="secret_needed">
           Secret included:{" "}
         </label>
+        
         <input
           type="checkbox"
           id="secret_needed"

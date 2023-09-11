@@ -63,7 +63,7 @@ const VariableGroupDeleteForm = () => {
           type="text"
           id="variable_key"
           name="variable_key"
-          placeholder={"Variable's key"}
+          placeholder={"Key of existing variable"}
           value={keyRegex}
           onChange={(event) => setKeyRegex(event.target.value)}
         />
