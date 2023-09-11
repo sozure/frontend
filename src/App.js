@@ -1,31 +1,34 @@
-import './CSS/App.css';
-import React, { useState } from "react"
+import "./CSS/App.css";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./layout/main/Main";
 import { LastChange } from "./layout/last_changes/LastChange";
-import { 
-  ActionTypeContext, 
-  KeyRegexContext, 
-  KeyVaultNameContext, 
-  LoadingContext, 
-  MessageContext, 
-  OnAddContext, 
-  OnDeleteContext, 
-  OnUpdateContext, 
-  OrganizationContext, 
-  PATContext, 
-  ProjectNameContext, 
-  ProjectsContext, 
-  SecretContext, 
-  SecretRegexContext, 
-  TableTypeContext, 
-  VGAuthorizedContext, 
-  VGRegexContext, 
+import {
+  ActionTypeContext,
+  KeyRegexContext,
+  KeyVaultNameContext,
+  LoadingContext,
+  MessageContext,
+  OnAddContext,
+  OnDeleteContext,
+  OnUpdateContext,
+  OrganizationContext,
+  PATContext,
+  ProjectNameContext,
+  ProjectsContext,
+  SecretContext,
+  SecretRegexContext,
+  TableTypeContext,
+  VGAuthorizedContext,
+  VGRegexContext,
   ValueRegexContext,
   VariableGroupsContext,
   NewKeyContext,
-  NewValueContext
- } from "./contexts/Contexts";
+  NewValueContext,
+  TenantIdContext,
+  ClientIdContext,
+  ClientSecretContext,
+} from "./contexts/Contexts";
 
 function App() {
   const [keyVaultName, setKeyVaultName] = useState("");
@@ -49,35 +52,99 @@ function App() {
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
+  const [tenantId, setTenantId] = useState("");
+  const [clientId, setClientId] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
 
   return (
-    <KeyVaultNameContext.Provider value={{keyVaultName, setKeyVaultName}}>
-      <ActionTypeContext.Provider value={{actionType, setActionType}}>
-        <TableTypeContext.Provider value={{tableType, setTableType}}>
-          <PATContext.Provider value={{pat, setPat}}>
-            <ProjectNameContext.Provider value={{projectName, setProjectName}}>
-              <ValueRegexContext.Provider value={{valueRegex, setValueRegex}}>
-                <VGRegexContext.Provider value={{vgRegex, setVgRegex}}>
-                  <SecretRegexContext.Provider value={{secretRegex, setSecretRegex}}>
-                    <KeyRegexContext.Provider value={{keyRegex, setKeyRegex}}>
-                      <VariableGroupsContext.Provider value={{variableGroups, setVariableGroups}}>
-                        <LoadingContext.Provider value={{ loading, setLoading }}>
-                          <OnUpdateContext.Provider value={{onUpdate, setOnUpdate}}>
-                            <OnAddContext.Provider value={{onAdd, setOnAdd}}>
-                              <OnDeleteContext.Provider value={{onDelete, setOnDelete}}>
-                                <SecretContext.Provider value={{secrets, setSecrets}}>
-                                  <MessageContext.Provider value={{message, setMessage}}>
-                                    <OrganizationContext.Provider value={{organizationName, setOrganizationName}}>
-                                      <ProjectsContext.Provider value={{projects, setProjects}}>
-                                        <VGAuthorizedContext.Provider value={{vgAuthorized, setVgAuthorized}}>
-                                          <NewKeyContext.Provider value={{newKey, setNewKey}}>
-                                            <NewValueContext.Provider value={{newValue, setNewValue}}>
-                                              <BrowserRouter>
-                                                <Routes>
-                                                  <Route path="/" element={<Main/>}/>
-                                                  <Route path="/last-change" element={<LastChange/>}/>
-                                                </Routes>
-                                              </BrowserRouter>
+    <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
+      <ActionTypeContext.Provider value={{ actionType, setActionType }}>
+        <TableTypeContext.Provider value={{ tableType, setTableType }}>
+          <PATContext.Provider value={{ pat, setPat }}>
+            <ProjectNameContext.Provider
+              value={{ projectName, setProjectName }}
+            >
+              <ValueRegexContext.Provider value={{ valueRegex, setValueRegex }}>
+                <VGRegexContext.Provider value={{ vgRegex, setVgRegex }}>
+                  <SecretRegexContext.Provider
+                    value={{ secretRegex, setSecretRegex }}
+                  >
+                    <KeyRegexContext.Provider value={{ keyRegex, setKeyRegex }}>
+                      <VariableGroupsContext.Provider
+                        value={{ variableGroups, setVariableGroups }}
+                      >
+                        <LoadingContext.Provider
+                          value={{ loading, setLoading }}
+                        >
+                          <OnUpdateContext.Provider
+                            value={{ onUpdate, setOnUpdate }}
+                          >
+                            <OnAddContext.Provider value={{ onAdd, setOnAdd }}>
+                              <OnDeleteContext.Provider
+                                value={{ onDelete, setOnDelete }}
+                              >
+                                <SecretContext.Provider
+                                  value={{ secrets, setSecrets }}
+                                >
+                                  <MessageContext.Provider
+                                    value={{ message, setMessage }}
+                                  >
+                                    <OrganizationContext.Provider
+                                      value={{
+                                        organizationName,
+                                        setOrganizationName,
+                                      }}
+                                    >
+                                      <ProjectsContext.Provider
+                                        value={{ projects, setProjects }}
+                                      >
+                                        <VGAuthorizedContext.Provider
+                                          value={{
+                                            vgAuthorized,
+                                            setVgAuthorized,
+                                          }}
+                                        >
+                                          <NewKeyContext.Provider
+                                            value={{ newKey, setNewKey }}
+                                          >
+                                            <NewValueContext.Provider
+                                              value={{ newValue, setNewValue }}
+                                            >
+                                              <TenantIdContext.Provider
+                                                value={{
+                                                  tenantId,
+                                                  setTenantId,
+                                                }}
+                                              >
+                                                <ClientIdContext.Provider
+                                                  value={{
+                                                    clientId,
+                                                    setClientId,
+                                                  }}
+                                                >
+                                                  <ClientSecretContext.Provider
+                                                    value={{
+                                                      clientSecret,
+                                                      setClientSecret,
+                                                    }}
+                                                  >
+                                                    <BrowserRouter>
+                                                      <Routes>
+                                                        <Route
+                                                          path="/"
+                                                          element={<Main />}
+                                                        />
+                                                        <Route
+                                                          path="/last-change"
+                                                          element={
+                                                            <LastChange />
+                                                          }
+                                                        />
+                                                      </Routes>
+                                                    </BrowserRouter>
+                                                  </ClientSecretContext.Provider>
+                                                </ClientIdContext.Provider>
+                                              </TenantIdContext.Provider>
                                             </NewValueContext.Provider>
                                           </NewKeyContext.Provider>
                                         </VGAuthorizedContext.Provider>

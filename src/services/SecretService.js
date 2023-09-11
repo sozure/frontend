@@ -35,12 +35,15 @@ const sendDeleteSecretRequest = (
 };
 
 const sendListSecretRequest = (
+  tenantId,
+  clientId,
+  clientSecret,
   keyVaultName,
   secretRegex,
   callbackForDataSaving,
   callbackForLoading
 ) => {
-  let url = `${secretUrl}?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}`;
+  let url = `${secretUrl}?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
   callbackForLoading(true);
   axios
     .get(url)
