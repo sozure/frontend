@@ -21,3 +21,6 @@ export const ProjectsContext = createContext();
 export const VGAuthorizedContext = createContext();
 export const NewKeyContext = createContext();
 export const NewValueContext = createContext();
+export const TenantIdContext = createContext();
+export const ClientIdContext = createContext();
+export const ClientSecretContext = createContext();
