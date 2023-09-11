@@ -7,6 +7,9 @@ import {
   SecretRegexContext,
   LoadingContext,
   SecretContext,
+  TenantIdContext,
+  ClientIdContext,
+  ClientSecretContext
 } from "../../../../contexts/Contexts";
 
 const KeyVaultGetForm = () => {
@@ -14,6 +17,9 @@ const KeyVaultGetForm = () => {
   const { secretRegex } = useContext(SecretRegexContext);
   const { setLoading } = useContext(LoadingContext);
   const { setSecrets } = useContext(SecretContext);
+  const { tenantId } = useContext(TenantIdContext);
+  const { clientId } = useContext(ClientIdContext);
+  const { clientSecret } = useContext(ClientSecretContext);
 
   const mandatoryFields = [keyVaultName, secretRegex];
 
@@ -26,7 +32,7 @@ const KeyVaultGetForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListSecretRequest(keyVaultName, secretRegex, setSecrets, setLoading);
+      sendListSecretRequest(tenantId, clientId, clientSecret, keyVaultName, secretRegex, setSecrets, setLoading);
     }
   };
 
