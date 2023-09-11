@@ -14,10 +14,13 @@ import {
   NewValueContext,
   TableTypeContext,
   VariableGroupsContext,
-  ProjectNameContext
+  ProjectNameContext,
+  ActionTypeContext,
+  ValueRegexContext
 } from "../../../../contexts/Contexts";
 
 const ActionButtons = () => {
+  const { setActionType } = useContext(ActionTypeContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
   const { variableGroups, setVariableGroups } = useContext(VariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
@@ -27,6 +30,7 @@ const ActionButtons = () => {
   const { newKey } = useContext(NewKeyContext);
   const { newValue } = useContext(NewValueContext);
   const { projectName } = useContext(ProjectNameContext);
+  const { valueRegex } = useContext(ValueRegexContext);
 
   const deleteVariables = () => {
     sendDeleteRequest(message, "", setOnDelete, projectName === "All");
@@ -37,7 +41,7 @@ const ActionButtons = () => {
   };
 
   const updateVariables = () => {
-    sendUpdateRequest(message, newValue, "", setOnUpdate, projectName === "All");
+    sendUpdateRequest(message, newValue, valueRegex, setOnUpdate, projectName === "All");
   };
 
   return (
@@ -47,7 +51,7 @@ const ActionButtons = () => {
           <div>
             <p>
               Are you sure you want to{" "}
-              {onDelete ? "delete" : onAdd ? "add" : "update"} variables?
+              {onDelete ? "delete" : onAdd ? "add" : "update"} {variableGroups.length > 1? "variables?": "variable?"}
             </p>
             <br />
             <button
@@ -59,6 +63,7 @@ const ActionButtons = () => {
                 } else {
                   updateVariables();
                 }
+                setActionType("List");
               }}
             >
               Yes

@@ -14,7 +14,7 @@ const AddVGTable = () => {
   useEffect(() => {
     let uniqueVariableGroupsLength = uniqueVariableGroups.length;
     setPageNumber(Math.ceil(uniqueVariableGroupsLength / number));
-  }, [uniqueVariableGroups])
+  }, [uniqueVariableGroups]);
 
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
@@ -33,12 +33,18 @@ const AddVGTable = () => {
 
   useEffect(() => {
     let helperList = [];
+    let helperList2 = [];
     variableGroups.forEach((element) => {
-      if (!helperList.includes(element.variableGroupName)) {
-        helperList.push(element.variableGroupName);
+      let variableGroupName = element.variableGroupName;
+      if (!helperList.includes(variableGroupName)) {
+        helperList.push(variableGroupName);
+        helperList2.push({
+          variableGroupName: variableGroupName,
+          project: element.project,
+        });
       }
     });
-    setUniqueVariableGroups(helperList);
+    setUniqueVariableGroups(helperList2);
   }, [variableGroups]);
 
   return (
@@ -47,10 +53,14 @@ const AddVGTable = () => {
         <h2>No variable groups found.</h2>
       ) : (
         <>
-        <h2>Add variable to these variable groups (Found variable groups: {uniqueVariableGroups.length}).</h2>
+          <h2>
+            Add variable to these variable groups (Found variable groups:{" "}
+            {uniqueVariableGroups.length}).
+          </h2>
           <table>
             <thead>
               <tr>
+                <th>Project</th>
                 <th>Variable group name</th>
               </tr>
             </thead>
@@ -58,10 +68,13 @@ const AddVGTable = () => {
             <tbody>
               {uniqueVariableGroups
                 .slice(paginationCounter, paginationCounter + number)
-                .map((variableGroupName) => {
+                .map((variableGroup) => {
                   return (
                     <tr key={Math.random()}>
-                      <td key={Math.random()}>{variableGroupName}</td>
+                      <td key={Math.random()}>{variableGroup.project}</td>
+                      <td key={Math.random()}>
+                        {variableGroup.variableGroupName}
+                      </td>
                     </tr>
                   );
                 })}
