@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:16-alpine
+FROM node:20-alpine
 ENV REACT_APP_BACKEND_BASE_URL="http://localhost"
 ENV REACT_APP_BACKEND_PORT_NUM="5000"
 
