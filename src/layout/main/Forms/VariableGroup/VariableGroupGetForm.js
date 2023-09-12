@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
 import { ValueRegexContext } from "../../../../contexts/Contexts";
-import "../../../../CSS/Checkbox.css"
+import "../../../../CSS/style.css"
 
 import {
   PATContext,

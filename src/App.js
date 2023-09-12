@@ -1,4 +1,4 @@
-import "./CSS/App.css";
+import "./CSS/style.css";
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./layout/main/Main";
