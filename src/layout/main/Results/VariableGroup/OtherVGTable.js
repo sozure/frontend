@@ -11,11 +11,10 @@ function OtherVGTable() {
 
   const number = 10;
 
-
   useEffect(() => {
     let variableGroupsLength = variableGroups.length;
     setPageNumber(Math.ceil(variableGroupsLength / number));
-  }, [variableGroups])
+  }, [variableGroups]);
 
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
@@ -38,7 +37,7 @@ function OtherVGTable() {
         <h2>No variables found.</h2>
       ) : (
         <>
-        <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
+          <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
           <table>
             <thead>
               <tr>
@@ -57,7 +56,11 @@ function OtherVGTable() {
                   let project = variableGroup.project;
                   return (
                     <tr key={Math.random()}>
-                      <td key={Math.random()}>{project.length > 11? `${project.slice(0, 11)}...`: project}</td>
+                      <td key={Math.random()}>
+                        {project.length > 11
+                          ? `${project.slice(0, 11)}...`
+                          : project}
+                      </td>
                       <td key={Math.random()}>{variableGroupName}</td>
                       <td key={Math.random()}>
                         {variableGroup.variableGroupKey}
@@ -75,13 +78,23 @@ function OtherVGTable() {
                               : ""
                           }
                         >
-                          {variableGroupName.toLowerCase().includes("secrets")
-                            ? "Secret variable, can't show it's value."
-                            : variableGroup.variableGroupKey
-                                .toLowerCase()
-                                .includes("serilog")
-                            ? "Serilog's value is too long."
-                            : variableGroup.variableGroupValue}
+                          {variableGroupName
+                            .toLowerCase()
+                            .includes("secrets") ? (
+                            "Secret variable, can't show it's value."
+                          ) : variableGroup.variableGroupKey
+                              .toLowerCase()
+                              .includes("serilog") ? (
+                            <button
+                              onClick={() =>
+                                alert(variableGroup.variableGroupValue)
+                              }
+                            >
+                              Show Serilog value
+                            </button>
+                          ) : (
+                            variableGroup.variableGroupValue
+                          )}
                         </span>
                       </td>
                     </tr>
