@@ -1,4 +1,4 @@
-import "../../../../CSS/ResultTable.css";
+import "../../../../CSS/style.css";
 import React, { useContext, useState, useEffect } from "react";
 
 import { SecretContext } from "../../../../contexts/Contexts";
