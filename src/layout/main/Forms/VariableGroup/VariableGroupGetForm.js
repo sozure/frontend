@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
 import { ValueRegexContext } from "../../../../contexts/Contexts";
-import "../../../../CSS/style.css"
+import "../../../../CSS/style.css";
 
 import {
   PATContext,
@@ -39,7 +39,7 @@ const VariableGroupGetForm = () => {
       keyRegex: keyRegex,
       valueRegex: valueRegex,
       setLoading: setLoading,
-      secretIncluded: secretIncluded
+      secretIncluded: secretIncluded,
     });
   }, [
     projectName,
@@ -50,7 +50,7 @@ const VariableGroupGetForm = () => {
     organizationName,
     setLoading,
     setMessage,
-    secretIncluded
+    secretIncluded,
   ]);
 
   const send = () => {
@@ -62,13 +62,17 @@ const VariableGroupGetForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, valueRegex, setVariableGroups, projectName === "All");
+      sendListRequest(
+        message,
+        valueRegex,
+        setVariableGroups,
+        projectName === "All"
+      );
     }
   };
 
   return (
-    <div>
-      <div id="form">
+      <div className="form">
         <VariableGroupBaseForm />
 
         <input
@@ -91,18 +95,18 @@ const VariableGroupGetForm = () => {
         <label className="checkbox-inline" htmlFor="secret_needed">
           Secret included:{" "}
         </label>
-        
+
         <input
           type="checkbox"
-          id="secret_needed"
-          name="secret_needed"
+          id="secretNeeded"
+          name="secretNeeded"
           onChange={() => setSecretIncluded(!secretIncluded)}
-        /><br/>
+        />
+        <br />
         <button id="submit_button" onClick={() => send()}>
           Send request
         </button>
       </div>
-    </div>
   );
 };
 

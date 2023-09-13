@@ -9,10 +9,7 @@ import {
   ValueRegexContext,
   VGRegexContext,
   NewKeyContext,
-  NewValueContext,
-  OnAddContext,
-  OnDeleteContext,
-  OnUpdateContext
+  NewValueContext
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -22,79 +19,51 @@ import VariableGroupAddForm from "./VariableGroup/VariableGroupAddForm";
 import VariableGroupUpdateForm from "./VariableGroup/VariableGroupUpdateForm";
 import KeyVaultDeleteForm from "./KeyVault/KeyVaultDeleteForm";
 import AuthorizeForm from "./Authorize/AuthorizeForm";
+import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
+import MainSelects from "./MainSelects";
 
 function Form() {
-  const { actionType, setActionType } = useContext(ActionTypeContext);
-  const { tableType, setTableType } = useContext(TableTypeContext);
+  const { actionType } = useContext(ActionTypeContext);
+  const { tableType } = useContext(TableTypeContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setKeyRegex } = useContext(KeyRegexContext);
   const { setValueRegex } = useContext(ValueRegexContext);
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
-  const { setOnAdd } = useContext(OnAddContext);
-  const { setOnDelete } = useContext(OnDeleteContext);
-  const { setOnUpdate } = useContext(OnUpdateContext);
-
+  
   useEffect(() => {
     setKeyRegex("");
     setValueRegex("");
     setVgRegex("");
     setNewKey("");
     setNewValue("");
-  }, [actionType, setKeyRegex, setValueRegex, setVgRegex, setNewKey, setNewValue])
+  }, [
+    actionType,
+    setKeyRegex,
+    setValueRegex,
+    setVgRegex,
+    setNewKey,
+    setNewValue,
+  ]);
 
   return (
     <div>
-      {tableType === "VG" ? (
-        <select
-          id="action_type"
-          value={actionType}
-          onChange={(event) => {
-            let newActionType = event.target.value;
-            if(newActionType){
-              setOnAdd(false);
-              setOnDelete(false);
-              setOnUpdate(false);
-            };
-            setActionType(event.target.value);
-          }}
-        >
-          <option value="List">List elements</option>
-          <option value="Add">Add elements</option>
-          <option value="Delete">Delete elements</option>
-          <option value="Update">Update elements</option>
-        </select>
-      ) : (
-        <select
-          id="action_type"
-          value={actionType}
-          onChange={(event) => setActionType(event.target.value)}
-        >
-          <option value="List">List elements</option>
-          <option value="Delete">Delete elements</option>
-        </select>
-      )}
-
-      <br />
-      <select
-        id="change_type_select"
-        onChange={(event) => setTableType(event.target.value)}
-      >
-        <option value="KV">Secrets</option>
-        <option value="VG">Variable groups</option>
-      </select>
-
+      
+    <MainSelects/>
+      
       {tableType === "KV" ? (
         actionType === "List" ? (
           <KeyVaultGetForm />
+        ) : actionType === "Copy" ? (
+          <KeyVaultCopyForm />
         ) : (
           <KeyVaultDeleteForm />
         )
       ) : (
         <AuthorizeForm />
       )}
-      {tableType === "KV" || !vgAuthorized? (
+      {tableType === "KV" || !vgAuthorized ? (
         <></>
       ) : actionType === "List" ? (
         <VariableGroupGetForm />
