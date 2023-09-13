@@ -28,6 +28,9 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
+  OriginKeyVaultContext,
+  DestinationKeyVaultContext,
+  PaginationCounterContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -55,6 +58,9 @@ function App() {
   const [tenantId, setTenantId] = useState("");
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [originKeyVault, setOriginKeyVault] = useState("");
+  const [destinationKeyVault, setDestinationKeyVault] = useState("");
+  const [paginationCounter, setPaginationCounter] = useState(0);
 
   return (
     <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
@@ -128,20 +134,43 @@ function App() {
                                                       setClientSecret,
                                                     }}
                                                   >
-                                                    <BrowserRouter>
-                                                      <Routes>
-                                                        <Route
-                                                          path="/"
-                                                          element={<Main />}
-                                                        />
-                                                        <Route
-                                                          path="/last-change"
-                                                          element={
-                                                            <LastChange />
-                                                          }
-                                                        />
-                                                      </Routes>
-                                                    </BrowserRouter>
+                                                    <OriginKeyVaultContext.Provider
+                                                      value={{
+                                                        originKeyVault,
+                                                        setOriginKeyVault,
+                                                      }}
+                                                    >
+                                                      <DestinationKeyVaultContext.Provider
+                                                        value={{
+                                                          destinationKeyVault,
+                                                          setDestinationKeyVault,
+                                                        }}
+                                                      >
+                                                        <PaginationCounterContext.Provider
+                                                          value={{
+                                                            paginationCounter,
+                                                            setPaginationCounter,
+                                                          }}
+                                                        >
+                                                          <BrowserRouter>
+                                                            <Routes>
+                                                              <Route
+                                                                path="/"
+                                                                element={
+                                                                  <Main />
+                                                                }
+                                                              />
+                                                              <Route
+                                                                path="/last-change"
+                                                                element={
+                                                                  <LastChange />
+                                                                }
+                                                              />
+                                                            </Routes>
+                                                          </BrowserRouter>
+                                                        </PaginationCounterContext.Provider>
+                                                      </DestinationKeyVaultContext.Provider>
+                                                    </OriginKeyVaultContext.Provider>
                                                   </ClientSecretContext.Provider>
                                                 </ClientIdContext.Provider>
                                               </TenantIdContext.Provider>
