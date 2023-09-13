@@ -61,7 +61,7 @@ const sendListSecretRequest = (
     .get(url)
     .then((res) => {
       let status = res.data.status;
-      let secrets = res.data.secrets;
+      let secrets = getDeleted? res.data.deletedSecrets: res.data.secrets;
       callbackForLoading(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
