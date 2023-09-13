@@ -1,35 +1,14 @@
 import "../../../../CSS/style.css";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 
-import { SecretContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, SecretContext } from "../../../../contexts/Contexts";
+import PaginationButtons from "../PaginationButtons";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
-  const [paginationCounter, setPaginationCounter] = useState(0);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [actualPageNumber, setActualPageNumber] = useState(1);
+  const { paginationCounter } = useContext(PaginationCounterContext);
 
   const number = 10;
-
-  useEffect(() => {
-    let variableGroupsLength = secrets.length;
-    setPageNumber(Math.ceil(variableGroupsLength / number));
-  }, [secrets]);
-
-  const increasePaginationCounter = () => {
-    let helperPageNum = actualPageNumber + 1;
-    setActualPageNumber(helperPageNum);
-    let increasedPaginationCounter = paginationCounter + number;
-    setPaginationCounter(increasedPaginationCounter);
-  };
-
-  const decreasedPaginationCounter = () => {
-    let helperPageNum = actualPageNumber - 1;
-    setActualPageNumber(helperPageNum);
-    let increasedPaginationCounter =
-      paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-    setPaginationCounter(increasedPaginationCounter);
-  };
 
   return (
     <div>
@@ -66,31 +45,7 @@ function KVResultTable() {
                 })}
             </tbody>
           </table>
-          {secrets.length > 10 ? (
-            <>
-              <button
-                className={paginationCounter === 0 ? "previous" : "next"}
-                disabled={paginationCounter === 0}
-                onClick={() => decreasedPaginationCounter()}
-              >
-                &laquo; Previous
-              </button>
-              <button
-                className={
-                  paginationCounter + number >= secrets.length
-                    ? "previous"
-                    : "next"
-                }
-                disabled={paginationCounter + number >= secrets.length}
-                onClick={() => increasePaginationCounter()}
-              >
-                Next &raquo;
-              </button>
-            </>
-          ) : (
-            <></>
-          )}
-          <span>{`Page: ${actualPageNumber}/${pageNumber}`}</span>
+          <PaginationButtons collection={secrets}/>
         </>
       )}
     </div>

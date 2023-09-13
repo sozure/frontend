@@ -24,3 +24,6 @@ export const NewValueContext = createContext();
 export const TenantIdContext = createContext();
 export const ClientIdContext = createContext();
 export const ClientSecretContext = createContext();
+export const OriginKeyVaultContext = createContext();
+export const DestinationKeyVaultContext = createContext();
+export const PaginationCounterContext = createContext();

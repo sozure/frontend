@@ -39,7 +39,7 @@ const AuthorizeForm = () => {
   };
 
   return (
-    <div id="form">
+    <div className="form">
       <input
         type="password"
         id="pat"

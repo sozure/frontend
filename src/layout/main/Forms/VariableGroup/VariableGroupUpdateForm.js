@@ -68,8 +68,7 @@ const VariableGroupUpdateForm = () => {
   };
 
   return (
-    <div>
-      <div id="form">
+      <div className="form">
       <VariableGroupBaseForm/>
 
         <input
@@ -103,7 +102,6 @@ const VariableGroupUpdateForm = () => {
           Send request
         </button>
       </div>
-    </div>
   );
 };
 
