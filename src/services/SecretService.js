@@ -1,5 +1,10 @@
 import axios from "axios";
-import { getBaseUrl, handleError, handleError2, getResponseMessage } from "./CommonService";
+import {
+  getBaseUrl,
+  handleError,
+  handleError2,
+  getResponseMessage,
+} from "./CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
@@ -12,7 +17,7 @@ const sendDeleteSecretRequest = (
 ) => {
   callbackForLoading(true);
   let url = `${secretUrl}/delete`;
-  
+
   let body = {
     keyVaultName: keyVaultName,
     secretFilter: secretRegex,
@@ -43,10 +48,15 @@ const sendListSecretRequest = (
   keyVaultName,
   secretRegex,
   callbackForDataSaving,
-  callbackForLoading
+  callbackForLoading,
+  getDeleted
 ) => {
-  let url = `${secretUrl}?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
+  let url = `${secretUrl}${
+    getDeleted ? "/deleted" : ""
+  }?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
+
   callbackForLoading(true);
+  
   axios
     .get(url)
     .then((res) => {
@@ -64,17 +74,24 @@ const sendListSecretRequest = (
     });
 };
 
-const sendCopyRequest = (tenantId, clientId, clientSecret, fromKeyVault, toKeyVault, overrideSecret) => {
+const sendCopyRequest = (
+  tenantId,
+  clientId,
+  clientSecret,
+  fromKeyVault,
+  toKeyVault,
+  overrideSecret
+) => {
   let url = `${secretUrl}/copy`;
-  
+
   let body = {
-    "tenantId": tenantId,
-    "clientId": clientId,
-    "clientSecret": clientSecret,
-    "fromKeyVault": fromKeyVault,
-    "toKeyVault": toKeyVault,
-    "overrideSecret": overrideSecret
-  }
+    tenantId: tenantId,
+    clientId: clientId,
+    clientSecret: clientSecret,
+    fromKeyVault: fromKeyVault,
+    toKeyVault: toKeyVault,
+    overrideSecret: overrideSecret,
+  };
 
   axios
     .post(url, body)
@@ -84,7 +101,7 @@ const sendCopyRequest = (tenantId, clientId, clientSecret, fromKeyVault, toKeyVa
     })
     .catch((err) => {
       handleError2(err);
-    })
-}
+    });
+};
 
 export { sendDeleteSecretRequest, sendListSecretRequest, sendCopyRequest };

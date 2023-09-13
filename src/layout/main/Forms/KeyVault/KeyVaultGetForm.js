@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { sendListSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 
@@ -14,6 +14,7 @@ import {
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
+  const [deleted, setDeleted] = useState(false);
   const { setSecrets } = useContext(SecretContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
@@ -21,7 +22,13 @@ const KeyVaultGetForm = () => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
 
-  const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
+  const mandatoryFields = [
+    tenantId,
+    clientId,
+    clientSecret,
+    keyVaultName,
+    secretRegex,
+  ];
 
   const send = () => {
     let incorrectFill = false;
@@ -39,14 +46,15 @@ const KeyVaultGetForm = () => {
         keyVaultName,
         secretRegex,
         setSecrets,
-        setLoading
+        setLoading,
+        deleted
       );
     }
   };
 
   return (
     <div className="form">
-      <KeyVaultBaseForm/>
+      <KeyVaultBaseForm />
 
       <input
         type="text"
@@ -65,6 +73,18 @@ const KeyVaultGetForm = () => {
         value={secretRegex}
         onChange={(event) => setSecretRegex(event.target.value)}
       />
+
+      <label className="checkbox-inline" htmlFor="secret_needed">
+        Get deleted secrets:{" "}
+      </label>
+
+      <input
+        type="checkbox"
+        id="getDeletedSecrets"
+        name="getDeletedSecrets"
+        onChange={() => setDeleted(!deleted)}
+      />
+      <br />
 
       <button id="submit_button" onClick={() => send()}>
         Send request
