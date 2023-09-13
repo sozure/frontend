@@ -56,8 +56,7 @@ const VariableGroupDeleteForm = () => {
   };
 
   return (
-    <div>
-      <div id="form">
+      <div className="form">
       <VariableGroupBaseForm/>
         <input
           type="text"
@@ -72,7 +71,6 @@ const VariableGroupDeleteForm = () => {
           Send request
         </button>
       </div>
-    </div>
   );
 };
 

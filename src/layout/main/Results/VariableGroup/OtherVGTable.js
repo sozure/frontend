@@ -1,35 +1,13 @@
 import "../../../../CSS/style.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
-import { VariableGroupsContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
+import PaginationButtons from "../PaginationButtons";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);
-  const [paginationCounter, setPaginationCounter] = useState(0);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [actualPageNumber, setActualPageNumber] = useState(1);
-
+  const { paginationCounter } = useContext(PaginationCounterContext);
   const number = 10;
-
-  useEffect(() => {
-    let variableGroupsLength = variableGroups.length;
-    setPageNumber(Math.ceil(variableGroupsLength / number));
-  }, [variableGroups]);
-
-  const increasePaginationCounter = () => {
-    let helperPageNum = actualPageNumber + 1;
-    setActualPageNumber(helperPageNum);
-    let increasedPaginationCounter = paginationCounter + number;
-    setPaginationCounter(increasedPaginationCounter);
-  };
-
-  const decreasedPaginationCounter = () => {
-    let helperPageNum = actualPageNumber - 1;
-    setActualPageNumber(helperPageNum);
-    let increasedPaginationCounter =
-      paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-    setPaginationCounter(increasedPaginationCounter);
-  };
 
   return (
     <div>
@@ -102,34 +80,7 @@ function OtherVGTable() {
                 })}
             </tbody>
           </table>
-          {variableGroups.length <= 10 ? (
-            <></>
-          ) : (
-            <>
-              <button
-                className={paginationCounter === 0 ? "previous" : "next"}
-                disabled={paginationCounter === 0}
-                onClick={() => decreasedPaginationCounter()}
-              >
-                &laquo; Previous
-              </button>
-              <button
-                className={
-                  paginationCounter + number >= variableGroups.length
-                    ? "previous"
-                    : "next"
-                }
-                disabled={
-                  (paginationCounter + number >= variableGroups.length) |
-                  (variableGroups.length < 10)
-                }
-                onClick={() => increasePaginationCounter()}
-              >
-                Next &raquo;
-              </button>
-            </>
-          )}
-          <span>{`Page: ${actualPageNumber}/${pageNumber}`}</span>
+          <PaginationButtons collection={variableGroups} />
         </>
       )}
     </div>

@@ -64,7 +64,7 @@ input[type="checkbox"] {
 
 /* from Form.css */
 
-#form {
+.form {
     background-color: gray;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
