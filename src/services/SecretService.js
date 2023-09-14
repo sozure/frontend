@@ -11,8 +11,7 @@ const secretUrl = `${getBaseUrl()}/secret`;
 const sendDeleteSecretRequest = (
   body,
   callbackForLoading,
-  callbackForDataSaving,
-  callbackForOnDelete
+  callbackForDataSaving
 ) => {
   callbackForLoading(true);
   let url = `${secretUrl}/delete`;
@@ -22,7 +21,6 @@ const sendDeleteSecretRequest = (
       let status = res.data.status;
       let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
-      callbackForOnDelete(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
@@ -82,4 +80,28 @@ const sendCopyRequest = (body) => {
     });
 };
 
-export { sendDeleteSecretRequest, sendListSecretRequest, sendCopyRequest };
+const sendRecoverSecretRequest = (
+  body,
+  callbackForLoading,
+  callbackForDataSaving
+) => {
+  callbackForLoading(true);
+  let url = `${secretUrl}/recover`;
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let secrets = res.data.deletedSecrets;
+      callbackForLoading(false);
+      if (status === 0) {
+        callbackForDataSaving(secrets);
+      } else {
+        alert(getResponseMessage(status));
+      }
+    })
+    .catch((err) => {
+      handleError(callbackForLoading, err);
+    });
+};
+
+export { sendDeleteSecretRequest, sendListSecretRequest, sendCopyRequest, sendRecoverSecretRequest };

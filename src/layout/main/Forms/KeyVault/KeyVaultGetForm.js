@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { sendListSecretRequest } from "../../../../services/SecretService";
-import KeyVaultBaseForm from "./KeyVaultBaseForm";
+import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 
 import {
   KeyVaultNameContext,
@@ -10,16 +10,17 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
+  GetDeletedSecretsContext,
 } from "../../../../contexts/Contexts";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const [deleted, setDeleted] = useState(false);
   const { setSecrets } = useContext(SecretContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
+  const { deleted, setDeleted } = useContext(GetDeletedSecretsContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
 
   const mandatoryFields = [

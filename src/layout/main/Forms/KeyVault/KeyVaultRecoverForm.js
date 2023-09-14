@@ -1,19 +1,17 @@
 import React, { useContext } from "react";
-import "../../../../CSS/style.css";
-import { sendDeleteSecretRequest } from "../../../../services/SecretService";
-
-import {
-  KeyVaultNameContext,
-  SecretRegexContext,
-  SecretContext,
-  LoadingContext,
-  TenantIdContext,
-  ClientIdContext,
-  ClientSecretContext
-} from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
+import {
+  ClientIdContext,
+  ClientSecretContext,
+  KeyVaultNameContext,
+  LoadingContext,
+  SecretContext,
+  SecretRegexContext,
+  TenantIdContext,
+} from "../../../../contexts/Contexts";
+import { sendRecoverSecretRequest } from "../../../../services/SecretService";
 
-const KeyVaultDeleteForm = () => {
+const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { setSecrets } = useContext(SecretContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
@@ -22,7 +20,13 @@ const KeyVaultDeleteForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
 
-  const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
+  const mandatoryFields = [
+    tenantId,
+    clientId,
+    clientSecret,
+    keyVaultName,
+    secretRegex,
+  ];
 
   const send = () => {
     let incorrectFill = false;
@@ -33,7 +37,6 @@ const KeyVaultDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      
       let body = {
         tenantId: tenantId,
         clientId: clientId,
@@ -42,13 +45,11 @@ const KeyVaultDeleteForm = () => {
         secretFilter: secretRegex,
       };
 
-      sendDeleteSecretRequest(body, setLoading, setSecrets);
+      sendRecoverSecretRequest(body, setLoading, setSecrets);
     }
   };
 
-  return (
-    <KeyVaultBaseOperationForm send={send}/>
-  );
+  return <KeyVaultBaseOperationForm send={send} />;
 };
 
-export default KeyVaultDeleteForm;
+export default KeyVaultRecoverForm;

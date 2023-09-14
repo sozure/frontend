@@ -1,12 +1,14 @@
 import "../../../../CSS/style.css";
 import React, { useContext } from "react";
 
-import { PaginationCounterContext, SecretContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, SecretContext, GetDeletedSecretsContext } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
+  const { deleted } = useContext(GetDeletedSecretsContext);
+
 
   const number = 10;
 
@@ -33,7 +35,7 @@ function KVResultTable() {
                   return (
                     <tr key={Math.random()}>
                       <td key={Math.random()}>{secretName}</td>
-                      {secretValue.length > 85 ? (
+                      {deleted ? (<p>Deleted secret. Can't show it's value.</p>) : secretValue.length > 85 ? (
                         <button onClick={() => alert(secretValue)}>
                           Show secret value
                         </button>
