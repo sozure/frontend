@@ -33,7 +33,16 @@ const KeyVaultDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendDeleteSecretRequest(keyVaultName, secretRegex, setLoading, setSecrets, setLoading);
+      
+      let body = {
+        tenantId: tenantId,
+        clientId: clientId,
+        clientSecret,
+        keyVaultName: keyVaultName,
+        secretFilter: secretRegex,
+      };
+
+      sendDeleteSecretRequest(body, setLoading, setSecrets, setLoading);
     }
   };
 

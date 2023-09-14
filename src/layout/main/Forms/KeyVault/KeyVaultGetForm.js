@@ -38,17 +38,17 @@ const KeyVaultGetForm = () => {
         incorrectFill = true;
       }
     });
+
     if (!incorrectFill) {
-      sendListSecretRequest(
-        tenantId,
-        clientId,
-        clientSecret,
-        keyVaultName,
-        secretRegex,
-        setSecrets,
-        setLoading,
-        deleted
-      );
+      let message = {
+        tenantId: tenantId,
+        clientId: clientId,
+        clientSecret: clientSecret,
+        keyVaultName: keyVaultName,
+        secretRegex: secretRegex,
+      };
+
+      sendListSecretRequest(message, setSecrets, setLoading, deleted);
     }
   };
 

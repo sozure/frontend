@@ -9,25 +9,18 @@ import {
 const secretUrl = `${getBaseUrl()}/secret`;
 
 const sendDeleteSecretRequest = (
-  keyVaultName,
-  secretRegex,
+  body,
   callbackForLoading,
   callbackForDataSaving,
   callbackForOnDelete
 ) => {
   callbackForLoading(true);
   let url = `${secretUrl}/delete`;
-
-  let body = {
-    keyVaultName: keyVaultName,
-    secretFilter: secretRegex,
-  };
-
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let secrets = res.data.secrets;
+      let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
       callbackForOnDelete(false);
       if (status === 0) {
@@ -42,26 +35,28 @@ const sendDeleteSecretRequest = (
 };
 
 const sendListSecretRequest = (
-  tenantId,
-  clientId,
-  clientSecret,
-  keyVaultName,
-  secretRegex,
+  body,
   callbackForDataSaving,
   callbackForLoading,
   getDeleted
 ) => {
+  let tenantId = body["tenantId"];
+  let clientId = body["clientId"];
+  let clientSecret = body["clientSecret"];
+  let keyVaultName = body["keyVaultName"];
+  let secretRegex = body["secretRegex"];
+
   let url = `${secretUrl}${
     getDeleted ? "/deleted" : ""
   }?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
 
   callbackForLoading(true);
-  
+
   axios
     .get(url)
     .then((res) => {
       let status = res.data.status;
-      let secrets = getDeleted? res.data.deletedSecrets: res.data.secrets;
+      let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
       callbackForLoading(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
@@ -74,25 +69,8 @@ const sendListSecretRequest = (
     });
 };
 
-const sendCopyRequest = (
-  tenantId,
-  clientId,
-  clientSecret,
-  fromKeyVault,
-  toKeyVault,
-  overrideSecret
-) => {
+const sendCopyRequest = (body) => {
   let url = `${secretUrl}/copy`;
-
-  let body = {
-    tenantId: tenantId,
-    clientId: clientId,
-    clientSecret: clientSecret,
-    fromKeyVault: fromKeyVault,
-    toKeyVault: toKeyVault,
-    overrideSecret: overrideSecret,
-  };
-
   axios
     .post(url, body)
     .then((res) => {
