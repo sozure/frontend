@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import KeyVaultBaseForm from "./KeyVaultBaseForm";
+import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import { sendCopyRequest } from "../../../../services/SecretService";
 import {
   DestinationKeyVaultContext,
@@ -41,15 +41,18 @@ const KeyVaultCopyForm = () => {
         incorrectFill = true;
       }
     });
+    
     if (!incorrectFill) {
-      sendCopyRequest(
-        tenantId,
-        clientId,
-        clientSecret,
-        originKeyVault,
-        destinationKeyVault,
-        override
-      );
+      let body = {
+        tenantId: tenantId,
+        clientId: clientId,
+        clientSecret: clientSecret,
+        originKeyVault: originKeyVault,
+        destinationKeyVault: destinationKeyVault,
+        override: override,
+      };
+
+      sendCopyRequest(body);
     }
   };
 

@@ -4,7 +4,7 @@ import {
   ClientIdContext,
   ClientSecretContext,
   TenantIdContext,
-} from "../../../../contexts/Contexts";
+} from "../../../../../contexts/Contexts";
 
 const KeyVaultBaseForm = () => {
   const { tenantId, setTenantId } = useContext(TenantIdContext);
