@@ -100,7 +100,7 @@ const VariableGroupGetForm = () => {
           type="checkbox"
           id="secretNeeded"
           name="secretNeeded"
-          onChange={() => setSecretIncluded(!secretIncluded)}
+          onChange={(e) => setSecretIncluded(e.target.checked)}
         />
         <br />
         <button id="submit_button" onClick={() => send()}>

@@ -83,7 +83,7 @@ const KeyVaultGetForm = () => {
         type="checkbox"
         id="getDeletedSecrets"
         name="getDeletedSecrets"
-        onChange={() => setDeleted(!deleted)}
+        onChange={(e) => setDeleted(e.target.checked)}
       />
       <br />
 
