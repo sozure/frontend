@@ -11,7 +11,8 @@ const secretUrl = `${getBaseUrl()}/secret`;
 const sendDeleteSecretRequest = (
   body,
   callbackForLoading,
-  callbackForDataSaving
+  callbackForDataSaving,
+  setOnDelete
 ) => {
   callbackForLoading(true);
   let url = `${secretUrl}/delete`;
@@ -21,6 +22,7 @@ const sendDeleteSecretRequest = (
       let status = res.data.status;
       let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
+      setOnDelete(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
@@ -29,6 +31,7 @@ const sendDeleteSecretRequest = (
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
+      setOnDelete(false);
     });
 };
 
@@ -83,7 +86,8 @@ const sendCopyRequest = (body) => {
 const sendRecoverSecretRequest = (
   body,
   callbackForLoading,
-  callbackForDataSaving
+  callbackForDataSaving,
+  setOnRecover
 ) => {
   callbackForLoading(true);
   let url = `${secretUrl}/recover`;
@@ -93,6 +97,7 @@ const sendRecoverSecretRequest = (
       let status = res.data.status;
       let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
+      setOnRecover(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
@@ -101,6 +106,7 @@ const sendRecoverSecretRequest = (
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
+      setOnRecover(false);
     });
 };
 
