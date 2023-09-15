@@ -45,6 +45,7 @@ const MainSelects = () => {
           <option value="List">List secrets</option>
           <option value="Copy">Copy secrets</option>
           <option value="Delete">Delete secrets</option>
+          <option value="Recover">Recover secrets</option>
         </select>
       )}
       <br />

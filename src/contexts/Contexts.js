@@ -14,6 +14,7 @@ export const LoadingContext = createContext();
 export const OnUpdateContext = createContext();
 export const OnAddContext = createContext();
 export const OnDeleteContext = createContext();
+export const OnRecoverContext = createContext();
 export const SecretContext = createContext();
 export const MessageContext = createContext();
 export const OrganizationContext = createContext();
