@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import {
   ActionTypeContext,
@@ -30,15 +30,6 @@ const ActionButtons = () => {
   const { setLoading } = useContext(LoadingContext);
   const { onRecover, setOnRecover } = useContext(OnRecoverContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
-
-  useEffect(() => {
-    console.log(onDelete);
-    console.log(onRecover);
-    console.log(secrets);
-    console.log(tableType);
-    console.log("-----------------");
-  }, [onDelete, onRecover, secrets, tableType])
-
 
   const deleteSecrets = () => {
     let body = {
