@@ -5,11 +5,12 @@ import {
   ClientSecretContext,
   KeyVaultNameContext,
   LoadingContext,
+  OnRecoverContext,
   SecretContext,
   SecretRegexContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
-import { sendRecoverSecretRequest } from "../../../../services/SecretService";
+import { sendListSecretRequest } from "../../../../services/SecretService";
 
 const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -19,6 +20,7 @@ const KeyVaultRecoverForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
+  const { setOnRecover } = useContext(OnRecoverContext);
 
   const mandatoryFields = [
     tenantId,
@@ -42,10 +44,11 @@ const KeyVaultRecoverForm = () => {
         clientId: clientId,
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
-        secretFilter: secretRegex,
+        secretRegex: secretRegex,
       };
 
-      sendRecoverSecretRequest(body, setLoading, setSecrets);
+      sendListSecretRequest(body, setSecrets, setLoading, true);
+      setOnRecover(true);
     }
   };
 

@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import KVResultTable from "./KeyVault/KVResultTable";
 import VGTable from "./VariableGroup/VGTable";
 import { TableTypeContext } from "../../../contexts/Contexts";
+import KVTable from "./KeyVault/KVTable";
 
 const Result = () => {
   const { tableType } = useContext(TableTypeContext);
   return (
     <div>
-      {tableType === "KV" ? <KVResultTable /> : <VGTable />}
+      {tableType === "KV" ? <KVTable /> : <VGTable />}
       
     </div>
   );

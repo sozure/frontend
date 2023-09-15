@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../../../../CSS/style.css";
-import { sendDeleteSecretRequest } from "../../../../services/SecretService";
+import { sendListSecretRequest } from "../../../../services/SecretService";
 
 import {
   KeyVaultNameContext,
@@ -9,7 +9,8 @@ import {
   LoadingContext,
   TenantIdContext,
   ClientIdContext,
-  ClientSecretContext
+  ClientSecretContext,
+  OnDeleteContext
 } from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 
@@ -21,6 +22,7 @@ const KeyVaultDeleteForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
+  const { setOnDelete } = useContext(OnDeleteContext);
 
   const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
 
@@ -42,7 +44,8 @@ const KeyVaultDeleteForm = () => {
         secretFilter: secretRegex,
       };
 
-      sendDeleteSecretRequest(body, setLoading, setSecrets);
+      sendListSecretRequest(body, setSecrets, setLoading, false);
+      setOnDelete(true);
     }
   };
 
