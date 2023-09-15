@@ -66,7 +66,7 @@ const ActionButtons = () => {
 
   return (
     <>
-      {tableType === "KV" && secrets.length > 0 ? (
+      {tableType === "KV" && secrets !== undefined && secrets.length > 0 ? (
         onDelete | onRecover ? (
           <div>
             <p>

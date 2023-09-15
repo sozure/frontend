@@ -41,7 +41,7 @@ const KeyVaultDeleteForm = () => {
         clientId: clientId,
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
-        secretFilter: secretRegex,
+        secretRegex: secretRegex,
       };
 
       sendListSecretRequest(body, setSecrets, setLoading, false);
