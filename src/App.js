@@ -31,6 +31,8 @@ import {
   OriginKeyVaultContext,
   DestinationKeyVaultContext,
   PaginationCounterContext,
+  GetDeletedSecretsContext,
+  OnRecoverContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
   const [onUpdate, setOnUpdate] = useState(false);
   const [onAdd, setOnAdd] = useState(false);
   const [onDelete, setOnDelete] = useState(false);
+  const [onRecover, setOnRecover] = useState(false);
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
@@ -61,6 +64,7 @@ function App() {
   const [originKeyVault, setOriginKeyVault] = useState("");
   const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
+  const [deleted, setDeleted] = useState(false);
 
   return (
     <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
@@ -152,22 +156,36 @@ function App() {
                                                             setPaginationCounter,
                                                           }}
                                                         >
-                                                          <BrowserRouter>
-                                                            <Routes>
-                                                              <Route
-                                                                path="/"
-                                                                element={
-                                                                  <Main />
-                                                                }
-                                                              />
-                                                              <Route
-                                                                path="/last-change"
-                                                                element={
-                                                                  <LastChange />
-                                                                }
-                                                              />
-                                                            </Routes>
-                                                          </BrowserRouter>
+                                                          <GetDeletedSecretsContext.Provider
+                                                            value={{
+                                                              deleted,
+                                                              setDeleted,
+                                                            }}
+                                                          >
+                                                            <OnRecoverContext.Provider
+                                                              value={{
+                                                                onRecover,
+                                                                setOnRecover,
+                                                              }}
+                                                            >
+                                                              <BrowserRouter>
+                                                                <Routes>
+                                                                  <Route
+                                                                    path="/"
+                                                                    element={
+                                                                      <Main />
+                                                                    }
+                                                                  />
+                                                                  <Route
+                                                                    path="/last-change"
+                                                                    element={
+                                                                      <LastChange />
+                                                                    }
+                                                                  />
+                                                                </Routes>
+                                                              </BrowserRouter>
+                                                            </OnRecoverContext.Provider>
+                                                          </GetDeletedSecretsContext.Provider>
                                                         </PaginationCounterContext.Provider>
                                                       </DestinationKeyVaultContext.Provider>
                                                     </OriginKeyVaultContext.Provider>

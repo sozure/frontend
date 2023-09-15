@@ -9,7 +9,7 @@ import {
   ValueRegexContext,
   VGRegexContext,
   NewKeyContext,
-  NewValueContext
+  NewValueContext,
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -21,6 +21,7 @@ import KeyVaultDeleteForm from "./KeyVault/KeyVaultDeleteForm";
 import AuthorizeForm from "./Authorize/AuthorizeForm";
 import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
+import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -31,7 +32,7 @@ function Form() {
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
-  
+
   useEffect(() => {
     setKeyRegex("");
     setValueRegex("");
@@ -49,30 +50,33 @@ function Form() {
 
   return (
     <div>
-      
-    <MainSelects/>
-      
+      <MainSelects />
+
       {tableType === "KV" ? (
         actionType === "List" ? (
           <KeyVaultGetForm />
         ) : actionType === "Copy" ? (
           <KeyVaultCopyForm />
-        ) : (
+        ) : actionType === "Delete" ? (
           <KeyVaultDeleteForm />
+        ) : (
+          <KeyVaultRecoverForm />
         )
       ) : (
         <AuthorizeForm />
       )}
-      {tableType === "KV" || !vgAuthorized ? (
-        <></>
-      ) : actionType === "List" ? (
-        <VariableGroupGetForm />
-      ) : actionType === "Add" ? (
-        <VariableGroupAddForm />
-      ) : actionType === "Delete" ? (
-        <VariableGroupDeleteForm />
+      {tableType === "VG" && vgAuthorized ? (
+        actionType === "List" ? (
+          <VariableGroupGetForm />
+        ) : actionType === "Add" ? (
+          <VariableGroupAddForm />
+        ) : actionType === "Delete" ? (
+          <VariableGroupDeleteForm />
+        ) : (
+          <VariableGroupUpdateForm />
+        )
       ) : (
-        <VariableGroupUpdateForm />
+        <></>
       )}
     </div>
   );

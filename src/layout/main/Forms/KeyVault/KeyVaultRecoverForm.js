@@ -1,20 +1,18 @@
 import React, { useContext } from "react";
-import "../../../../CSS/style.css";
-import { sendListSecretRequest } from "../../../../services/SecretService";
-
+import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 import {
-  KeyVaultNameContext,
-  SecretRegexContext,
-  SecretContext,
-  LoadingContext,
-  TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  OnDeleteContext
+  KeyVaultNameContext,
+  LoadingContext,
+  OnRecoverContext,
+  SecretContext,
+  SecretRegexContext,
+  TenantIdContext,
 } from "../../../../contexts/Contexts";
-import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
+import { sendListSecretRequest } from "../../../../services/SecretService";
 
-const KeyVaultDeleteForm = () => {
+const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { setSecrets } = useContext(SecretContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
@@ -22,9 +20,15 @@ const KeyVaultDeleteForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
-  const { setOnDelete } = useContext(OnDeleteContext);
+  const { setOnRecover } = useContext(OnRecoverContext);
 
-  const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
+  const mandatoryFields = [
+    tenantId,
+    clientId,
+    clientSecret,
+    keyVaultName,
+    secretRegex,
+  ];
 
   const send = () => {
     let incorrectFill = false;
@@ -35,7 +39,6 @@ const KeyVaultDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      
       let body = {
         tenantId: tenantId,
         clientId: clientId,
@@ -44,14 +47,12 @@ const KeyVaultDeleteForm = () => {
         secretRegex: secretRegex,
       };
 
-      sendListSecretRequest(body, setSecrets, setLoading, false);
-      setOnDelete(true);
+      sendListSecretRequest(body, setSecrets, setLoading, true);
+      setOnRecover(true);
     }
   };
 
-  return (
-    <KeyVaultBaseOperationForm send={send}/>
-  );
+  return <KeyVaultBaseOperationForm send={send} />;
 };
 
-export default KeyVaultDeleteForm;
+export default KeyVaultRecoverForm;
