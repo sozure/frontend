@@ -1,7 +1,10 @@
 import "../../../../CSS/style.css";
 import React, { useContext } from "react";
 
-import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
+import {
+  PaginationCounterContext,
+  VariableGroupsContext,
+} from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 
 function OtherVGTable() {
@@ -31,7 +34,9 @@ function OtherVGTable() {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
+                  let isSecretVariableGroup = variableGroup.secretVariableGroup;
                   let project = variableGroup.project;
+                  let keyVaultName = variableGroup.keyVaultName;
                   return (
                     <tr key={Math.random()}>
                       <td key={Math.random()}>
@@ -39,36 +44,28 @@ function OtherVGTable() {
                           ? `${project.slice(0, 11)}...`
                           : project}
                       </td>
-                      <td key={Math.random()}>{variableGroupName}</td>
+
+                      {isSecretVariableGroup ? (
+                        <td key={Math.random()}>{`${variableGroupName} (${keyVaultName})`}</td>
+                      ) : (
+                        <td key={Math.random()}>{variableGroupName}</td>
+                      )}
+
                       <td key={Math.random()}>
                         {variableGroup.variableGroupKey}
                       </td>
+
                       <td key={Math.random()}>
-                        <span
-                          className={
-                            variableGroupName
-                              .toLowerCase()
-                              .includes("secrets") |
-                            variableGroup.variableGroupKey
-                              .toLowerCase()
-                              .includes("serilog")
-                              ? "error"
-                              : ""
-                          }
-                        >
-                          {variableGroupName
-                            .toLowerCase()
-                            .includes("secrets") ? (
+                        <span className={isSecretVariableGroup ? "error" : ""}>
+                          {isSecretVariableGroup ? (
                             "Secret variable, can't show it's value."
-                          ) : variableGroup.variableGroupKey
-                              .toLowerCase()
-                              .includes("serilog") ? (
+                          ) : variableGroup.variableGroupValue.length > 60 ? (
                             <button
                               onClick={() =>
                                 alert(variableGroup.variableGroupValue)
                               }
                             >
-                              Show Serilog value
+                              Show long variable value
                             </button>
                           ) : (
                             variableGroup.variableGroupValue
