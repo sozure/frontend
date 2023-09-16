@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
-import { ValueRegexContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, ValueRegexContext } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
 
 import {
@@ -27,6 +27,7 @@ const VariableGroupGetForm = () => {
   const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const [secretIncluded, setSecretIncluded] = useState(false);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
@@ -68,6 +69,7 @@ const VariableGroupGetForm = () => {
         setVariableGroups,
         projectName === "All"
       );
+      setPaginationCounter(0);
     }
   };
 
