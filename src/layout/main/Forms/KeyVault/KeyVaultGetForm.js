@@ -11,6 +11,7 @@ import {
   ClientIdContext,
   ClientSecretContext,
   GetDeletedSecretsContext,
+  PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
 const KeyVaultGetForm = () => {
@@ -22,6 +23,7 @@ const KeyVaultGetForm = () => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { deleted, setDeleted } = useContext(GetDeletedSecretsContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [
     tenantId,
@@ -50,6 +52,7 @@ const KeyVaultGetForm = () => {
       };
 
       sendListSecretRequest(message, setSecrets, setLoading, deleted);
+      setPaginationCounter(0);
     }
   };
 

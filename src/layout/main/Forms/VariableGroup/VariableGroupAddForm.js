@@ -11,7 +11,8 @@ import {
   VariableGroupsContext,
   OnAddContext,
   NewKeyContext,
-  NewValueContext
+  NewValueContext,
+  PaginationCounterContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -27,6 +28,7 @@ const VariableGroupAddForm = () => {
   const { message, setMessage } = useContext(MessageContext);
   const {newKey, setNewKey} = useContext(NewKeyContext);
   const {newValue, setNewValue} = useContext(NewValueContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
 
@@ -61,6 +63,7 @@ const VariableGroupAddForm = () => {
     });
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups, projectName === "All");
+      setPaginationCounter(0);
       setOnAdd(true);
     }
   };
