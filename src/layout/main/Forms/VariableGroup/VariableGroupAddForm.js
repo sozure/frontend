@@ -26,8 +26,8 @@ const VariableGroupAddForm = () => {
   const { vgRegex } = useContext(VGRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
-  const {newKey, setNewKey} = useContext(NewKeyContext);
-  const {newValue, setNewValue} = useContext(NewValueContext);
+  const { newKey, setNewKey } = useContext(NewKeyContext);
+  const { newValue, setNewValue } = useContext(NewValueContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];

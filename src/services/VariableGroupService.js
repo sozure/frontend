@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError, handleError2, getResponseMessage } from "./CommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
@@ -65,6 +65,21 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     });
 };
 
+const sendRequest2 = async (controllerSegment, body) => {
+  let url = `${variableGroupUrl}/${controllerSegment}`;
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      if (status !== 0) {
+        alert(getResponseMessage(res.data.status));
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
 const sendUpdateRequest = (
   message,
   newValue,
@@ -77,6 +92,18 @@ const sendUpdateRequest = (
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = multipleProjects ? "UpdateFromMultipleProjects": "Update";
   sendRequest(endpoint, body, callbackForOnUpdate, message);
+};
+
+const sendUpdateRequest2 = (
+  message,
+  newValue,
+  valueRegex,
+) => {
+  let body = buildRequestBody(message);
+  body["newValue"] = newValue;
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  let endpoint = "Update";
+  sendRequest2(endpoint, body);
 };
 
 const sendAddRequest = (
@@ -100,6 +127,13 @@ const sendDeleteRequest = (message, valueRegex, callbackForOnDelete, multiplePro
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = multipleProjects ? "DeleteFromMultipleProjects": "Delete";
   sendRequest(endpoint, body, callbackForOnDelete, message);
+};
+
+const sendDeleteRequest2 = (message, valueRegex) => {
+  let body = buildRequestBody(message);
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  let endpoint = "Delete";
+  sendRequest2(endpoint, body);
 };
 
 const buildUrl = (message, valueRegex, multipleProjects) => {
@@ -138,5 +172,7 @@ export {
   sendListRequest,
   sendAddRequest,
   sendDeleteRequest,
+  sendDeleteRequest2,
   sendUpdateRequest,
+  sendUpdateRequest2
 };
