@@ -7,6 +7,7 @@ import {
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import OtherVGTableRow from "./OtherVGTableRow";
+import TableHeader from "./TableHeader";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);
@@ -32,13 +33,7 @@ function OtherVGTable() {
           <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
           <table>
             <thead>
-              <tr>
-                <th>Project</th>
-                <th>Variable group name</th>
-                <th>Variable Key</th>
-                <th>Variable value</th>
-                <th>Operations</th>
-              </tr>
+            <TableHeader columnList={["Project", "Variable group name", "Variable key", "Variable value", "Operations"]}/>
             </thead>
 
             <tbody>

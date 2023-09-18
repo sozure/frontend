@@ -36,7 +36,7 @@ const OtherVGTableRow = ({
         {onSingleModification.modification &&
         onSingleModification.operation === "update" &&
         onSingleModification.row === index ? (
-          <OtherVGTableRowInput inputKey={inputKey} />
+          <OtherVGTableRowInput inputKey={inputKey} variableValue={variableGroupValue} />
         ) : (
           <span className={isSecretVariableGroup ? "error" : ""}>
             {isSecretVariableGroup ? (
