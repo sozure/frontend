@@ -35,6 +35,19 @@ const sendDeleteSecretRequest = (
     });
 };
 
+const sendDeleteSecretRequest2 = (body) => {
+  let url = `${secretUrl}/delete`;
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      alert(getResponseMessage(status));
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
 const sendListSecretRequest = (
   body,
   callbackForDataSaving,
@@ -110,4 +123,24 @@ const sendRecoverSecretRequest = (
     });
 };
 
-export { sendDeleteSecretRequest, sendListSecretRequest, sendCopyRequest, sendRecoverSecretRequest };
+const sendRecoverSecretRequest2 = (body) => {
+  let url = `${secretUrl}/recover`;
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      alert(getResponseMessage(status));
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
+export {
+  sendDeleteSecretRequest,
+  sendDeleteSecretRequest2,
+  sendListSecretRequest,
+  sendCopyRequest,
+  sendRecoverSecretRequest,
+  sendRecoverSecretRequest2,
+};
