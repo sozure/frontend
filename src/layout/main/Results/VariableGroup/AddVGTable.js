@@ -48,7 +48,7 @@ const AddVGTable = () => {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   return (
-                    <AddVGTableRow variableGroup={variableGroup}/>
+                    <AddVGTableRow key={Math.random()} variableGroup={variableGroup}/>
                   );
                 })}
             </tbody>

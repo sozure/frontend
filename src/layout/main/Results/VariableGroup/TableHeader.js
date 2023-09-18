@@ -4,7 +4,7 @@ const TableHeader = ({ columnList }) => {
   return (
     <tr>
       {columnList.map((column) => {
-        return <th>{column}</th>;
+        return <th key={Math.random()}>{column}</th>;
       })}
     </tr>
   );
