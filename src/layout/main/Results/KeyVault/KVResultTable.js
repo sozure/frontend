@@ -6,6 +6,7 @@ import {
   SecretContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
+import TableHeader from "../TableHeader";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
@@ -21,11 +22,7 @@ function KVResultTable() {
           <h2>Matched secrets (Found secrets: {secrets.length}).</h2>
           <table>
             <thead>
-              <tr>
-                <th>Key vault</th>
-                <th>Secret name</th>
-                <th>Secret value</th>
-              </tr>
+              <TableHeader columnList={["Key vault", "Secret name", "Secret value"]}/>
             </thead>
             <tbody>
               {secrets

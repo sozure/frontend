@@ -7,7 +7,7 @@ import {
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import OtherVGTableRow from "./OtherVGTableRow";
-import TableHeader from "./TableHeader";
+import TableHeader from "../TableHeader";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);

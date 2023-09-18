@@ -3,7 +3,7 @@ import PaginationButtons from "../PaginationButtons";
 
 import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
 import AddVGTableRow from "./AddVGTableRow";
-import TableHeader from "./TableHeader";
+import TableHeader from "../TableHeader";
 
 const AddVGTable = () => {
   const { variableGroups } = useContext(VariableGroupsContext);
