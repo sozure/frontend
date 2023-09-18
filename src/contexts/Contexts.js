@@ -28,5 +28,4 @@ export const ClientSecretContext = createContext();
 export const OriginKeyVaultContext = createContext();
 export const DestinationKeyVaultContext = createContext();
 export const PaginationCounterContext = createContext();
-export const GetDeletedSecretsContext = createContext();
 export const SingleModificationContext = createContext();

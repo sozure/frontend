@@ -9,7 +9,7 @@ import {
   ValueRegexContext,
   VGRegexContext,
   NewKeyContext,
-  NewValueContext,
+  NewValueContext
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -32,7 +32,7 @@ function Form() {
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
-
+  
   useEffect(() => {
     setKeyRegex("");
     setValueRegex("");

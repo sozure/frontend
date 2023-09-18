@@ -31,7 +31,6 @@ import {
   OriginKeyVaultContext,
   DestinationKeyVaultContext,
   PaginationCounterContext,
-  GetDeletedSecretsContext,
   OnRecoverContext,
   SingleModificationContext,
 } from "./contexts/Contexts";
@@ -65,7 +64,7 @@ function App() {
   const [originKeyVault, setOriginKeyVault] = useState("");
   const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
-  const [deleted, setDeleted] = useState(false);
+
   const [onSingleModification, setOnSingleModification] = useState({
     row: 0,
     operation: "",
@@ -162,43 +161,36 @@ function App() {
                                                             setPaginationCounter,
                                                           }}
                                                         >
-                                                          <GetDeletedSecretsContext.Provider
+                                                          <OnRecoverContext.Provider
                                                             value={{
-                                                              deleted,
-                                                              setDeleted,
+                                                              onRecover,
+                                                              setOnRecover,
                                                             }}
                                                           >
-                                                            <OnRecoverContext.Provider
+                                                            <SingleModificationContext.Provider
                                                               value={{
-                                                                onRecover,
-                                                                setOnRecover,
+                                                                onSingleModification,
+                                                                setOnSingleModification,
                                                               }}
                                                             >
-                                                              <SingleModificationContext.Provider
-                                                                value={{
-                                                                  onSingleModification,
-                                                                  setOnSingleModification,
-                                                                }}
-                                                              >
-                                                                <BrowserRouter>
-                                                                  <Routes>
-                                                                    <Route
-                                                                      path="/"
-                                                                      element={
-                                                                        <Main />
-                                                                      }
-                                                                    />
-                                                                    <Route
-                                                                      path="/last-change"
-                                                                      element={
-                                                                        <LastChange />
-                                                                      }
-                                                                    />
-                                                                  </Routes>
-                                                                </BrowserRouter>
-                                                              </SingleModificationContext.Provider>
-                                                            </OnRecoverContext.Provider>
-                                                          </GetDeletedSecretsContext.Provider>
+                                                              <BrowserRouter>
+                                                                <Routes>
+                                                                  <Route
+                                                                    path="/"
+                                                                    element={
+                                                                      <Main />
+                                                                    }
+                                                                  />
+                                                                  <Route
+                                                                    path="/last-change"
+                                                                    element={
+                                                                      <LastChange />
+                                                                    }
+                                                                  />
+                                                                </Routes>
+                                                              </BrowserRouter>
+                                                            </SingleModificationContext.Provider>
+                                                          </OnRecoverContext.Provider>
                                                         </PaginationCounterContext.Provider>
                                                       </DestinationKeyVaultContext.Provider>
                                                     </OriginKeyVaultContext.Provider>

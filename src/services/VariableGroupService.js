@@ -10,6 +10,7 @@ const buildRequestBody = (message) => {
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
   let secretIncluded = message["secretIncluded"];
+  
   return {
     organization: organizationName,
     project: projectName,
@@ -55,9 +56,8 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
       callback(false);
       if (status === 0) {
         callbackForDataSaving(variableGroups);
-      } else {
-        alert(getResponseMessage(res.data.status));
       }
+      alert(getResponseMessage(res.data.status));
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
@@ -70,10 +70,7 @@ const sendRequest2 = async (controllerSegment, body) => {
   axios
     .post(url, body)
     .then((res) => {
-      let status = res.data.status;
-      if (status !== 0) {
-        alert(getResponseMessage(res.data.status));
-      }
+      alert(getResponseMessage(res.data.status));
     })
     .catch((err) => {
       handleError2(err);

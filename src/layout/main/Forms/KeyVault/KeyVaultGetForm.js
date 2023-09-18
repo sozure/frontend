@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { sendListSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 
@@ -10,7 +10,6 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  GetDeletedSecretsContext,
   PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
@@ -21,7 +20,7 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
-  const { deleted, setDeleted } = useContext(GetDeletedSecretsContext);
+  const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
