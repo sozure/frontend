@@ -1,12 +1,18 @@
 import React, { useContext } from "react";
 import {
+  AiFillEdit,
+  AiFillDelete,
+  AiOutlineCheck,
+  AiOutlineClose,
+} from "react-icons/ai";
+import {
   sendDeleteRequest2,
   sendUpdateRequest2,
 } from "../../../../services/VariableGroupService";
 import {
   OrganizationContext,
   PATContext,
-  SingleModificationContext
+  SingleModificationContext,
 } from "../../../../contexts/Contexts";
 
 const OtherVGTableRowButtons = ({
@@ -14,7 +20,7 @@ const OtherVGTableRowButtons = ({
   variableGroup,
   isSecretVariableGroup,
   index,
-  inputKey
+  inputKey,
 }) => {
   const { pat } = useContext(PATContext);
   const { onSingleModification, setOnSingleModification } = useContext(
@@ -91,12 +97,17 @@ const OtherVGTableRowButtons = ({
               onSingleModification.row === index ? (
                 <>
                   <button onClick={() => sendUpdate(variableGroup)}>
-                    Save changes
+                    <AiOutlineCheck />
                   </button>
-                  <button onClick={() => cancelUpdate()}>Cancel</button>
+
+                  <button onClick={() => cancelUpdate()}>
+                    <AiOutlineClose />
+                  </button>
                 </>
               ) : (
-                <button onClick={() => startUpdate(index)}>Update</button>
+                <button onClick={() => startUpdate(index)}>
+                  <AiFillEdit />
+                </button>
               )}
             </>
           )}
@@ -110,12 +121,16 @@ const OtherVGTableRowButtons = ({
               onSingleModification.row === index ? (
                 <>
                   <button onClick={() => sendDelete(variableGroup, index)}>
-                    Approve deletion
+                    <AiOutlineCheck />
                   </button>
-                  <button onClick={() => cancelDelete()}>Cancel</button>
+                  <button onClick={() => cancelDelete()}>
+                    <AiOutlineClose />
+                  </button>
                 </>
               ) : (
-                <button onClick={() => startDelete(index)}>Delete</button>
+                <button onClick={() => startDelete(index)}>
+                  <AiFillDelete />
+                </button>
               )}
             </>
           )}
