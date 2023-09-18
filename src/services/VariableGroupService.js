@@ -1,5 +1,10 @@
 import axios from "axios";
-import { getBaseUrl, handleError, handleError2, getResponseMessage } from "./CommonService";
+import {
+  getBaseUrl,
+  handleError,
+  handleError2,
+  getResponseMessage,
+} from "./CommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
@@ -10,7 +15,7 @@ const buildRequestBody = (message) => {
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
   let secretIncluded = message["secretIncluded"];
-  
+
   return {
     organization: organizationName,
     project: projectName,
@@ -21,7 +26,12 @@ const buildRequestBody = (message) => {
   };
 };
 
-const sendListRequest = (message, valueRegex, callbackForDataSaving, multipleProjects) => {
+const sendListRequest = (
+  message,
+  valueRegex,
+  callbackForDataSaving,
+  multipleProjects
+) => {
   let callbackForLoading = message["setLoading"];
   let url = buildUrl(message, valueRegex, multipleProjects);
   callbackForLoading(true);
@@ -42,7 +52,7 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving, multiplePro
     });
 };
 
-const sendRequest = async (controllerSegment, body, callback, message) => {
+const sendRequest = (controllerSegment, body, callback, message) => {
   let callbackForLoading = message["setLoading"];
   let callbackForDataSaving = message["setVariableGroups"];
   callbackForLoading(true);
@@ -65,15 +75,29 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     });
 };
 
-const sendRequest2 = async (controllerSegment, body) => {
+const sendRequest2 = (
+  controllerSegment,
+  body,
+  setSingleOperation,
+  row
+) => {
   let url = `${variableGroupUrl}/${controllerSegment}`;
   axios
     .post(url, body)
     .then((res) => {
-      alert(getResponseMessage(res.data.status));
+      let status = res.data.status;
+      let message = getResponseMessage(status);
+      let result = {
+        row: row,
+        modificationHappened: true,
+        success: status === 0,
+        response: message,
+      };
+      setSingleOperation(result);
     })
     .catch((err) => {
       handleError2(err);
+      setSingleOperation({ row: row, modificationHappened: true, success: false, response: err });
     });
 };
 
@@ -87,7 +111,7 @@ const sendUpdateRequest = (
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "UpdateFromMultipleProjects": "Update";
+  let endpoint = multipleProjects ? "UpdateFromMultipleProjects" : "Update";
   sendRequest(endpoint, body, callbackForOnUpdate, message);
 };
 
@@ -95,12 +119,14 @@ const sendUpdateRequest2 = (
   message,
   newValue,
   valueRegex,
+  setSingleOperation,
+  row
 ) => {
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Update";
-  sendRequest2(endpoint, body);
+  sendRequest2(endpoint, body, setSingleOperation, row);
 };
 
 const sendAddRequest = (
@@ -115,22 +141,32 @@ const sendAddRequest = (
   body["key"] = newKey;
   body["value"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "AddFromMultipleProjects": "Add";
+  let endpoint = multipleProjects ? "AddFromMultipleProjects" : "Add";
   sendRequest(endpoint, body, callbackForOnAdd, message);
 };
 
-const sendDeleteRequest = (message, valueRegex, callbackForOnDelete, multipleProjects) => {
+const sendDeleteRequest = (
+  message,
+  valueRegex,
+  callbackForOnDelete,
+  multipleProjects
+) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  let endpoint = multipleProjects ? "DeleteFromMultipleProjects": "Delete";
+  let endpoint = multipleProjects ? "DeleteFromMultipleProjects" : "Delete";
   sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
-const sendDeleteRequest2 = (message, valueRegex) => {
+const sendDeleteRequest2 = (
+  message,
+  valueRegex,
+  setSingleOperation,
+  row
+) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Delete";
-  sendRequest2(endpoint, body);
+  sendRequest2(endpoint, body, setSingleOperation, row);
 };
 
 const buildUrl = (message, valueRegex, multipleProjects) => {
@@ -141,24 +177,9 @@ const buildUrl = (message, valueRegex, multipleProjects) => {
   let keyRegex = message["keyRegex"];
   let organizationName = message["organizationName"];
 
-  let result =
-  `${
-    variableGroupUrl
-  }${
-    multipleProjects? "/GetFromMultipleProjects": ""
-  }?Organization=${
-    organizationName
-  }&Project=${
-    projectName
-  }&PAT=${
-    pat
-  }&VariableGroupFilter=${
-    vgRegex
-  }&KeyFilter=${
-    keyRegex
-  }&ContainsSecrets=${
-    secretIncluded
-  }${
+  let result = `${variableGroupUrl}${
+    multipleProjects ? "/GetFromMultipleProjects" : ""
+  }?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}&ContainsSecrets=${secretIncluded}${
     valueRegex !== "" ? "&ValueFilter=" + valueRegex : ""
   }`;
 
@@ -171,5 +192,5 @@ export {
   sendDeleteRequest,
   sendDeleteRequest2,
   sendUpdateRequest,
-  sendUpdateRequest2
+  sendUpdateRequest2,
 };

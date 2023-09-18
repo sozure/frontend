@@ -33,6 +33,7 @@ import {
   PaginationCounterContext,
   OnRecoverContext,
   SingleModificationContext,
+  SingleOperationContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -69,6 +70,13 @@ function App() {
     row: 0,
     operation: "",
     modification: false,
+  });
+
+  const [singleOperation, setSingleOperation] = useState({
+    row: 0,
+    modificationHappened: false,
+    success: false,
+    response: "",
   });
 
   return (
@@ -173,22 +181,29 @@ function App() {
                                                                 setOnSingleModification,
                                                               }}
                                                             >
-                                                              <BrowserRouter>
-                                                                <Routes>
-                                                                  <Route
-                                                                    path="/"
-                                                                    element={
-                                                                      <Main />
-                                                                    }
-                                                                  />
-                                                                  <Route
-                                                                    path="/last-change"
-                                                                    element={
-                                                                      <LastChange />
-                                                                    }
-                                                                  />
-                                                                </Routes>
-                                                              </BrowserRouter>
+                                                              <SingleOperationContext.Provider
+                                                                value={{
+                                                                  singleOperation,
+                                                                  setSingleOperation,
+                                                                }}
+                                                              >
+                                                                <BrowserRouter>
+                                                                  <Routes>
+                                                                    <Route
+                                                                      path="/"
+                                                                      element={
+                                                                        <Main />
+                                                                      }
+                                                                    />
+                                                                    <Route
+                                                                      path="/last-change"
+                                                                      element={
+                                                                        <LastChange />
+                                                                      }
+                                                                    />
+                                                                  </Routes>
+                                                                </BrowserRouter>
+                                                              </SingleOperationContext.Provider>
                                                             </SingleModificationContext.Provider>
                                                           </OnRecoverContext.Provider>
                                                         </PaginationCounterContext.Provider>

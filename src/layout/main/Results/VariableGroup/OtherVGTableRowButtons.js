@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AiFillEdit,
   AiFillDelete,
   AiOutlineCheck,
   AiOutlineClose,
+  AiOutlineTrophy,
+  AiOutlineStop,
 } from "react-icons/ai";
 import {
   sendDeleteRequest2,
@@ -13,6 +15,7 @@ import {
   OrganizationContext,
   PATContext,
   SingleModificationContext,
+  SingleOperationContext,
 } from "../../../../contexts/Contexts";
 
 const OtherVGTableRowButtons = ({
@@ -28,6 +31,23 @@ const OtherVGTableRowButtons = ({
   );
   const { organizationName } = useContext(OrganizationContext);
 
+  const { singleOperation, setSingleOperation } = useContext(
+    SingleOperationContext
+  );
+
+  useEffect(() => {
+    if (singleOperation.modificationHappened) {
+      const timeOut = setTimeout(() =>
+        setSingleOperation(
+          { modificationHappened: false, success: false, response: "" },
+          5000
+        )
+      );
+      clearTimeout(timeOut);
+    }
+    console.log(singleOperation);
+  }, [singleOperation, setSingleOperation]);
+
   const sendUpdate = (variableGroup) => {
     let message = {
       projectName: variableGroup.project,
@@ -38,7 +58,15 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     let value = document.getElementById(`single_update${inputKey}`).value;
-    sendUpdateRequest2(message, value, variableGroup.variableGroupValue);
+
+    sendUpdateRequest2(
+      message,
+      value,
+      variableGroup.variableGroupValue,
+      setSingleOperation,
+      index
+    );
+    
     variableGroup.variableGroupValue = value;
     setOnSingleModificationBack();
   };
@@ -53,7 +81,6 @@ const OtherVGTableRowButtons = ({
   };
 
   const sendDelete = (variableGroup, index) => {
-    console.log("Send deletion!");
     let message = {
       projectName: variableGroup.project,
       pat: pat,
@@ -62,7 +89,11 @@ const OtherVGTableRowButtons = ({
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
     };
-    sendDeleteRequest2(message, variableGroup.variableGroupValue);
+    sendDeleteRequest2(
+      message,
+      variableGroup.variableGroupValue,
+      setSingleOperation
+    );
     variableGroups.splice(index, 1);
     setOnSingleModificationBack();
   };
@@ -135,6 +166,23 @@ const OtherVGTableRowButtons = ({
             </>
           )}
         </div>
+      )}
+      {singleOperation.modificationHappened ? (
+        <div>
+          {singleOperation.success ? (
+            <>
+              <span>Success </span>
+              <AiOutlineTrophy />
+            </>
+          ) : (
+            <>
+              <span>{singleOperation.response} </span>
+              <AiOutlineStop />
+            </>
+          )}
+        </div>
+      ) : (
+        <></>
       )}
     </td>
   );
