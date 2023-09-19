@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AiFillEdit,
   AiFillDelete,
@@ -29,24 +29,11 @@ const OtherVGTableRowButtons = ({
   const { onSingleModification, setOnSingleModification } = useContext(
     SingleModificationContext
   );
-  const { organizationName } = useContext(OrganizationContext);
 
+  const { organizationName } = useContext(OrganizationContext);
   const { singleOperation, setSingleOperation } = useContext(
     SingleOperationContext
   );
-
-  useEffect(() => {
-    if (singleOperation.modificationHappened) {
-      const timeOut = setTimeout(() =>
-        setSingleOperation(
-          { modificationHappened: false, success: false, response: "" },
-          5000
-        )
-      );
-      clearTimeout(timeOut);
-    }
-    console.log(singleOperation);
-  }, [singleOperation, setSingleOperation]);
 
   const sendUpdate = (variableGroup) => {
     let message = {
@@ -58,7 +45,6 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     let value = document.getElementById(`single_update${inputKey}`).value;
-
     sendUpdateRequest2(
       message,
       value,
@@ -66,13 +52,28 @@ const OtherVGTableRowButtons = ({
       setSingleOperation,
       index
     );
-    
     variableGroup.variableGroupValue = value;
     setOnSingleModificationBack();
+    setTimeout(
+      () =>
+        setSingleOperation({
+          row: 0,
+          modificationHappened: false,
+          success: false,
+          response: "",
+          operation: "",
+          additionalData: "",
+        }),
+      3000
+    );
   };
 
   const startUpdate = (row) => {
-    let model = { row: row, operation: "update", modification: true };
+    let model = {
+      row: row,
+      operation: "update",
+      modification: true,
+    };
     setOnSingleModification(model);
   };
 
@@ -92,14 +93,19 @@ const OtherVGTableRowButtons = ({
     sendDeleteRequest2(
       message,
       variableGroup.variableGroupValue,
-      setSingleOperation
+      setSingleOperation,
+      index
     );
-    variableGroups.splice(index, 1);
+    variableGroups.splice(index, 1)
     setOnSingleModificationBack();
   };
 
   const startDelete = (row) => {
-    let model = { row: row, operation: "deletion", modification: true };
+    let model = {
+      row: row,
+      operation: "deletion",
+      modification: true,
+    };
     setOnSingleModification(model);
   };
 
@@ -167,7 +173,9 @@ const OtherVGTableRowButtons = ({
           )}
         </div>
       )}
-      {singleOperation.modificationHappened ? (
+      {singleOperation.modificationHappened &&
+      singleOperation.row === index &&
+      singleOperation.operation === "Update" ? (
         <div>
           {singleOperation.success ? (
             <>

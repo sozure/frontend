@@ -2,7 +2,6 @@ import axios from "axios";
 import {
   getBaseUrl,
   handleError,
-  handleError2,
   getResponseMessage,
 } from "./CommonService";
 
@@ -75,13 +74,9 @@ const sendRequest = (controllerSegment, body, callback, message) => {
     });
 };
 
-const sendRequest2 = (
-  controllerSegment,
-  body,
-  setSingleOperation,
-  row
-) => {
+const sendRequest2 = (controllerSegment, body, setSingleOperation, row) => {
   let url = `${variableGroupUrl}/${controllerSegment}`;
+  let additionalData = controllerSegment === "Update"? body["newValue"] : body["keyFilter"]
   axios
     .post(url, body)
     .then((res) => {
@@ -92,12 +87,19 @@ const sendRequest2 = (
         modificationHappened: true,
         success: status === 0,
         response: message,
+        operation: controllerSegment,
+        additionalData: additionalData
       };
       setSingleOperation(result);
     })
     .catch((err) => {
-      handleError2(err);
-      setSingleOperation({ row: row, modificationHappened: true, success: false, response: err });
+      setSingleOperation({
+        row: row,
+        modificationHappened: true,
+        success: false,
+        response: err.message,
+        operation: controllerSegment,
+      });
     });
 };
 
@@ -157,12 +159,7 @@ const sendDeleteRequest = (
   sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
-const sendDeleteRequest2 = (
-  message,
-  valueRegex,
-  setSingleOperation,
-  row
-) => {
+const sendDeleteRequest2 = (message, valueRegex, setSingleOperation, row) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Delete";

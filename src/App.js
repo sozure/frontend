@@ -77,6 +77,8 @@ function App() {
     modificationHappened: false,
     success: false,
     response: "",
+    operation: "",
+    additionalData: ""
   });
 
   return (
