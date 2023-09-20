@@ -63,7 +63,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
       let variableGroups = res.data.variableGroups;
       callbackForLoading(false);
       callback(false);
-      if (status === 0) {
+      if (status === 0 || status === 1) {
         callbackForDataSaving(variableGroups);
       }
       alert(getResponseMessage(res.data.status));
@@ -85,7 +85,7 @@ const sendRequest2 = (controllerSegment, body, setSingleOperation, row) => {
       let result = {
         row: row,
         modificationHappened: true,
-        success: status === 0,
+        success: status === 0 || status === 1,
         response: message,
         operation: controllerSegment,
         additionalData: additionalData
