@@ -13,9 +13,12 @@ import {
   NewKeyContext,
   NewValueContext,
   PaginationCounterContext,
+  SingleOperationContext,
+  SingleModificationContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
+import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
 const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -28,7 +31,9 @@ const VariableGroupAddForm = () => {
   const { message, setMessage } = useContext(MessageContext);
   const { newKey, setNewKey } = useContext(NewKeyContext);
   const { newValue, setNewValue } = useContext(NewValueContext);
-  const {setPaginationCounter} = useContext(PaginationCounterContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const {setSingleOperation} = useContext(SingleOperationContext);
+  const { setOnSingleModification } = useContext(SingleModificationContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
 
@@ -64,6 +69,9 @@ const VariableGroupAddForm = () => {
     });
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups, projectName === "All");
+      setPaginationCounter(0);
+      setSingleOperationBack(setSingleOperation);
+      setOnSingleModificationBack(setOnSingleModification);
       setOnAdd(true);
       setPaginationCounter(0);
     }

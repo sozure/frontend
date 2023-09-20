@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { sendListSecretRequest } from "../../../../services/SecretService";
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 
@@ -10,9 +10,11 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  GetDeletedSecretsContext,
   PaginationCounterContext,
+  SingleModificationContext,
+  SingleOperationContext
 } from "../../../../contexts/Contexts";
+import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -21,9 +23,11 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
-  const { deleted, setDeleted } = useContext(GetDeletedSecretsContext);
+  const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
-  const {setPaginationCounter} = useContext(PaginationCounterContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setOnSingleModification } = useContext(SingleModificationContext);
+  const { setSingleOperation } = useContext(SingleOperationContext);
 
   const mandatoryFields = [
     tenantId,
@@ -52,6 +56,8 @@ const KeyVaultGetForm = () => {
       };
 
       sendListSecretRequest(message, setSecrets, setLoading, deleted);
+      setSingleOperationBack(setSingleOperation);
+      setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
     }
   };

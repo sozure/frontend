@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import PaginationButtons from "../PaginationButtons";
 
 import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
+import AddVGTableRow from "./AddVGTableRow";
+import TableHeader from "../TableHeader";
 
 const AddVGTable = () => {
   const { variableGroups } = useContext(VariableGroupsContext);
@@ -38,10 +40,7 @@ const AddVGTable = () => {
           </h2>
           <table>
             <thead>
-              <tr>
-                <th>Project</th>
-                <th>Variable group name</th>
-              </tr>
+              <TableHeader columnList={["Project", "Variable group name"]}/>
             </thead>
 
             <tbody>
@@ -49,12 +48,7 @@ const AddVGTable = () => {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   return (
-                    <tr key={Math.random()}>
-                      <td key={Math.random()}>{variableGroup.project}</td>
-                      <td key={Math.random()}>
-                        {variableGroup.variableGroupName}
-                      </td>
-                    </tr>
+                    <AddVGTableRow key={Math.random()} variableGroup={variableGroup}/>
                   );
                 })}
             </tbody>
