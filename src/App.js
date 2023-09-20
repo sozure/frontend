@@ -2,7 +2,6 @@ import "./CSS/style.css";
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./layout/main/Main";
-import { LastChange } from "./layout/last_changes/LastChange";
 import {
   ActionTypeContext,
   KeyRegexContext,
@@ -195,12 +194,6 @@ function App() {
                                                                       path="/"
                                                                       element={
                                                                         <Main />
-                                                                      }
-                                                                    />
-                                                                    <Route
-                                                                      path="/last-change"
-                                                                      element={
-                                                                        <LastChange />
                                                                       }
                                                                     />
                                                                   </Routes>

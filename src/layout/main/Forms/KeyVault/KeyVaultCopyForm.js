@@ -51,7 +51,6 @@ const KeyVaultCopyForm = () => {
         destinationKeyVault: destinationKeyVault,
         override: override,
       };
-
       sendCopyRequest(body);
     }
   };

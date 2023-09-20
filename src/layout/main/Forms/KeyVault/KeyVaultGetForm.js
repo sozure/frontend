@@ -11,7 +11,10 @@ import {
   ClientIdContext,
   ClientSecretContext,
   PaginationCounterContext,
+  SingleModificationContext,
+  SingleOperationContext,
 } from "../../../../contexts/Contexts";
+import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -23,6 +26,8 @@ const KeyVaultGetForm = () => {
   const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setOnSingleModification } = useContext(SingleModificationContext);
+  const { setSingleOperation } = useContext(SingleOperationContext);
 
   const mandatoryFields = [
     tenantId,
@@ -51,6 +56,8 @@ const KeyVaultGetForm = () => {
       };
 
       sendListSecretRequest(message, setSecrets, setLoading, deleted);
+      setSingleOperationBack(setSingleOperation);
+      setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
     }
   };

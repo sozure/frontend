@@ -28,9 +28,27 @@ const getResponseMessage = (responseCode) => {
     return responseCodes[responseCode];
 }
 
+const setOnSingleModificationBack = (setOnSingleModification) => {
+    let model = { row: 0, operation: "", modification: false };
+    setOnSingleModification(model);
+  };
+
+const setSingleOperationBack = (setSingleOperation) => {
+    setSingleOperation({
+        row: 0,
+        modificationHappened: false,
+        success: false,
+        response: "",
+        operation: "",
+        additionalData: "",
+      });
+}  
+
 export {
     getBaseUrl,
     handleError,
     handleError2,
-    getResponseMessage
+    getResponseMessage,
+    setOnSingleModificationBack,
+    setSingleOperationBack
 }

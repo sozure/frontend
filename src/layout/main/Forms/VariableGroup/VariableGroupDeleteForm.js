@@ -11,10 +11,13 @@ import {
   OnDeleteContext,
   LoadingContext,
   VariableGroupsContext,
-  PaginationCounterContext
+  PaginationCounterContext,
+  SingleOperationContext,
+  SingleModificationContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
+import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
 const VariableGroupDeleteForm = () => {
   const { setOnDelete } = useContext(OnDeleteContext);
@@ -27,7 +30,9 @@ const VariableGroupDeleteForm = () => {
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  
+  const {setSingleOperation} = useContext(SingleOperationContext);
+  const { setOnSingleModification } = useContext(SingleModificationContext);
+
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
   useEffect(() => {
@@ -54,6 +59,8 @@ const VariableGroupDeleteForm = () => {
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups, projectName === "All");
       setPaginationCounter(0);
+      setSingleOperationBack(setSingleOperation);
+      setOnSingleModificationBack(setOnSingleModification);
       setOnDelete(true);
     }
   };
