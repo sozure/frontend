@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-  getBaseUrl,
-  handleError,
-  getResponseMessage,
-} from "./CommonService";
+import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
@@ -74,9 +70,15 @@ const sendRequest = (controllerSegment, body, callback, message) => {
     });
 };
 
-const sendRequest2 = (controllerSegment, body, setSingleOperation, row) => {
+const sendRequest2 = (
+  controllerSegment,
+  body,
+  setSingleOperation,
+  row,
+  variableGroups,
+  setVariableGroups
+) => {
   let url = `${variableGroupUrl}/${controllerSegment}`;
-  let additionalData = controllerSegment === "Update"? body["newValue"] : body["keyFilter"]
   axios
     .post(url, body)
     .then((res) => {
@@ -87,10 +89,16 @@ const sendRequest2 = (controllerSegment, body, setSingleOperation, row) => {
         modificationHappened: true,
         success: status === 0 || status === 1,
         response: message,
-        operation: controllerSegment,
-        additionalData: additionalData
+        operation: controllerSegment
       };
       setSingleOperation(result);
+      if (controllerSegment === "Delete") {
+        variableGroups.splice(row, 1);
+      } else {
+        let variableGroup = variableGroups[row];
+        variableGroup.variableGroupValue = body["newValue"];
+      }
+      setVariableGroups(variableGroups);
     })
     .catch((err) => {
       setSingleOperation({
@@ -122,13 +130,22 @@ const sendUpdateRequest2 = (
   newValue,
   valueRegex,
   setSingleOperation,
-  row
+  row,
+  variableGroups,
+  setVariableGroups
 ) => {
   let body = buildRequestBody(message);
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Update";
-  sendRequest2(endpoint, body, setSingleOperation, row);
+  sendRequest2(
+    endpoint,
+    body,
+    setSingleOperation,
+    row,
+    variableGroups,
+    setVariableGroups
+  );
 };
 
 const sendAddRequest = (
@@ -159,11 +176,25 @@ const sendDeleteRequest = (
   sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
-const sendDeleteRequest2 = (message, valueRegex, setSingleOperation, row) => {
+const sendDeleteRequest2 = (
+  message,
+  valueRegex,
+  setSingleOperation,
+  row,
+  variableGroups,
+  setVariableGroups
+) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Delete";
-  sendRequest2(endpoint, body, setSingleOperation, row);
+  sendRequest2(
+    endpoint,
+    body,
+    setSingleOperation,
+    row,
+    variableGroups,
+    setVariableGroups
+  );
 };
 
 const buildUrl = (message, valueRegex, multipleProjects) => {

@@ -6,7 +6,6 @@ import OtherVGTableRowInput from "./OtherVGTableRowInput";
 import OtherVGTableRowButtons from "./OtherVGTableRowButtons";
 
 const OtherVGTableRow = ({
-  variableGroups,
   variableGroup,
   variableGroupName,
   variableGroupValue,
@@ -52,7 +51,6 @@ const OtherVGTableRow = ({
         )}
       </td>
       <OtherVGTableRowButtons
-        variableGroups={variableGroups}
         variableGroup={variableGroup}
         isSecretVariableGroup={isSecretVariableGroup}
         index={index}

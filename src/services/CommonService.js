@@ -40,7 +40,6 @@ const setSingleOperationBack = (setSingleOperation) => {
         success: false,
         response: "",
         operation: "",
-        additionalData: "",
       });
 }  
 

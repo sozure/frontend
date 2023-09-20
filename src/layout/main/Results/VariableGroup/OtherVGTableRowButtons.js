@@ -16,10 +16,14 @@ import {
   PATContext,
   SingleModificationContext,
   SingleOperationContext,
+  VariableGroupsContext,
 } from "../../../../contexts/Contexts";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
 
 const OtherVGTableRowButtons = ({
-  variableGroups,
   variableGroup,
   isSecretVariableGroup,
   index,
@@ -28,6 +32,10 @@ const OtherVGTableRowButtons = ({
   const { pat } = useContext(PATContext);
   const { onSingleModification, setOnSingleModification } = useContext(
     SingleModificationContext
+  );
+
+  const { variableGroups, setVariableGroups } = useContext(
+    VariableGroupsContext
   );
 
   const { organizationName } = useContext(OrganizationContext);
@@ -50,22 +58,13 @@ const OtherVGTableRowButtons = ({
       value,
       variableGroup.variableGroupValue,
       setSingleOperation,
-      index
+      index,
+      variableGroups,
+      setVariableGroups
     );
-    variableGroup.variableGroupValue = value;
-    setOnSingleModificationBack();
-    setTimeout(
-      () =>
-        setSingleOperation({
-          row: 0,
-          modificationHappened: false,
-          success: false,
-          response: "",
-          operation: "",
-          additionalData: "",
-        }),
-      3000
-    );
+    
+    setOnSingleModificationBack(setOnSingleModification);
+    setTimeout(() => setSingleOperationBack(setSingleOperation), 3000);
   };
 
   const startUpdate = (row) => {
@@ -78,7 +77,7 @@ const OtherVGTableRowButtons = ({
   };
 
   const cancelUpdate = () => {
-    setOnSingleModificationBack();
+    setOnSingleModificationBack(setOnSingleModification);
   };
 
   const sendDelete = (variableGroup, index) => {
@@ -94,10 +93,11 @@ const OtherVGTableRowButtons = ({
       message,
       variableGroup.variableGroupValue,
       setSingleOperation,
-      index
+      index,
+      variableGroups,
+      setVariableGroups
     );
-    variableGroups.splice(index, 1)
-    setOnSingleModificationBack();
+    setOnSingleModificationBack(setOnSingleModification);
   };
 
   const startDelete = (row) => {
@@ -110,12 +110,7 @@ const OtherVGTableRowButtons = ({
   };
 
   const cancelDelete = () => {
-    setOnSingleModificationBack();
-  };
-
-  const setOnSingleModificationBack = () => {
-    let model = { row: 0, operation: "", modification: false };
-    setOnSingleModification(model);
+    setOnSingleModificationBack(setOnSingleModification);
   };
 
   return (

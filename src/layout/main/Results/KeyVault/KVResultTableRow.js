@@ -15,8 +15,15 @@ import {
   sendDeleteSecretRequest2,
   sendRecoverSecretRequest2,
 } from "../../../../services/SecretService";
+import { setOnSingleModificationBack } from "../../../../services/CommonService";
 
-const KVResultTableRow = ({ secrets, keyVault, secretName, secretValue, index }) => {
+const KVResultTableRow = ({
+  secrets,
+  keyVault,
+  secretName,
+  secretValue,
+  index,
+}) => {
   const { onSingleModification, setOnSingleModification } = useContext(
     SingleModificationContext
   );
@@ -34,7 +41,7 @@ const KVResultTableRow = ({ secrets, keyVault, secretName, secretValue, index })
     };
 
     sendRecoverSecretRequest2(body);
-    setOnSingleModificationBack();
+    setOnSingleModificationBack(setOnSingleModification);
     secrets.splice(index, 1);
   };
 
@@ -44,7 +51,7 @@ const KVResultTableRow = ({ secrets, keyVault, secretName, secretValue, index })
   };
 
   const cancelRecover = () => {
-    setOnSingleModificationBack();
+    setOnSingleModificationBack(setOnSingleModification);
   };
 
   const sendDelete = () => {
@@ -55,9 +62,9 @@ const KVResultTableRow = ({ secrets, keyVault, secretName, secretValue, index })
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-    
+
     sendDeleteSecretRequest2(body);
-    setOnSingleModificationBack();
+    setOnSingleModificationBack(setOnSingleModification);
     secrets.splice(index, 1);
   };
 
@@ -67,12 +74,7 @@ const KVResultTableRow = ({ secrets, keyVault, secretName, secretValue, index })
   };
 
   const cancelDelete = () => {
-    setOnSingleModificationBack();
-  };
-
-  const setOnSingleModificationBack = () => {
-    let model = { row: 0, operation: "", modification: false };
-    setOnSingleModification(model);
+    setOnSingleModificationBack(setOnSingleModification);
   };
 
   return (

@@ -52,7 +52,6 @@ function OtherVGTable() {
                   return (
                     <OtherVGTableRow
                       key={Math.random()}
-                      variableGroups={variableGroups}
                       variableGroup={variableGroup}
                       variableGroupName={variableGroupName}
                       variableGroupValue={variableGroupValue}
