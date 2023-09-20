@@ -49,11 +49,12 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
   axios
     .post(url, body)
     .then((res) => {
+      debugger;
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       callbackForLoading(false);
       callback(false);
-      if (status === 0) {
+      if (status === 0 || status === 1) {
         callbackForDataSaving(variableGroups);
       } else {
         alert(getResponseMessage(res.data.status));
