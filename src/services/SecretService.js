@@ -14,38 +14,25 @@ const sendDeleteSecretRequest = (
   callbackForDataSaving,
   setOnDelete
 ) => {
-  callbackForLoading(true);
   let url = `${secretUrl}/delete`;
-  axios
-    .post(url, body)
-    .then((res) => {
-      let status = res.data.status;
-      let secrets = res.data.deletedSecrets;
-      callbackForLoading(false);
-      setOnDelete(false);
-      if (status === 0) {
-        callbackForDataSaving(secrets);
-      } else {
-        alert(getResponseMessage(status));
-      }
-    })
-    .catch((err) => {
-      handleError(callbackForLoading, err);
-      setOnDelete(false);
-    });
+  sendRequest(
+    url,
+    body,
+    callbackForLoading,
+    callbackForDataSaving,
+    setOnDelete
+  );
 };
 
-const sendDeleteSecretRequest2 = (body) => {
+const sendDeleteSecretRequest2 = (
+  body,
+  secrets,
+  setSecrets,
+  index,
+  setLoading
+) => {
   let url = `${secretUrl}/delete`;
-  axios
-    .post(url, body)
-    .then((res) => {
-      let status = res.data.status;
-      alert(getResponseMessage(status));
-    })
-    .catch((err) => {
-      handleError2(err);
-    });
+  sendRequest2(url, body, secrets, setSecrets, index, setLoading);
 };
 
 const sendListSecretRequest = (
@@ -102,15 +89,42 @@ const sendRecoverSecretRequest = (
   callbackForDataSaving,
   setOnRecover
 ) => {
-  callbackForLoading(true);
   let url = `${secretUrl}/recover`;
+  sendRequest(
+    url,
+    body,
+    callbackForLoading,
+    callbackForDataSaving,
+    setOnRecover
+  );
+};
+
+const sendRecoverSecretRequest2 = (
+  body,
+  secrets,
+  setSecrets,
+  index,
+  setLoading
+) => {
+  let url = `${secretUrl}/recover`;
+  sendRequest2(url, body, secrets, setSecrets, index, setLoading);
+};
+
+const sendRequest = (
+  url,
+  body,
+  callbackForLoading,
+  callbackForDataSaving,
+  callbackForOnSet
+) => {
+  callbackForLoading(true);
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
-      setOnRecover(false);
+      callbackForOnSet(false);
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
@@ -119,20 +133,25 @@ const sendRecoverSecretRequest = (
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
-      setOnRecover(false);
+      callbackForOnSet(false);
     });
 };
 
-const sendRecoverSecretRequest2 = (body) => {
-  let url = `${secretUrl}/recover`;
+const sendRequest2 = (url, body, secrets, setSecrets, index, setLoading) => {
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      alert(getResponseMessage(status));
+      if (status === 0) {
+        secrets.splice(index, 1);
+        setSecrets(secrets);
+      } else {
+        alert(getResponseMessage(status));
+      }
+      setLoading(false);
     })
     .catch((err) => {
-      handleError2(err);
+      handleError(setLoading, err);
     });
 };
 
