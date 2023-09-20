@@ -12,7 +12,7 @@ import {
   ClientSecretContext,
   PaginationCounterContext,
   SingleModificationContext,
-  SingleOperationContext
+  SingleOperationContext,
 } from "../../../../contexts/Contexts";
 import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
@@ -23,7 +23,7 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
-  const [deleted, setDeleted] = useState(false);
+  const [ deleted, setDeleted ] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
