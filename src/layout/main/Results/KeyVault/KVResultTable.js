@@ -6,11 +6,21 @@ import {
   SecretContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
+import TableHeader from "../TableHeader";
+import KVResultTableRow from "./KVResultTableRow";
 
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
   const number = 10;
+
+  const findIndexOfSecret = (secrets, secret) => {
+    const isMatch = (sec) =>
+      sec.keyVault === secret.keyVault &&
+      sec.secretName === secret.secretName &&
+      sec.secretValue === secret.secretValue;
+    return secrets.findIndex(isMatch);
+  };
 
   return (
     <div>
@@ -21,11 +31,14 @@ function KVResultTable() {
           <h2>Matched secrets (Found secrets: {secrets.length}).</h2>
           <table>
             <thead>
-              <tr>
-                <th>Key vault</th>
-                <th>Secret name</th>
-                <th>Secret value</th>
-              </tr>
+              <TableHeader
+                columnList={[
+                  "Key vault",
+                  "Secret name",
+                  "Secret value",
+                  "Operation",
+                ]}
+              />
             </thead>
             <tbody>
               {secrets
@@ -34,18 +47,15 @@ function KVResultTable() {
                   let keyVault = secret.keyVault;
                   let secretName = secret.secretName;
                   let secretValue = secret.secretValue;
+                  let index = findIndexOfSecret(secrets, secret);
                   return (
-                    <tr key={Math.random()}>
-                      <td key={Math.random()}>{keyVault}</td>
-                      <td key={Math.random()}>{secretName}</td>
-                      {secretValue === null || secretValue === undefined ? (<td key={Math.random()}>Deleted secret. Can't show it's value.</td>) : secretValue.length > 85 ? (
-                        <button onClick={() => alert(secretValue)}>
-                          Show secret value
-                        </button>
-                      ) : (
-                        <td key={Math.random()}>{secretValue}</td>
-                      )}
-                    </tr>
+                    <KVResultTableRow
+                      key={Math.random()}
+                      keyVault={keyVault}
+                      secretName={secretName}
+                      secretValue={secretValue}
+                      index={index}
+                    />
                   );
                 })}
             </tbody>

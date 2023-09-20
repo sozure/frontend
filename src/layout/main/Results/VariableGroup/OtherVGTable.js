@@ -6,27 +6,34 @@ import {
   VariableGroupsContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
+import OtherVGTableRow from "./OtherVGTableRow";
+import TableHeader from "../TableHeader";
 
 function OtherVGTable() {
   const { variableGroups } = useContext(VariableGroupsContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
+
   const number = 10;
+
+  const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
+    const isMatch = (variableG) =>
+      variableG.variableGroupName === variableGroup.variableGroupName &&
+      variableG.variableGroupValue === variableGroup.variableGroupValue;
+    return variableGroups.findIndex(isMatch);
+  };
 
   return (
     <div>
-      {variableGroups.length === 0 ? (
+      {(variableGroups === null) |
+      (variableGroups === undefined) |
+      (variableGroups.length === 0) ? (
         <h2>No variables found.</h2>
       ) : (
         <>
           <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
           <table>
             <thead>
-              <tr>
-                <th>Project</th>
-                <th>Variable group name</th>
-                <th>Variable Key</th>
-                <th>Variable value</th>
-              </tr>
+            <TableHeader columnList={["Project", "Variable group name", "Variable key", "Variable value", "Operations"]}/>
             </thead>
 
             <tbody>
@@ -34,45 +41,25 @@ function OtherVGTable() {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
+                  let variableGroupValue = variableGroup.variableGroupValue;
                   let isSecretVariableGroup = variableGroup.secretVariableGroup;
                   let project = variableGroup.project;
                   let keyVaultName = variableGroup.keyVaultName;
+                  let index = findIndexOfVariableGroup(
+                    variableGroups,
+                    variableGroup
+                  );
                   return (
-                    <tr key={Math.random()}>
-                      <td key={Math.random()}>
-                        {project.length > 11
-                          ? `${project.slice(0, 11)}...`
-                          : project}
-                      </td>
-
-                      {isSecretVariableGroup ? (
-                        <td key={Math.random()}>{`${variableGroupName} (${keyVaultName})`}</td>
-                      ) : (
-                        <td key={Math.random()}>{variableGroupName}</td>
-                      )}
-
-                      <td key={Math.random()}>
-                        {variableGroup.variableGroupKey}
-                      </td>
-
-                      <td key={Math.random()}>
-                        <span className={isSecretVariableGroup ? "error" : ""}>
-                          {isSecretVariableGroup ? (
-                            "Secret variable, can't show it's value."
-                          ) : variableGroup.variableGroupValue.length > 60 ? (
-                            <button
-                              onClick={() =>
-                                alert(variableGroup.variableGroupValue)
-                              }
-                            >
-                              Show long variable value
-                            </button>
-                          ) : (
-                            variableGroup.variableGroupValue
-                          )}
-                        </span>
-                      </td>
-                    </tr>
+                    <OtherVGTableRow
+                      key={Math.random()}
+                      variableGroup={variableGroup}
+                      variableGroupName={variableGroupName}
+                      variableGroupValue={variableGroupValue}
+                      project={project}
+                      isSecretVariableGroup={isSecretVariableGroup}
+                      keyVaultName={keyVaultName}
+                      index={index}
+                    />
                   );
                 })}
             </tbody>

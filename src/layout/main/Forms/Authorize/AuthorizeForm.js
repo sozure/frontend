@@ -7,6 +7,7 @@ import {
   ProjectsContext,
   VGAuthorizedContext,
   ProjectNameContext,
+  LoadingContext,
 } from "../../../../contexts/Contexts";
 
 const AuthorizeForm = () => {
@@ -16,6 +17,7 @@ const AuthorizeForm = () => {
   const { setProjects } = useContext(ProjectsContext);
   const { setProjectName } = useContext(ProjectNameContext);
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
+  const { setLoading } = useContext(LoadingContext);
 
   const mandatoryFields = [pat, organizationName];
 
@@ -28,12 +30,14 @@ const AuthorizeForm = () => {
       }
     });
     if (!incorrectFill) {
+      setLoading(true);
       getProjects(
         organizationName,
         pat,
         setProjects,
         setVgAuthorized,
-        setProjectName
+        setProjectName,
+        setLoading
       );
     }
   };

@@ -1,6 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
-import { NewValueContext, OnUpdateContext, PaginationCounterContext } from "../../../../contexts/Contexts";
+import {
+  NewValueContext,
+  OnUpdateContext,
+  PaginationCounterContext,
+  SingleModificationContext,
+  SingleOperationContext,
+} from "../../../../contexts/Contexts";
 
 import {
   PATContext,
@@ -11,10 +17,11 @@ import {
   KeyRegexContext,
   LoadingContext,
   VariableGroupsContext,
-  ValueRegexContext
+  ValueRegexContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
+import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 
 const VariableGroupUpdateForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -28,7 +35,9 @@ const VariableGroupUpdateForm = () => {
   const { message, setMessage } = useContext(MessageContext);
   const { newValue, setNewValue } = useContext(NewValueContext);
   const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
-  const {setPaginationCounter} = useContext(PaginationCounterContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setSingleOperation } = useContext(SingleOperationContext);
+  const { setOnSingleModification } = useContext(SingleModificationContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
@@ -41,7 +50,7 @@ const VariableGroupUpdateForm = () => {
       keyRegex: keyRegex,
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
-      secretIncluded: false
+      secretIncluded: false,
     });
   }, [
     projectName,
@@ -63,47 +72,54 @@ const VariableGroupUpdateForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, valueRegex, setVariableGroups, projectName === "All");
+      sendListRequest(
+        message,
+        valueRegex,
+        setVariableGroups,
+        projectName === "All"
+      );
       setOnUpdate(true);
       setPaginationCounter(0);
+      setSingleOperationBack(setSingleOperation);
+      setOnSingleModificationBack(setOnSingleModification);
     }
   };
 
   return (
-      <div className="form">
-      <VariableGroupBaseForm/>
+    <div className="form">
+      <VariableGroupBaseForm />
 
-        <input
-          type="text"
-          id="variable_key"
-          name="variable_key"
-          placeholder={"Key of existing variable"}
-          value={keyRegex}
-          onChange={(event) => setKeyRegex(event.target.value)}
-        />
+      <input
+        type="text"
+        id="variable_key"
+        name="variable_key"
+        placeholder={"Key of existing variable"}
+        value={keyRegex}
+        onChange={(event) => setKeyRegex(event.target.value)}
+      />
 
-        <input
-          type="text"
-          id="new_value"
-          name="new_value"
-          placeholder={"Variable's new value"}
-          value={newValue}
-          onChange={(event) => setNewValue(event.target.value)}
-        />
+      <input
+        type="text"
+        id="new_value"
+        name="new_value"
+        placeholder={"Variable's new value"}
+        value={newValue}
+        onChange={(event) => setNewValue(event.target.value)}
+      />
 
-        <input
-          type="text"
-          id="value_regex"
-          name="value_regex"
-          placeholder={"Value (regex) of variable [OPTIONAL]"}
-          value={valueRegex}
-          onChange={(event) => setValueRegex(event.target.value)}
-        />
+      <input
+        type="text"
+        id="value_regex"
+        name="value_regex"
+        placeholder={"Value (regex) of variable [OPTIONAL]"}
+        value={valueRegex}
+        onChange={(event) => setValueRegex(event.target.value)}
+      />
 
-        <button id="submit_button" onClick={() => send()}>
-          Send request
-        </button>
-      </div>
+      <button id="submit_button" onClick={() => send()}>
+        Send request
+      </button>
+    </div>
   );
 };
 
