@@ -90,45 +90,50 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         <td key={Math.random()}>{secretValue}</td>
       )}
-      {secretValue === null || secretValue === undefined ? (
-        onSingleModification.modification &&
-        onSingleModification.row === index ? (
+      <td key={Math.random()}>
+        {secretValue === null || secretValue === undefined ? (
+          onSingleModification.modification &&
+          onSingleModification.row === index ? (
+            <>
+              <button onClick={() => sendRecover()}>
+                <AiOutlineCheck />
+              </button>
+
+              <button onClick={() => cancelRecover()}>
+                <AiOutlineClose />
+              </button>
+            </>
+          ) : (
+            <abbr title="Recover">
+              <button onClick={() => startRecover(index)}>
+                <AiFillMedicineBox />
+              </button>
+            </abbr>
+          )
+        ) : onSingleModification.modification &&
+          onSingleModification.row === index ? (
           <>
-            <button onClick={() => sendRecover()}>
+            <button onClick={() => sendDelete()}>
               <AiOutlineCheck />
             </button>
 
-            <button onClick={() => cancelRecover()}>
+            <button onClick={() => cancelDelete()}>
               <AiOutlineClose />
             </button>
-            {localLoading ? <span>Loading...</span> : <></>}
           </>
         ) : (
-          <abbr title="Recover">
-            <button onClick={() => startRecover(index)}>
-              <AiFillMedicineBox />
+          <abbr title="Delete">
+            <button onClick={() => startDelete(index)}>
+              <AiFillDelete />
             </button>
           </abbr>
-        )
-      ) : onSingleModification.modification &&
-        onSingleModification.row === index ? (
-        <>
-          <button onClick={() => sendDelete()}>
-            <AiOutlineCheck />
-          </button>
-
-          <button onClick={() => cancelDelete()}>
-            <AiOutlineClose />
-          </button>
-          {localLoading ? <span>Loading...</span> : <></>}
-        </>
-      ) : (
-        <abbr title="Delete">
-          <button onClick={() => startDelete(index)}>
-            <AiFillDelete />
-          </button>
-        </abbr>
-      )}
+        )}
+        {onSingleModification.row === index && localLoading ? (
+          <span>Loading...</span>
+        ) : (
+          <></>
+        )}
+      </td>
     </tr>
   );
 };

@@ -50,6 +50,7 @@ function KVResultTable() {
                   let index = findIndexOfSecret(secrets, secret);
                   return (
                     <KVResultTableRow
+                      key={Math.random()}
                       keyVault={keyVault}
                       secretName={secretName}
                       secretValue={secretValue}
