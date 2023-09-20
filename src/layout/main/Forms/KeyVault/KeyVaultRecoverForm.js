@@ -52,6 +52,7 @@ const KeyVaultRecoverForm = () => {
       sendListSecretRequest(body, setSecrets, setLoading, true);
       setPaginationCounter(0);
       setOnRecover(true);
+      setPaginationCounter(0);
     }
   };
 

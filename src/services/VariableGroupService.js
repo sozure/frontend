@@ -55,6 +55,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
   axios
     .post(url, body)
     .then((res) => {
+      debugger;
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       callbackForLoading(false);

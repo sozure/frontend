@@ -56,6 +56,7 @@ const KeyVaultDeleteForm = () => {
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setOnDelete(true);
+      setPaginationCounter(0);
     }
   };
 

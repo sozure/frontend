@@ -12,7 +12,7 @@ import {
   ClientSecretContext,
   PaginationCounterContext,
   SingleModificationContext,
-  SingleOperationContext,
+  SingleOperationContext
 } from "../../../../contexts/Contexts";
 import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
 

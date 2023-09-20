@@ -9,6 +9,7 @@ import {
   ClientSecretContext,
   KeyVaultNameContext,
   SecretRegexContext,
+  PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
 const KeyVaultCopyForm = () => {
@@ -23,6 +24,8 @@ const KeyVaultCopyForm = () => {
   const { destinationKeyVault, setDestinationKeyVault } = useContext(
     DestinationKeyVaultContext
   );
+  const {setPaginationCounter} = useContext(PaginationCounterContext);
+  
   const [override, setOverride] = useState(false);
 
   const mandatoryFields = [
@@ -52,6 +55,7 @@ const KeyVaultCopyForm = () => {
         override: override,
       };
       sendCopyRequest(body);
+      setPaginationCounter(0);
     }
   };
 

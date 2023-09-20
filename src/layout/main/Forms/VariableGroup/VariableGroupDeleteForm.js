@@ -34,6 +34,7 @@ const VariableGroupDeleteForm = () => {
   const { setOnSingleModification } = useContext(SingleModificationContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
+  
 
   useEffect(() => {
     setMessage({
@@ -62,6 +63,7 @@ const VariableGroupDeleteForm = () => {
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setOnDelete(true);
+      setPaginationCounter(0);
     }
   };
 
