@@ -11,7 +11,8 @@ import {
   VariableGroupsContext,
   OnAddContext,
   NewKeyContext,
-  NewValueContext
+  NewValueContext,
+  PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -25,8 +26,9 @@ const VariableGroupAddForm = () => {
   const { vgRegex } = useContext(VGRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
-  const {newKey, setNewKey} = useContext(NewKeyContext);
-  const {newValue, setNewValue} = useContext(NewValueContext);
+  const { newKey, setNewKey } = useContext(NewKeyContext);
+  const { newValue, setNewValue } = useContext(NewValueContext);
+  const {setPaginationCounter} = useContext(PaginationCounterContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
 
@@ -39,7 +41,7 @@ const VariableGroupAddForm = () => {
       organizationName: organizationName,
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
-      secretIncluded: false
+      secretIncluded: false,
     });
   }, [
     projectName,
@@ -52,6 +54,7 @@ const VariableGroupAddForm = () => {
   ]);
 
   const send = () => {
+    
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
@@ -62,35 +65,36 @@ const VariableGroupAddForm = () => {
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups, projectName === "All");
       setOnAdd(true);
+      setPaginationCounter(0);
     }
   };
 
   return (
-      <div className="form">
-        <VariableGroupBaseForm/>
-        
-        <input
-          type="text"
-          id="new_key"
-          name="new_key"
-          placeholder={"New variable's key"}
-          value={newKey}
-          onChange={(event) => setNewKey(event.target.value)}
-        />
+    <div className="form">
+      <VariableGroupBaseForm />
 
-        <input
-          type="text"
-          id="new_value"
-          name="new_value"
-          placeholder={"New variable's value"}
-          value={newValue}
-          onChange={(event) => setNewValue(event.target.value)}
-        />
+      <input
+        type="text"
+        id="new_key"
+        name="new_key"
+        placeholder={"New variable's key"}
+        value={newKey}
+        onChange={(event) => setNewKey(event.target.value)}
+      />
 
-        <button id="submit_button" onClick={() => send()}>
-          Send request
-        </button>
-      </div>
+      <input
+        type="text"
+        id="new_value"
+        name="new_value"
+        placeholder={"New variable's value"}
+        value={newValue}
+        onChange={(event) => setNewValue(event.target.value)}
+      />
+
+      <button id="submit_button" onClick={() => send()}>
+        Send request
+      </button>
+    </div>
   );
 };
 

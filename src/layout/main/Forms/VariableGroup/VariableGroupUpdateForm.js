@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupService";
-import { NewValueContext, OnUpdateContext } from "../../../../contexts/Contexts";
+import { NewValueContext, OnUpdateContext, PaginationCounterContext } from "../../../../contexts/Contexts";
 
 import {
   PATContext,
@@ -28,6 +28,7 @@ const VariableGroupUpdateForm = () => {
   const { message, setMessage } = useContext(MessageContext);
   const { newValue, setNewValue } = useContext(NewValueContext);
   const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
+  const {setPaginationCounter} = useContext(PaginationCounterContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
@@ -64,6 +65,7 @@ const VariableGroupUpdateForm = () => {
     if (!incorrectFill) {
       sendListRequest(message, valueRegex, setVariableGroups, projectName === "All");
       setOnUpdate(true);
+      setPaginationCounter(0);
     }
   };
 

@@ -6,6 +6,7 @@ import {
   KeyVaultNameContext,
   LoadingContext,
   OnRecoverContext,
+  PaginationCounterContext,
   SecretContext,
   SecretRegexContext,
   TenantIdContext,
@@ -21,6 +22,7 @@ const KeyVaultRecoverForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { setOnRecover } = useContext(OnRecoverContext);
+  const {setPaginationCounter} = useContext(PaginationCounterContext);
 
   const mandatoryFields = [
     tenantId,
@@ -49,6 +51,7 @@ const KeyVaultRecoverForm = () => {
 
       sendListSecretRequest(body, setSecrets, setLoading, true);
       setOnRecover(true);
+      setPaginationCounter(0);
     }
   };
 

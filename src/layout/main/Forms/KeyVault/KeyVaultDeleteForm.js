@@ -10,7 +10,8 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  OnDeleteContext
+  OnDeleteContext,
+  PaginationCounterContext
 } from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 
@@ -23,6 +24,7 @@ const KeyVaultDeleteForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { setOnDelete } = useContext(OnDeleteContext);
+  const {setPaginationCounter} = useContext(PaginationCounterContext);
 
   const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
 
@@ -46,6 +48,7 @@ const KeyVaultDeleteForm = () => {
 
       sendListSecretRequest(body, setSecrets, setLoading, false);
       setOnDelete(true);
+      setPaginationCounter(0);
     }
   };
 
