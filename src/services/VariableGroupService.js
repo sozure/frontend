@@ -89,16 +89,19 @@ const sendRequest2 = (
         modificationHappened: true,
         success: status === 0 || status === 1,
         response: message,
-        operation: controllerSegment
+        operation: controllerSegment,
       };
       setSingleOperation(result);
-      if (controllerSegment === "Delete") {
-        variableGroups.splice(row, 1);
-      } else {
-        let variableGroup = variableGroups[row];
-        variableGroup.variableGroupValue = body["newValue"];
+
+      if (status === 0 || status === 1) {
+        if (controllerSegment === "Delete") {
+          variableGroups.splice(row, 1);
+        } else {
+          let variableGroup = variableGroups[row];
+          variableGroup.variableGroupValue = body["newValue"];
+        }
+        setVariableGroups(variableGroups);
       }
-      setVariableGroups(variableGroups);
     })
     .catch((err) => {
       setSingleOperation({
