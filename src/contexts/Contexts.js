@@ -30,3 +30,4 @@ export const DestinationKeyVaultContext = createContext();
 export const PaginationCounterContext = createContext();
 export const SingleModificationContext = createContext();
 export const SingleOperationContext = createContext();
+export const LocalLoadingContext = createContext();

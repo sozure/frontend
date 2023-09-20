@@ -8,6 +8,8 @@ import {
 import {
   ClientIdContext,
   ClientSecretContext,
+  LocalLoadingContext,
+  SecretContext,
   SingleModificationContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
@@ -17,19 +19,15 @@ import {
 } from "../../../../services/SecretService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
 
-const KVResultTableRow = ({
-  secrets,
-  keyVault,
-  secretName,
-  secretValue,
-  index,
-}) => {
+const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { onSingleModification, setOnSingleModification } = useContext(
     SingleModificationContext
   );
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
+  const { secrets, setSecrets } = useContext(SecretContext);
+  const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
   const sendRecover = () => {
     let body = {
@@ -39,10 +37,15 @@ const KVResultTableRow = ({
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-
-    sendRecoverSecretRequest2(body);
+    setLocalLoading(true);
+    sendRecoverSecretRequest2(
+      body,
+      secrets,
+      setSecrets,
+      index,
+      setLocalLoading
+    );
     setOnSingleModificationBack(setOnSingleModification);
-    secrets.splice(index, 1);
   };
 
   const startRecover = (row) => {
@@ -62,10 +65,9 @@ const KVResultTableRow = ({
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-
-    sendDeleteSecretRequest2(body);
+    setLocalLoading(true);
+    sendDeleteSecretRequest2(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
-    secrets.splice(index, 1);
   };
 
   const startDelete = (row) => {
@@ -99,6 +101,7 @@ const KVResultTableRow = ({
             <button onClick={() => cancelRecover()}>
               <AiOutlineClose />
             </button>
+            {localLoading ? <span>Loading...</span> : <></>}
           </>
         ) : (
           <abbr title="Recover">
@@ -117,6 +120,7 @@ const KVResultTableRow = ({
           <button onClick={() => cancelDelete()}>
             <AiOutlineClose />
           </button>
+          {localLoading ? <span>Loading...</span> : <></>}
         </>
       ) : (
         <abbr title="Delete">

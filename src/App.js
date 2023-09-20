@@ -33,6 +33,7 @@ import {
   OnRecoverContext,
   SingleModificationContext,
   SingleOperationContext,
+  LocalLoadingContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -78,6 +79,8 @@ function App() {
     response: "",
     operation: "",
   });
+
+  const [localLoading, setLocalLoading] = useState(false);
 
   return (
     <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
@@ -187,16 +190,23 @@ function App() {
                                                                   setSingleOperation,
                                                                 }}
                                                               >
-                                                                <BrowserRouter>
-                                                                  <Routes>
-                                                                    <Route
-                                                                      path="/"
-                                                                      element={
-                                                                        <Main />
-                                                                      }
-                                                                    />
-                                                                  </Routes>
-                                                                </BrowserRouter>
+                                                                <LocalLoadingContext.Provider
+                                                                  value={{
+                                                                    localLoading,
+                                                                    setLocalLoading,
+                                                                  }}
+                                                                >
+                                                                  <BrowserRouter>
+                                                                    <Routes>
+                                                                      <Route
+                                                                        path="/"
+                                                                        element={
+                                                                          <Main />
+                                                                        }
+                                                                      />
+                                                                    </Routes>
+                                                                  </BrowserRouter>
+                                                                </LocalLoadingContext.Provider>
                                                               </SingleOperationContext.Provider>
                                                             </SingleModificationContext.Provider>
                                                           </OnRecoverContext.Provider>
