@@ -13,15 +13,18 @@ import {
   VariableGroupsContext,
   PaginationCounterContext,
   SingleOperationContext,
-  SingleModificationContext
+  SingleModificationContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
 
 const VariableGroupDeleteForm = () => {
   const { setOnDelete } = useContext(OnDeleteContext);
-  const {setLoading} = useContext(LoadingContext);
+  const { setLoading } = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
@@ -30,11 +33,10 @@ const VariableGroupDeleteForm = () => {
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const {setSingleOperation} = useContext(SingleOperationContext);
+  const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
-  
 
   useEffect(() => {
     setMessage({
@@ -45,9 +47,18 @@ const VariableGroupDeleteForm = () => {
       keyRegex: keyRegex,
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
-      secretIncluded: false
+      secretIncluded: false,
     });
-  }, [projectName, pat, vgRegex, keyRegex, organizationName, setLoading, setVariableGroups, setMessage]);
+  }, [
+    projectName,
+    pat,
+    vgRegex,
+    keyRegex,
+    organizationName,
+    setLoading,
+    setVariableGroups,
+    setMessage,
+  ]);
 
   const send = () => {
     let incorrectFill = false;
@@ -58,7 +69,7 @@ const VariableGroupDeleteForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups, projectName === "All");
+      sendListRequest(message, "", setVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
@@ -68,21 +79,21 @@ const VariableGroupDeleteForm = () => {
   };
 
   return (
-      <div className="form">
-      <VariableGroupBaseForm/>
-        <input
-          type="text"
-          id="variable_key"
-          name="variable_key"
-          placeholder={"Key of existing variable"}
-          value={keyRegex}
-          onChange={(event) => setKeyRegex(event.target.value)}
-        />
+    <div className="form">
+      <VariableGroupBaseForm />
+      <input
+        type="text"
+        id="variable_key"
+        name="variable_key"
+        placeholder={"Key of existing variable"}
+        value={keyRegex}
+        onChange={(event) => setKeyRegex(event.target.value)}
+      />
 
-        <button id="submit_button" onClick={() => send()}>
-          Send request
-        </button>
-      </div>
+      <button id="submit_button" onClick={() => send()}>
+        Send request
+      </button>
+    </div>
   );
 };
 
