@@ -14,7 +14,6 @@ import {
   NewValueContext,
   TableTypeContext,
   VariableGroupsContext,
-  ProjectNameContext,
   ActionTypeContext,
   ValueRegexContext
 } from "../../../../contexts/Contexts";
@@ -29,19 +28,18 @@ const ActionButtons = () => {
   const { message } = useContext(MessageContext);
   const { newKey } = useContext(NewKeyContext);
   const { newValue } = useContext(NewValueContext);
-  const { projectName } = useContext(ProjectNameContext);
   const { valueRegex } = useContext(ValueRegexContext);
 
   const deleteVariables = () => {
-    sendDeleteRequest(message, "", setOnDelete, projectName === "All");
+    sendDeleteRequest(message, "", setOnDelete);
   };
 
   const addVariables = () => {
-    sendAddRequest(message, newKey, newValue, "", setOnAdd, projectName === "All");
+    sendAddRequest(message, newKey, newValue, "", setOnAdd);
   };
 
   const updateVariables = () => {
-    sendUpdateRequest(message, newValue, valueRegex, setOnUpdate, projectName === "All");
+    sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
   };
 
   return (

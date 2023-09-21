@@ -74,8 +74,7 @@ const VariableGroupGetForm = () => {
       sendListRequest(
         message,
         valueRegex,
-        setVariableGroups,
-        projectName === "All"
+        setVariableGroups
       );
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
