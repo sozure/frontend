@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const OtherVGTableRowInput = ({ inputKey, variableValue }) => {
-  const [singleNewValue, setSingleNewValue] = useState("");
+  const [singleNewValue, setSingleNewValue] = useState(variableValue);
 
   return (
     <input
@@ -9,7 +9,6 @@ const OtherVGTableRowInput = ({ inputKey, variableValue }) => {
       key={inputKey}
       id={`single_update${inputKey}`}
       name={`single_update${inputKey}`}
-      placeholder={variableValue}
       value={singleNewValue}
       onChange={(event) => setSingleNewValue(event.target.value)}
     />
