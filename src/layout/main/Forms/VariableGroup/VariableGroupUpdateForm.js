@@ -75,8 +75,7 @@ const VariableGroupUpdateForm = () => {
       sendListRequest(
         message,
         valueRegex,
-        setVariableGroups,
-        projectName === "All"
+        setVariableGroups
       );
       setOnUpdate(true);
       setPaginationCounter(0);
