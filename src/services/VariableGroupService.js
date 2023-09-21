@@ -78,7 +78,7 @@ const sendRequest2 = (
   axios
     .post(url, body)
     .then((res) => {
-      let status = res.data.status;
+      let status = res.data;
       let message = getResponseMessage(status);
       let result = {
         row: row,
@@ -90,7 +90,7 @@ const sendRequest2 = (
       setSingleOperation(result);
 
       if (status === 0 || status === 1) {
-        if (controllerSegment === "Delete") {
+        if (controllerSegment === "DeleteInline") {
           variableGroups.splice(row, 1);
         } else {
           let variableGroup = variableGroups[row];

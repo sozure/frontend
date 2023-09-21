@@ -14,7 +14,7 @@ const sendDeleteSecretRequest = (
   callbackForDataSaving,
   setOnDelete
 ) => {
-  let url = `${secretUrl}/delete`;
+  let url = `${secretUrl}/Delete`;
   sendRequest(
     url,
     body,
@@ -31,7 +31,7 @@ const sendDeleteSecretRequest2 = (
   index,
   setLoading
 ) => {
-  let url = `${secretUrl}/delete`;
+  let url = `${secretUrl}/DeleteInline`;
   sendRequest2(url, body, secrets, setSecrets, index, setLoading);
 };
 
@@ -89,7 +89,7 @@ const sendRecoverSecretRequest = (
   callbackForDataSaving,
   setOnRecover
 ) => {
-  let url = `${secretUrl}/recover`;
+  let url = `${secretUrl}/Recover`;
   sendRequest(
     url,
     body,
@@ -106,7 +106,7 @@ const sendRecoverSecretRequest2 = (
   index,
   setLoading
 ) => {
-  let url = `${secretUrl}/recover`;
+  let url = `${secretUrl}/RecoverInline`;
   sendRequest2(url, body, secrets, setSecrets, index, setLoading);
 };
 
@@ -141,7 +141,7 @@ const sendRequest2 = (url, body, secrets, setSecrets, index, setLoading) => {
   axios
     .post(url, body)
     .then((res) => {
-      let status = res.data.status;
+      let status = res.data;
       if (status === 0) {
         secrets.splice(index, 1);
         setSecrets(secrets);
