@@ -3,7 +3,7 @@ import {
   sendDeleteRequest,
   sendAddRequest,
   sendUpdateRequest,
-} from "../../../../services/VariableGroupService";
+} from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import {
   OnDeleteContext,

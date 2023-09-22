@@ -8,9 +8,9 @@ import {
   AiOutlineStop,
 } from "react-icons/ai";
 import {
-  sendDeleteRequest2,
-  sendUpdateRequest2,
-} from "../../../../services/VariableGroupService";
+  sendDeleteRequest,
+  sendUpdateRequest,
+} from "../../../../services/VariableGroupServices/VariableGroupInlineService";
 import {
   OrganizationContext,
   PATContext,
@@ -53,7 +53,7 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     let value = document.getElementById(`single_update${inputKey}`).value;
-    sendUpdateRequest2(
+    sendUpdateRequest(
       message,
       value,
       variableGroup.variableGroupValue,
@@ -89,7 +89,7 @@ const OtherVGTableRowButtons = ({
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
     };
-    sendDeleteRequest2(
+    sendDeleteRequest(
       message,
       variableGroup.variableGroupValue,
       setSingleOperation,
