@@ -7,6 +7,12 @@ import {
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
+const axiosConfig = {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+};
+
 const sendRecoverSecretRequest = (
     body,
     secrets,
@@ -31,7 +37,7 @@ const sendRecoverSecretRequest = (
 
   const sendRequest = (url, body, secrets, setSecrets, index, setLoading) => {
     axios
-      .post(url, body)
+      .post(url, body, axiosConfig)
       .then((res) => {
         let status = res.data;
         if (status === 0) {

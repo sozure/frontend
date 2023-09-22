@@ -4,12 +4,18 @@ import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
+const axiosConfig = {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+};
+
 const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
   let callbackForLoading = message["setLoading"];
   let url = buildUrl(message, valueRegex);
   callbackForLoading(true);
   axios
-    .get(url)
+    .get(url, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
@@ -31,7 +37,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
   callbackForLoading(true);
   let url = `${variableGroupUrl}/${controllerSegment}`;
   axios
-    .post(url, body)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
