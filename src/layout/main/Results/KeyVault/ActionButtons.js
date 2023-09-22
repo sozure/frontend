@@ -16,7 +16,7 @@ import {
 import {
   sendDeleteSecretRequest,
   sendRecoverSecretRequest,
-} from "../../../../services/SecretService";
+} from "../../../../services/SecretServices/SecretService";
 
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);

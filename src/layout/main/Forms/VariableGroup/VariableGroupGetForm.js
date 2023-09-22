@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupService";
+import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   PaginationCounterContext,
   SingleModificationContext,
