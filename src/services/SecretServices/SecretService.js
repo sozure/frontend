@@ -8,6 +8,12 @@ import {
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
+const axiosConfig = {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+};
+
 const sendDeleteSecretRequest = (
   body,
   callbackForLoading,
@@ -43,7 +49,7 @@ const sendListSecretRequest = (
   callbackForLoading(true);
 
   axios
-    .get(url)
+    .get(url, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
@@ -62,7 +68,7 @@ const sendListSecretRequest = (
 const sendCopyRequest = (body) => {
   let url = `${secretUrl}/copy`;
   axios
-    .post(url, body)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       alert(getResponseMessage(status));
@@ -97,7 +103,7 @@ const sendRequest = (
 ) => {
   callbackForLoading(true);
   axios
-    .post(url, body)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let secrets = res.data.deletedSecrets;

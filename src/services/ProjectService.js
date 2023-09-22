@@ -3,6 +3,12 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/project`;
 
+const axiosConfig = {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+};
+
 const getProjects = (
   organizationName,
   PAT,
@@ -12,8 +18,9 @@ const getProjects = (
   setLoading
 ) => {
   const url = `${baseUrl}?organization=${organizationName}&pat=${PAT}`;
+  
   axios
-    .get(url)
+    .get(url, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;

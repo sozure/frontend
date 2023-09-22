@@ -4,6 +4,12 @@ import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
+const axiosConfig = {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+};
+
 const sendRequest = (
     controllerSegment,
     body,
@@ -15,7 +21,7 @@ const sendRequest = (
   ) => {
     let url = `${variableGroupUrl}/${controllerSegment}`;
     axios
-      .post(url, body)
+      .post(url, body, axiosConfig)
       .then((res) => {
         let status = res.data;
         let message = getResponseMessage(status);
