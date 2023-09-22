@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError, getResponseMessage } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
