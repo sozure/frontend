@@ -14,9 +14,9 @@ import {
   TenantIdContext,
 } from "../../../../contexts/Contexts";
 import {
-  sendDeleteSecretRequest2,
-  sendRecoverSecretRequest2,
-} from "../../../../services/SecretService";
+  sendDeleteSecretRequest,
+  sendRecoverSecretRequest,
+} from "../../../../services/SecretServices/SecretService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
 
 const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
@@ -38,7 +38,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       secretFilter: secretName,
     };
     setLocalLoading(true);
-    sendRecoverSecretRequest2(
+    sendRecoverSecretRequest(
       body,
       secrets,
       setSecrets,
@@ -66,7 +66,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       secretFilter: secretName,
     };
     setLocalLoading(true);
-    sendDeleteSecretRequest2(body, secrets, setSecrets, index, setLocalLoading);
+    sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
 

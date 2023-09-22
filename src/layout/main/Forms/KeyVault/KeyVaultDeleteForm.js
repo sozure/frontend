@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../../../../CSS/style.css";
-import { sendListSecretRequest } from "../../../../services/SecretService";
+import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
 
 import {
   KeyVaultNameContext,

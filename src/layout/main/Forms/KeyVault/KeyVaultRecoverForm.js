@@ -11,7 +11,7 @@ import {
   SecretRegexContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
-import { sendListSecretRequest } from "../../../../services/SecretService";
+import { sendListSecretRequest } from "../../../../services/SecretServices/SecretService";
 
 const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
