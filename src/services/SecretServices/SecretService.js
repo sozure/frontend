@@ -4,7 +4,7 @@ import {
   handleError,
   handleError2,
   getResponseMessage,
-} from "./CommonService";
+} from "../CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
@@ -22,17 +22,6 @@ const sendDeleteSecretRequest = (
     callbackForDataSaving,
     setOnDelete
   );
-};
-
-const sendDeleteSecretRequest2 = (
-  body,
-  secrets,
-  setSecrets,
-  index,
-  setLoading
-) => {
-  let url = `${secretUrl}/DeleteInline`;
-  sendRequest2(url, body, secrets, setSecrets, index, setLoading);
 };
 
 const sendListSecretRequest = (
@@ -99,17 +88,6 @@ const sendRecoverSecretRequest = (
   );
 };
 
-const sendRecoverSecretRequest2 = (
-  body,
-  secrets,
-  setSecrets,
-  index,
-  setLoading
-) => {
-  let url = `${secretUrl}/RecoverInline`;
-  sendRequest2(url, body, secrets, setSecrets, index, setLoading);
-};
-
 const sendRequest = (
   url,
   body,
@@ -137,29 +115,9 @@ const sendRequest = (
     });
 };
 
-const sendRequest2 = (url, body, secrets, setSecrets, index, setLoading) => {
-  axios
-    .post(url, body)
-    .then((res) => {
-      let status = res.data;
-      if (status === 0) {
-        secrets.splice(index, 1);
-        setSecrets(secrets);
-      } else {
-        alert(getResponseMessage(status));
-      }
-      setLoading(false);
-    })
-    .catch((err) => {
-      handleError(setLoading, err);
-    });
-};
-
 export {
   sendDeleteSecretRequest,
-  sendDeleteSecretRequest2,
   sendListSecretRequest,
   sendCopyRequest,
   sendRecoverSecretRequest,
-  sendRecoverSecretRequest2,
 };

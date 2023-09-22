@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
-import { sendCopyRequest } from "../../../../services/SecretService";
+import { sendCopyRequest } from "../../../../services//SecretServices/SecretService";
 import {
   DestinationKeyVaultContext,
   OriginKeyVaultContext,

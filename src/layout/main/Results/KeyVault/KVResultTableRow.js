@@ -14,9 +14,9 @@ import {
   TenantIdContext,
 } from "../../../../contexts/Contexts";
 import {
-  sendDeleteSecretRequest2,
-  sendRecoverSecretRequest2,
-} from "../../../../services/SecretService";
+  sendDeleteSecretRequest,
+  sendRecoverSecretRequest,
+} from "../../../../services/SecretServices/SecretInlineService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
 
 const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
@@ -37,14 +37,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-    setLocalLoading(true);
-    sendRecoverSecretRequest2(
-      body,
-      secrets,
-      setSecrets,
-      index,
-      setLocalLoading
-    );
+    setLocalLoading({ loading: true, row: index });
+    sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -65,8 +59,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-    setLocalLoading(true);
-    sendDeleteSecretRequest2(body, secrets, setSecrets, index, setLocalLoading);
+    setLocalLoading({ loading: true, row: index });
+    sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -104,11 +98,17 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
               </button>
             </>
           ) : (
-            <abbr title="Recover">
-              <button onClick={() => startRecover(index)}>
-                <AiFillMedicineBox />
-              </button>
-            </abbr>
+            <>
+              {localLoading.row === index && localLoading.loading ? (
+                <></>
+              ) : (
+                <abbr title="Recover">
+                  <button onClick={() => startRecover(index)}>
+                    <AiFillMedicineBox />
+                  </button>
+                </abbr>
+              )}
+            </>
           )
         ) : onSingleModification.modification &&
           onSingleModification.row === index ? (
@@ -122,13 +122,19 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
             </button>
           </>
         ) : (
-          <abbr title="Delete">
-            <button onClick={() => startDelete(index)}>
-              <AiFillDelete />
-            </button>
-          </abbr>
+          <>
+            {localLoading.row === index && localLoading.loading ? (
+              <></>
+            ) : (
+              <abbr title="Delete">
+                <button onClick={() => startDelete(index)}>
+                  <AiFillDelete />
+                </button>
+              </abbr>
+            )}
+          </>
         )}
-        {onSingleModification.row === index && localLoading ? (
+        {localLoading.row === index && localLoading.loading ? (
           <span>Loading...</span>
         ) : (
           <></>
