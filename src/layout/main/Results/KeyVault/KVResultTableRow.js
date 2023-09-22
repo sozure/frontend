@@ -16,7 +16,7 @@ import {
 import {
   sendDeleteSecretRequest,
   sendRecoverSecretRequest,
-} from "../../../../services/SecretServices/SecretService";
+} from "../../../../services/SecretServices/SecretInlineService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
 
 const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
