@@ -67,20 +67,20 @@ function App() {
   const [paginationCounter, setPaginationCounter] = useState(0);
 
   const [onSingleModification, setOnSingleModification] = useState({
-    row: 0,
+    row: -1,
     operation: "",
     modification: false,
   });
 
   const [singleOperation, setSingleOperation] = useState({
-    row: 0,
+    row: -1,
     modificationHappened: false,
     success: false,
     response: "",
     operation: "",
   });
 
-  const [localLoading, setLocalLoading] = useState(false);
+  const [localLoading, setLocalLoading] = useState({loading: false, row: -1});
 
   return (
     <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>

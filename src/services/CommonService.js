@@ -32,13 +32,13 @@ const getResponseMessage = (responseCode) => {
 };
 
 const setOnSingleModificationBack = (setOnSingleModification) => {
-  let model = { row: 0, operation: "", modification: false };
+  let model = { row: -1, operation: "", modification: false };
   setOnSingleModification(model);
 };
 
 const setSingleOperationBack = (setSingleOperation) => {
   setSingleOperation({
-    row: 0,
+    row: -1,
     modificationHappened: false,
     success: false,
     response: "",

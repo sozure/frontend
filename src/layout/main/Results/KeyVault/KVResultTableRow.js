@@ -37,7 +37,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-    setLocalLoading(true);
+    setLocalLoading({ loading: true, row: index });
     sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
@@ -59,7 +59,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       keyVaultName: keyVault,
       secretFilter: secretName,
     };
-    setLocalLoading(true);
+    setLocalLoading({ loading: true, row: index });
     sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
@@ -99,7 +99,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
             </>
           ) : (
             <>
-              {localLoading && onSingleModification.row === index ? (
+              {localLoading.row === index && localLoading.loading ? (
                 <></>
               ) : (
                 <abbr title="Recover">
@@ -123,7 +123,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
           </>
         ) : (
           <>
-            {localLoading && onSingleModification.row === index ? (
+            {localLoading.row === index && localLoading.loading ? (
               <></>
             ) : (
               <abbr title="Delete">
@@ -134,7 +134,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
             )}
           </>
         )}
-        {onSingleModification.row === index && localLoading ? (
+        {localLoading.row === index && localLoading.loading ? (
           <span>Loading...</span>
         ) : (
           <></>

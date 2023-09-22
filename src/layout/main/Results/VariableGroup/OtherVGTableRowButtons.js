@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   AiFillEdit,
   AiFillDelete,
@@ -12,6 +12,7 @@ import {
   sendUpdateRequest,
 } from "../../../../services/VariableGroupServices/VariableGroupInlineService";
 import {
+  LocalLoadingContext,
   OrganizationContext,
   PATContext,
   SingleModificationContext,
@@ -43,6 +44,8 @@ const OtherVGTableRowButtons = ({
     SingleOperationContext
   );
 
+  const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
+
   const sendUpdate = (variableGroup) => {
     let message = {
       projectName: variableGroup.project,
@@ -53,6 +56,7 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     let value = document.getElementById(`single_update${inputKey}`).value;
+    setLocalLoading({ loading: true, row: index });
     sendUpdateRequest(
       message,
       value,
@@ -60,9 +64,9 @@ const OtherVGTableRowButtons = ({
       setSingleOperation,
       index,
       variableGroups,
-      setVariableGroups
+      setVariableGroups,
+      setLocalLoading
     );
-    
     setOnSingleModificationBack(setOnSingleModification);
     setTimeout(() => setSingleOperationBack(setSingleOperation), 3000);
   };
@@ -95,7 +99,8 @@ const OtherVGTableRowButtons = ({
       setSingleOperation,
       index,
       variableGroups,
-      setVariableGroups
+      setVariableGroups,
+      setLocalLoading
     );
     setOnSingleModificationBack(setOnSingleModification);
   };
@@ -116,7 +121,8 @@ const OtherVGTableRowButtons = ({
   return (
     <td key={Math.random()}>
       {isSecretVariableGroup ||
-      (variableGroup.variableGroupValue === null || variableGroup.variableGroupValue.length > 60) ? (
+      variableGroup.variableGroupValue === null ||
+      variableGroup.variableGroupValue.length > 60 ? (
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
@@ -137,9 +143,17 @@ const OtherVGTableRowButtons = ({
                   </button>
                 </>
               ) : (
-                <button onClick={() => startUpdate(index)}>
-                  <AiFillEdit />
-                </button>
+                <>
+                  {localLoading.row === index && localLoading.loading ? (
+                    <></>
+                  ) : (
+                    <abbr title="Update">
+                      <button onClick={() => startUpdate(index)}>
+                        <AiFillEdit />
+                      </button>
+                    </abbr>
+                  )}
+                </>
               )}
             </>
           )}
@@ -160,9 +174,17 @@ const OtherVGTableRowButtons = ({
                   </button>
                 </>
               ) : (
-                <button onClick={() => startDelete(index)}>
-                  <AiFillDelete />
-                </button>
+                <>
+                  {localLoading.row === index && localLoading.loading ? (
+                    <></>
+                  ) : (
+                    <abbr title="Delete">
+                      <button onClick={() => startDelete(index)}>
+                        <AiFillDelete />
+                      </button>
+                    </abbr>
+                  )}
+                </>
               )}
             </>
           )}
@@ -184,6 +206,11 @@ const OtherVGTableRowButtons = ({
             </>
           )}
         </div>
+      ) : (
+        <></>
+      )}
+      {localLoading.row === index && localLoading.loading ? (
+        <span>Loading...</span>
       ) : (
         <></>
       )}

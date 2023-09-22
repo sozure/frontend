@@ -10,7 +10,8 @@ const sendRequest = (
     setSingleOperation,
     row,
     variableGroups,
-    setVariableGroups
+    setVariableGroups,
+    setLocalLoading
   ) => {
     let url = `${variableGroupUrl}/${controllerSegment}`;
     axios
@@ -36,6 +37,7 @@ const sendRequest = (
           }
           setVariableGroups(variableGroups);
         }
+        setLocalLoading({loading: false, row: -1});
       })
       .catch((err) => {
         setSingleOperation({
@@ -45,6 +47,7 @@ const sendRequest = (
           response: err.message,
           operation: controllerSegment,
         });
+        setLocalLoading({loading: false, row: -1});
       });
   };
 
@@ -55,7 +58,8 @@ const sendRequest = (
     setSingleOperation,
     row,
     variableGroups,
-    setVariableGroups
+    setVariableGroups,
+    setLocalLoading
   ) => {
     let body = buildRequestBody(message);
     body["newValue"] = newValue;
@@ -67,7 +71,8 @@ const sendRequest = (
       setSingleOperation,
       row,
       variableGroups,
-      setVariableGroups
+      setVariableGroups,
+      setLocalLoading
     );
   };
 
@@ -77,7 +82,8 @@ const sendRequest = (
     setSingleOperation,
     row,
     variableGroups,
-    setVariableGroups
+    setVariableGroups,
+    setLocalLoading
   ) => {
     let body = buildRequestBody(message);
     body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
@@ -88,7 +94,8 @@ const sendRequest = (
       setSingleOperation,
       row,
       variableGroups,
-      setVariableGroups
+      setVariableGroups,
+      setLocalLoading
     );
   };
 
