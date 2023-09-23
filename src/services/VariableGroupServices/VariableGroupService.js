@@ -31,6 +31,160 @@ let variableGroups = [
     secretVariableGroup: false,
     project: "project1",
     keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName1",
+    variableGroupValue: "variableGroupValue1",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
+  },
+  {
+    variableGroupName: "variableGroupName2",
+    variableGroupValue: "variableGroupValue2",
+    secretVariableGroup: true,
+    project: "project2",
+    keyVaultName: "KeyVault-Something"
+  },
+  {
+    variableGroupName: "variableGroupName3",
+    variableGroupValue: "variableGroupValue3",
+    secretVariableGroup: false,
+    project: "project1",
+    keyVaultName: ""
   }
 ];
 
