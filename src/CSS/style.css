@@ -81,6 +81,11 @@ input[type="checkbox"] {
   border-radius: 3px;
 }
 
+.form > .MuiFormControl-root {
+  width: 25%;
+  margin-bottom: 15px;
+}
+
 .result-footer {
   margin-top: 15px;
 }
