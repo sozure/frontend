@@ -1,224 +1,240 @@
 /* from App.css */
 .App {
-    text-align: center;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* from Buttons.css */
-
-  .button {
-    background-color: white;
-    border: 1%;
-    color: black;
-    padding: 15px 32px;
-    margin: 1%;
-    text-align: center;
-    display: inline-block;
+  text-align: center;
 }
 
-.button:hover{
-    background-color: lightgray;
-    cursor: pointer;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* from Buttons.css */
+
+.button {
+  background-color: white;
+  border: 1%;
+  color: black;
+  padding: 15px 32px;
+  margin: 1%;
+  text-align: center;
+  display: inline-block;
+}
+
+.button:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
 
 /* from Checkbox.css */
 
 input[type="checkbox"] {
-    display: inline-block;
-    margin-top: 1rem;
+  display: inline-block;
+  margin-top: 1rem;
 }
 
 /* from Form.css */
 
 .form {
-    background-color: gray;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border: 2px solid #969696;
-    background: #d9dbda;
-    margin: 10px;
+  margin-top: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.form > input {
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.result-footer {
+  padding: 20px;
+}
 /* from index.css */
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  /* from ResultTable.css */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
 
-  body {
-    padding:20px;
-    max-width:80rem;
-    margin:auto auto;
-    font-family:sans;
-  }
-  
-  table {
-    width:100%;
-    background: #f1eeee;
-  } th {
-    background:#666;
-    color:#fff;
-  } td {
-    padding:5px;
-  }
-  
-  input[type=text] {
-    width:100%;
-    height: 24px;
-    font-size: 18px;
-    padding:2px;
-    border:0;
-  }
+/* from ResultTable.css */
 
-  input[type=password] {
-    width:100%;
-    height: 24px;
-    font-size: 18px;
-    padding:2px;
-    border:0;
-  }
-  
-  h1 {
-    font-weight: normal;
-  }
+body {
+  padding: 20px;
+  max-width: 80rem;
+  margin: auto auto;
+  font-family: sans;
+}
 
-  button, select, .next.previous {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-  }
-  
-  button, select, .next.previous:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .previous {
-    background-color: #f1f1f1;
-    color: black;
-  }
-  
-  .next {
-    background-color: #04AA6D;
-    color: white;
-  }
+table {
+  width: 100%;
+  background: #f1eeee;
+}
+th {
+  background: #666;
+  color: #fff;
+}
+td {
+  padding: 5px;
+}
 
-  .error {
-    color: red;
-  }
+input[type="text"] {
+  width: 100%;
+  height: 24px;
+  font-size: 18px;
+  padding: 2px;
+  border: 0;
+}
 
-  span {
-    float: right;
-  }
+input[type="password"] {
+  width: 100%;
+  height: 24px;
+  font-size: 18px;
+  padding: 2px;
+  border: 0;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+button,
+select,
+.next.previous {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+button,
+select,
+.next.previous:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04aa6d;
+  color: white;
+}
+
+.error {
+  color: red;
+}
+
+span {
+  float: right;
+}
 
 /* from Welcome.css */
 
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC");
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 body {
-    font: normal 18px 'Open Sans', sans-serif;
-    background: #fafafa;
-    color: #333;
+  font: normal 18px "Open Sans", sans-serif;
+  background: #fafafa;
+  color: #333;
 }
 
 main {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 header {
-    background: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-h1{
-    font: normal 4em 'Playfair Display SC', serif;
-    text-align:center;
+h1 {
+  font: normal 4em "Playfair Display SC", serif;
+  text-align: center;
 }
 
 nav {
-    max-width: 800px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 nav a {
-    flex-grow: 1;
-    text-align: center;
-    padding: 1em;
-    position: relative;
+  flex-grow: 1;
+  text-align: center;
+  padding: 1em;
+  position: relative;
 }
 
 nav a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right:0;
-    height: 2px;
-    transform: scaleX(0);
-    background: #333;
-    transition: 0.7s transform cubic-bezier(0.06, 0.9, 0.28, 1);
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: scaleX(0);
+  background: #333;
+  transition: 0.7s transform cubic-bezier(0.06, 0.9, 0.28, 1);
 }
 
-nav a:hover::after{
-    transform: scaleX(1)
+nav a:hover::after {
+  transform: scaleX(1);
 }
 
 header p {
