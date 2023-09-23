@@ -5,7 +5,7 @@ import {
   VGRegexContext,
   ProjectsContext,
 } from "../../../../contexts/Contexts";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, Input, InputLabel, MenuItem, Select } from "@mui/material";
 
 const VariableGroupBaseForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
@@ -36,7 +36,7 @@ const VariableGroupBaseForm = () => {
         </Select>
       </FormControl>
 
-      <input
+      <Input fullWidth
         type="text"
         id="variable_group_regex"
         name="variable_group_regex"
@@ -44,6 +44,8 @@ const VariableGroupBaseForm = () => {
         value={vgRegex}
         onChange={(event) => setVgRegex(event.target.value)}
       />
+      <br />
+      <br />
     </>
   );
 };
