@@ -198,10 +198,6 @@ main {
   min-height: 100vh;
 }
 
-header {
-  background: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 h1 {
   font: normal 4em "Playfair Display SC", serif;
   text-align: center;
