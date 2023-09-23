@@ -186,6 +186,14 @@ span {
   gap: 10px;
 }
 
+.pagination-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.matched-variables-table {
+}
+
 /* from Welcome.css */
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC");
@@ -247,4 +255,16 @@ nav a:hover::after {
 
 header p {
   text-align: center;
+}
+
+.colored-header {
+  color: #007FFF;
+}
+
+.inline-header {
+  text-align: center;
+}
+
+.inline-header h1 {
+  display: inline;
 }
