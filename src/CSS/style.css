@@ -40,7 +40,7 @@
 
 /* from Buttons.css */
 
-.button {
+/* .button {
   background-color: white;
   border: 1%;
   color: black;
@@ -53,7 +53,7 @@
 .button:hover {
   background-color: lightgray;
   cursor: pointer;
-}
+} */
 
 /* from Checkbox.css */
 
@@ -172,6 +172,13 @@ select,
 
 span {
   float: right;
+}
+
+.main-select-container {
+  max-width: 50%;
+  margin-top: 3rem;
+  display: flex;
+  gap: 10px;
 }
 
 /* from Welcome.css */
