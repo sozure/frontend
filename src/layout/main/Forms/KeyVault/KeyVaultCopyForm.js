@@ -12,7 +12,14 @@ import {
   PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
-import { Button, Box } from "@mui/material";
+import {
+  Button,
+  Box,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+  Input,
+} from "@mui/material";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -64,7 +71,7 @@ const KeyVaultCopyForm = () => {
   return (
     <div className="form">
       <KeyVaultBaseForm />
-      <input
+      <Input fullWidth
         type="text"
         id="toKeyVaultName"
         name="toKeyVaultName"
@@ -72,8 +79,9 @@ const KeyVaultCopyForm = () => {
         value={originKeyVault}
         onChange={(event) => setOriginKeyVault(event.target.value)}
       />
-
-      <input
+      <br />
+      <br />
+      <Input fullWidth
         type="text"
         id="fromKeyVaultName"
         name="fromKeyVaultName"
@@ -81,24 +89,25 @@ const KeyVaultCopyForm = () => {
         value={destinationKeyVault}
         onChange={(event) => setDestinationKeyVault(event.target.value)}
       />
+      <br />
+      <br />
 
-      <label className="checkbox-inline" htmlFor="overrideNeeded">
-        Override secret if it exists on destination key vault:{" "}
-      </label>
-      <input
-        type="checkbox"
-        id="overrideNeeded"
-        name="overrideNeeded"
-        onChange={() => setOverride(!override)}
-      />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={() => setOverride(!override)}
+              id="overrideNeeded"
+              name="overrideNeeded"
+            />
+          }
+          label="Override secret if it exists on destination key vault"
+        ></FormControlLabel>
+      </FormGroup>
       <br />
 
       <Box>
-        <Button
-          id="submit_button"
-          onClick={() => send()}
-          variant="contained"
-        >
+        <Button id="submit_button" onClick={() => send()} variant="contained">
           Send request
         </Button>
       </Box>

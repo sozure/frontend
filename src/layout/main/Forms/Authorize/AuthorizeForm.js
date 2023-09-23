@@ -9,7 +9,7 @@ import {
   ProjectNameContext,
   LoadingContext,
 } from "../../../../contexts/Contexts";
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
 
 const AuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
@@ -45,7 +45,8 @@ const AuthorizeForm = () => {
 
   return (
     <div className="form">
-      <input
+      <Input
+        fullWidth
         type="password"
         id="pat"
         name="pat"
@@ -56,8 +57,11 @@ const AuthorizeForm = () => {
           setVgAuthorized(false);
         }}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="organizationName"
         name="organizationName"
@@ -68,8 +72,10 @@ const AuthorizeForm = () => {
           setVgAuthorized(false);
         }}
       />
+      <br />
+      <br />
 
-      <Button id="project_button" onClick={() => auth()}>
+      <Button variant="contained" id="project_button" onClick={() => auth()}>
         Authorize
       </Button>
     </div>
