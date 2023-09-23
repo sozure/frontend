@@ -6,7 +6,7 @@ import KVTable from "./KeyVault/KVTable";
 const Result = () => {
   const { tableType } = useContext(TableTypeContext);
   return (
-    <div>
+    <div className="result-footer">
       {tableType === "KV" ? <KVTable /> : <VGTable />}
       
     </div>

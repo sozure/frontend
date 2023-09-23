@@ -23,6 +23,8 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
+import { Button, Box } from "@mui/material";
+
 const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
@@ -79,6 +81,15 @@ const VariableGroupAddForm = () => {
     }
   };
 
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
+  };
+
   return (
     <div className="form">
       <VariableGroupBaseForm />
@@ -101,9 +112,16 @@ const VariableGroupAddForm = () => {
         onChange={(event) => setNewValue(event.target.value)}
       />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button
+          sx={buttonStyles}
+          id="submit_button"
+          onClick={() => send()}
+          variant="contained"
+        >
+          Send request
+        </Button>
+      </Box>
     </div>
   );
 };

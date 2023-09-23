@@ -14,7 +14,12 @@ import {
   SingleModificationContext,
   SingleOperationContext,
 } from "../../../../contexts/Contexts";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
+
+import { Button, Box } from "@mui/material";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -23,7 +28,7 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
-  const [ deleted, setDeleted ] = useState(false);
+  const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
@@ -62,6 +67,15 @@ const KeyVaultGetForm = () => {
     }
   };
 
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
+  };
+
   return (
     <div className="form">
       <KeyVaultBaseForm />
@@ -96,9 +110,16 @@ const KeyVaultGetForm = () => {
       />
       <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button
+          sx={buttonStyles}
+          id="submit_button"
+          onClick={() => send()}
+          variant="contained"
+        >
+          Send request
+        </Button>
+      </Box>
     </div>
   );
 };

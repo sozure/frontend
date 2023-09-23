@@ -9,6 +9,7 @@ import {
   ProjectNameContext,
   LoadingContext,
 } from "../../../../contexts/Contexts";
+import { Button } from "@mui/material";
 
 const AuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
@@ -42,6 +43,15 @@ const AuthorizeForm = () => {
     }
   };
 
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
+  };
+
   return (
     <div className="form">
       <input
@@ -68,9 +78,9 @@ const AuthorizeForm = () => {
         }}
       />
 
-      <button id="project_button" onClick={() => auth()}>
+      <Button sx={buttonStyles} id="project_button" onClick={() => auth()}>
         Authorize
-      </button>
+      </Button>
     </div>
   );
 };

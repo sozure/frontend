@@ -8,7 +8,7 @@ function Sheet() {
   const { loading } = useContext(LoadingContext);
 
   return (
-    <div>
+    <div className="result-footer">
       <Form />
       {loading ? <h2>Loading...</h2> : <Result />}
     </div>

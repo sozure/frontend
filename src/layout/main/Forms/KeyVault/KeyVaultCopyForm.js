@@ -12,6 +12,8 @@ import {
   PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
+import { Button, Box } from "@mui/material";
+
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
@@ -24,8 +26,8 @@ const KeyVaultCopyForm = () => {
   const { destinationKeyVault, setDestinationKeyVault } = useContext(
     DestinationKeyVaultContext
   );
-  const {setPaginationCounter} = useContext(PaginationCounterContext);
-  
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+
   const [override, setOverride] = useState(false);
 
   const mandatoryFields = [
@@ -44,7 +46,7 @@ const KeyVaultCopyForm = () => {
         incorrectFill = true;
       }
     });
-    
+
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,
@@ -57,6 +59,15 @@ const KeyVaultCopyForm = () => {
       sendCopyRequest(body);
       setPaginationCounter(0);
     }
+  };
+
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
   };
 
   return (
@@ -91,9 +102,16 @@ const KeyVaultCopyForm = () => {
       />
       <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button
+          sx={buttonStyles}
+          id="submit_button"
+          onClick={() => send()}
+          variant="contained"
+        >
+          Send request
+        </Button>
+      </Box>
     </div>
   );
 };

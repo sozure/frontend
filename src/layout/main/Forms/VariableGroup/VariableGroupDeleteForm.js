@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
+import { Button, Box } from "@mui/material";
+
 import {
   PATContext,
   ProjectNameContext,
@@ -78,6 +80,15 @@ const VariableGroupDeleteForm = () => {
     }
   };
 
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
+  };
+
   return (
     <div className="form">
       <VariableGroupBaseForm />
@@ -90,9 +101,16 @@ const VariableGroupDeleteForm = () => {
         onChange={(event) => setKeyRegex(event.target.value)}
       />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button
+          sx={buttonStyles}
+          id="submit_button"
+          onClick={() => send()}
+          variant="contained"
+        >
+          Send request
+        </Button>
+      </Box>
     </div>
   );
 };

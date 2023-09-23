@@ -20,7 +20,12 @@ import {
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
+
+import { Button, Box } from "@mui/material";
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -71,15 +76,20 @@ const VariableGroupGetForm = () => {
       }
     });
     if (!incorrectFill) {
-      sendListRequest(
-        message,
-        valueRegex,
-        setVariableGroups
-      );
+      sendListRequest(message, valueRegex, setVariableGroups);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
     }
+  };
+
+  const buttonStyles = {
+    color: "white",
+    backgroundColor: "black",
+    "&:hover": {
+      backgroundColor: "#555",
+      color: "white",
+    },
   };
 
   return (
@@ -114,9 +124,16 @@ const VariableGroupGetForm = () => {
         onChange={(e) => setSecretIncluded(e.target.checked)}
       />
       <br />
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button
+          sx={buttonStyles}
+          id="submit_button"
+          onClick={() => send()}
+          variant="contained"
+        >
+          Send request
+        </Button>
+      </Box>
     </div>
   );
 };
