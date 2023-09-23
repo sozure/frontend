@@ -68,20 +68,11 @@ const KeyVaultGetForm = () => {
     }
   };
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <KeyVaultBaseForm />
 
-      <Input
+      <Input fullWidth
         type="text"
         id="keyVaultName"
         name="keyVaultName"
@@ -91,7 +82,7 @@ const KeyVaultGetForm = () => {
       />
       <br />
       <br />
-      <Input
+      <Input fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -119,7 +110,6 @@ const KeyVaultGetForm = () => {
 
       <Box>
         <Button
-          sx={buttonStyles}
           id="submit_button"
           onClick={() => send()}
           variant="contained"

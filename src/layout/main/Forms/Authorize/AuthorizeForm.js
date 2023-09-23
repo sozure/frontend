@@ -43,15 +43,6 @@ const AuthorizeForm = () => {
     }
   };
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <input
@@ -78,7 +69,7 @@ const AuthorizeForm = () => {
         }}
       />
 
-      <Button sx={buttonStyles} id="project_button" onClick={() => auth()}>
+      <Button id="project_button" onClick={() => auth()}>
         Authorize
       </Button>
     </div>

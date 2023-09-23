@@ -11,15 +11,6 @@ const KeyVaultBaseOperationForm = ({ send }) => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <KeyVaultBaseForm />
@@ -44,7 +35,6 @@ const KeyVaultBaseOperationForm = ({ send }) => {
 
       <Box>
         <Button
-          sx={buttonStyles}
           id="submit_button"
           onClick={() => send()}
           variant="contained"
