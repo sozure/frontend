@@ -1,6 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
+import { Button, Box, Input } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   PATContext,
   ProjectNameContext,
@@ -64,7 +68,10 @@ const VariableGroupDeleteForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "deleteform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -81,7 +88,7 @@ const VariableGroupDeleteForm = () => {
   return (
     <div className="form">
       <VariableGroupBaseForm />
-      <input
+      <Input fullWidth
         type="text"
         id="variable_key"
         name="variable_key"
@@ -89,10 +96,15 @@ const VariableGroupDeleteForm = () => {
         value={keyRegex}
         onChange={(event) => setKeyRegex(event.target.value)}
       />
+      <br />
+      <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button id="submit_button" onClick={() => send()} variant="contained">
+          Send request
+        </Button>
+      </Box>
+      <ToastContainer />
     </div>
   );
 };

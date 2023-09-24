@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import "../../../../CSS/style.css";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   KeyVaultNameContext,
@@ -13,10 +15,13 @@ import {
   OnDeleteContext,
   PaginationCounterContext,
   SingleModificationContext,
-  SingleOperationContext
+  SingleOperationContext,
 } from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
 
 const KeyVaultDeleteForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -31,18 +36,26 @@ const KeyVaultDeleteForm = () => {
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
 
-  const mandatoryFields = [tenantId, clientId, clientSecret, keyVaultName, secretRegex];
+  const mandatoryFields = [
+    tenantId,
+    clientId,
+    clientSecret,
+    keyVaultName,
+    secretRegex,
+  ];
 
   const send = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "deleteform-error",
+        });
         incorrectFill = true;
       }
     });
     if (!incorrectFill) {
-      
       let body = {
         tenantId: tenantId,
         clientId: clientId,
@@ -61,7 +74,10 @@ const KeyVaultDeleteForm = () => {
   };
 
   return (
-    <KeyVaultBaseOperationForm send={send}/>
+    <>
+      <KeyVaultBaseOperationForm send={send} />
+      <ToastContainer />
+    </>
   );
 };
 

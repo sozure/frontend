@@ -5,8 +5,8 @@ const baseUrl = `${getBaseUrl()}/project`;
 
 const axiosConfig = {
   headers: {
-    'Access-Control-Allow-Origin': '*'
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
 };
 
 const getProjects = (
@@ -17,10 +17,13 @@ const getProjects = (
   setProjectName,
   setLoading
 ) => {
-  const url = `${baseUrl}?organization=${organizationName}&pat=${PAT}`;
-  
+  const url = `${baseUrl}/get`;
+  const body = {
+    organization: organizationName,
+    pat: PAT
+  };
   axios
-    .get(url, axiosConfig)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;
@@ -35,6 +38,7 @@ const getProjects = (
     })
     .catch((err) => {
       handleError2(err);
+      setLoading(false);
     });
 };
 

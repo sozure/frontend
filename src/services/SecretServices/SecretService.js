@@ -10,8 +10,8 @@ const secretUrl = `${getBaseUrl()}/secret`;
 
 const axiosConfig = {
   headers: {
-    'Access-Control-Allow-Origin': '*'
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
 };
 
 const sendDeleteSecretRequest = (
@@ -31,25 +31,23 @@ const sendDeleteSecretRequest = (
 };
 
 const sendListSecretRequest = (
-  body,
+  message,
   callbackForDataSaving,
   callbackForLoading,
   getDeleted
 ) => {
-  let tenantId = body["tenantId"];
-  let clientId = body["clientId"];
-  let clientSecret = body["clientSecret"];
-  let keyVaultName = body["keyVaultName"];
-  let secretRegex = body["secretRegex"];
-
-  let url = `${secretUrl}${
-    getDeleted ? "/deleted" : ""
-  }?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
+  let url = `${secretUrl}${getDeleted ? "/GetDeleted" : "/Get"}`;
+  const body = {
+    tenantId: message["tenantId"],
+    clientId: message["clientId"],
+    clientSecret: message["clientSecret"],
+    keyVaultName: message["keyVaultName"],
+    secretFilter: message["secretRegex"]
+  }
 
   callbackForLoading(true);
-
   axios
-    .get(url, axiosConfig)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;

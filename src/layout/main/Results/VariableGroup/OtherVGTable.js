@@ -23,15 +23,16 @@ function OtherVGTable() {
   };
 
   return (
-    <div>
+    <div className="matched-variables-table">
       {(variableGroups === null) |
       (variableGroups === undefined) |
       (variableGroups.length === 0) ? (
         <h2>No variables found.</h2>
       ) : (
         <>
-          <h2>Matched variables (Found variables: {variableGroups.length}).</h2>
-          <table>
+          <h2>Matched variables (Found variables: {variableGroups.length})</h2>
+          <br/>
+          <table className="matched-variables-table">
             <thead>
             <TableHeader columnList={["Project", "Variable group name", "Variable key", "Variable value", "Operations"]}/>
             </thead>
@@ -64,6 +65,7 @@ function OtherVGTable() {
                 })}
             </tbody>
           </table>
+          <br />
           <PaginationButtons collection={variableGroups} />
         </>
       )}

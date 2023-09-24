@@ -23,6 +23,10 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
+import { Button, Box, Input } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
@@ -65,7 +69,10 @@ const VariableGroupAddForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "addform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -83,7 +90,8 @@ const VariableGroupAddForm = () => {
     <div className="form">
       <VariableGroupBaseForm />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="new_key"
         name="new_key"
@@ -91,8 +99,11 @@ const VariableGroupAddForm = () => {
         value={newKey}
         onChange={(event) => setNewKey(event.target.value)}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="new_value"
         name="new_value"
@@ -100,10 +111,15 @@ const VariableGroupAddForm = () => {
         value={newValue}
         onChange={(event) => setNewValue(event.target.value)}
       />
+      <br />
+      <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <Box>
+        <Button id="submit_button" onClick={() => send()} variant="contained">
+          Send request
+        </Button>
+      </Box>
+      <ToastContainer />
     </div>
   );
 };
