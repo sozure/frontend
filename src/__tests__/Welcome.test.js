@@ -5,8 +5,10 @@ import Welcome from '../layout/main/Welcome';
 
 test('renders Sozure header and paragraph', () => {
     render(<Welcome />);
-    const headerElement = screen.getByText(/Sozure/i);
+    const headerElement1 = screen.getByText(/So/i);
+    const headerElement2 = screen.getByText(/zure/i);
     const paragraphElement = screen.getByText(/Automates tasks in Azure Devops/i);
-    expect(headerElement).toBeInTheDocument();
+    expect(headerElement1).toBeInTheDocument();
+    expect(headerElement2).toBeInTheDocument();
     expect(paragraphElement).toBeInTheDocument();
   });
