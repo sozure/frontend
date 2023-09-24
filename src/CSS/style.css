@@ -137,7 +137,7 @@ td {
 }
 
 tr:hover {
-  background-color: #ddd; /* Light grey background on hover */
+  background-color: #e0e9f0; /* Subtle Azure Blue background on hover */
 }
 
 input[type="text"] {
