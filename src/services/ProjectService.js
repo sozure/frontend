@@ -17,12 +17,13 @@ const getProjects = (
   setProjectName,
   setLoading
 ) => {
+  const url = `${baseUrl}/get`;
   const body = {
     organization: organizationName,
     pat: PAT
   };
   axios
-    .post(baseUrl, body, axiosConfig)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;
@@ -37,6 +38,7 @@ const getProjects = (
     })
     .catch((err) => {
       handleError2(err);
+      setLoading(false);
     });
 };
 
