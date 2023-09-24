@@ -14,34 +14,6 @@ const axiosConfig = {
   },
 };
 
-let secrets = [
-  {
-    keyVault: "keyVault1",
-    secretName: "secretName1",
-    secretValue: "secretValue1",
-  },
-  {
-    keyVault: "keyVault2",
-    secretName: "secretName2",
-    secretValue: "secretValue1",
-  },
-  {
-    keyVault: "keyVault1",
-    secretName: "secretName3",
-    secretValue: "secretValue1",
-  },
-  {
-    keyVault: "keyVault2",
-    secretName: "secretName4",
-    secretValue: "secretValue1",
-  },
-  {
-    keyVault: "keyVault1",
-    secretName: "secretName5",
-    secretValue: "secretValue1",
-  },
-];
-
 const sendDeleteSecretRequest = (
   body,
   callbackForLoading,
@@ -75,39 +47,34 @@ const sendListSecretRequest = (
   }?keyVaultName=${keyVaultName}&secretFilter=${secretRegex}&tenantId=${tenantId}&clientId=${clientId}&clientSecret=${clientSecret}`;
 
   callbackForLoading(true);
-
-  // axios
-  //   .get(url, axiosConfig)
-  //   .then((res) => {
-  //     let status = res.data.status;
-  //     let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
-  //     callbackForLoading(false);
-  //     if (status === 0) {
-  //       callbackForDataSaving(secrets);
-  //     } else {
-  //       alert(getResponseMessage(status));
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     handleError(callbackForLoading, err);
-  //   });
-  
-  callbackForLoading(false);
-  callbackForDataSaving(secrets);
+  axios
+    .get(url, axiosConfig)
+    .then((res) => {
+      let status = res.data.status;
+      let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
+      callbackForLoading(false);
+      if (status === 0) {
+        callbackForDataSaving(secrets);
+      } else {
+        alert(getResponseMessage(status));
+      }
+    })
+    .catch((err) => {
+      handleError(callbackForLoading, err);
+    });
 };
 
 const sendCopyRequest = (body) => {
   let url = `${secretUrl}/copy`;
-  // axios
-  //   .post(url, body, axiosConfig)
-  //   .then((res) => {
-  //     let status = res.data.status;
-  //     alert(getResponseMessage(status));
-  //   })
-  //   .catch((err) => {
-  //     handleError2(err);
-  //   });
-  alert(getResponseMessage(0));
+  axios
+    .post(url, body, axiosConfig)
+    .then((res) => {
+      let status = res.data.status;
+      alert(getResponseMessage(status));
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
 };
 
 const sendRecoverSecretRequest = (
@@ -134,27 +101,23 @@ const sendRequest = (
   callbackForOnSet
 ) => {
   callbackForLoading(true);
-  // axios
-  //   .post(url, body, axiosConfig)
-  //   .then((res) => {
-  //     let status = res.data.status;
-  //     let secrets = res.data.deletedSecrets;
-  //     callbackForLoading(false);
-  //     callbackForOnSet(false);
-  //     if (status === 0) {
-  //       callbackForDataSaving(secrets);
-  //     } else {
-  //       alert(getResponseMessage(status));
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     handleError(callbackForLoading, err);
-  //     callbackForOnSet(false);
-  //   });
-
-  callbackForLoading(false);
-  callbackForOnSet(false);
-  callbackForDataSaving(secrets);
+  axios
+    .post(url, body, axiosConfig)
+    .then((res) => {
+      let status = res.data.status;
+      let secrets = res.data.deletedSecrets;
+      callbackForLoading(false);
+      callbackForOnSet(false);
+      if (status === 0) {
+        callbackForDataSaving(secrets);
+      } else {
+        alert(getResponseMessage(status));
+      }
+    })
+    .catch((err) => {
+      handleError(callbackForLoading, err);
+      callbackForOnSet(false);
+    });
 };
 
 export {
