@@ -6,16 +6,26 @@ const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
 const axiosConfig = {
   headers: {
-    'Access-Control-Allow-Origin': '*'
-  }
+    "Access-Control-Allow-Origin": "*",
+  },
 };
 
 const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
   let callbackForLoading = message["setLoading"];
-  let url = buildUrl(message, valueRegex);
+  let secretIncluded = message["secretIncluded"];
+  let url = `${variableGroupUrl}/Get`;
   callbackForLoading(true);
+  const body = {
+    organization: message["organizationName"],
+    project: message["projectName"],
+    pat: message["pat"],
+    variableGroupFilter: message["vgRegex"],
+    keyFilter: message["keyRegex"],
+    containsSecrets: secretIncluded,
+    valueFilter: valueRegex
+  }
   axios
-    .get(url, axiosConfig)
+    .post(url, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
@@ -89,24 +99,9 @@ const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
   sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
-const buildUrl = (message, valueRegex) => {
-  let secretIncluded = message["secretIncluded"];
-  let projectName = message["projectName"];
-  let pat = message["pat"];
-  let vgRegex = message["vgRegex"];
-  let keyRegex = message["keyRegex"];
-  let organizationName = message["organizationName"];
-
-  let result = `${variableGroupUrl}?Organization=${organizationName}&Project=${projectName}&PAT=${pat}&VariableGroupFilter=${vgRegex}&KeyFilter=${keyRegex}&ContainsSecrets=${secretIncluded}${
-    valueRegex !== "" ? "&ValueFilter=" + valueRegex : ""
-  }`;
-
-  return result;
-};
-
 export {
   sendListRequest,
   sendAddRequest,
   sendDeleteRequest,
-  sendUpdateRequest
+  sendUpdateRequest,
 };

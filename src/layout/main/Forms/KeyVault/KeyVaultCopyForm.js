@@ -12,6 +12,18 @@ import {
   PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 
+import {
+  Button,
+  Box,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+  Input,
+} from "@mui/material";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
@@ -24,8 +36,8 @@ const KeyVaultCopyForm = () => {
   const { destinationKeyVault, setDestinationKeyVault } = useContext(
     DestinationKeyVaultContext
   );
-  const {setPaginationCounter} = useContext(PaginationCounterContext);
-  
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+
   const [override, setOverride] = useState(false);
 
   const mandatoryFields = [
@@ -40,11 +52,14 @@ const KeyVaultCopyForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "copyform-error"
+        });
         incorrectFill = true;
       }
     });
-    
+
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,
@@ -62,7 +77,8 @@ const KeyVaultCopyForm = () => {
   return (
     <div className="form">
       <KeyVaultBaseForm />
-      <input
+      <Input
+        fullWidth
         type="text"
         id="toKeyVaultName"
         name="toKeyVaultName"
@@ -70,8 +86,10 @@ const KeyVaultCopyForm = () => {
         value={originKeyVault}
         onChange={(event) => setOriginKeyVault(event.target.value)}
       />
-
-      <input
+      <br />
+      <br />
+      <Input
+        fullWidth
         type="text"
         id="fromKeyVaultName"
         name="fromKeyVaultName"
@@ -79,21 +97,29 @@ const KeyVaultCopyForm = () => {
         value={destinationKeyVault}
         onChange={(event) => setDestinationKeyVault(event.target.value)}
       />
-
-      <label className="checkbox-inline" htmlFor="overrideNeeded">
-        Override secret if it exists on destination key vault:{" "}
-      </label>
-      <input
-        type="checkbox"
-        id="overrideNeeded"
-        name="overrideNeeded"
-        onChange={() => setOverride(!override)}
-      />
+      <br />
       <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={() => setOverride(!override)}
+              id="overrideNeeded"
+              name="overrideNeeded"
+            />
+          }
+          label="Override secret if it exists on destination key vault"
+        ></FormControlLabel>
+      </FormGroup>
+      <br />
+
+      <Box>
+        <Button id="submit_button" onClick={() => send()} variant="contained">
+          Send request
+        </Button>
+      </Box>
+      <ToastContainer />
     </div>
   );
 };

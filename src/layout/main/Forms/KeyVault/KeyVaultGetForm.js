@@ -1,6 +1,10 @@
 import React, { useContext, useState } from "react";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   KeyVaultNameContext,
@@ -14,7 +18,12 @@ import {
   SingleModificationContext,
   SingleOperationContext,
 } from "../../../../contexts/Contexts";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
+
+import { Button, Box, Input } from "@mui/material";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -23,7 +32,7 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
-  const [ deleted, setDeleted ] = useState(false);
+  const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
@@ -41,7 +50,10 @@ const KeyVaultGetForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "getform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -66,7 +78,8 @@ const KeyVaultGetForm = () => {
     <div className="form">
       <KeyVaultBaseForm />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="keyVaultName"
         name="keyVaultName"
@@ -74,8 +87,10 @@ const KeyVaultGetForm = () => {
         value={keyVaultName}
         onChange={(event) => setKeyVaultName(event.target.value)}
       />
-
-      <input
+      <br />
+      <br />
+      <Input
+        fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -83,22 +98,30 @@ const KeyVaultGetForm = () => {
         value={secretRegex}
         onChange={(event) => setSecretRegex(event.target.value)}
       />
-
-      <label className="checkbox-inline" htmlFor="secret_needed">
-        Get deleted secrets:{" "}
-      </label>
-
-      <input
-        type="checkbox"
-        id="getDeletedSecrets"
-        name="getDeletedSecrets"
-        onChange={(e) => setDeleted(e.target.checked)}
-      />
+      <br />
       <br />
 
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => setDeleted(e.target.checked)}
+              id="getDeletedSecrets"
+              name="getDeletedSecrets"
+            />
+          }
+          label="Get deleted secrets"
+        ></FormControlLabel>
+      </FormGroup>
+
+      <br />
+
+      <Box>
+        <Button id="submit_button" onClick={() => send()} variant="contained">
+          Send request
+        </Button>
+      </Box>
+      <ToastContainer />
     </div>
   );
 };

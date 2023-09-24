@@ -7,6 +7,7 @@ import {
   ActionTypeContext,
   TableTypeContext,
 } from "../../../contexts/Contexts";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const MainSelects = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -16,47 +17,58 @@ const MainSelects = () => {
   const { tableType, setTableType } = useContext(TableTypeContext);
 
   return (
-    <div>
+    <div className="main-select-container">
       {tableType === "VG" ? (
-        <select
-          className="action_type"
-          value={actionType}
-          onChange={(event) => {
-            let newActionType = event.target.value;
-            if (newActionType) {
-              setOnAdd(false);
-              setOnDelete(false);
-              setOnUpdate(false);
-            }
-            setActionType(event.target.value);
-          }}
-        >
-          <option value="List">List variables</option>
-          <option value="Add">Add variables</option>
-          <option value="Delete">Delete variables</option>
-          <option value="Update">Update variables</option>
-        </select>
+        <FormControl fullWidth>
+          <InputLabel>Action type</InputLabel>
+          <Select
+            className="action_type"
+            value={actionType}
+            label="Action type"
+            onChange={(event) => {
+              let newActionType = event.target.value;
+              if (newActionType) {
+                setOnAdd(false);
+                setOnDelete(false);
+                setOnUpdate(false);
+              }
+              setActionType(event.target.value);
+            }}
+          >
+            <MenuItem value="List">List variables</MenuItem>
+            <MenuItem value="Add">Add variables</MenuItem>
+            <MenuItem value="Delete">Delete variables</MenuItem>
+            <MenuItem value="Update">Update variables</MenuItem>
+          </Select>
+        </FormControl>
       ) : (
-        <select
-          className="action_type"
-          value={actionType}
-          onChange={(event) => setActionType(event.target.value)}
-        >
-          <option value="List">List secrets</option>
-          <option value="Copy">Copy secrets</option>
-          <option value="Delete">Delete secrets</option>
-          <option value="Recover">Recover secrets</option>
-        </select>
+        <FormControl fullWidth>
+          <InputLabel>Set action type</InputLabel>
+          <Select
+            className="action-type"
+            label="Set action type"
+            value={actionType}
+            onChange={(event) => setActionType(event.target.value)}
+          >
+            <MenuItem value="List">List secrets</MenuItem>
+            <MenuItem value="Copy">Copy secrets</MenuItem>
+            <MenuItem value="Delete">Delete secrets</MenuItem>
+            <MenuItem value="Recover">Recover secrets</MenuItem>
+          </Select>
+        </FormControl>
       )}
-      <br />
 
-      <select
-        id="change_type_select"
-        onChange={(event) => setTableType(event.target.value)}
-      >
-        <option value="KV">Secrets</option>
-        <option value="VG">Variable groups</option>
-      </select>
+      <FormControl fullWidth>
+        <InputLabel>Select table type</InputLabel>
+        <Select
+          label="Select table type"
+          onChange={(event) => setTableType(event.target.value)}
+          value={tableType}
+        >
+          <MenuItem value="KV">Secrets</MenuItem>
+          <MenuItem value="VG">Variable groups</MenuItem>
+        </Select>
+      </FormControl>
     </div>
   );
 };

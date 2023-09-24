@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { getProjects } from "../../../../services/ProjectService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   PATContext,
@@ -9,6 +11,7 @@ import {
   ProjectNameContext,
   LoadingContext,
 } from "../../../../contexts/Contexts";
+import { Button, Input } from "@mui/material";
 
 const AuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
@@ -25,7 +28,11 @@ const AuthorizeForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "custom-auth",
+          autoClose: 1500
+        });
         incorrectFill = true;
       }
     });
@@ -44,7 +51,8 @@ const AuthorizeForm = () => {
 
   return (
     <div className="form">
-      <input
+      <Input
+        fullWidth
         type="password"
         id="pat"
         name="pat"
@@ -55,8 +63,11 @@ const AuthorizeForm = () => {
           setVgAuthorized(false);
         }}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="organizationName"
         name="organizationName"
@@ -67,10 +78,13 @@ const AuthorizeForm = () => {
           setVgAuthorized(false);
         }}
       />
+      <br />
+      <br />
 
-      <button id="project_button" onClick={() => auth()}>
+      <Button variant="contained" id="project_button" onClick={() => auth()}>
         Authorize
-      </button>
+      </Button>
+      <ToastContainer />
     </div>
   );
 };

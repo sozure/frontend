@@ -8,6 +8,9 @@ import {
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   PATContext,
   ProjectNameContext,
@@ -20,7 +23,19 @@ import {
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
-import { setOnSingleModificationBack, setSingleOperationBack } from "../../../../services/CommonService";
+import {
+  setOnSingleModificationBack,
+  setSingleOperationBack,
+} from "../../../../services/CommonService";
+
+import {
+  Button,
+  Box,
+  Input,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -66,16 +81,15 @@ const VariableGroupGetForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "getform-error",
+        });
         incorrectFill = true;
       }
     });
     if (!incorrectFill) {
-      sendListRequest(
-        message,
-        valueRegex,
-        setVariableGroups
-      );
+      sendListRequest(message, valueRegex, setVariableGroups);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
@@ -86,7 +100,8 @@ const VariableGroupGetForm = () => {
     <div className="form">
       <VariableGroupBaseForm />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="key_regex"
         name="key_regex"
@@ -94,8 +109,11 @@ const VariableGroupGetForm = () => {
         value={keyRegex}
         onChange={(event) => setKeyRegex(event.target.value)}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="value_regex"
         name="value_regex"
@@ -103,20 +121,28 @@ const VariableGroupGetForm = () => {
         value={valueRegex}
         onChange={(event) => setValueRegex(event.target.value)}
       />
-      <label className="checkbox-inline" htmlFor="secret_needed">
-        Secret included:{" "}
-      </label>
-
-      <input
-        type="checkbox"
-        id="secretNeeded"
-        name="secretNeeded"
-        onChange={(e) => setSecretIncluded(e.target.checked)}
-      />
       <br />
-      <button id="submit_button" onClick={() => send()}>
-        Send request
-      </button>
+      <br />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => setSecretIncluded(e.target.checked)}
+              id="secretNeeded"
+              name="secretNeeded"
+            />
+          }
+          label="Secret included"
+        ></FormControlLabel>
+      </FormGroup>
+
+      <br />
+      <Box>
+        <Button id="submit_button" onClick={() => send()} variant="contained">
+          Send request
+        </Button>
+      </Box>
+      <ToastContainer />
     </div>
   );
 };
