@@ -8,6 +8,9 @@ import {
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   PATContext,
   ProjectNameContext,
@@ -25,7 +28,14 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
-import { Button, Box, Input, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import {
+  Button,
+  Box,
+  Input,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -71,7 +81,10 @@ const VariableGroupGetForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "getform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -99,7 +112,8 @@ const VariableGroupGetForm = () => {
       <br />
       <br />
 
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="value_regex"
         name="value_regex"
@@ -107,18 +121,18 @@ const VariableGroupGetForm = () => {
         value={valueRegex}
         onChange={(event) => setValueRegex(event.target.value)}
       />
-      <br/>
-      <br/>
+      <br />
+      <br />
       <FormGroup>
         <FormControlLabel
-        control={
-          <Checkbox
-          onChange={(e) => setSecretIncluded(e.target.checked)}
-          id="secretNeeded"
-        name="secretNeeded"
-        />
-        }
-        label="Secret included"
+          control={
+            <Checkbox
+              onChange={(e) => setSecretIncluded(e.target.checked)}
+              id="secretNeeded"
+              name="secretNeeded"
+            />
+          }
+          label="Secret included"
         ></FormControlLabel>
       </FormGroup>
 
@@ -128,6 +142,7 @@ const VariableGroupGetForm = () => {
           Send request
         </Button>
       </Box>
+      <ToastContainer />
     </div>
   );
 };
