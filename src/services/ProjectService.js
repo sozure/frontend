@@ -17,9 +17,12 @@ const getProjects = (
   setProjectName,
   setLoading
 ) => {
-  const url = `${baseUrl}?organization=${organizationName}&pat=${PAT}`;
+  const body = {
+    organization: organizationName,
+    pat: PAT
+  };
   axios
-    .get(url, axiosConfig)
+    .post(baseUrl, body, axiosConfig)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;
