@@ -21,6 +21,9 @@ import {
   Input,
 } from "@mui/material";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
@@ -49,7 +52,10 @@ const KeyVaultCopyForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "copyform-error"
+        });
         incorrectFill = true;
       }
     });
@@ -71,7 +77,8 @@ const KeyVaultCopyForm = () => {
   return (
     <div className="form">
       <KeyVaultBaseForm />
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="toKeyVaultName"
         name="toKeyVaultName"
@@ -81,7 +88,8 @@ const KeyVaultCopyForm = () => {
       />
       <br />
       <br />
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="fromKeyVaultName"
         name="fromKeyVaultName"
@@ -111,6 +119,7 @@ const KeyVaultCopyForm = () => {
           Send request
         </Button>
       </Box>
+      <ToastContainer />
     </div>
   );
 };

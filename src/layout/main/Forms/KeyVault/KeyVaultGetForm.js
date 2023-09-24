@@ -3,6 +3,9 @@ import { sendListSecretRequest } from "../../../../services//SecretServices/Secr
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   KeyVaultNameContext,
   SecretRegexContext,
@@ -47,7 +50,10 @@ const KeyVaultGetForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "getform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -72,7 +78,8 @@ const KeyVaultGetForm = () => {
     <div className="form">
       <KeyVaultBaseForm />
 
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="keyVaultName"
         name="keyVaultName"
@@ -82,7 +89,8 @@ const KeyVaultGetForm = () => {
       />
       <br />
       <br />
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -109,14 +117,11 @@ const KeyVaultGetForm = () => {
       <br />
 
       <Box>
-        <Button
-          id="submit_button"
-          onClick={() => send()}
-          variant="contained"
-        >
+        <Button id="submit_button" onClick={() => send()} variant="contained">
           Send request
         </Button>
       </Box>
+      <ToastContainer />
     </div>
   );
 };

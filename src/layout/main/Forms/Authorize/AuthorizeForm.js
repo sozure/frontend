@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { getProjects } from "../../../../services/ProjectService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   PATContext,
@@ -26,7 +28,11 @@ const AuthorizeForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "custom-auth",
+          autoClose: 1500
+        });
         incorrectFill = true;
       }
     });
@@ -78,6 +84,7 @@ const AuthorizeForm = () => {
       <Button variant="contained" id="project_button" onClick={() => auth()}>
         Authorize
       </Button>
+      <ToastContainer />
     </div>
   );
 };

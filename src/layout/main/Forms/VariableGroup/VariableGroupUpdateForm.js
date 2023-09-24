@@ -26,7 +26,9 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
-import { Button, Box } from "@mui/material";
+import { Button, Box, Input } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VariableGroupUpdateForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -72,7 +74,10 @@ const VariableGroupUpdateForm = () => {
     let incorrectFill = false;
     mandatoryFields.forEach((element) => {
       if (element === "") {
-        alert("Fill every field!");
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: "updateform-error",
+        });
         incorrectFill = true;
       }
     });
@@ -84,12 +89,13 @@ const VariableGroupUpdateForm = () => {
       setOnSingleModificationBack(setOnSingleModification);
     }
   };
-  
+
   return (
     <div className="form">
       <VariableGroupBaseForm />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="variable_key"
         name="variable_key"
@@ -97,8 +103,11 @@ const VariableGroupUpdateForm = () => {
         value={keyRegex}
         onChange={(event) => setKeyRegex(event.target.value)}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="new_value"
         name="new_value"
@@ -106,8 +115,11 @@ const VariableGroupUpdateForm = () => {
         value={newValue}
         onChange={(event) => setNewValue(event.target.value)}
       />
+      <br />
+      <br />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="value_regex"
         name="value_regex"
@@ -115,12 +127,15 @@ const VariableGroupUpdateForm = () => {
         value={valueRegex}
         onChange={(event) => setValueRegex(event.target.value)}
       />
+      <br />
+      <br />
 
       <Box>
         <Button id="submit-button" onClick={() => send()} variant="contained">
           Send request
         </Button>
       </Box>
+      <ToastContainer />
     </div>
   );
 };
