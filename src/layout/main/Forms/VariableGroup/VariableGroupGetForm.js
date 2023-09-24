@@ -109,9 +109,6 @@ const VariableGroupGetForm = () => {
       />
       <br/>
       <br/>
-      {/* <label className="checkbox-inline" htmlFor="secret_needed">
-        Secret included:{" "}
-      </label> */}
       <FormGroup>
         <FormControlLabel
         control={
