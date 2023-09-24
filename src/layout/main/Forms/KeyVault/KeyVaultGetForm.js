@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 import {
   KeyVaultNameContext,
@@ -19,7 +20,7 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
-import { Button, Box } from "@mui/material";
+import { Button, Box, Input } from "@mui/material";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -67,20 +68,11 @@ const KeyVaultGetForm = () => {
     }
   };
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <KeyVaultBaseForm />
 
-      <input
+      <Input fullWidth
         type="text"
         id="keyVaultName"
         name="keyVaultName"
@@ -88,8 +80,9 @@ const KeyVaultGetForm = () => {
         value={keyVaultName}
         onChange={(event) => setKeyVaultName(event.target.value)}
       />
-
-      <input
+      <br />
+      <br />
+      <Input fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -97,22 +90,26 @@ const KeyVaultGetForm = () => {
         value={secretRegex}
         onChange={(event) => setSecretRegex(event.target.value)}
       />
+      <br />
+      <br />
 
-      <label className="checkbox-inline" htmlFor="secret_needed">
-        Get deleted secrets:{" "}
-      </label>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => setDeleted(e.target.checked)}
+              id="getDeletedSecrets"
+              name="getDeletedSecrets"
+            />
+          }
+          label="Get deleted secrets"
+        ></FormControlLabel>
+      </FormGroup>
 
-      <input
-        type="checkbox"
-        id="getDeletedSecrets"
-        name="getDeletedSecrets"
-        onChange={(e) => setDeleted(e.target.checked)}
-      />
       <br />
 
       <Box>
         <Button
-          sx={buttonStyles}
           id="submit_button"
           onClick={() => send()}
           variant="contained"

@@ -84,15 +84,6 @@ const VariableGroupUpdateForm = () => {
       setOnSingleModificationBack(setOnSingleModification);
     }
   };
-
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
   
   return (
     <div className="form">
@@ -126,7 +117,7 @@ const VariableGroupUpdateForm = () => {
       />
 
       <Box>
-        <Button sx={buttonStyles} id="submit-button" onClick={() => send()} variant="contained">
+        <Button id="submit-button" onClick={() => send()} variant="contained">
           Send request
         </Button>
       </Box>

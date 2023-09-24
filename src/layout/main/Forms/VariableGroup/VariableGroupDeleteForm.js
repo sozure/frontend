@@ -80,15 +80,6 @@ const VariableGroupDeleteForm = () => {
     }
   };
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <VariableGroupBaseForm />
@@ -103,7 +94,6 @@ const VariableGroupDeleteForm = () => {
 
       <Box>
         <Button
-          sx={buttonStyles}
           id="submit_button"
           onClick={() => send()}
           variant="contained"

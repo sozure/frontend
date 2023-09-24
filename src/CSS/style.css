@@ -81,8 +81,13 @@ input[type="checkbox"] {
   border-radius: 3px;
 }
 
+.form > .MuiFormControl-root {
+  width: 25%;
+  margin-bottom: 15px;
+}
+
 .result-footer {
-  padding: 20px;
+  margin-top: 15px;
 }
 /* from index.css */
 
@@ -109,16 +114,30 @@ body {
   font-family: sans;
 }
 
-table {
+.matched-variables-table {
   width: 100%;
-  background: #f1eeee;
+  border-collapse: collapse; /* Remove spacing between table cells */
+  margin-bottom: 20px;
 }
+
+tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
 th {
-  background: #666;
+  background-color: #333;
   color: #fff;
+  padding: 10px;
+  text-align: left;
 }
+
 td {
-  padding: 5px;
+  padding: 10px; /* Add padding to data cells */
+  border-bottom: 1px solid #ddd; /* Light grey bottom border for data cells */
+}
+
+tr:hover {
+  background-color: #e0e9f0; /* Subtle Azure Blue background on hover */
 }
 
 input[type="text"] {
@@ -179,6 +198,20 @@ span {
   margin-top: 3rem;
   display: flex;
   gap: 10px;
+}
+
+.pagination-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-btns {
+  display: flex;
+  gap: 30px;
+}
+
+.matched-variables-table {
+
 }
 
 /* from Welcome.css */
@@ -242,4 +275,16 @@ nav a:hover::after {
 
 header p {
   text-align: center;
+}
+
+.colored-header {
+  color: #007FFF;
+}
+
+.inline-header {
+  text-align: center;
+}
+
+.inline-header h1 {
+  display: inline;
 }

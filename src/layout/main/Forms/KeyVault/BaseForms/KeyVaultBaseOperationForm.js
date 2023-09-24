@@ -5,26 +5,18 @@ import {
   SecretRegexContext,
 } from "../../../../../contexts/Contexts";
 
-import { Button, Box } from "@mui/material";
+import { Button, Box, Input } from "@mui/material";
 
 const KeyVaultBaseOperationForm = ({ send }) => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
 
-  const buttonStyles = {
-    color: "white",
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "#555",
-      color: "white",
-    },
-  };
-
   return (
     <div className="form">
       <KeyVaultBaseForm />
 
-      <input
+      <Input
+        fullWidth
         type="text"
         id="keyVaultName"
         name="keyVaultName"
@@ -32,8 +24,10 @@ const KeyVaultBaseOperationForm = ({ send }) => {
         value={keyVaultName}
         onChange={(event) => setKeyVaultName(event.target.value)}
       />
+      <br />
+      <br />
 
-      <input
+      <Input fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -41,14 +35,11 @@ const KeyVaultBaseOperationForm = ({ send }) => {
         value={secretRegex}
         onChange={(event) => setSecretRegex(event.target.value)}
       />
+      <br />
+      <br />
 
       <Box>
-        <Button
-          sx={buttonStyles}
-          id="submit_button"
-          onClick={() => send()}
-          variant="contained"
-        >
+        <Button id="submit_button" onClick={() => send()} variant="contained">
           Send request
         </Button>
       </Box>

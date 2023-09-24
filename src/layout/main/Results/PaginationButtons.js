@@ -1,9 +1,12 @@
-import React , { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { PaginationCounterContext } from "../../../contexts/Contexts";
 import PagSpan from "./PagSpan";
+import { Button } from "@mui/material";
 
 const PaginationButtons = ({ collection }) => {
-  const { paginationCounter, setPaginationCounter } = useContext(PaginationCounterContext);
+  const { paginationCounter, setPaginationCounter } = useContext(
+    PaginationCounterContext
+  );
   const [pageNumber, setPageNumber] = useState(0);
   const [actualPageNumber, setActualPageNumber] = useState(1);
 
@@ -30,19 +33,23 @@ const PaginationButtons = ({ collection }) => {
   };
 
   return (
-    <div>
+    <div className="pagination-btn-container">
+      <div className="page-number">
+        <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber} />
+      </div>
       {collection.length <= 10 ? (
         <></>
       ) : (
-        <>
-          <button
+        <div className="pagination-btns">
+          <Button
             className={paginationCounter === 0 ? "previous" : "next"}
             disabled={paginationCounter === 0}
             onClick={() => decreasedPaginationCounter()}
+            variant="text"
           >
-            &laquo; Previous
-          </button>
-          <button
+            Previous
+          </Button>
+          <Button
             className={
               paginationCounter + number >= collection.length
                 ? "previous"
@@ -53,12 +60,12 @@ const PaginationButtons = ({ collection }) => {
               (collection.length < 10)
             }
             onClick={() => increasePaginationCounter()}
+            variant="contained"
           >
-            Next &raquo;
-          </button>
-        </>
+            Next
+          </Button>
+        </div>
       )}
-      <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber}/>
     </div>
   );
 };

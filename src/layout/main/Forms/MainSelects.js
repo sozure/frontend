@@ -43,10 +43,10 @@ const MainSelects = () => {
         </FormControl>
       ) : (
         <FormControl fullWidth>
-          <InputLabel>List secrets</InputLabel>
+          <InputLabel>Set action type</InputLabel>
           <Select
             className="action-type"
-            label="List secrets"
+            label="Set action type"
             value={actionType}
             onChange={(event) => setActionType(event.target.value)}
           >
@@ -63,6 +63,7 @@ const MainSelects = () => {
         <Select
           label="Select table type"
           onChange={(event) => setTableType(event.target.value)}
+          value={tableType}
         >
           <MenuItem value="KV">Secrets</MenuItem>
           <MenuItem value="VG">Variable groups</MenuItem>
