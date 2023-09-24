@@ -191,7 +191,13 @@ span {
   justify-content: space-between;
 }
 
+.pagination-btns {
+  display: flex;
+  gap: 30px;
+}
+
 .matched-variables-table {
+
 }
 
 /* from Welcome.css */

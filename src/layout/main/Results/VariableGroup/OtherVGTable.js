@@ -23,7 +23,7 @@ function OtherVGTable() {
   };
 
   return (
-    <div>
+    <div className="matched-variables-table">
       {(variableGroups === null) |
       (variableGroups === undefined) |
       (variableGroups.length === 0) ? (
@@ -64,6 +64,7 @@ function OtherVGTable() {
                 })}
             </tbody>
           </table>
+          <br />
           <PaginationButtons collection={variableGroups} />
         </>
       )}
