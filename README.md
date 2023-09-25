@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# VGManager Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+VGManager Frontend is a React application designed to simplify and automate various operations in Azure DevOps. It works in conjunction with the VGManager backend to facilitate variable group changes in Azure DevOps Libraries and secret changes in Azure KeyVault.
 
-## Available Scripts
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+Azure DevOps is a powerful platform for managing software development projects, but some tasks, such as modifying variable groups and secrets, can be time-consuming. VGManager Frontend streamlines these processes by providing a user-friendly interface for making these changes. It communicates with the VGManager backend to perform the necessary actions securely and efficiently.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+VGManager Frontend offers the following key features:
 
-### `npm test`
+- **Variable Group Management**: Easily create, update, and delete variable groups within Azure DevOps Libraries.
+- **Secret Management**: Efficiently manage secrets in Azure KeyVault, including creating, updating, and deleting secrets.
+- **User-friendly Interface**: A clean and intuitive web-based interface that simplifies complex operations.
+- **Security**: Ensures the security of your Azure DevOps and Azure KeyVault resources through secure communication with the VGManager backend.
+- **Audit Trails**: Keeps a record of all changes made through the application for auditing and compliance purposes.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+Before getting started with VGManager Frontend, ensure you have the following prerequisites in place:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **VGManager Backend**: Make sure the VGManager backend is set up and running. You will need its URL to configure the frontend.
+- **Azure DevOps Account**: Access to an Azure DevOps account with appropriate permissions to manage variable groups.
+- **Azure KeyVault**: An Azure KeyVault instance where you want to manage secrets.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To get started with VGManager Frontend, follow these steps:
 
-### `npm run eject`
+1. **Clone the Repository**: Clone this repository to your local machine using `git clone`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Install Dependencies**: Navigate to the project directory and install the required dependencies using:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```shell
+   npm install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Configuration**: Configure the application by creating a `.env` file in the project root directory. Set the following environment variables:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```dotenv
+   REACT_APP_BACKEND_BASE_URL=<BASE_URL>
+   REACT_APP_BACKEND_PORT_NUM=<PORT>
+   ```
 
-## Learn More
+4. **Start the Application**: Run the application locally using:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```shell
+   npm start
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   The application will be accessible at `http://localhost:3000`.
 
-### Code Splitting
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Once VGManager Frontend is up and running, you can use it to automate operations in Azure DevOps and Azure KeyVault. Follow the intuitive interface to perform variable group and secret management tasks. Detailed usage instructions and guides can be found in the application's documentation.
 
-### Analyzing the Bundle Size
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+We welcome contributions from the community! If you'd like to contribute to VGManager Frontend, please follow our [Contribution Guidelines](CONTRIBUTING.md).
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute it in accordance with the terms of the license.
