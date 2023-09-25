@@ -37,10 +37,30 @@ import {
 } from "./contexts/Contexts";
 
 function App() {
+  let envTenantId =
+    process.env.REACT_APP_TENANT_ID === undefined ||
+    process.env.REACT_APP_TENANT_ID === ""
+      ? ""
+      : process.env.REACT_APP_TENANT_ID;
+  let envClientId =
+    process.env.REACT_APP_CLIENT_ID === undefined ||
+    process.env.REACT_APP_CLIENT_ID === ""
+      ? ""
+      : process.env.REACT_APP_CLIENT_ID;
+  let envClientSecret =
+    process.env.REACT_APP_CLIENT_SECRET === undefined ||
+    process.env.REACT_APP_CLIENT_SECRET === ""
+      ? ""
+      : process.env.REACT_APP_CLIENT_SECRET;
+  let envPAT =
+    process.env.REACT_APP_PAT === undefined || process.env.REACT_APP_PAT === ""
+      ? ""
+      : process.env.REACT_APP_PAT;
+
   const [keyVaultName, setKeyVaultName] = useState("");
   const [actionType, setActionType] = useState("List");
   const [tableType, setTableType] = useState("KV");
-  const [pat, setPat] = useState("");
+  const [pat, setPat] = useState(envPAT);
   const [projectName, setProjectName] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [valueRegex, setValueRegex] = useState("");
@@ -59,9 +79,9 @@ function App() {
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
-  const [tenantId, setTenantId] = useState("");
-  const [clientId, setClientId] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
+  const [tenantId, setTenantId] = useState(envTenantId);
+  const [clientId, setClientId] = useState(envClientId);
+  const [clientSecret, setClientSecret] = useState(envClientSecret);
   const [originKeyVault, setOriginKeyVault] = useState("");
   const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
@@ -80,7 +100,7 @@ function App() {
     operation: "",
   });
 
-  const [localLoading, setLocalLoading] = useState({loading: false, row: -1});
+  const [localLoading, setLocalLoading] = useState({ loading: false, row: -1 });
 
   return (
     <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
