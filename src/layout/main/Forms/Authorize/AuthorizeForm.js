@@ -49,6 +49,11 @@ const AuthorizeForm = () => {
     }
   };
 
+  const handleAuthInputs = (e, callback) => {
+    callback(e.target.value);
+    setVgAuthorized(false);
+  }
+
   return (
     <div className="form">
       <Input
@@ -58,10 +63,7 @@ const AuthorizeForm = () => {
         name="pat"
         placeholder="Personal Access Token"
         value={pat}
-        onChange={(event) => {
-          setPat(event.target.value);
-          setVgAuthorized(false);
-        }}
+        onChange={(event) => handleAuthInputs(event, setPat)}
       />
       <br />
       <br />
@@ -73,10 +75,7 @@ const AuthorizeForm = () => {
         name="organizationName"
         placeholder="Name of organization"
         value={organizationName}
-        onChange={(event) => {
-          setOrganizationName(event.target.value);
-          setVgAuthorized(false);
-        }}
+        onChange={(event) => handleAuthInputs(event, setOrganizationName)}
       />
       <br />
       <br />
