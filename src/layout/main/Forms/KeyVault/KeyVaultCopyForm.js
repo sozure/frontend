@@ -115,7 +115,7 @@ const KeyVaultCopyForm = () => {
       <br />
 
       <Box>
-        <Button id="submit_button" onClick={() => send()} variant="contained">
+        <Button id="submit_button" onClick={send} variant="contained">
           Send request
         </Button>
       </Box>

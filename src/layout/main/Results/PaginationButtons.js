@@ -44,7 +44,7 @@ const PaginationButtons = ({ collection }) => {
           <Button
             className={paginationCounter === 0 ? "previous" : "next"}
             disabled={paginationCounter === 0}
-            onClick={() => decreasedPaginationCounter()}
+            onClick={decreasedPaginationCounter}
             variant="text"
           >
             Previous
@@ -59,7 +59,7 @@ const PaginationButtons = ({ collection }) => {
               (paginationCounter + number >= collection.length) |
               (collection.length < 10)
             }
-            onClick={() => increasePaginationCounter()}
+            onClick={increasePaginationCounter}
             variant="contained"
           >
             Next

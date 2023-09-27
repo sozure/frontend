@@ -81,7 +81,7 @@ const AuthorizeForm = () => {
       <br />
       <br />
 
-      <Button variant="contained" id="project_button" onClick={() => auth()}>
+      <Button variant="contained" id="project_button" onClick={auth}>
         Authorize
       </Button>
       <ToastContainer />
