@@ -89,11 +89,11 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
           onSingleModification.modification &&
           onSingleModification.row === index ? (
             <>
-              <button onClick={() => sendRecover()}>
+              <button onClick={sendRecover}>
                 <AiOutlineCheck />
               </button>
 
-              <button onClick={() => cancelRecover()}>
+              <button onClick={cancelRecover}>
                 <AiOutlineClose />
               </button>
             </>
@@ -113,11 +113,11 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
         ) : onSingleModification.modification &&
           onSingleModification.row === index ? (
           <>
-            <button onClick={() => sendDelete()}>
+            <button onClick={sendDelete}>
               <AiOutlineCheck />
             </button>
 
-            <button onClick={() => cancelDelete()}>
+            <button onClick={cancelDelete}>
               <AiOutlineClose />
             </button>
           </>

@@ -169,7 +169,7 @@ const OtherVGTableRowButtons = ({
                   <button onClick={() => sendDelete(variableGroup, index)}>
                     <AiOutlineCheck />
                   </button>
-                  <button onClick={() => cancelDelete()}>
+                  <button onClick={cancelDelete}>
                     <AiOutlineClose />
                   </button>
                 </>

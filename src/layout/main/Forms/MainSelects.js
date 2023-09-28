@@ -16,6 +16,17 @@ const MainSelects = () => {
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
 
+  const handleActionTypeChange = (e) => {
+    e.preventDefault();
+    let newActionType = e.target.value;
+    if (newActionType) {
+      setOnAdd(false);
+      setOnDelete(false);
+      setOnUpdate(false);
+    }
+    setActionType(e.target.value);
+  };
+
   return (
     <div className="main-select-container">
       {tableType === "VG" ? (
@@ -25,15 +36,7 @@ const MainSelects = () => {
             className="action_type"
             value={actionType}
             label="Action type"
-            onChange={(event) => {
-              let newActionType = event.target.value;
-              if (newActionType) {
-                setOnAdd(false);
-                setOnDelete(false);
-                setOnUpdate(false);
-              }
-              setActionType(event.target.value);
-            }}
+            onChange={handleActionTypeChange}
           >
             <MenuItem value="List">List variables</MenuItem>
             <MenuItem value="Add">Add variables</MenuItem>
