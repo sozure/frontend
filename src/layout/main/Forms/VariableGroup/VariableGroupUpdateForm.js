@@ -131,7 +131,7 @@ const VariableGroupUpdateForm = () => {
       <br />
 
       <Box>
-        <Button id="submit-button" onClick={() => send()} variant="contained">
+        <Button id="submit-button" onClick={send} variant="contained">
           Send request
         </Button>
       </Box>
