@@ -18,6 +18,7 @@ function OtherVGTable() {
   const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
     const isMatch = (variableG) =>
       variableG.variableGroupName === variableGroup.variableGroupName &&
+      variableG.variableGroupKey === variableGroup.variableGroupKey &&
       variableG.variableGroupValue === variableGroup.variableGroupValue;
     return variableGroups.findIndex(isMatch);
   };
