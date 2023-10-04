@@ -42,27 +42,35 @@ function App() {
     process.env.REACT_APP_TENANT_ID === ""
       ? ""
       : process.env.REACT_APP_TENANT_ID;
+
   let envClientId =
     process.env.REACT_APP_CLIENT_ID === undefined ||
     process.env.REACT_APP_CLIENT_ID === ""
       ? ""
       : process.env.REACT_APP_CLIENT_ID;
+
   let envClientSecret =
     process.env.REACT_APP_CLIENT_SECRET === undefined ||
     process.env.REACT_APP_CLIENT_SECRET === ""
       ? ""
       : process.env.REACT_APP_CLIENT_SECRET;
+
   let envPAT =
     process.env.REACT_APP_PAT === undefined || process.env.REACT_APP_PAT === ""
       ? ""
       : process.env.REACT_APP_PAT;
+
+  let envOrg =
+    process.env.REACT_APP_ORGANIZATION === undefined || process.env.REACT_APP_ORGANIZATION === ""
+      ? ""
+      : process.env.REACT_APP_ORGANIZATION;
 
   const [keyVaultName, setKeyVaultName] = useState("");
   const [actionType, setActionType] = useState("List");
   const [tableType, setTableType] = useState("KV");
   const [pat, setPat] = useState(envPAT);
   const [projectName, setProjectName] = useState("");
-  const [organizationName, setOrganizationName] = useState("");
+  const [organizationName, setOrganizationName] = useState(envOrg);
   const [valueRegex, setValueRegex] = useState("");
   const [vgRegex, setVgRegex] = useState("");
   const [secretRegex, setSecretRegex] = useState("");
