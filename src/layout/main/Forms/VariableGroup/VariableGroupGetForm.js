@@ -20,6 +20,7 @@ import {
   KeyRegexContext,
   VariableGroupsContext,
   LoadingContext,
+  KeyIsRegexContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -51,6 +52,7 @@ const VariableGroupGetForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
+  const { keyIsRegex, setKeyIsRegex} = useContext(KeyIsRegexContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
@@ -64,6 +66,7 @@ const VariableGroupGetForm = () => {
       valueRegex: valueRegex,
       setLoading: setLoading,
       secretIncluded: secretIncluded,
+      keyIsRegex: keyIsRegex
     });
   }, [
     projectName,
@@ -75,6 +78,7 @@ const VariableGroupGetForm = () => {
     setLoading,
     setMessage,
     secretIncluded,
+    keyIsRegex
   ]);
 
   const send = () => {
@@ -105,7 +109,7 @@ const VariableGroupGetForm = () => {
         type="text"
         id="key_regex"
         name="key_regex"
-        placeholder={"Key (regex) of variable"}
+        placeholder={"Key of variable"}
         value={keyRegex}
         onChange={(event) => setKeyRegex(event.target.value)}
       />
@@ -128,14 +132,25 @@ const VariableGroupGetForm = () => {
           control={
             <Checkbox
               onChange={(e) => setSecretIncluded(e.target.checked)}
+              value={secretIncluded}
               id="secretNeeded"
               name="secretNeeded"
             />
           }
           label="Secret included"
         ></FormControlLabel>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => setKeyIsRegex(e.target.checked)}
+              value={keyIsRegex}
+              id="keyRegexOrNot"
+              name="keyRegexOrNot"
+            />
+          }
+          label="Key's name should be regex"
+        ></FormControlLabel>
       </FormGroup>
-
       <br />
       <Box>
         <Button id="submit_button" onClick={send} variant="contained">

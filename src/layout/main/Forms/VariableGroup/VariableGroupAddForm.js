@@ -54,6 +54,7 @@ const VariableGroupAddForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
+      keyIsRegex: true
     });
   }, [
     projectName,

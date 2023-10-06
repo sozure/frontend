@@ -58,6 +58,7 @@ const VariableGroupUpdateForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
+      keyIsRegex: false
     });
   }, [
     projectName,

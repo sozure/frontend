@@ -34,6 +34,7 @@ import {
   SingleModificationContext,
   SingleOperationContext,
   LocalLoadingContext,
+  KeyIsRegexContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -61,7 +62,8 @@ function App() {
       : process.env.REACT_APP_PAT;
 
   let envOrg =
-    process.env.REACT_APP_ORGANIZATION === undefined || process.env.REACT_APP_ORGANIZATION === ""
+    process.env.REACT_APP_ORGANIZATION === undefined ||
+    process.env.REACT_APP_ORGANIZATION === ""
       ? ""
       : process.env.REACT_APP_ORGANIZATION;
 
@@ -82,6 +84,7 @@ function App() {
   const [onAdd, setOnAdd] = useState(false);
   const [onDelete, setOnDelete] = useState(false);
   const [onRecover, setOnRecover] = useState(false);
+  const [keyIsRegex, setKeyIsRegex] = useState(false);
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
@@ -224,16 +227,22 @@ function App() {
                                                                     setLocalLoading,
                                                                   }}
                                                                 >
-                                                                  <BrowserRouter>
-                                                                    <Routes>
-                                                                      <Route
-                                                                        path="/"
-                                                                        element={
-                                                                          <Main />
-                                                                        }
-                                                                      />
-                                                                    </Routes>
-                                                                  </BrowserRouter>
+                                                                  <KeyIsRegexContext.Provider
+                                                                    value={{
+                                                                      keyIsRegex, setKeyIsRegex,
+                                                                    }}
+                                                                  >
+                                                                    <BrowserRouter>
+                                                                      <Routes>
+                                                                        <Route
+                                                                          path="/"
+                                                                          element={
+                                                                            <Main />
+                                                                          }
+                                                                        />
+                                                                      </Routes>
+                                                                    </BrowserRouter>
+                                                                  </KeyIsRegexContext.Provider>
                                                                 </LocalLoadingContext.Provider>
                                                               </SingleOperationContext.Provider>
                                                             </SingleModificationContext.Provider>
