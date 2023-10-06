@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
+  KeyIsRegexContext,
   NewValueContext,
   OnUpdateContext,
   PaginationCounterContext,
@@ -45,10 +46,13 @@ const VariableGroupUpdateForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
+  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
   useEffect(() => {
+    var keyIsRegexHelper = false;
+    setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
       pat: pat,
@@ -58,7 +62,7 @@ const VariableGroupUpdateForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
-      keyIsRegex: false
+      keyIsRegex: keyIsRegexHelper
     });
   }, [
     projectName,
@@ -68,7 +72,8 @@ const VariableGroupUpdateForm = () => {
     setLoading,
     setVariableGroups,
     organizationName,
-    setMessage,
+    setKeyIsRegex,
+    setMessage
   ]);
 
   const send = () => {

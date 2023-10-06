@@ -18,6 +18,7 @@ import {
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
+  KeyIsRegexContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -39,10 +40,13 @@ const VariableGroupDeleteForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
+  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
   useEffect(() => {
+    var keyIsRegexHelper = false;
+    setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
       pat: pat,
@@ -52,7 +56,7 @@ const VariableGroupDeleteForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
-      keyIsRegex: false
+      keyIsRegex: keyIsRegexHelper
     });
   }, [
     projectName,
@@ -62,7 +66,8 @@ const VariableGroupDeleteForm = () => {
     organizationName,
     setLoading,
     setVariableGroups,
-    setMessage,
+    setKeyIsRegex,
+    setMessage
   ]);
 
   const send = () => {

@@ -6,7 +6,7 @@ const buildRequestBody = (message) => {
       variableGroupFilter: message["vgRegex"],
       keyFilter: message["keyRegex"],
       containsSecrets: message["secretIncluded"],
-      KeyIsRegex: message["KeyIsRegex"]
+      keyIsRegex: message["keyIsRegex"]
     };
   };
 
