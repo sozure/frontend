@@ -93,6 +93,7 @@ const OtherVGTableRowButtons = ({
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
     };
+    setLocalLoading({ loading: true, row: index });
     sendDeleteRequest(
       message,
       variableGroup.variableGroupValue,
