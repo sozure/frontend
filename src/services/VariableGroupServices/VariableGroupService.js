@@ -12,18 +12,10 @@ const axiosConfig = {
 
 const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
   let callbackForLoading = message["setLoading"];
-  let secretIncluded = message["secretIncluded"];
   let url = `${variableGroupUrl}/Get`;
   callbackForLoading(true);
-  const body = {
-    organization: message["organizationName"],
-    project: message["projectName"],
-    pat: message["pat"],
-    variableGroupFilter: message["vgRegex"],
-    keyFilter: message["keyRegex"],
-    containsSecrets: secretIncluded,
-    valueFilter: valueRegex
-  }
+  let body = buildRequestBody(message);
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   axios
     .post(url, body, axiosConfig)
     .then((res) => {
@@ -33,7 +25,7 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
       if (status === 0) {
         callbackForDataSaving(variableGroups);
       } else {
-        alert(getResponseMessage(res.data.status));
+        alert(getResponseMessage(status));
       }
     })
     .catch((err) => {
@@ -56,7 +48,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
       if (status === 0 || status === 1) {
         callbackForDataSaving(variableGroups);
       }
-      alert(getResponseMessage(res.data.status));
+      alert(getResponseMessage(status));
     })
     .catch((err) => {
       handleError(callbackForLoading, err);

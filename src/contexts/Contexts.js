@@ -31,3 +31,4 @@ export const PaginationCounterContext = createContext();
 export const SingleModificationContext = createContext();
 export const SingleOperationContext = createContext();
 export const LocalLoadingContext = createContext();
+export const KeyIsRegexContext = createContext();
