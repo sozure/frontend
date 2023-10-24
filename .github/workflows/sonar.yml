@@ -21,9 +21,12 @@ jobs:
       run: |
         npm ci
 
+    - name: Install dependencies II.
+      run: yarn
+
     - name: Test and coverage
-      run: npm jest --coverage
-      
+      run: yarn jest --coverage
+
     - name: Run SonarQube Scanner
       uses: SonarSource/sonarqube-scan-action@master
       env:
