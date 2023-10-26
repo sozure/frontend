@@ -91,28 +91,12 @@ input[type="checkbox"] {
 }
 /* from index.css */
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 /* from ResultTable.css */
-
-body {
-  padding: 20px;
-  max-width: 80rem;
-  margin: auto auto;
-  font-family: sans;
-}
 
 .matched-variables-table {
   width: 100;
@@ -154,10 +138,6 @@ input[type="password"] {
   font-size: 18px;
   padding: 2px;
   border: 0;
-}
-
-h1 {
-  font-weight: normal;
 }
 
 button,
@@ -228,6 +208,14 @@ body {
   font: normal 18px "Open Sans", sans-serif;
   background: #fafafa;
   color: #333;
+  padding: 20px;
+  max-width: 80rem;
+  margin: auto auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
@@ -237,6 +225,7 @@ main {
 h1 {
   font: normal 4em "Playfair Display SC", serif;
   text-align: center;
+  font-weight: normal;
 }
 
 nav {
