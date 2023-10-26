@@ -45,7 +45,7 @@ const VariableGroupDeleteForm = () => {
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
   useEffect(() => {
-    var keyIsRegexHelper = false;
+    let keyIsRegexHelper = false;
     setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
