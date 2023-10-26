@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 
 import React from "react";
 import { v4 } from 'uuid';
+import { PropTypes } from "prop-types";
 
 const TableHeader = ({ columnList }) => {
   return (
@@ -12,5 +12,11 @@ const TableHeader = ({ columnList }) => {
     </tr>
   );
 };
+
+TableHeader.propTypes = {
+  columnList: PropTypes.shape({
+    columnList : PropTypes.arrayOf(PropTypes.string).isRequired
+  })
+}
 
 export default TableHeader;
