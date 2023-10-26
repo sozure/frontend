@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+import PropTypes from 'prop-types';
 import React from "react";
 import { v4 } from 'uuid';
 
@@ -11,5 +10,10 @@ const AddVGTableRow = ({ variableGroup }) => {
     </tr>
   );
 };
+
+AddVGTableRow.propTypes = {
+  variableGroup: PropTypes.object.isRequired
+};
+
 
 export default AddVGTableRow;

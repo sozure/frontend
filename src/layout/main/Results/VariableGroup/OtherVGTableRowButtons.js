@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 import React, { useContext } from "react";
 import { v4 } from 'uuid';
