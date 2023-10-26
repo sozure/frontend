@@ -5,13 +5,6 @@ import {
   SingleModificationContext,
   SingleOperationContext,
   ValueRegexContext,
-} from "../../../../contexts/Contexts";
-import "../../../../CSS/style.css";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import {
   PATContext,
   ProjectNameContext,
   VGRegexContext,
@@ -20,8 +13,12 @@ import {
   KeyRegexContext,
   VariableGroupsContext,
   LoadingContext,
-  KeyIsRegexContext
+  KeyIsRegexContext,
 } from "../../../../contexts/Contexts";
+import "../../../../CSS/style.css";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
@@ -52,7 +49,7 @@ const VariableGroupGetForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { keyIsRegex, setKeyIsRegex} = useContext(KeyIsRegexContext);
+  const { keyIsRegex, setKeyIsRegex } = useContext(KeyIsRegexContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
@@ -66,7 +63,7 @@ const VariableGroupGetForm = () => {
       valueRegex: valueRegex,
       setLoading: setLoading,
       secretIncluded: secretIncluded,
-      keyIsRegex: keyIsRegex
+      keyIsRegex: keyIsRegex,
     });
   }, [
     projectName,
@@ -78,7 +75,7 @@ const VariableGroupGetForm = () => {
     setLoading,
     setMessage,
     secretIncluded,
-    keyIsRegex
+    keyIsRegex,
   ]);
 
   const send = () => {
