@@ -1,5 +1,5 @@
 import "./CSS/style.css";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./layout/main/Main";
 import {
@@ -114,8 +114,8 @@ function App() {
   const [localLoading, setLocalLoading] = useState({ loading: false, row: -1 });
 
   return (
-    <KeyVaultNameContext.Provider value={{ keyVaultName, setKeyVaultName }}>
-      <ActionTypeContext.Provider value={{ actionType, setActionType }}>
+    <KeyVaultNameContext.Provider value={useMemo(() => ({ keyVaultName, setKeyVaultName }), [keyVaultName, setKeyVaultName])}>
+      <ActionTypeContext.Provider value={useMemo(() => ({ actionType, setActionType }), [actionType, setActionType])}>
         <TableTypeContext.Provider value={{ tableType, setTableType }}>
           <PATContext.Provider value={{ pat, setPat }}>
             <ProjectNameContext.Provider

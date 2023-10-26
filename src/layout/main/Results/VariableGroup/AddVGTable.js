@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import PaginationButtons from "../PaginationButtons";
 
+import { v4 } from 'uuid';
+
 import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
 import AddVGTableRow from "./AddVGTableRow";
 import TableHeader from "../TableHeader";
@@ -48,7 +50,7 @@ const AddVGTable = () => {
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   return (
-                    <AddVGTableRow key={Math.random()} variableGroup={variableGroup}/>
+                    <AddVGTableRow key={v4()} variableGroup={variableGroup}/>
                   );
                 })}
             </tbody>

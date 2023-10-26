@@ -1,5 +1,6 @@
 import "../../../../CSS/style.css";
 import React, { useContext } from "react";
+import { v4 } from 'uuid';
 
 import {
   PaginationCounterContext,
@@ -53,7 +54,7 @@ function OtherVGTable() {
                   );
                   return (
                     <OtherVGTableRow
-                      key={Math.random()}
+                      key={v4()}
                       variableGroup={variableGroup}
                       variableGroupName={variableGroupName}
                       variableGroupValue={variableGroupValue}
