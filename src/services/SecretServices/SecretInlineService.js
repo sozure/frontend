@@ -3,12 +3,6 @@ import { getBaseUrl, handleError, getResponseMessage } from "../CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
-const axiosConfig = {
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-
 const sendRecoverSecretRequest = (
   body,
   secrets,
@@ -33,7 +27,7 @@ const sendDeleteSecretRequest = (
 
 const sendRequest = (url, body, secrets, setSecrets, index, setLoading) => {
   axios
-    .post(url, body, axiosConfig)
+    .post(url, body)
     .then((res) => {
       let status = res.data;
       if (status === 0) {

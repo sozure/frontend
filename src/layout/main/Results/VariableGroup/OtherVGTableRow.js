@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { v4 } from 'uuid';
+
 import {
   SingleModificationContext,
 } from "../../../../contexts/Contexts";
@@ -15,23 +17,23 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
-  const [inputKey] = useState(Math.random());
+  const [inputKey] = useState(v4());
 
   return (
-    <tr key={Math.random()}>
-      <td key={Math.random()}>
+    <tr key={v4()}>
+      <td key={v4()}>
         {project.length > 11 ? `${project.slice(0, 11)}...` : project}
       </td>
 
       {isSecretVariableGroup ? (
-        <td key={Math.random()}>{`${variableGroupName} (${keyVaultName})`}</td>
+        <td key={v4()}>{`${variableGroupName} (${keyVaultName})`}</td>
       ) : (
-        <td key={Math.random()}>{variableGroupName}</td>
+        <td key={v4()}>{variableGroupName}</td>
       )}
 
-      <td key={Math.random()}>{variableGroup.variableGroupKey}</td>
+      <td key={v4()}>{variableGroup.variableGroupKey}</td>
 
-      <td key={Math.random()}>
+      <td key={v4()}>
         {onSingleModification.modification &&
         onSingleModification.operation === "update" &&
         onSingleModification.row === index ? (
