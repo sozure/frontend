@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { v4 } from 'uuid';
+
 import {
   AiFillEdit,
   AiFillDelete,
@@ -120,7 +122,7 @@ const OtherVGTableRowButtons = ({
   };
 
   return (
-    <td key={Math.random()}>
+    <td key={v4()}>
       {isSecretVariableGroup ||
       variableGroup.variableGroupValue === null ||
       variableGroup.variableGroupValue.length > 60 ? (

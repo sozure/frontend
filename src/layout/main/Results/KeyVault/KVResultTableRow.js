@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { v4 } from 'uuid';
+
 import {
   AiFillMedicineBox,
   AiFillDelete,
@@ -74,17 +76,17 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   };
 
   return (
-    <tr key={Math.random()}>
-      <td key={Math.random()}>{keyVault}</td>
-      <td key={Math.random()}>{secretName}</td>
+    <tr key={v4()}>
+      <td key={v4()}>{keyVault}</td>
+      <td key={v4()}>{secretName}</td>
       {secretValue === null || secretValue === undefined ? (
-        <td key={Math.random()}>Deleted secret. Can't show it's value.</td>
+        <td key={v4()}>Deleted secret. Can't show it's value.</td>
       ) : secretValue.length > 85 ? (
         <button onClick={() => alert(secretValue)}>Show secret value</button>
       ) : (
-        <td key={Math.random()}>{secretValue}</td>
+        <td key={v4()}>{secretValue}</td>
       )}
-      <td key={Math.random()}>
+      <td key={v4()}>
         {secretValue === null || secretValue === undefined ? (
           onSingleModification.modification &&
           onSingleModification.row === index ? (
