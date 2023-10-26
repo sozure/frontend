@@ -7,9 +7,6 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
-} from "../../../../contexts/Contexts";
-
-import {
   PATContext,
   ProjectNameContext,
   VGRegexContext,
@@ -18,7 +15,7 @@ import {
   KeyRegexContext,
   LoadingContext,
   VariableGroupsContext,
-  ValueRegexContext,
+  ValueRegexContext
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -51,7 +48,7 @@ const VariableGroupUpdateForm = () => {
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
   useEffect(() => {
-    var keyIsRegexHelper = false;
+    let keyIsRegexHelper = false;
     setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
