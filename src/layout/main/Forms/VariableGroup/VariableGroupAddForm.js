@@ -47,7 +47,7 @@ const VariableGroupAddForm = () => {
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
 
   useEffect(() => {
-    var keyIsRegexHelper = true;
+    let keyIsRegexHelper = true;
     setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
