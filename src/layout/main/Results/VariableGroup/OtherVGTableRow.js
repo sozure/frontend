@@ -17,7 +17,7 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
-  const [inputKey] = useState(v4());
+  const inputKey = v4();
 
   const getVariableGroupValue = () => {
     return variableGroupValue.length > 60 ? (

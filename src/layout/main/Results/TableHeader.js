@@ -4,10 +4,9 @@ import { v4 } from 'uuid';
 import { PropTypes } from "prop-types";
 
 const TableHeader = ({ columnList }) => {
-  let columnListMap = (column) => columnList.map(column);
   return (
     <tr>
-      {columnListMap((column) => {
+      {columnList.map((column) => {
         return <th key={v4()}>{column}</th>;
       })}
     </tr>
@@ -15,8 +14,7 @@ const TableHeader = ({ columnList }) => {
 };
 
 TableHeader.propTypes = {
-  columnList : PropTypes.arrayOf(PropTypes.string).isRequired,
-  columnListMap: PropTypes.func.isRequired
+  columnList : PropTypes.arrayOf(PropTypes.string).isRequired
 }
 
 export default TableHeader;
