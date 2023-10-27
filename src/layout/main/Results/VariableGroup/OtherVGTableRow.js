@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 
 import React, { useContext, useState } from "react";
 import { v4 } from 'uuid';
@@ -62,6 +62,16 @@ const OtherVGTableRow = ({
       />
     </tr>
   );
+};
+
+OtherVGTableRow.propTypes = {
+  variableGroup: PropTypes.object.isRequired,
+  variableGroupName: PropTypes.string.isRequired,
+  variableGroupValue: PropTypes.string.isRequired,
+  project: PropTypes.string.isRequired,
+  isSecretVariableGroup: PropTypes.bool.isRequired,
+  keyVaultName: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 export default OtherVGTableRow;

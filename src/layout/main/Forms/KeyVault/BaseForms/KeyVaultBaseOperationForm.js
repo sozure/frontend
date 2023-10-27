@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+import PropTypes from 'prop-types';
 import React, { useContext } from "react";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 import {
@@ -47,6 +46,10 @@ const KeyVaultBaseOperationForm = ({ send }) => {
       </Box>
     </div>
   );
+};
+
+KeyVaultBaseOperationForm.propTypes = {
+  send: PropTypes.func.isRequired
 };
 
 export default KeyVaultBaseOperationForm;
