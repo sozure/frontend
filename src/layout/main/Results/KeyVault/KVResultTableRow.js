@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useContext } from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 import {
   AiFillMedicineBox,
@@ -76,67 +76,91 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
     setOnSingleModificationBack(setOnSingleModification);
   };
 
+  const getSecretValue = () => {
+    return secretValue.length > 85 ? (
+      <button onClick={() => alert(secretValue)}>Show secret value</button>
+    ) : (
+      <td key={v4()}>{secretValue}</td>
+    );
+  };
+
+  const getRecoverSection = () => {
+    return onSingleModification.modification &&
+      onSingleModification.row === index ? (
+      <>
+        <button onClick={sendRecover}>
+          <AiOutlineCheck />
+        </button>
+
+        <button onClick={cancelRecover}>
+          <AiOutlineClose />
+        </button>
+      </>
+    ) : (
+      <>
+        {localLoading.row === index && localLoading.loading ? (
+          <></>
+        ) : (
+          <abbr title="Recover">
+            <button onClick={() => startRecover(index)}>
+              <AiFillMedicineBox />
+            </button>
+          </abbr>
+        )}
+      </>
+    );
+  };
+
+  const getApproveDeniedSection = () => {
+    return (
+      <>
+        <button onClick={sendDelete}>
+          <AiOutlineCheck />
+        </button>
+
+        <button onClick={cancelDelete}>
+          <AiOutlineClose />
+        </button>
+      </>
+    );
+  };
+
+  const deleteSection = () => {
+    return (
+      <>
+        {localLoading.row === index && localLoading.loading ? (
+          <></>
+        ) : (
+          <abbr title="Delete">
+            <button onClick={() => startDelete(index)}>
+              <AiFillDelete />
+            </button>
+          </abbr>
+        )}
+      </>
+    );
+  };
+
+  const getActionSection = () => {
+    return onSingleModification.modification &&
+      onSingleModification.row === index
+      ? getApproveDeniedSection()
+      : deleteSection();
+  };
+
   return (
     <tr key={v4()}>
       <td key={v4()}>{keyVault}</td>
       <td key={v4()}>{secretName}</td>
       {secretValue === null || secretValue === undefined ? (
         <td key={v4()}>Deleted secret. Can't show it's value.</td>
-      ) : secretValue.length > 85 ? (
-        <button onClick={() => alert(secretValue)}>Show secret value</button>
       ) : (
-        <td key={v4()}>{secretValue}</td>
+        getSecretValue()
       )}
       <td key={v4()}>
-        {secretValue === null || secretValue === undefined ? (
-          onSingleModification.modification &&
-          onSingleModification.row === index ? (
-            <>
-              <button onClick={sendRecover}>
-                <AiOutlineCheck />
-              </button>
-
-              <button onClick={cancelRecover}>
-                <AiOutlineClose />
-              </button>
-            </>
-          ) : (
-            <>
-              {localLoading.row === index && localLoading.loading ? (
-                <></>
-              ) : (
-                <abbr title="Recover">
-                  <button onClick={() => startRecover(index)}>
-                    <AiFillMedicineBox />
-                  </button>
-                </abbr>
-              )}
-            </>
-          )
-        ) : onSingleModification.modification &&
-          onSingleModification.row === index ? (
-          <>
-            <button onClick={sendDelete}>
-              <AiOutlineCheck />
-            </button>
-
-            <button onClick={cancelDelete}>
-              <AiOutlineClose />
-            </button>
-          </>
-        ) : (
-          <>
-            {localLoading.row === index && localLoading.loading ? (
-              <></>
-            ) : (
-              <abbr title="Delete">
-                <button onClick={() => startDelete(index)}>
-                  <AiFillDelete />
-                </button>
-              </abbr>
-            )}
-          </>
-        )}
+        {secretValue === null || secretValue === undefined
+          ? getRecoverSection()
+          : getActionSection()}
         {localLoading.row === index && localLoading.loading ? (
           <span>Loading...</span>
         ) : (
@@ -153,6 +177,5 @@ KVResultTableRow.propTypes = {
   secretValue: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };
-
 
 export default KVResultTableRow;
