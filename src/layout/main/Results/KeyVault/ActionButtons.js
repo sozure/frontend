@@ -55,44 +55,52 @@ const ActionButtons = () => {
     sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
   };
 
+  const getAreYouSureSection = () => {
+    return (<div>
+    <p>
+      Are you sure you want to {onDelete ? "delete" : "recover"}{" "}
+      {secrets.length > 1 ? "secrets?" : "secret?"}
+    </p>
+    <br />
+    <button
+      onClick={() => {
+        if (onDelete) {
+          deleteSecrets();
+        } else {
+          recoverSecrets();
+        }
+        setActionType("List");
+      }}
+    >
+      Yes
+    </button>
+    <button
+      onClick={() => {
+        if (onDelete) {
+          setOnDelete(false);
+        } else {
+          setOnRecover(false);
+        }
+        setSecrets([]);
+      }}
+    >
+      No
+    </button>
+  </div>)
+  }
+
+  const getKeyVaultSection = () => {
+    return (onDelete || onRecover ? (
+      getAreYouSureSection()
+    ) : (
+      <></>
+    ))
+  }
+
   return (
     <>
       {tableType === "KV" && secrets !== undefined && secrets.length > 0 ? (
-        onDelete || onRecover ? (
-          <div>
-            <p>
-              Are you sure you want to {onDelete ? "delete" : "recover"}{" "}
-              {secrets.length > 1 ? "secrets?" : "secret?"}
-            </p>
-            <br />
-            <button
-              onClick={() => {
-                if (onDelete) {
-                  deleteSecrets();
-                } else {
-                  recoverSecrets();
-                }
-                setActionType("List");
-              }}
-            >
-              Yes
-            </button>
-            <button
-              onClick={() => {
-                if (onDelete) {
-                  setOnDelete(false);
-                } else {
-                  setOnRecover(false);
-                }
-                setSecrets([]);
-              }}
-            >
-              No
-            </button>
-          </div>
-        ) : (
-          <></>
-        )
+        getKeyVaultSection()
       ) : (
         <></>
       )}

@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import React, { useContext, useState } from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
-import {
-  SingleModificationContext,
-} from "../../../../contexts/Contexts";
+import { SingleModificationContext } from "../../../../contexts/Contexts";
 import OtherVGTableRowInput from "./OtherVGTableRowInput";
 import OtherVGTableRowButtons from "./OtherVGTableRowButtons";
 
@@ -19,7 +17,17 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
-  const [ inputKey ] = useState(v4());
+  const [inputKey] = useState(v4());
+
+  const getVariableGroupValue = () => {
+    return variableGroupValue.length > 60 ? (
+      <button onClick={() => alert(variableGroupValue)}>
+        Show long variable value
+      </button>
+    ) : (
+      variableGroupValue
+    );
+  };
 
   return (
     <tr key={v4()}>
@@ -39,18 +47,15 @@ const OtherVGTableRow = ({
         {onSingleModification.modification &&
         onSingleModification.operation === "update" &&
         onSingleModification.row === index ? (
-          <OtherVGTableRowInput inputKey={inputKey} variableValue={variableGroupValue} />
+          <OtherVGTableRowInput
+            inputKey={inputKey}
+            variableValue={variableGroupValue}
+          />
         ) : (
           <span className={isSecretVariableGroup ? "error" : ""}>
-            {isSecretVariableGroup ? (
-              "Secret variable, can't show it's value."
-            ) : variableGroupValue.length > 60 ? (
-              <button onClick={() => alert(variableGroupValue)}>
-                Show long variable value
-              </button>
-            ) : (
-              variableGroupValue
-            )}
+            {isSecretVariableGroup
+              ? "Secret variable, can't show it's value."
+              : getVariableGroupValue()}
           </span>
         )}
       </td>
@@ -71,7 +76,7 @@ OtherVGTableRow.propTypes = {
   project: PropTypes.string.isRequired,
   isSecretVariableGroup: PropTypes.bool.isRequired,
   keyVaultName: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
 };
 
 export default OtherVGTableRow;
