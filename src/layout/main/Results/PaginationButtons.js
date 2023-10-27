@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import React, { useState, useEffect, useContext } from "react";
 import { PaginationCounterContext } from "../../../contexts/Contexts";
 import PagSpan from "./PagSpan";
@@ -71,5 +69,6 @@ const PaginationButtons = ({ collection }) => {
     </div>
   );
 };
+
 
 export default PaginationButtons;
