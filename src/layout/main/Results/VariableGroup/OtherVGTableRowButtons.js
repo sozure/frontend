@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 import React, { useContext } from "react";
 import { v4 } from 'uuid';
 
@@ -220,6 +220,13 @@ const OtherVGTableRowButtons = ({
       )}
     </td>
   );
+};
+
+OtherVGTableRowButtons.propTypes = {
+  inputKey: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  variableGroup: PropTypes.object.isRequired,
+  isSecretVariableGroup: PropTypes.bool.isRequired
 };
 
 export default OtherVGTableRowButtons;
