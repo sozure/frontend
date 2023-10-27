@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+import PropTypes from 'prop-types';
 import React, { useContext } from "react";
 import { v4 } from 'uuid';
 
@@ -147,5 +146,13 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
     </tr>
   );
 };
+
+KVResultTableRow.propTypes = {
+  keyVault: PropTypes.string.isRequired,
+  secretName: PropTypes.string.isRequired,
+  secretValue: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+};
+
 
 export default KVResultTableRow;
