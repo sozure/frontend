@@ -48,32 +48,42 @@ function Form() {
     setNewValue,
   ]);
 
+  const getKeyVaultForm = () =>{
+    switch(actionType){
+      case "List":
+        return <KeyVaultGetForm/>
+      case "Copy":
+        return <KeyVaultCopyForm/>
+      case "Delete":
+        return <KeyVaultDeleteForm/>
+      default:
+        return <KeyVaultRecoverForm/>
+    }
+  }  
+
+  const getVGForm = () =>{
+    switch(actionType){
+      case "List":
+        return <VariableGroupGetForm/>
+      case "Add":
+        return <VariableGroupAddForm/>
+      case "Delete":
+        return <VariableGroupDeleteForm/>
+      default:
+        return <VariableGroupUpdateForm/>
+    }
+  }  
+
   return (
     <div>
       <MainSelects />
       {tableType === "KV" ? (
-        actionType === "List" ? (
-          <KeyVaultGetForm />
-        ) : actionType === "Copy" ? (
-          <KeyVaultCopyForm />
-        ) : actionType === "Delete" ? (
-          <KeyVaultDeleteForm />
-        ) : (
-          <KeyVaultRecoverForm />
-        )
+        getKeyVaultForm()
       ) : (
         <AuthorizeForm />
       )}
       {tableType === "VG" && vgAuthorized ? (
-        actionType === "List" ? (
-          <VariableGroupGetForm />
-        ) : actionType === "Add" ? (
-          <VariableGroupAddForm />
-        ) : actionType === "Delete" ? (
-          <VariableGroupDeleteForm />
-        ) : (
-          <VariableGroupUpdateForm />
-        )
+        getVGForm()
       ) : (
         <></>
       )}
