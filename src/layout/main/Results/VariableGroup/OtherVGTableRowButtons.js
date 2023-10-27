@@ -1,15 +1,7 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useContext } from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
-import {
-  AiFillEdit,
-  AiFillDelete,
-  AiOutlineCheck,
-  AiOutlineClose,
-  AiOutlineTrophy,
-  AiOutlineStop,
-} from "react-icons/ai";
 import {
   sendDeleteRequest,
   sendUpdateRequest,
@@ -26,6 +18,8 @@ import {
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
+import OtherVGTableRowDeleteButton from "./OtherVGTableRowDeleteButton";
+import OtherVGTableRowUpdateButton from "./OtherVGTableRowUpdateButton";
 
 const OtherVGTableRowButtons = ({
   variableGroup,
@@ -43,9 +37,7 @@ const OtherVGTableRowButtons = ({
   );
 
   const { organizationName } = useContext(OrganizationContext);
-  const { singleOperation, setSingleOperation } = useContext(
-    SingleOperationContext
-  );
+  const { setSingleOperation } = useContext(SingleOperationContext);
 
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
@@ -134,84 +126,32 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <>
-              {onSingleModification.modification &&
-              onSingleModification.row === index ? (
-                <>
-                  <button onClick={() => sendUpdate(variableGroup)}>
-                    <AiOutlineCheck />
-                  </button>
-
-                  <button onClick={() => cancelUpdate()}>
-                    <AiOutlineClose />
-                  </button>
-                </>
-              ) : (
-                <>
-                  {localLoading.row === index && localLoading.loading ? (
-                    <></>
-                  ) : (
-                    <abbr title="Update">
-                      <button onClick={() => startUpdate(index)}>
-                        <AiFillEdit />
-                      </button>
-                    </abbr>
-                  )}
-                </>
-              )}
-            </>
+            <OtherVGTableRowUpdateButton
+              variableGroup={variableGroup}
+              onSingleModification={onSingleModification}
+              sendUpdate={sendUpdate}
+              startUpdate={startUpdate}
+              cancelUpdate={cancelUpdate}
+              localLoading={localLoading}
+              index={index}
+            />
           )}
 
           {onSingleModification.operation === "update" &&
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <>
-              {onSingleModification.modification &&
-              onSingleModification.row === index ? (
-                <>
-                  <button onClick={() => sendDelete(variableGroup, index)}>
-                    <AiOutlineCheck />
-                  </button>
-                  <button onClick={cancelDelete}>
-                    <AiOutlineClose />
-                  </button>
-                </>
-              ) : (
-                <>
-                  {localLoading.row === index && localLoading.loading ? (
-                    <></>
-                  ) : (
-                    <abbr title="Delete">
-                      <button onClick={() => startDelete(index)}>
-                        <AiFillDelete />
-                      </button>
-                    </abbr>
-                  )}
-                </>
-              )}
-            </>
+            <OtherVGTableRowDeleteButton
+              variableGroup={variableGroup}
+              onSingleModification={onSingleModification}
+              localLoading={localLoading}
+              sendDelete={sendDelete}
+              startDelete={startDelete}
+              cancelDelete={cancelDelete}
+              index={index}
+            />
           )}
         </div>
-      )}
-      {singleOperation.modificationHappened &&
-      singleOperation.row === index &&
-      singleOperation.operation === "Update" ? (
-        <div>
-          {singleOperation.success ? (
-            <>
-              <span>Success </span>
-              <AiOutlineTrophy />
-            </>
-          ) : (
-            <>
-              <span>{singleOperation.response} </span>
-              <AiOutlineStop />
-            </>
-          )}
-        </div>
-      ) : (
-        <></>
       )}
       {localLoading.row === index && localLoading.loading ? (
         <span>Loading...</span>
@@ -226,7 +166,7 @@ OtherVGTableRowButtons.propTypes = {
   inputKey: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   variableGroup: PropTypes.object.isRequired,
-  isSecretVariableGroup: PropTypes.bool.isRequired
+  isSecretVariableGroup: PropTypes.bool.isRequired,
 };
 
 export default OtherVGTableRowButtons;
