@@ -19,7 +19,7 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
-  const [inputKey] = useState(v4());
+  const [ inputKey ] = useState(v4());
 
   return (
     <tr key={v4()}>
