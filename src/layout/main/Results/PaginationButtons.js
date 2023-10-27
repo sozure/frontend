@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState, useEffect, useContext } from "react";
 import { PaginationCounterContext } from "../../../contexts/Contexts";
 import PagSpan from "./PagSpan";
@@ -8,12 +9,14 @@ const PaginationButtons = ({ collection }) => {
     PaginationCounterContext
   );
   const [pageNumber, setPageNumber] = useState(0);
+  const [collectionLength, setCollectionLength] = useState(collection.length);
   const [actualPageNumber, setActualPageNumber] = useState(1);
 
   const number = 10;
 
   useEffect(() => {
     let collectionLength = collection.length;
+    setCollectionLength(collectionLength);
     setPageNumber(Math.ceil(collectionLength / number));
   }, [collection]);
 
@@ -37,7 +40,7 @@ const PaginationButtons = ({ collection }) => {
       <div className="page-number">
         <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber} />
       </div>
-      {collection.length <= 10 ? (
+      {collectionLength <= 10 ? (
         <></>
       ) : (
         <div className="pagination-btns">
@@ -51,13 +54,13 @@ const PaginationButtons = ({ collection }) => {
           </Button>
           <Button
             className={
-              paginationCounter + number >= collection.length
+              paginationCounter + number >= collectionLength
                 ? "previous"
                 : "next"
             }
             disabled={
-              (paginationCounter + number >= collection.length) |
-              (collection.length < 10)
+              (paginationCounter + number >= collectionLength) |
+              (collectionLength < 10)
             }
             onClick={increasePaginationCounter}
             variant="contained"
@@ -70,5 +73,8 @@ const PaginationButtons = ({ collection }) => {
   );
 };
 
+PaginationButtons.propTypes = {
+  collection: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default PaginationButtons;
