@@ -20,12 +20,13 @@ import {
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
 import { Button, Box, Input } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const VariableGroupUpdateForm = () => {
@@ -74,16 +75,7 @@ const VariableGroupUpdateForm = () => {
   ]);
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "updateform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "updateform");
     if (!incorrectFill) {
       sendListRequest(message, valueRegex, setVariableGroups);
       setOnUpdate(true);

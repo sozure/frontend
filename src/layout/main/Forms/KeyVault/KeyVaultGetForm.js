@@ -3,7 +3,7 @@ import { sendListSecretRequest } from "../../../../services//SecretServices/Secr
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import { Checkbox, FormControlLabel, FormGroup, Button, Box, Input } from "@mui/material";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -19,6 +19,7 @@ import {
   SingleOperationContext,
 } from "../../../../contexts/Contexts";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -45,17 +46,7 @@ const KeyVaultGetForm = () => {
   ];
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "getform-error",
-        });
-        incorrectFill = true;
-      }
-    });
-
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
       let message = {
         tenantId: tenantId,

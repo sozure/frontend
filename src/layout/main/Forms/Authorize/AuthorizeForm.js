@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { getProjects } from "../../../../services/ProjectService";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -12,6 +12,7 @@ import {
   LoadingContext,
 } from "../../../../contexts/Contexts";
 import { Button, Input } from "@mui/material";
+import { checkRequiredInputs2 } from "../../../../services/CommonService";
 
 const AuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
@@ -25,17 +26,7 @@ const AuthorizeForm = () => {
   const mandatoryFields = [pat, organizationName];
 
   const auth = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "custom-auth",
-          autoClose: 1500
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs2(mandatoryFields, "custom-auth", 1500);
     if (!incorrectFill) {
       setLoading(true);
       getProjects(

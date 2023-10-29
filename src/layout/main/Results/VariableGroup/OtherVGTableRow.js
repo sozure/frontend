@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { v4 } from "uuid";
 
 import { SingleModificationContext } from "../../../../contexts/Contexts";
@@ -17,7 +17,7 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
-  const [inputKey] = useState(v4());
+  const inputKey = v4();
 
   const getVariableGroupValue = () => {
     return variableGroupValue.length > 60 ? (
