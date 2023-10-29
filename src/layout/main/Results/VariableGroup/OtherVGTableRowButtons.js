@@ -42,20 +42,20 @@ const OtherVGTableRowButtons = ({
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
   const sendUpdate = (variableGroup) => {
+    let value = document.getElementById(`single_update${inputKey}`).value;
     let message = {
       projectName: variableGroup.project,
-      pat: pat,
-      vgRegex: variableGroup.variableGroupName,
       organizationName: organizationName,
+      pat: pat,
+      newValue: value,
+      vgRegex: variableGroup.variableGroupName,
+      vgValueRegex: variableGroup.variableGroupValue,
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
     };
-    let value = document.getElementById(`single_update${inputKey}`).value;
     setLocalLoading({ loading: true, row: index });
     sendUpdateRequest(
       message,
-      value,
-      variableGroup.variableGroupValue,
       setSingleOperation,
       index,
       variableGroups,

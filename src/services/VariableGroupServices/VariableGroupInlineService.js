@@ -53,8 +53,6 @@ const sendRequest = (
 
 const sendUpdateRequest = (
   message,
-  newValue,
-  valueRegex,
   setSingleOperation,
   row,
   variableGroups,
@@ -62,7 +60,8 @@ const sendUpdateRequest = (
   setLocalLoading
 ) => {
   let body = buildRequestBody(message);
-  body["newValue"] = newValue;
+  let valueRegex = message["vgValueRegex"];
+  body["newValue"] = message["newValue"];
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "UpdateInline";
   sendRequest(
