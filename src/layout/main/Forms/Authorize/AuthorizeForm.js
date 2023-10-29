@@ -26,7 +26,11 @@ const AuthorizeForm = () => {
   const mandatoryFields = [pat, organizationName];
 
   const auth = () => {
-    let incorrectFill = checkRequiredInputs2(mandatoryFields, "custom-auth", 1500);
+    let incorrectFill = checkRequiredInputs2(
+      mandatoryFields,
+      "custom-auth",
+      1500
+    );
     if (!incorrectFill) {
       setLoading(true);
       getProjects(
@@ -43,7 +47,7 @@ const AuthorizeForm = () => {
   const handleAuthInputs = (e, callback) => {
     callback(e.target.value);
     setVgAuthorized(false);
-  }
+  };
 
   return (
     <div className="form">

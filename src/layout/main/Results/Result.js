@@ -8,7 +8,6 @@ const Result = () => {
   return (
     <div className="result-footer">
       {tableType === "KV" ? <KVTable /> : <VGTable />}
-      
     </div>
   );
 };

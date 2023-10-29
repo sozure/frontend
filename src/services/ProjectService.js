@@ -14,7 +14,7 @@ const getProjects = (
   const url = `${baseUrl}/get`;
   const body = {
     organization: organizationName,
-    pat: PAT
+    pat: PAT,
   };
   axios
     .post(url, body)

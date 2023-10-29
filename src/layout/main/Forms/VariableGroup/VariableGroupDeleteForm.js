@@ -57,7 +57,7 @@ const VariableGroupDeleteForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
-      keyIsRegex: keyIsRegexHelper
+      keyIsRegex: keyIsRegexHelper,
     });
   }, [
     projectName,
@@ -68,7 +68,7 @@ const VariableGroupDeleteForm = () => {
     setLoading,
     setVariableGroups,
     setKeyIsRegex,
-    setMessage
+    setMessage,
   ]);
 
   const send = () => {
@@ -86,7 +86,8 @@ const VariableGroupDeleteForm = () => {
   return (
     <div className="form">
       <VariableGroupBaseForm />
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="variable_key"
         name="variable_key"

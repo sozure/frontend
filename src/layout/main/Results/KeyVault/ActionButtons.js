@@ -56,46 +56,44 @@ const ActionButtons = () => {
   };
 
   const getAreYouSureSection = () => {
-    return (<div>
-    <p>
-      Are you sure you want to {onDelete ? "delete" : "recover"}{" "}
-      {secrets.length > 1 ? "secrets?" : "secret?"}
-    </p>
-    <br />
-    <button
-      onClick={() => {
-        if (onDelete) {
-          deleteSecrets();
-        } else {
-          recoverSecrets();
-        }
-        setActionType("List");
-      }}
-    >
-      Yes
-    </button>
-    <button
-      onClick={() => {
-        if (onDelete) {
-          setOnDelete(false);
-        } else {
-          setOnRecover(false);
-        }
-        setSecrets([]);
-      }}
-    >
-      No
-    </button>
-  </div>)
-  }
+    return (
+      <div>
+        <p>
+          Are you sure you want to {onDelete ? "delete" : "recover"}{" "}
+          {secrets.length > 1 ? "secrets?" : "secret?"}
+        </p>
+        <br />
+        <button
+          onClick={() => {
+            if (onDelete) {
+              deleteSecrets();
+            } else {
+              recoverSecrets();
+            }
+            setActionType("List");
+          }}
+        >
+          Yes
+        </button>
+        <button
+          onClick={() => {
+            if (onDelete) {
+              setOnDelete(false);
+            } else {
+              setOnRecover(false);
+            }
+            setSecrets([]);
+          }}
+        >
+          No
+        </button>
+      </div>
+    );
+  };
 
   const getKeyVaultSection = () => {
-    return (onDelete || onRecover ? (
-      getAreYouSureSection()
-    ) : (
-      <></>
-    ))
-  }
+    return onDelete || onRecover ? getAreYouSureSection() : <></>;
+  };
 
   return (
     <>

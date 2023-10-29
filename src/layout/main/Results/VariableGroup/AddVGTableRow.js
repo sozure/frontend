@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 const AddVGTableRow = ({ variableGroup }) => {
   return (
@@ -12,8 +12,7 @@ const AddVGTableRow = ({ variableGroup }) => {
 };
 
 AddVGTableRow.propTypes = {
-  variableGroup: PropTypes.object.isRequired
+  variableGroup: PropTypes.object.isRequired,
 };
-
 
 export default AddVGTableRow;
