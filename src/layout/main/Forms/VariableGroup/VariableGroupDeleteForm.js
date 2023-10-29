@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import { Button, Box, Input } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -23,6 +23,7 @@ import {
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -71,16 +72,7 @@ const VariableGroupDeleteForm = () => {
   ]);
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "deleteform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups);
       setPaginationCounter(0);

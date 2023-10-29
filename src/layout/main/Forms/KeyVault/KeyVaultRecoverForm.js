@@ -13,8 +13,9 @@ import {
 } from "../../../../contexts/Contexts";
 import { sendListSecretRequest } from "../../../../services/SecretServices/SecretService";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { checkRequiredInputs } from "../../../../services/CommonService";
 
 const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -36,16 +37,7 @@ const KeyVaultRecoverForm = () => {
   ];
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "recoverform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform");
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,
