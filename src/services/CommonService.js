@@ -62,6 +62,21 @@ const checkRequiredInputs = (mandatoryFields, toastIdPart ) => {
   return incorrectFill;
 }
 
+const checkRequiredInputs2 = (mandatoryFields, toastIdPart, autoCloseSec ) => {
+  let incorrectFill = false;
+    mandatoryFields.forEach((element) => {
+      if (element === "") {
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: toastIdPart,
+          autoClose: autoCloseSec
+        });
+        incorrectFill = true;
+      }
+    });
+  return incorrectFill;
+}
+
 export {
   getBaseUrl,
   handleError,
@@ -69,5 +84,6 @@ export {
   getResponseMessage,
   setOnSingleModificationBack,
   setSingleOperationBack,
-  checkRequiredInputs
+  checkRequiredInputs,
+  checkRequiredInputs2
 };

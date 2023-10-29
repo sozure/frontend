@@ -17,7 +17,7 @@ import {
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";

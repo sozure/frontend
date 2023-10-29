@@ -3,7 +3,7 @@ import { sendListSecretRequest } from "../../../../services//SecretServices/Secr
 import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import { Checkbox, FormControlLabel, FormGroup, Button, Box, Input } from "@mui/material";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {

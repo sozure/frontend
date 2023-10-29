@@ -13,7 +13,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { sendListSecretRequest } from "../../../../services/SecretServices/SecretService";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { checkRequiredInputs } from "../../../../services/CommonService";
 

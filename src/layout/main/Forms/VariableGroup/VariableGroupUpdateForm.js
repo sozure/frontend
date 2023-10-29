@@ -26,7 +26,7 @@ import {
 } from "../../../../services/CommonService";
 
 import { Button, Box, Input } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const VariableGroupUpdateForm = () => {

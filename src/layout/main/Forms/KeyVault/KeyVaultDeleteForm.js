@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "../../../../CSS/style.css";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {

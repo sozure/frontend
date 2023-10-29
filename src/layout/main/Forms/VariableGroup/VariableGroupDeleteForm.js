@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import { Button, Box, Input } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
