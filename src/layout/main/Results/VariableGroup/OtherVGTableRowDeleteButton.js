@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { AiFillDelete, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
@@ -37,6 +38,16 @@ const OtherVGTableRowDeleteButton = ({
       )}
     </>
   );
+};
+
+OtherVGTableRowDeleteButton.propTypes = {
+  variableGroup: PropTypes.object.isRequired,
+  onSingleModification: PropTypes.object.isRequired,
+  localLoading: PropTypes.object.isRequired,
+  sendDelete: PropTypes.func.isRequired,
+  startDelete: PropTypes.func.isRequired,
+  cancelDelete: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default OtherVGTableRowDeleteButton;
