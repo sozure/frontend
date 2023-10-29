@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
@@ -38,6 +39,16 @@ const OtherVGTableRowUpdateButton = ({
       )}
     </>
   );
+};
+
+OtherVGTableRowUpdateButton.propTypes = {
+  variableGroup: PropTypes.object.isRequired,
+  onSingleModification: PropTypes.object.isRequired,
+  localLoading: PropTypes.object.isRequired,
+  sendUpdate: PropTypes.func.isRequired,
+  startUpdate: PropTypes.func.isRequired,
+  cancelUpdate: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default OtherVGTableRowUpdateButton;
