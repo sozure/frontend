@@ -23,6 +23,7 @@ import {
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -71,16 +72,7 @@ const VariableGroupDeleteForm = () => {
   ]);
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "deleteform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups);
       setPaginationCounter(0);

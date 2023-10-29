@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 const responseCodes = {
   0: "Success",
   1: "Unauthorized",
@@ -46,6 +48,20 @@ const setSingleOperationBack = (setSingleOperation) => {
   });
 };
 
+const checkRequiredInputs = (mandatoryFields, toastIdPart ) => {
+  let incorrectFill = false;
+    mandatoryFields.forEach((element) => {
+      if (element === "") {
+        toast.error("Fill every field!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: `${toastIdPart}-error`
+        });
+        incorrectFill = true;
+      }
+    });
+  return incorrectFill;
+}
+
 export {
   getBaseUrl,
   handleError,
@@ -53,4 +69,5 @@ export {
   getResponseMessage,
   setOnSingleModificationBack,
   setSingleOperationBack,
+  checkRequiredInputs
 };

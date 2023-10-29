@@ -20,6 +20,7 @@ import {
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -72,16 +73,7 @@ const VariableGroupAddForm = () => {
   ]);
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "addform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
     if (!incorrectFill) {
       sendListRequest(message, "", setVariableGroups);
       setPaginationCounter(0);

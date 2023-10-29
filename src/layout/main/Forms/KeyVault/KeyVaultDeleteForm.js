@@ -19,6 +19,7 @@ import {
 } from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 import {
+  checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -45,16 +46,7 @@ const KeyVaultDeleteForm = () => {
   ];
 
   const send = () => {
-    let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: "deleteform-error",
-        });
-        incorrectFill = true;
-      }
-    });
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,
