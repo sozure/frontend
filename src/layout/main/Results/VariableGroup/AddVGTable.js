@@ -15,19 +15,22 @@ const AddVGTable = () => {
   const number = 10;
 
   useEffect(() => {
-    let helperList = [];
-    let helperList2 = [];
+    let variableGroupNameList = [];
+    let projectList = [];
+    let resultList = [];
     variableGroups.forEach((element) => {
       let variableGroupName = element.variableGroupName;
-      if (!helperList.includes(variableGroupName)) {
-        helperList.push(variableGroupName);
-        helperList2.push({
+      let project = element.project;
+      if (!(variableGroupNameList.includes(variableGroupName) && projectList.includes(project))) {
+        variableGroupNameList.push(variableGroupName);
+        projectList.push(project);
+        resultList.push({
           variableGroupName: variableGroupName,
-          project: element.project,
+          project: project,
         });
       }
     });
-    setUniqueVariableGroups(helperList2);
+    setUniqueVariableGroups(resultList);
   }, [variableGroups]);
 
   return (
