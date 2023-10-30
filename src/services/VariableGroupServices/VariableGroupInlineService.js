@@ -37,7 +37,7 @@ const sendRequest = (
         }
         setVariableGroups(variableGroups);
       }
-      setLocalLoading({loading: false, row: -1});
+      setLocalLoading({ loading: false, row: -1 });
     })
     .catch((err) => {
       setSingleOperation({
@@ -47,7 +47,7 @@ const sendRequest = (
         response: err.message,
         operation: controllerSegment,
       });
-      setLocalLoading({loading: false, row: -1});
+      setLocalLoading({ loading: false, row: -1 });
     });
 };
 

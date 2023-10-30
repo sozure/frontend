@@ -14,7 +14,8 @@ const KeyVaultBaseForm = () => {
 
   return (
     <>
-      <Input fullWidth
+      <Input
+        fullWidth
         type="password"
         id="tenantId"
         name="tenantId"
@@ -24,7 +25,8 @@ const KeyVaultBaseForm = () => {
       />
       <br />
       <br />
-      <Input fullWidth
+      <Input
+        fullWidth
         type="password"
         id="clientId"
         name="clientId"
@@ -36,7 +38,8 @@ const KeyVaultBaseForm = () => {
       <br />
       <br />
 
-      <Input fullWidth
+      <Input
+        fullWidth
         type="password"
         id="clientSecret"
         name="clientSecret"

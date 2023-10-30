@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import KeyVaultBaseForm from "./KeyVaultBaseForm";
 import {
@@ -28,7 +28,8 @@ const KeyVaultBaseOperationForm = ({ send }) => {
       <br />
       <br />
 
-      <Input fullWidth
+      <Input
+        fullWidth
         type="text"
         id="filter"
         name="filter"
@@ -49,7 +50,7 @@ const KeyVaultBaseOperationForm = ({ send }) => {
 };
 
 KeyVaultBaseOperationForm.propTypes = {
-  send: PropTypes.func.isRequired
+  send: PropTypes.func.isRequired,
 };
 
 export default KeyVaultBaseOperationForm;

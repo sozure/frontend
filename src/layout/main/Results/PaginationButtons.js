@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useState, useEffect, useContext } from "react";
 import { PaginationCounterContext } from "../../../contexts/Contexts";
 import PagSpan from "./PagSpan";

@@ -1,6 +1,6 @@
 import "../../../../CSS/style.css";
 import React, { useContext } from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 import {
   PaginationCounterContext,
@@ -33,10 +33,18 @@ function OtherVGTable() {
       ) : (
         <>
           <h2>Matched variables (Found variables: {variableGroups.length})</h2>
-          <br/>
+          <br />
           <table className="matched-variables-table">
             <thead>
-            <TableHeader columnList={["Project", "Variable group name", "Variable key", "Variable value", "Operations"]}/>
+              <TableHeader
+                columnList={[
+                  "Project",
+                  "Variable group name",
+                  "Variable key",
+                  "Variable value",
+                  "Operations",
+                ]}
+              />
             </thead>
 
             <tbody>

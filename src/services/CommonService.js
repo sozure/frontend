@@ -48,34 +48,34 @@ const setSingleOperationBack = (setSingleOperation) => {
   });
 };
 
-const checkRequiredInputs = (mandatoryFields, toastIdPart ) => {
+const checkRequiredInputs = (mandatoryFields, toastIdPart) => {
   let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: `${toastIdPart}-error`
-        });
-        incorrectFill = true;
-      }
-    });
+  mandatoryFields.forEach((element) => {
+    if (element === "") {
+      toast.error("Fill every field!", {
+        position: toast.POSITION.TOP_CENTER,
+        toastId: `${toastIdPart}-error`,
+      });
+      incorrectFill = true;
+    }
+  });
   return incorrectFill;
-}
+};
 
-const checkRequiredInputs2 = (mandatoryFields, toastIdPart, autoCloseSec ) => {
+const checkRequiredInputs2 = (mandatoryFields, toastIdPart, autoCloseSec) => {
   let incorrectFill = false;
-    mandatoryFields.forEach((element) => {
-      if (element === "") {
-        toast.error("Fill every field!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: toastIdPart,
-          autoClose: autoCloseSec
-        });
-        incorrectFill = true;
-      }
-    });
+  mandatoryFields.forEach((element) => {
+    if (element === "") {
+      toast.error("Fill every field!", {
+        position: toast.POSITION.TOP_CENTER,
+        toastId: toastIdPart,
+        autoClose: autoCloseSec,
+      });
+      incorrectFill = true;
+    }
+  });
   return incorrectFill;
-}
+};
 
 export {
   getBaseUrl,
@@ -85,5 +85,5 @@ export {
   setOnSingleModificationBack,
   setSingleOperationBack,
   checkRequiredInputs,
-  checkRequiredInputs2
+  checkRequiredInputs2,
 };

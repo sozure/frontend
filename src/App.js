@@ -114,123 +114,263 @@ function App() {
   const [localLoading, setLocalLoading] = useState({ loading: false, row: -1 });
 
   return (
-    <KeyVaultNameContext.Provider value={useMemo(() => ({ keyVaultName, setKeyVaultName }), [keyVaultName, setKeyVaultName])}>
-      <ActionTypeContext.Provider value={useMemo(() => ({ actionType, setActionType }), [actionType, setActionType])}>
-        <TableTypeContext.Provider value={useMemo(() => ({ tableType, setTableType }), [tableType, setTableType])}>
-          <PATContext.Provider value={useMemo(() => ({ pat, setPat }), [pat, setPat])}>
+    <KeyVaultNameContext.Provider
+      value={useMemo(
+        () => ({ keyVaultName, setKeyVaultName }),
+        [keyVaultName, setKeyVaultName]
+      )}
+    >
+      <ActionTypeContext.Provider
+        value={useMemo(
+          () => ({ actionType, setActionType }),
+          [actionType, setActionType]
+        )}
+      >
+        <TableTypeContext.Provider
+          value={useMemo(
+            () => ({ tableType, setTableType }),
+            [tableType, setTableType]
+          )}
+        >
+          <PATContext.Provider
+            value={useMemo(() => ({ pat, setPat }), [pat, setPat])}
+          >
             <ProjectNameContext.Provider
-              value={useMemo(() => ({ projectName, setProjectName }), [projectName, setProjectName])}
+              value={useMemo(
+                () => ({ projectName, setProjectName }),
+                [projectName, setProjectName]
+              )}
             >
-              <ValueRegexContext.Provider value={useMemo(() => ({ valueRegex, setValueRegex }), [valueRegex, setValueRegex])}>
-                <VGRegexContext.Provider value={useMemo(() => ({ vgRegex, setVgRegex }), [vgRegex, setVgRegex])}>
+              <ValueRegexContext.Provider
+                value={useMemo(
+                  () => ({ valueRegex, setValueRegex }),
+                  [valueRegex, setValueRegex]
+                )}
+              >
+                <VGRegexContext.Provider
+                  value={useMemo(
+                    () => ({ vgRegex, setVgRegex }),
+                    [vgRegex, setVgRegex]
+                  )}
+                >
                   <SecretRegexContext.Provider
-                    value={useMemo(() => ({ secretRegex, setSecretRegex }), [secretRegex, setSecretRegex])}
+                    value={useMemo(
+                      () => ({ secretRegex, setSecretRegex }),
+                      [secretRegex, setSecretRegex]
+                    )}
                   >
-                    <KeyRegexContext.Provider value={useMemo(() => ({ keyRegex, setKeyRegex }), [keyRegex, setKeyRegex])}>
+                    <KeyRegexContext.Provider
+                      value={useMemo(
+                        () => ({ keyRegex, setKeyRegex }),
+                        [keyRegex, setKeyRegex]
+                      )}
+                    >
                       <VariableGroupsContext.Provider
-                        value={useMemo(() => ({ variableGroups, setVariableGroups }), [variableGroups, setVariableGroups])}
+                        value={useMemo(
+                          () => ({ variableGroups, setVariableGroups }),
+                          [variableGroups, setVariableGroups]
+                        )}
                       >
                         <LoadingContext.Provider
-                          value={useMemo(() => ({ loading, setLoading }), [loading, setLoading])}
+                          value={useMemo(
+                            () => ({ loading, setLoading }),
+                            [loading, setLoading]
+                          )}
                         >
                           <OnUpdateContext.Provider
-                            value={useMemo(() => ({ onUpdate, setOnUpdate }), [onUpdate, setOnUpdate])}
+                            value={useMemo(
+                              () => ({ onUpdate, setOnUpdate }),
+                              [onUpdate, setOnUpdate]
+                            )}
                           >
-                            <OnAddContext.Provider value={useMemo(() => ({ onAdd, setOnAdd }), [onAdd, setOnAdd])}>
+                            <OnAddContext.Provider
+                              value={useMemo(
+                                () => ({ onAdd, setOnAdd }),
+                                [onAdd, setOnAdd]
+                              )}
+                            >
                               <OnDeleteContext.Provider
-                                value={useMemo(() => ({ onDelete, setOnDelete }), [onDelete, setOnDelete])}
+                                value={useMemo(
+                                  () => ({ onDelete, setOnDelete }),
+                                  [onDelete, setOnDelete]
+                                )}
                               >
                                 <SecretContext.Provider
-                                  value={useMemo(() => ({ secrets, setSecrets }), [secrets, setSecrets])}
+                                  value={useMemo(
+                                    () => ({ secrets, setSecrets }),
+                                    [secrets, setSecrets]
+                                  )}
                                 >
                                   <MessageContext.Provider
-                                    value={useMemo(() => ({ message, setMessage }), [message, setMessage])}
+                                    value={useMemo(
+                                      () => ({ message, setMessage }),
+                                      [message, setMessage]
+                                    )}
                                   >
                                     <OrganizationContext.Provider
-                                      value={useMemo(() => ({
-                                        organizationName,
-                                        setOrganizationName,
-                                      }), [organizationName, setOrganizationName])}
+                                      value={useMemo(
+                                        () => ({
+                                          organizationName,
+                                          setOrganizationName,
+                                        }),
+                                        [organizationName, setOrganizationName]
+                                      )}
                                     >
                                       <ProjectsContext.Provider
-                                        value={useMemo(() => ({ projects, setProjects }), [projects, setProjects])}
+                                        value={useMemo(
+                                          () => ({ projects, setProjects }),
+                                          [projects, setProjects]
+                                        )}
                                       >
                                         <VGAuthorizedContext.Provider
-                                          value={useMemo(() => ({
-                                            vgAuthorized,
-                                            setVgAuthorized,
-                                          }), [vgAuthorized, setVgAuthorized])}
+                                          value={useMemo(
+                                            () => ({
+                                              vgAuthorized,
+                                              setVgAuthorized,
+                                            }),
+                                            [vgAuthorized, setVgAuthorized]
+                                          )}
                                         >
                                           <NewKeyContext.Provider
-                                            value={useMemo(() => ({ newKey, setNewKey }), [newKey, setNewKey])}
+                                            value={useMemo(
+                                              () => ({ newKey, setNewKey }),
+                                              [newKey, setNewKey]
+                                            )}
                                           >
                                             <NewValueContext.Provider
-                                              value={useMemo(() => ({ newValue, setNewValue }), [newValue, setNewValue])}
+                                              value={useMemo(
+                                                () => ({
+                                                  newValue,
+                                                  setNewValue,
+                                                }),
+                                                [newValue, setNewValue]
+                                              )}
                                             >
                                               <TenantIdContext.Provider
-                                                value={useMemo(() => ({
-                                                  tenantId,
-                                                  setTenantId,
-                                                }), [tenantId, setTenantId])}
+                                                value={useMemo(
+                                                  () => ({
+                                                    tenantId,
+                                                    setTenantId,
+                                                  }),
+                                                  [tenantId, setTenantId]
+                                                )}
                                               >
                                                 <ClientIdContext.Provider
-                                                  value={useMemo(() => ({
-                                                    clientId,
-                                                    setClientId,
-                                                  }), [clientId, setClientId])}
+                                                  value={useMemo(
+                                                    () => ({
+                                                      clientId,
+                                                      setClientId,
+                                                    }),
+                                                    [clientId, setClientId]
+                                                  )}
                                                 >
                                                   <ClientSecretContext.Provider
-                                                    value={useMemo(() => ({
-                                                      clientSecret,
-                                                      setClientSecret,
-                                                    }), [clientSecret, setClientSecret])}
+                                                    value={useMemo(
+                                                      () => ({
+                                                        clientSecret,
+                                                        setClientSecret,
+                                                      }),
+                                                      [
+                                                        clientSecret,
+                                                        setClientSecret,
+                                                      ]
+                                                    )}
                                                   >
                                                     <OriginKeyVaultContext.Provider
-                                                      value={useMemo(() => ({
-                                                        originKeyVault,
-                                                        setOriginKeyVault,
-                                                      }), [originKeyVault, setOriginKeyVault])}
+                                                      value={useMemo(
+                                                        () => ({
+                                                          originKeyVault,
+                                                          setOriginKeyVault,
+                                                        }),
+                                                        [
+                                                          originKeyVault,
+                                                          setOriginKeyVault,
+                                                        ]
+                                                      )}
                                                     >
                                                       <DestinationKeyVaultContext.Provider
-                                                        value={useMemo(() => ({
-                                                          destinationKeyVault,
-                                                          setDestinationKeyVault,
-                                                        }), [destinationKeyVault, setDestinationKeyVault])}
+                                                        value={useMemo(
+                                                          () => ({
+                                                            destinationKeyVault,
+                                                            setDestinationKeyVault,
+                                                          }),
+                                                          [
+                                                            destinationKeyVault,
+                                                            setDestinationKeyVault,
+                                                          ]
+                                                        )}
                                                       >
                                                         <PaginationCounterContext.Provider
-                                                          value={useMemo(() => ({
-                                                            paginationCounter,
-                                                            setPaginationCounter,
-                                                          }), [paginationCounter, setPaginationCounter])}
+                                                          value={useMemo(
+                                                            () => ({
+                                                              paginationCounter,
+                                                              setPaginationCounter,
+                                                            }),
+                                                            [
+                                                              paginationCounter,
+                                                              setPaginationCounter,
+                                                            ]
+                                                          )}
                                                         >
                                                           <OnRecoverContext.Provider
-                                                            value={useMemo(() => ({
-                                                              onRecover,
-                                                              setOnRecover,
-                                                            }), [onRecover, setOnRecover])}
+                                                            value={useMemo(
+                                                              () => ({
+                                                                onRecover,
+                                                                setOnRecover,
+                                                              }),
+                                                              [
+                                                                onRecover,
+                                                                setOnRecover,
+                                                              ]
+                                                            )}
                                                           >
                                                             <SingleModificationContext.Provider
-                                                              value={useMemo(() => ({
-                                                                onSingleModification,
-                                                                setOnSingleModification,
-                                                              }), [onSingleModification, setOnSingleModification])}
+                                                              value={useMemo(
+                                                                () => ({
+                                                                  onSingleModification,
+                                                                  setOnSingleModification,
+                                                                }),
+                                                                [
+                                                                  onSingleModification,
+                                                                  setOnSingleModification,
+                                                                ]
+                                                              )}
                                                             >
                                                               <SingleOperationContext.Provider
-                                                                value={useMemo(() => ({
-                                                                  singleOperation,
-                                                                  setSingleOperation,
-                                                                }), [singleOperation, setSingleOperation])}
+                                                                value={useMemo(
+                                                                  () => ({
+                                                                    singleOperation,
+                                                                    setSingleOperation,
+                                                                  }),
+                                                                  [
+                                                                    singleOperation,
+                                                                    setSingleOperation,
+                                                                  ]
+                                                                )}
                                                               >
                                                                 <LocalLoadingContext.Provider
-                                                                  value={useMemo(() => ({
-                                                                    localLoading,
-                                                                    setLocalLoading,
-                                                                  }), [localLoading, setLocalLoading])}
+                                                                  value={useMemo(
+                                                                    () => ({
+                                                                      localLoading,
+                                                                      setLocalLoading,
+                                                                    }),
+                                                                    [
+                                                                      localLoading,
+                                                                      setLocalLoading,
+                                                                    ]
+                                                                  )}
                                                                 >
                                                                   <KeyIsRegexContext.Provider
-                                                                    value={useMemo(() => ({
-                                                                      keyIsRegex, setKeyIsRegex,
-                                                                    }), [keyIsRegex, setKeyIsRegex])}
+                                                                    value={useMemo(
+                                                                      () => ({
+                                                                        keyIsRegex,
+                                                                        setKeyIsRegex,
+                                                                      }),
+                                                                      [
+                                                                        keyIsRegex,
+                                                                        setKeyIsRegex,
+                                                                      ]
+                                                                    )}
                                                                   >
                                                                     <BrowserRouter>
                                                                       <Routes>
