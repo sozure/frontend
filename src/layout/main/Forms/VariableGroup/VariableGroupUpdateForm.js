@@ -15,7 +15,7 @@ import {
   KeyRegexContext,
   LoadingContext,
   VariableGroupsContext,
-  ValueRegexContext
+  ValueRegexContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -60,7 +60,7 @@ const VariableGroupUpdateForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
-      keyIsRegex: keyIsRegexHelper
+      keyIsRegex: keyIsRegexHelper,
     });
   }, [
     projectName,
@@ -71,7 +71,7 @@ const VariableGroupUpdateForm = () => {
     setVariableGroups,
     organizationName,
     setKeyIsRegex,
-    setMessage
+    setMessage,
   ]);
 
   const send = () => {

@@ -18,8 +18,7 @@ import {
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
-import OtherVGTableRowDeleteButton from "./OtherVGTableRowDeleteButton";
-import OtherVGTableRowUpdateButton from "./OtherVGTableRowUpdateButton";
+import OtherVGTableRowButton from "./OtherVGTableRowButton";
 
 const OtherVGTableRowButtons = ({
   variableGroup,
@@ -126,14 +125,15 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <OtherVGTableRowUpdateButton
+            <OtherVGTableRowButton
               variableGroup={variableGroup}
               onSingleModification={onSingleModification}
-              sendUpdate={sendUpdate}
-              startUpdate={startUpdate}
-              cancelUpdate={cancelUpdate}
+              sendAction={sendUpdate}
+              startAction={startUpdate}
+              cancelAction={cancelUpdate}
               localLoading={localLoading}
               index={index}
+              type={"update"}
             />
           )}
 
@@ -141,14 +141,15 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <OtherVGTableRowDeleteButton
+            <OtherVGTableRowButton
               variableGroup={variableGroup}
               onSingleModification={onSingleModification}
               localLoading={localLoading}
-              sendDelete={sendDelete}
-              startDelete={startDelete}
-              cancelDelete={cancelDelete}
+              sendAction={sendDelete}
+              startAction={startDelete}
+              cancelAction={cancelDelete}
               index={index}
+              type={"delete"}
             />
           )}
         </div>

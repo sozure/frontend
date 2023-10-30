@@ -1,14 +1,14 @@
-import React from 'react'
-import KVResultTable from './KVResultTable'
-import ActionButtons from './ActionButtons'
+import React from "react";
+import KVResultTable from "./KVResultTable";
+import ActionButtons from "./ActionButtons";
 
 const KVTable = () => {
   return (
     <div>
-        <KVResultTable/>
-        <ActionButtons/>
+      <KVResultTable />
+      <ActionButtons />
     </div>
-  )
-}
+  );
+};
 
-export default KVTable
+export default KVTable;

@@ -1,6 +1,5 @@
-
 import React from "react";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 import { PropTypes } from "prop-types";
 
 const TableHeader = ({ columnList }) => {
@@ -14,7 +13,7 @@ const TableHeader = ({ columnList }) => {
 };
 
 TableHeader.propTypes = {
-  columnList : PropTypes.arrayOf(PropTypes.string).isRequired
-}
+  columnList: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default TableHeader;

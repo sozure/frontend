@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 const OtherVGTableRowInput = ({ inputKey, variableValue }) => {
@@ -20,6 +20,5 @@ OtherVGTableRowInput.propTypes = {
   inputKey: PropTypes.string.isRequired,
   variableValue: PropTypes.string.isRequired,
 };
-
 
 export default OtherVGTableRowInput;

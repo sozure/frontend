@@ -59,7 +59,7 @@ const VariableGroupAddForm = () => {
       setLoading: setLoading,
       setVariableGroups: setVariableGroups,
       secretIncluded: false,
-      keyIsRegex: keyIsRegexHelper
+      keyIsRegex: keyIsRegexHelper,
     });
   }, [
     projectName,
@@ -69,7 +69,7 @@ const VariableGroupAddForm = () => {
     setLoading,
     setVariableGroups,
     setKeyIsRegex,
-    setMessage
+    setMessage,
   ]);
 
   const send = () => {

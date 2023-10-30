@@ -36,8 +36,8 @@ const sendListSecretRequest = (
     clientId: message["clientId"],
     clientSecret: message["clientSecret"],
     keyVaultName: message["keyVaultName"],
-    secretFilter: message["secretRegex"]
-  }
+    secretFilter: message["secretRegex"],
+  };
 
   callbackForLoading(true);
   axios
