@@ -1,26 +1,32 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import {
+  AiFillDelete,
+  AiFillEdit,
+  AiOutlineCheck,
+  AiOutlineClose,
+} from "react-icons/ai";
 
-const OtherVGTableRowUpdateButton = ({
+const OtherVGTableRowButton = ({
   variableGroup,
   onSingleModification,
   localLoading,
-  sendUpdate,
-  startUpdate,
-  cancelUpdate,
+  sendAction,
+  startAction,
+  cancelAction,
   index,
+  type
 }) => {
+
   return (
     <>
       {onSingleModification.modification &&
       onSingleModification.row === index ? (
         <>
-          <button onClick={() => sendUpdate(variableGroup)}>
+          <button onClick={() => sendAction(variableGroup, index)}>
             <AiOutlineCheck />
           </button>
-
-          <button onClick={() => cancelUpdate()}>
+          <button onClick={cancelAction}>
             <AiOutlineClose />
           </button>
         </>
@@ -29,9 +35,9 @@ const OtherVGTableRowUpdateButton = ({
           {localLoading.row === index && localLoading.loading ? (
             <></>
           ) : (
-            <abbr title="Update">
-              <button onClick={() => startUpdate(index)}>
-                <AiFillEdit />
+            <abbr title={type}>
+              <button onClick={() => startAction(index)}>
+                {type === "update" ? <AiFillEdit /> : <AiFillDelete /> }
               </button>
             </abbr>
           )}
@@ -41,14 +47,15 @@ const OtherVGTableRowUpdateButton = ({
   );
 };
 
-OtherVGTableRowUpdateButton.propTypes = {
+OtherVGTableRowButton.propTypes = {
   variableGroup: PropTypes.object.isRequired,
   onSingleModification: PropTypes.object.isRequired,
   localLoading: PropTypes.object.isRequired,
-  sendUpdate: PropTypes.func.isRequired,
-  startUpdate: PropTypes.func.isRequired,
-  cancelUpdate: PropTypes.func.isRequired,
+  sendAction: PropTypes.func.isRequired,
+  startAction: PropTypes.func.isRequired,
+  cancelAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
-export default OtherVGTableRowUpdateButton;
+export default OtherVGTableRowButton;
