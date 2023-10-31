@@ -11,7 +11,7 @@ import {
   OrganizationContext,
   MessageContext,
   KeyRegexContext,
-  VariableGroupsContext,
+  VariablesContext,
   LoadingContext,
   KeyIsRegexContext,
 } from "../../../../contexts/Contexts";
@@ -40,7 +40,7 @@ const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGRegexContext);
-  const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setVariables } = useContext(VariablesContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
@@ -82,7 +82,7 @@ const VariableGroupGetForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
-      sendListVariablesRequest(message, valueRegex, setVariableGroups);
+      sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);

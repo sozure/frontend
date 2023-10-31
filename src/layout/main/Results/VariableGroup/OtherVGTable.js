@@ -4,14 +4,14 @@ import { v4 } from "uuid";
 
 import {
   PaginationCounterContext,
-  VariableGroupsContext,
+  VariablesContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import OtherVGTableRow from "./OtherVGTableRow";
 import TableHeader from "../TableHeader";
 
 function OtherVGTable() {
-  const { variableGroups } = useContext(VariableGroupsContext);
+  const { variableGroups } = useContext(VariablesContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
 
   const number = 10;

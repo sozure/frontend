@@ -16,7 +16,7 @@ import {
   SingleModificationContext,
   KeyIsRegexContext,
   UniqueVariableGroupsContext,
-  VariableGroupsContext,
+  VariablesContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -33,7 +33,7 @@ import "react-toastify/dist/ReactToastify.css";
 const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
-  const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setVariables } = useContext(VariablesContext);
   const { setUniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
@@ -59,7 +59,7 @@ const VariableGroupAddForm = () => {
       keyRegex: ".*",
       organizationName: organizationName,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups,
+      setVariables: setVariables,
       secretIncluded: false,
       keyIsRegex: keyIsRegexHelper,
     });
@@ -69,7 +69,7 @@ const VariableGroupAddForm = () => {
     vgRegex,
     organizationName,
     setLoading,
-    setVariableGroups,
+    setVariables,
     setKeyIsRegex,
     setMessage,
   ]);

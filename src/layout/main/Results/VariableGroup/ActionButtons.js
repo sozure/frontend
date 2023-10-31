@@ -13,7 +13,7 @@ import {
   NewKeyContext,
   NewValueContext,
   TableTypeContext,
-  VariableGroupsContext,
+  VariablesContext,
   ActionTypeContext,
   ValueRegexContext,
   UniqueVariableGroupsContext,
@@ -22,8 +22,8 @@ import {
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
-  const { variableGroups, setVariableGroups } = useContext(
-    VariableGroupsContext
+  const { variables, setVariables } = useContext(
+    VariablesContext
   );
   const { uniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
@@ -54,7 +54,7 @@ const ActionButtons = () => {
     return (
       <p>
         Are you sure you want to {onDelete ? "delete" : addOrUpdate()}{" "}
-        {variableGroups.length > 1 ? "variables?" : "variable?"}
+        {variables.length > 1 ? "variables?" : "variable?"}
       </p>
     );
   };
@@ -87,7 +87,7 @@ const ActionButtons = () => {
             } else {
               setOnUpdate(false);
             }
-            setVariableGroups([]);
+            setVariables([]);
           }}
         >
           No
@@ -101,7 +101,7 @@ const ActionButtons = () => {
   return (
     <>
       {tableType === "VG" &&
-      (variableGroups.length > 0 || uniqueVariableGroups.length > 0) ? (
+      (variables.length > 0 || uniqueVariableGroups.length > 0) ? (
         getActionSegment()
       ) : (
         <></>

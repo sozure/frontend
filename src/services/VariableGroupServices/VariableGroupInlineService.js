@@ -10,7 +10,7 @@ const sendRequest = (
   setSingleOperation,
   row,
   variableGroups,
-  setVariableGroups,
+  setVariables,
   setLocalLoading
 ) => {
   let url = `${variableGroupUrl}/${controllerSegment}`;
@@ -35,7 +35,7 @@ const sendRequest = (
           let variableGroup = variableGroups[row];
           variableGroup.variableGroupValue = body["newValue"];
         }
-        setVariableGroups(variableGroups);
+        setVariables(variableGroups);
       }
       setLocalLoading({ loading: false, row: -1 });
     })
@@ -56,7 +56,7 @@ const sendUpdateRequest = (
   setSingleOperation,
   row,
   variableGroups,
-  setVariableGroups,
+  setVariables,
   setLocalLoading
 ) => {
   let body = buildRequestBody(message);
@@ -70,7 +70,7 @@ const sendUpdateRequest = (
     setSingleOperation,
     row,
     variableGroups,
-    setVariableGroups,
+    setVariables,
     setLocalLoading
   );
 };
@@ -81,7 +81,7 @@ const sendDeleteRequest = (
   setSingleOperation,
   row,
   variableGroups,
-  setVariableGroups,
+  setVariables,
   setLocalLoading
 ) => {
   let body = buildRequestBody(message);
@@ -93,7 +93,7 @@ const sendDeleteRequest = (
     setSingleOperation,
     row,
     variableGroups,
-    setVariableGroups,
+    setVariables,
     setLocalLoading
   );
 };

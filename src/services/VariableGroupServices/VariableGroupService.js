@@ -58,7 +58,7 @@ const sendListRequest = (
 
 const sendRequest = (controllerSegment, body, callback, message) => {
   let callbackForLoading = message["setLoading"];
-  let callbackForDataSaving = message["setVariableGroups"];
+  let callbackForDataSaving = message["setVariables"];
   callbackForLoading(true);
   let url = `${variableGroupUrl}/${controllerSegment}`;
   axios
