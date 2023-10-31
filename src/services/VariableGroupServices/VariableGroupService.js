@@ -14,7 +14,7 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.variables;
       callbackForLoading(false);
       if (status === 0) {
         callbackForDataSaving(variableGroups);
@@ -36,7 +36,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.variables;
       callbackForLoading(false);
       callback(false);
       if (status === 0 || status === 1) {
