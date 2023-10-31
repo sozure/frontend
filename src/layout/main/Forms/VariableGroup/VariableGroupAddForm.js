@@ -15,7 +15,7 @@ import {
   SingleOperationContext,
   SingleModificationContext,
   KeyIsRegexContext,
-  UniqueVariableGroupsContext,
+  VariableGroupsContext,
   VariablesContext,
 } from "../../../../contexts/Contexts";
 
@@ -34,7 +34,7 @@ const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
   const { setVariables } = useContext(VariablesContext);
-  const { setUniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
+  const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGRegexContext);
@@ -77,7 +77,7 @@ const VariableGroupAddForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
     if (!incorrectFill) {
-      sendListVariableGroupsRequest(message, "", setUniqueVariableGroups);
+      sendListVariableGroupsRequest(message, "", setVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

@@ -35,7 +35,7 @@ import {
   SingleOperationContext,
   LocalLoadingContext,
   KeyIsRegexContext,
-  UniqueVariableGroupsContext,
+  VariableGroupsContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -79,7 +79,7 @@ function App() {
   const [secretRegex, setSecretRegex] = useState("");
   const [keyRegex, setKeyRegex] = useState("");
   const [variables, setVariables] = useState([]);
-  const [uniqueVariableGroups, setUniqueVariableGroups] = useState([]);
+  const [variableGroups, setVariableGroups] = useState([]);
   const [secrets, setSecrets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [onUpdate, setOnUpdate] = useState(false);
@@ -374,15 +374,15 @@ function App() {
                                                                       ]
                                                                     )}
                                                                   >
-                                                                    <UniqueVariableGroupsContext.Provider
+                                                                    <VariableGroupsContext.Provider
                                                                       value={useMemo(
                                                                         () => ({
-                                                                          uniqueVariableGroups,
-                                                                          setUniqueVariableGroups,
+                                                                          variableGroups,
+                                                                          setVariableGroups,
                                                                         }),
                                                                         [
-                                                                          uniqueVariableGroups,
-                                                                          setUniqueVariableGroups,
+                                                                          variableGroups,
+                                                                          setVariableGroups,
                                                                         ]
                                                                       )}
                                                                     >
@@ -396,7 +396,7 @@ function App() {
                                                                           />
                                                                         </Routes>
                                                                       </BrowserRouter>
-                                                                    </UniqueVariableGroupsContext.Provider>
+                                                                    </VariableGroupsContext.Provider>
                                                                   </KeyIsRegexContext.Provider>
                                                                 </LocalLoadingContext.Provider>
                                                               </SingleOperationContext.Provider>

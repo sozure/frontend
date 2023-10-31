@@ -3,25 +3,25 @@ import PaginationButtons from "../PaginationButtons";
 
 import { v4 } from 'uuid';
 
-import { PaginationCounterContext, UniqueVariableGroupsContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
 import AddVGTableRow from "./AddVGTableRow";
 import TableHeader from "../TableHeader";
 
 const AddVGTable = () => {
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { uniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
+  const { variableGroups } = useContext(VariableGroupsContext);
 
   const number = 10;
 
   return (
     <div>
-      {uniqueVariableGroups.length === 0 ? (
+      {variableGroups.length === 0 ? (
         <h2>No variable groups found.</h2>
       ) : (
         <>
           <h2>
             Add variable to these variable groups (Found variable groups:{" "}
-            {uniqueVariableGroups.length}).
+            {variableGroups.length}).
           </h2>
           <table>
             <thead>
@@ -29,7 +29,7 @@ const AddVGTable = () => {
             </thead>
 
             <tbody>
-              {uniqueVariableGroups
+              {variableGroups
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   return (
@@ -38,7 +38,7 @@ const AddVGTable = () => {
                 })}
             </tbody>
           </table>
-          <PaginationButtons collection={uniqueVariableGroups} />
+          <PaginationButtons collection={variableGroups} />
         </>
       )}
     </div>
