@@ -1,37 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import PaginationButtons from "../PaginationButtons";
 
 import { v4 } from 'uuid';
 
-import { PaginationCounterContext, VariableGroupsContext } from "../../../../contexts/Contexts";
+import { PaginationCounterContext, UniqueVariableGroupsContext } from "../../../../contexts/Contexts";
 import AddVGTableRow from "./AddVGTableRow";
 import TableHeader from "../TableHeader";
 
 const AddVGTable = () => {
-  const { variableGroups } = useContext(VariableGroupsContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const [ uniqueVariableGroups, setUniqueVariableGroups ] = useState([]);
+  const { uniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
 
   const number = 10;
-
-  useEffect(() => {
-    let variableGroupNameList = [];
-    let projectList = [];
-    let resultList = [];
-    variableGroups.forEach((element) => {
-      let variableGroupName = element.variableGroupName;
-      let project = element.project;
-      if (!(variableGroupNameList.includes(variableGroupName) && projectList.includes(project))) {
-        variableGroupNameList.push(variableGroupName);
-        projectList.push(project);
-        resultList.push({
-          variableGroupName: variableGroupName,
-          project: project,
-        });
-      }
-    });
-    setUniqueVariableGroups(resultList);
-  }, [variableGroups]);
 
   return (
     <div>

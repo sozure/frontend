@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   PaginationCounterContext,
   SingleModificationContext,
@@ -82,7 +82,7 @@ const VariableGroupGetForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
-      sendListRequest(message, valueRegex, setVariableGroups);
+      sendListVariablesRequest(message, valueRegex, setVariableGroups);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);

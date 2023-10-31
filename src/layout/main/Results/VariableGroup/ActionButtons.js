@@ -16,6 +16,7 @@ import {
   VariableGroupsContext,
   ActionTypeContext,
   ValueRegexContext,
+  UniqueVariableGroupsContext,
 } from "../../../../contexts/Contexts";
 
 const ActionButtons = () => {
@@ -24,6 +25,7 @@ const ActionButtons = () => {
   const { variableGroups, setVariableGroups } = useContext(
     VariableGroupsContext
   );
+  const { uniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
@@ -98,7 +100,8 @@ const ActionButtons = () => {
 
   return (
     <>
-      {tableType === "VG" && variableGroups.length > 0 ? (
+      {tableType === "VG" &&
+      (variableGroups.length > 0 || uniqueVariableGroups.length > 0) ? (
         getActionSegment()
       ) : (
         <></>

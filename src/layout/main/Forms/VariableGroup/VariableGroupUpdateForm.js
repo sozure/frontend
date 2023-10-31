@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   KeyIsRegexContext,
   NewValueContext,
@@ -77,7 +77,7 @@ const VariableGroupUpdateForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "updateform");
     if (!incorrectFill) {
-      sendListRequest(message, valueRegex, setVariableGroups);
+      sendListVariablesRequest(message, valueRegex, setVariableGroups);
       setOnUpdate(true);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);

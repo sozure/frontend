@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariableGroupsRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import {
   PATContext,
@@ -8,7 +8,6 @@ import {
   OrganizationContext,
   MessageContext,
   LoadingContext,
-  VariableGroupsContext,
   OnAddContext,
   NewKeyContext,
   NewValueContext,
@@ -16,6 +15,8 @@ import {
   SingleOperationContext,
   SingleModificationContext,
   KeyIsRegexContext,
+  UniqueVariableGroupsContext,
+  VariableGroupsContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -33,6 +34,7 @@ const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setUniqueVariableGroups } = useContext(UniqueVariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGRegexContext);
@@ -75,7 +77,7 @@ const VariableGroupAddForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListVariableGroupsRequest(message, "", setUniqueVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

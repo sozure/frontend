@@ -35,6 +35,7 @@ import {
   SingleOperationContext,
   LocalLoadingContext,
   KeyIsRegexContext,
+  UniqueVariableGroupsContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
   const [secretRegex, setSecretRegex] = useState("");
   const [keyRegex, setKeyRegex] = useState("");
   const [variableGroups, setVariableGroups] = useState([]);
+  const [uniqueVariableGroups, setUniqueVariableGroups] = useState([]);
   const [secrets, setSecrets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [onUpdate, setOnUpdate] = useState(false);
@@ -372,16 +374,29 @@ function App() {
                                                                       ]
                                                                     )}
                                                                   >
-                                                                    <BrowserRouter>
-                                                                      <Routes>
-                                                                        <Route
-                                                                          path="/"
-                                                                          element={
-                                                                            <Main />
-                                                                          }
-                                                                        />
-                                                                      </Routes>
-                                                                    </BrowserRouter>
+                                                                    <UniqueVariableGroupsContext.Provider
+                                                                      value={useMemo(
+                                                                        () => ({
+                                                                          uniqueVariableGroups,
+                                                                          setUniqueVariableGroups,
+                                                                        }),
+                                                                        [
+                                                                          uniqueVariableGroups,
+                                                                          setUniqueVariableGroups,
+                                                                        ]
+                                                                      )}
+                                                                    >
+                                                                      <BrowserRouter>
+                                                                        <Routes>
+                                                                          <Route
+                                                                            path="/"
+                                                                            element={
+                                                                              <Main />
+                                                                            }
+                                                                          />
+                                                                        </Routes>
+                                                                      </BrowserRouter>
+                                                                    </UniqueVariableGroupsContext.Provider>
                                                                   </KeyIsRegexContext.Provider>
                                                                 </LocalLoadingContext.Provider>
                                                               </SingleOperationContext.Provider>

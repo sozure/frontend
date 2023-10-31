@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import { Button, Box, Input } from "@mui/material";
 import { ToastContainer } from "react-toastify";
@@ -74,7 +74,7 @@ const VariableGroupDeleteForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListVariablesRequest(message, "", setVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
