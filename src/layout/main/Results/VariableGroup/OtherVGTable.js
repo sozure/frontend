@@ -11,7 +11,7 @@ import OtherVGTableRow from "./OtherVGTableRow";
 import TableHeader from "../TableHeader";
 
 function OtherVGTable() {
-  const { variableGroups } = useContext(VariablesContext);
+  const { variables } = useContext(VariablesContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
 
   const number = 10;
@@ -26,13 +26,13 @@ function OtherVGTable() {
 
   return (
     <div className="matched-variables-table">
-      {(variableGroups === null) |
-      (variableGroups === undefined) |
-      (variableGroups.length === 0) ? (
+      {(variables === null) |
+      (variables === undefined) |
+      (variables.length === 0) ? (
         <h2>No variables found.</h2>
       ) : (
         <>
-          <h2>Matched variables (Found variables: {variableGroups.length})</h2>
+          <h2>Matched variables (Found variables: {variables.length})</h2>
           <br />
           <table className="matched-variables-table">
             <thead>
@@ -48,7 +48,7 @@ function OtherVGTable() {
             </thead>
 
             <tbody>
-              {variableGroups
+              {variables
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
@@ -57,7 +57,7 @@ function OtherVGTable() {
                   let project = variableGroup.project;
                   let keyVaultName = variableGroup.keyVaultName;
                   let index = findIndexOfVariableGroup(
-                    variableGroups,
+                    variables,
                     variableGroup
                   );
                   return (
@@ -76,7 +76,7 @@ function OtherVGTable() {
             </tbody>
           </table>
           <br />
-          <PaginationButtons collection={variableGroups} />
+          <PaginationButtons collection={variables} />
         </>
       )}
     </div>
