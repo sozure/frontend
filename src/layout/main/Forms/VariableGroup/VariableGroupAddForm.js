@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariableGroupsRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import {
   PATContext,
@@ -8,7 +8,6 @@ import {
   OrganizationContext,
   MessageContext,
   LoadingContext,
-  VariableGroupsContext,
   OnAddContext,
   NewKeyContext,
   NewValueContext,
@@ -16,6 +15,8 @@ import {
   SingleOperationContext,
   SingleModificationContext,
   KeyIsRegexContext,
+  VariableGroupsContext,
+  VariablesContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -32,6 +33,7 @@ import "react-toastify/dist/ReactToastify.css";
 const VariableGroupAddForm = () => {
   const { setOnAdd } = useContext(OnAddContext);
   const { setLoading } = useContext(LoadingContext);
+  const { setVariables } = useContext(VariablesContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
@@ -57,7 +59,7 @@ const VariableGroupAddForm = () => {
       keyRegex: ".*",
       organizationName: organizationName,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups,
+      setVariables: setVariables,
       secretIncluded: false,
       keyIsRegex: keyIsRegexHelper,
     });
@@ -67,7 +69,7 @@ const VariableGroupAddForm = () => {
     vgRegex,
     organizationName,
     setLoading,
-    setVariableGroups,
+    setVariables,
     setKeyIsRegex,
     setMessage,
   ]);
@@ -75,7 +77,7 @@ const VariableGroupAddForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListVariableGroupsRequest(message, "", setVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

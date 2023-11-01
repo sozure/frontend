@@ -1,20 +1,44 @@
 import "../../../../CSS/style.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 
 import {
+  OnDeleteContext,
+  OnUpdateContext,
   PaginationCounterContext,
-  VariableGroupsContext,
+  VariablesContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import OtherVGTableRow from "./OtherVGTableRow";
 import TableHeader from "../TableHeader";
 
 function OtherVGTable() {
-  const { variableGroups } = useContext(VariableGroupsContext);
+  const { variables } = useContext(VariablesContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
+  const { onUpdate } = useContext(OnUpdateContext);
+  const { onDelete } = useContext(OnDeleteContext);
+  const [tableHeader, setTableHeader] = useState([]);
 
   const number = 10;
+
+  useEffect(() => {
+    if (onDelete || onUpdate) {
+      setTableHeader([
+        "Project",
+        "Variable group name",
+        "Variable key",
+        "Variable value",
+      ]);
+    } else {
+      setTableHeader([
+        "Project",
+        "Variable group name",
+        "Variable key",
+        "Variable value",
+        "Operations",
+      ]);
+    }
+  }, [onDelete, onUpdate]);
 
   const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
     const isMatch = (variableG) =>
@@ -26,29 +50,21 @@ function OtherVGTable() {
 
   return (
     <div className="matched-variables-table">
-      {(variableGroups === null) |
-      (variableGroups === undefined) |
-      (variableGroups.length === 0) ? (
+      {(variables === null) |
+      (variables === undefined) |
+      (variables.length === 0) ? (
         <h2>No variables found.</h2>
       ) : (
         <>
-          <h2>Matched variables (Found variables: {variableGroups.length})</h2>
+          <h2>Matched variables (Found variables: {variables.length})</h2>
           <br />
           <table className="matched-variables-table">
             <thead>
-              <TableHeader
-                columnList={[
-                  "Project",
-                  "Variable group name",
-                  "Variable key",
-                  "Variable value",
-                  "Operations",
-                ]}
-              />
+              <TableHeader columnList={tableHeader} />
             </thead>
 
             <tbody>
-              {variableGroups
+              {variables
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   let variableGroupName = variableGroup.variableGroupName;
@@ -57,7 +73,7 @@ function OtherVGTable() {
                   let project = variableGroup.project;
                   let keyVaultName = variableGroup.keyVaultName;
                   let index = findIndexOfVariableGroup(
-                    variableGroups,
+                    variables,
                     variableGroup
                   );
                   return (
@@ -76,7 +92,7 @@ function OtherVGTable() {
             </tbody>
           </table>
           <br />
-          <PaginationButtons collection={variableGroups} />
+          <PaginationButtons collection={variables} />
         </>
       )}
     </div>

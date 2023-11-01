@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
 
-import { SingleModificationContext } from "../../../../contexts/Contexts";
+import {
+  OnDeleteContext,
+  OnUpdateContext,
+  SingleModificationContext,
+} from "../../../../contexts/Contexts";
 import OtherVGTableRowInput from "./OtherVGTableRowInput";
 import OtherVGTableRowButtons from "./OtherVGTableRowButtons";
 
@@ -17,6 +21,8 @@ const OtherVGTableRow = ({
   index,
 }) => {
   const { onSingleModification } = useContext(SingleModificationContext);
+  const { onUpdate } = useContext(OnUpdateContext);
+  const { onDelete } = useContext(OnDeleteContext);
   const inputKey = v4();
 
   const getVariableGroupValue = () => {
@@ -59,12 +65,16 @@ const OtherVGTableRow = ({
           </span>
         )}
       </td>
-      <OtherVGTableRowButtons
-        variableGroup={variableGroup}
-        isSecretVariableGroup={isSecretVariableGroup}
-        index={index}
-        inputKey={inputKey}
-      />
+      {onUpdate || onDelete ? (
+        <></>
+      ) : (
+        <OtherVGTableRowButtons
+          variableGroup={variableGroup}
+          isSecretVariableGroup={isSecretVariableGroup}
+          index={index}
+          inputKey={inputKey}
+        />
+      )}
     </tr>
   );
 };
