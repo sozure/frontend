@@ -10,6 +10,8 @@ import {
   VGAuthorizedContext,
   ProjectNameContext,
   LoadingContext,
+  VariablesContext,
+  VariableGroupsContext,
 } from "../../../../contexts/Contexts";
 import { Button, Input } from "@mui/material";
 import { checkRequiredInputs2 } from "../../../../services/CommonService";
@@ -22,6 +24,8 @@ const AuthorizeForm = () => {
   const { setProjectName } = useContext(ProjectNameContext);
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { setLoading } = useContext(LoadingContext);
+  const { setVariables } = useContext(VariablesContext);
+  const { setVariableGroups } = useContext(VariableGroupsContext);
 
   const mandatoryFields = [pat, organizationName];
 
@@ -47,6 +51,8 @@ const AuthorizeForm = () => {
   const handleAuthInputs = (e, callback) => {
     callback(e.target.value);
     setVgAuthorized(false);
+    setVariables([]);
+    setVariableGroups([]);
   };
 
   return (
