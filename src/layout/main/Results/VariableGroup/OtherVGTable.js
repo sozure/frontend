@@ -1,8 +1,10 @@
 import "../../../../CSS/style.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 
 import {
+  OnDeleteContext,
+  OnUpdateContext,
   PaginationCounterContext,
   VariablesContext,
 } from "../../../../contexts/Contexts";
@@ -13,8 +15,30 @@ import TableHeader from "../TableHeader";
 function OtherVGTable() {
   const { variables } = useContext(VariablesContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
+  const { onUpdate } = useContext(OnUpdateContext);
+  const { onDelete } = useContext(OnDeleteContext);
+  const [tableHeader, setTableHeader] = useState([]);
 
   const number = 10;
+
+  useEffect(() => {
+    if (onDelete || onUpdate) {
+      setTableHeader([
+        "Project",
+        "Variable group name",
+        "Variable key",
+        "Variable value",
+      ]);
+    } else {
+      setTableHeader([
+        "Project",
+        "Variable group name",
+        "Variable key",
+        "Variable value",
+        "Operations",
+      ]);
+    }
+  }, [onDelete, onUpdate]);
 
   const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
     const isMatch = (variableG) =>
@@ -36,15 +60,7 @@ function OtherVGTable() {
           <br />
           <table className="matched-variables-table">
             <thead>
-              <TableHeader
-                columnList={[
-                  "Project",
-                  "Variable group name",
-                  "Variable key",
-                  "Variable value",
-                  "Operations",
-                ]}
-              />
+              <TableHeader columnList={tableHeader} />
             </thead>
 
             <tbody>
