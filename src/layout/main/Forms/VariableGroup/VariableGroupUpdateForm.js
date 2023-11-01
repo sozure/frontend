@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   KeyIsRegexContext,
   NewValueContext,
@@ -14,7 +14,7 @@ import {
   MessageContext,
   KeyRegexContext,
   LoadingContext,
-  VariableGroupsContext,
+  VariablesContext,
   ValueRegexContext,
 } from "../../../../contexts/Contexts";
 
@@ -31,7 +31,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const VariableGroupUpdateForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setVariables } = useContext(VariablesContext);
   const { setOnUpdate } = useContext(OnUpdateContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
@@ -58,7 +58,7 @@ const VariableGroupUpdateForm = () => {
       organizationName: organizationName,
       keyRegex: keyRegex,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups,
+      setVariables: setVariables,
       secretIncluded: false,
       keyIsRegex: keyIsRegexHelper,
     });
@@ -68,7 +68,7 @@ const VariableGroupUpdateForm = () => {
     vgRegex,
     keyRegex,
     setLoading,
-    setVariableGroups,
+    setVariables,
     organizationName,
     setKeyIsRegex,
     setMessage,
@@ -77,7 +77,7 @@ const VariableGroupUpdateForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "updateform");
     if (!incorrectFill) {
-      sendListRequest(message, valueRegex, setVariableGroups);
+      sendListVariablesRequest(message, valueRegex, setVariables);
       setOnUpdate(true);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);

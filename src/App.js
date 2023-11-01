@@ -21,7 +21,7 @@ import {
   VGAuthorizedContext,
   VGRegexContext,
   ValueRegexContext,
-  VariableGroupsContext,
+  VariablesContext,
   NewKeyContext,
   NewValueContext,
   TenantIdContext,
@@ -35,6 +35,7 @@ import {
   SingleOperationContext,
   LocalLoadingContext,
   KeyIsRegexContext,
+  VariableGroupsContext,
 } from "./contexts/Contexts";
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
   const [vgRegex, setVgRegex] = useState("");
   const [secretRegex, setSecretRegex] = useState("");
   const [keyRegex, setKeyRegex] = useState("");
+  const [variables, setVariables] = useState([]);
   const [variableGroups, setVariableGroups] = useState([]);
   const [secrets, setSecrets] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -165,10 +167,10 @@ function App() {
                         [keyRegex, setKeyRegex]
                       )}
                     >
-                      <VariableGroupsContext.Provider
+                      <VariablesContext.Provider
                         value={useMemo(
-                          () => ({ variableGroups, setVariableGroups }),
-                          [variableGroups, setVariableGroups]
+                          () => ({ variables, setVariables }),
+                          [variables, setVariables]
                         )}
                       >
                         <LoadingContext.Provider
@@ -372,16 +374,29 @@ function App() {
                                                                       ]
                                                                     )}
                                                                   >
-                                                                    <BrowserRouter>
-                                                                      <Routes>
-                                                                        <Route
-                                                                          path="/"
-                                                                          element={
-                                                                            <Main />
-                                                                          }
-                                                                        />
-                                                                      </Routes>
-                                                                    </BrowserRouter>
+                                                                    <VariableGroupsContext.Provider
+                                                                      value={useMemo(
+                                                                        () => ({
+                                                                          variableGroups,
+                                                                          setVariableGroups,
+                                                                        }),
+                                                                        [
+                                                                          variableGroups,
+                                                                          setVariableGroups,
+                                                                        ]
+                                                                      )}
+                                                                    >
+                                                                      <BrowserRouter>
+                                                                        <Routes>
+                                                                          <Route
+                                                                            path="/"
+                                                                            element={
+                                                                              <Main />
+                                                                            }
+                                                                          />
+                                                                        </Routes>
+                                                                      </BrowserRouter>
+                                                                    </VariableGroupsContext.Provider>
                                                                   </KeyIsRegexContext.Provider>
                                                                 </LocalLoadingContext.Provider>
                                                               </SingleOperationContext.Provider>
@@ -404,7 +419,7 @@ function App() {
                             </OnAddContext.Provider>
                           </OnUpdateContext.Provider>
                         </LoadingContext.Provider>
-                      </VariableGroupsContext.Provider>
+                      </VariablesContext.Provider>
                     </KeyRegexContext.Provider>
                   </SecretRegexContext.Provider>
                 </VGRegexContext.Provider>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { sendListRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import { Button, Box, Input } from "@mui/material";
 import { ToastContainer } from "react-toastify";
@@ -14,7 +14,7 @@ import {
   KeyRegexContext,
   OnDeleteContext,
   LoadingContext,
-  VariableGroupsContext,
+  VariablesContext,
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
@@ -31,7 +31,7 @@ import {
 const VariableGroupDeleteForm = () => {
   const { setOnDelete } = useContext(OnDeleteContext);
   const { setLoading } = useContext(LoadingContext);
-  const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setVariables } = useContext(VariablesContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGRegexContext);
@@ -55,7 +55,7 @@ const VariableGroupDeleteForm = () => {
       organizationName: organizationName,
       keyRegex: keyRegex,
       setLoading: setLoading,
-      setVariableGroups: setVariableGroups,
+      setVariables: setVariables,
       secretIncluded: false,
       keyIsRegex: keyIsRegexHelper,
     });
@@ -66,7 +66,7 @@ const VariableGroupDeleteForm = () => {
     keyRegex,
     organizationName,
     setLoading,
-    setVariableGroups,
+    setVariables,
     setKeyIsRegex,
     setMessage,
   ]);
@@ -74,7 +74,7 @@ const VariableGroupDeleteForm = () => {
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
-      sendListRequest(message, "", setVariableGroups);
+      sendListVariablesRequest(message, "", setVariables);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

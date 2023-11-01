@@ -12,7 +12,7 @@ import {
   PATContext,
   SingleModificationContext,
   SingleOperationContext,
-  VariableGroupsContext,
+  VariablesContext,
 } from "../../../../contexts/Contexts";
 import {
   setOnSingleModificationBack,
@@ -31,8 +31,8 @@ const OtherVGTableRowButtons = ({
     SingleModificationContext
   );
 
-  const { variableGroups, setVariableGroups } = useContext(
-    VariableGroupsContext
+  const { variables, setVariables } = useContext(
+    VariablesContext
   );
 
   const { organizationName } = useContext(OrganizationContext);
@@ -57,8 +57,8 @@ const OtherVGTableRowButtons = ({
       message,
       setSingleOperation,
       index,
-      variableGroups,
-      setVariableGroups,
+      variables,
+      setVariables,
       setLocalLoading
     );
     setOnSingleModificationBack(setOnSingleModification);
@@ -93,8 +93,8 @@ const OtherVGTableRowButtons = ({
       variableGroup.variableGroupValue,
       setSingleOperation,
       index,
-      variableGroups,
-      setVariableGroups,
+      variables,
+      setVariables,
       setLocalLoading
     );
     setOnSingleModificationBack(setOnSingleModification);

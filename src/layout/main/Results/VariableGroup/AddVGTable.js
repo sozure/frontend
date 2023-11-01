@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import PaginationButtons from "../PaginationButtons";
 
 import { v4 } from 'uuid';
@@ -8,40 +8,20 @@ import AddVGTableRow from "./AddVGTableRow";
 import TableHeader from "../TableHeader";
 
 const AddVGTable = () => {
-  const { variableGroups } = useContext(VariableGroupsContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const [ uniqueVariableGroups, setUniqueVariableGroups ] = useState([]);
+  const { variableGroups } = useContext(VariableGroupsContext);
 
   const number = 10;
 
-  useEffect(() => {
-    let variableGroupNameList = [];
-    let projectList = [];
-    let resultList = [];
-    variableGroups.forEach((element) => {
-      let variableGroupName = element.variableGroupName;
-      let project = element.project;
-      if (!(variableGroupNameList.includes(variableGroupName) && projectList.includes(project))) {
-        variableGroupNameList.push(variableGroupName);
-        projectList.push(project);
-        resultList.push({
-          variableGroupName: variableGroupName,
-          project: project,
-        });
-      }
-    });
-    setUniqueVariableGroups(resultList);
-  }, [variableGroups]);
-
   return (
     <div>
-      {uniqueVariableGroups.length === 0 ? (
+      {variableGroups.length === 0 ? (
         <h2>No variable groups found.</h2>
       ) : (
         <>
           <h2>
             Add variable to these variable groups (Found variable groups:{" "}
-            {uniqueVariableGroups.length}).
+            {variableGroups.length}).
           </h2>
           <table>
             <thead>
@@ -49,7 +29,7 @@ const AddVGTable = () => {
             </thead>
 
             <tbody>
-              {uniqueVariableGroups
+              {variableGroups
                 .slice(paginationCounter, paginationCounter + number)
                 .map((variableGroup) => {
                   return (
@@ -58,7 +38,7 @@ const AddVGTable = () => {
                 })}
             </tbody>
           </table>
-          <PaginationButtons collection={uniqueVariableGroups} />
+          <PaginationButtons collection={variableGroups} />
         </>
       )}
     </div>

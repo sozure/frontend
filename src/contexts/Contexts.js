@@ -9,6 +9,7 @@ export const ValueRegexContext = createContext();
 export const VGRegexContext = createContext();
 export const SecretRegexContext = createContext();
 export const KeyRegexContext = createContext();
+export const VariablesContext = createContext();
 export const VariableGroupsContext = createContext();
 export const LoadingContext = createContext();
 export const OnUpdateContext = createContext();

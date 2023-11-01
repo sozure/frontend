@@ -4,9 +4,35 @@ import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
-const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
+const sendListVariablesRequest = (
+  message,
+  valueRegex,
+  callbackForDataSaving
+) => {
+  sendListRequest(message, valueRegex, "Get", callbackForDataSaving);
+};
+
+const sendListVariableGroupsRequest = (
+  message,
+  valueRegex,
+  callbackForDataSaving
+) => {
+  sendListRequest(
+    message,
+    valueRegex,
+    "GetVariableGroups",
+    callbackForDataSaving
+  );
+};
+
+const sendListRequest = (
+  message,
+  valueRegex,
+  endpoint,
+  callbackForDataSaving
+) => {
   let callbackForLoading = message["setLoading"];
-  let url = `${variableGroupUrl}/Get`;
+  let url = `${variableGroupUrl}/${endpoint}`;
   callbackForLoading(true);
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
@@ -14,7 +40,10 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups =
+        endpoint === "GetVariableGroups"
+          ? res.data.variableGroups
+          : res.data.variables;
       callbackForLoading(false);
       if (status === 0) {
         callbackForDataSaving(variableGroups);
@@ -29,14 +58,14 @@ const sendListRequest = (message, valueRegex, callbackForDataSaving) => {
 
 const sendRequest = (controllerSegment, body, callback, message) => {
   let callbackForLoading = message["setLoading"];
-  let callbackForDataSaving = message["setVariableGroups"];
+  let callbackForDataSaving = message["setVariables"];
   callbackForLoading(true);
   let url = `${variableGroupUrl}/${controllerSegment}`;
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.variables;
       callbackForLoading(false);
       callback(false);
       if (status === 0 || status === 1) {
@@ -86,7 +115,8 @@ const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
 };
 
 export {
-  sendListRequest,
+  sendListVariablesRequest,
+  sendListVariableGroupsRequest,
   sendAddRequest,
   sendDeleteRequest,
   sendUpdateRequest,
