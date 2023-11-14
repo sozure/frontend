@@ -19,6 +19,7 @@ import {
   SingleOperationContext,
   SingleModificationContext,
   KeyIsRegexContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -42,6 +43,7 @@ const VariableGroupDeleteForm = () => {
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
@@ -52,6 +54,7 @@ const VariableGroupDeleteForm = () => {
       projectName: projectName,
       pat: pat,
       vgRegex: vgRegex,
+      userName: profileName,
       organizationName: organizationName,
       keyRegex: keyRegex,
       setLoading: setLoading,
@@ -69,6 +72,7 @@ const VariableGroupDeleteForm = () => {
     setVariables,
     setKeyIsRegex,
     setMessage,
+    profileName
   ]);
 
   const send = () => {

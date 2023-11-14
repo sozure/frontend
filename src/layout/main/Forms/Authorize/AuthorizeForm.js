@@ -12,9 +12,11 @@ import {
   LoadingContext,
   VariablesContext,
   VariableGroupsContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import { Button, Input } from "@mui/material";
 import { checkRequiredInputs2 } from "../../../../services/CommonService";
+import { getProfile } from "../../../../services/ProfileService";
 
 const AuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
@@ -26,6 +28,7 @@ const AuthorizeForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { setVariables } = useContext(VariablesContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setProfileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, organizationName];
 
@@ -43,6 +46,13 @@ const AuthorizeForm = () => {
         setProjects,
         setVgAuthorized,
         setProjectName,
+        setLoading
+      );
+      getProfile(
+        organizationName,
+        pat,
+        setProfileName,
+        setVgAuthorized,
         setLoading
       );
     }

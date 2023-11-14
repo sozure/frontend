@@ -22,6 +22,7 @@ import AuthorizeForm from "./Authorize/AuthorizeForm";
 import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
+import AuthorizedSection from "./Authorize/AuthorizedSection";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -74,13 +75,17 @@ function Form() {
     }
   }  
 
+  const authorizeSection = () => {
+    return vgAuthorized ? <AuthorizedSection/> : <AuthorizeForm/>
+  }
+
   return (
     <div>
       <MainSelects />
       {tableType === "KV" ? (
         getKeyVaultForm()
       ) : (
-        <AuthorizeForm />
+        authorizeSection()
       )}
       {tableType === "VG" && vgAuthorized ? (
         getVGForm()

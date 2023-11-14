@@ -10,6 +10,7 @@ import {
   LocalLoadingContext,
   OrganizationContext,
   PATContext,
+  ProfileNameContext,
   SingleModificationContext,
   SingleOperationContext,
   VariablesContext,
@@ -31,13 +32,11 @@ const OtherVGTableRowButtons = ({
     SingleModificationContext
   );
 
-  const { variables, setVariables } = useContext(
-    VariablesContext
-  );
+  const { variables, setVariables } = useContext(VariablesContext);
 
   const { organizationName } = useContext(OrganizationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
-
+  const { profileName } = useContext(ProfileNameContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
   const sendUpdate = (variableGroup) => {
@@ -45,6 +44,7 @@ const OtherVGTableRowButtons = ({
     let message = {
       projectName: variableGroup.project,
       organizationName: organizationName,
+      userName: profileName,
       pat: pat,
       newValue: value,
       vgRegex: variableGroup.variableGroupName,
@@ -82,6 +82,7 @@ const OtherVGTableRowButtons = ({
     let message = {
       projectName: variableGroup.project,
       pat: pat,
+      userName: profileName,
       vgRegex: variableGroup.variableGroupName,
       organizationName: organizationName,
       keyRegex: variableGroup.variableGroupKey,

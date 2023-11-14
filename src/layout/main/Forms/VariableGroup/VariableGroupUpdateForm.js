@@ -16,6 +16,7 @@ import {
   LoadingContext,
   VariablesContext,
   ValueRegexContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -45,6 +46,7 @@ const VariableGroupUpdateForm = () => {
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
 
@@ -56,6 +58,7 @@ const VariableGroupUpdateForm = () => {
       pat: pat,
       vgRegex: vgRegex,
       organizationName: organizationName,
+      userName: profileName,
       keyRegex: keyRegex,
       setLoading: setLoading,
       setVariables: setVariables,
@@ -72,6 +75,7 @@ const VariableGroupUpdateForm = () => {
     organizationName,
     setKeyIsRegex,
     setMessage,
+    profileName
   ]);
 
   const send = () => {
