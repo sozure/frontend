@@ -36,6 +36,7 @@ import {
   LocalLoadingContext,
   KeyIsRegexContext,
   VariableGroupsContext,
+  ProfileNameContext
 } from "./contexts/Contexts";
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
   const [originKeyVault, setOriginKeyVault] = useState("");
   const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
+  const [profileName, setProfileName] = useState("");
 
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
@@ -386,6 +388,12 @@ function App() {
                                                                         ]
                                                                       )}
                                                                     >
+                                                                      <ProfileNameContext.Provider
+                                                                        value={useMemo(
+                                                                          () => ({ profileName: profileName, setProfileName: setProfileName }),
+                                                                          [profileName, setProfileName]
+                                                                        )}
+                                                                      >
                                                                       <BrowserRouter>
                                                                         <Routes>
                                                                           <Route
@@ -396,6 +404,7 @@ function App() {
                                                                           />
                                                                         </Routes>
                                                                       </BrowserRouter>
+                                                                      </ProfileNameContext.Provider>
                                                                     </VariableGroupsContext.Provider>
                                                                   </KeyIsRegexContext.Provider>
                                                                 </LocalLoadingContext.Provider>
