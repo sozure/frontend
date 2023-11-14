@@ -14,7 +14,6 @@ const getProfile = (organizationName, PAT, setProfileName, setAuthorized, setLoa
     .then((res) => {
       let status = res.data.status;
       let profile = res.data.profile;
-      console.log(profile);
       setLoading(false);
       if (status === 0) {
         setProfileName(profile.displayName);
