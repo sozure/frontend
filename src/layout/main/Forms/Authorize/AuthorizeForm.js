@@ -48,6 +48,7 @@ const AuthorizeForm = () => {
         setProjectName,
         setLoading
       );
+      setLoading(true);
       getProfile(
         organizationName,
         pat,
