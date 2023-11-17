@@ -34,3 +34,4 @@ export const SingleOperationContext = createContext();
 export const LocalLoadingContext = createContext();
 export const KeyIsRegexContext = createContext();
 export const ProfileNameContext = createContext();
+export const ChangesContext = createContext();

@@ -36,8 +36,11 @@ import {
   LocalLoadingContext,
   KeyIsRegexContext,
   VariableGroupsContext,
-  ProfileNameContext
+  ProfileNameContext,
+  ChangesContext,
 } from "./contexts/Contexts";
+import { Modifications } from "./layout/modifications/Modifications";
+import Welcome from "./layout/main/Welcome";
 
 function App() {
   let envTenantId =
@@ -90,6 +93,7 @@ function App() {
   const [keyIsRegex, setKeyIsRegex] = useState(false);
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
+  const [changes, setChanges] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
@@ -390,20 +394,46 @@ function App() {
                                                                     >
                                                                       <ProfileNameContext.Provider
                                                                         value={useMemo(
-                                                                          () => ({ profileName: profileName, setProfileName: setProfileName }),
-                                                                          [profileName, setProfileName]
+                                                                          () => ({
+                                                                            profileName,
+                                                                            setProfileName,
+                                                                          }),
+                                                                          [
+                                                                            profileName,
+                                                                            setProfileName,
+                                                                          ]
                                                                         )}
                                                                       >
-                                                                      <BrowserRouter>
-                                                                        <Routes>
-                                                                          <Route
-                                                                            path="/"
-                                                                            element={
-                                                                              <Main />
-                                                                            }
-                                                                          />
-                                                                        </Routes>
-                                                                      </BrowserRouter>
+                                                                        <ChangesContext.Provider
+                                                                          value={useMemo(
+                                                                            () => ({
+                                                                              changes,
+                                                                              setChanges,
+                                                                            }),
+                                                                            [
+                                                                              changes,
+                                                                              setChanges,
+                                                                            ]
+                                                                          )}
+                                                                        >
+                                                                          <Welcome />
+                                                                          <BrowserRouter>
+                                                                            <Routes>
+                                                                              <Route
+                                                                                path="/"
+                                                                                element={
+                                                                                  <Main />
+                                                                                }
+                                                                              />
+                                                                              <Route
+                                                                                path="/changes"
+                                                                                element={
+                                                                                  <Modifications />
+                                                                                }
+                                                                              />
+                                                                            </Routes>
+                                                                          </BrowserRouter>
+                                                                        </ChangesContext.Provider>
                                                                       </ProfileNameContext.Provider>
                                                                     </VariableGroupsContext.Provider>
                                                                   </KeyIsRegexContext.Provider>
