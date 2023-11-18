@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import React, { useContext } from "react";
 import { v4 } from "uuid";
 
@@ -25,12 +24,16 @@ const OtherVGTableRow = ({
   const { onDelete } = useContext(OnDeleteContext);
   const inputKey = v4();
 
-  const getVariableGroupValue = () => {
-    return variableGroupValue.length > 60 ? (
-      `${variableGroupValue.substring(0, 15)}...`
-    ) : (
-      variableGroupValue
-    );
+  const getVariableGroupValue = (variableGroupValue) => {
+    return variableGroupValue.length > 60
+      ? `${variableGroupValue.substring(0, 60)}...`
+      : variableGroupValue;
+  };
+
+  const getVariableGroupKey = (variableGroupKey) => {
+    return variableGroupKey.length > 30
+      ? `${variableGroupKey.substring(0, 30)}...`
+      : variableGroupKey;
   };
 
   return (
@@ -45,7 +48,7 @@ const OtherVGTableRow = ({
         <td key={v4()}>{variableGroupName}</td>
       )}
 
-      <td key={v4()}>{variableGroup.variableGroupKey}</td>
+      <td key={v4()}>{getVariableGroupKey(variableGroup.variableGroupKey)}</td>
 
       <td key={v4()}>
         {onSingleModification.modification &&
@@ -56,11 +59,13 @@ const OtherVGTableRow = ({
             variableValue={variableGroupValue}
           />
         ) : (
-          <span className={isSecretVariableGroup ? "error" : ""}>
-            {isSecretVariableGroup
-              ? "Secret variable, can't show it's value."
-              : getVariableGroupValue()}
-          </span>
+          <>
+            <span className={isSecretVariableGroup ? "error" : ""}>
+              {isSecretVariableGroup
+                ? "Secret variable, can't show it's value."
+                : getVariableGroupValue(variableGroupValue)}
+            </span>
+          </>
         )}
       </td>
       {onUpdate || onDelete ? (

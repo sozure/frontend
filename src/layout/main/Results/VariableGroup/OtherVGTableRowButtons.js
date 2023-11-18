@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
+import { FaCopy } from "react-icons/fa";
 
 import {
   sendDeleteRequest,
@@ -116,11 +117,20 @@ const OtherVGTableRowButtons = ({
 
   return (
     <td key={v4()}>
-      {isSecretVariableGroup ||
-      variableGroup.variableGroupValue === null? (
+      {isSecretVariableGroup || variableGroup.variableGroupValue === null ? (
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
+          <abbr title={"copy value to clipboard"}>
+          <button
+            onClick={() =>
+              navigator.clipboard.writeText(variableGroup.variableGroupValue)
+            }
+          >
+            <FaCopy />
+          </button>
+          </abbr>
+          {" "}
           {onSingleModification.operation === "deletion" &&
           onSingleModification.row === index ? (
             <></>
@@ -136,7 +146,7 @@ const OtherVGTableRowButtons = ({
               type={"update"}
             />
           )}
-
+          {" "}
           {onSingleModification.operation === "update" &&
           onSingleModification.row === index ? (
             <></>
