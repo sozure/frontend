@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import {
   Button,
   FormControl,
@@ -19,6 +20,7 @@ import {
 } from "../../../contexts/Contexts";
 import { getChanges } from "../../../services/ChangesService";
 import { useNavigate } from "react-router-dom";
+import { checkRequiredInputs2 } from "../../../services/CommonService";
 
 export const ModificationsForm = () => {
   const navigate = useNavigate();
@@ -34,6 +36,8 @@ export const ModificationsForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
 
+  const mandatoryFields = [from, to, entityType];
+
   useEffect(() => {
     if (projects.length === 0) {
       navigate("/");
@@ -41,9 +45,12 @@ export const ModificationsForm = () => {
   }, [projects, navigate]);
 
   const sendRequest = () => {
-    if (entityType === "" || from === "" || to === "") {
-      alert("Fill every field!");
-    } else {
+    let incorrectFill = checkRequiredInputs2(
+      mandatoryFields,
+      "custom-auth",
+      1500
+    );
+    if (!incorrectFill) {
       let body = {
         organization: organizationName,
         project: projectName,
@@ -141,6 +148,7 @@ export const ModificationsForm = () => {
       >
         Search
       </Button>
+      <ToastContainer />
     </div>
   );
 };
