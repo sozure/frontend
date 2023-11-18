@@ -3,17 +3,8 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/changes`;
 
-const getChangesByDate = (body, setLoading, setChanges) => {
-    const url = `${baseUrl}/getbydate`;
-    getChanges(url, body, setLoading, setChanges)
-}
-
-const getChangesByMaxLimit = (body, setLoading, setChanges) => {
-    const url = `${baseUrl}/getbymaxlimit`;
-    getChanges(url, body, setLoading, setChanges)
-}
-
-const getChanges = (url, body, setLoading, setChanges) => {
+const getChanges = (body, setLoading, setChanges) => {
+  const url = `${baseUrl}/get`;
     axios
       .post(url, body)
       .then((res) => {
@@ -32,4 +23,4 @@ const getChanges = (url, body, setLoading, setChanges) => {
       });
   };
 
-  export { getChangesByDate,  getChangesByMaxLimit};
+  export { getChanges };
