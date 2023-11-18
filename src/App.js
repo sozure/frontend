@@ -426,7 +426,7 @@ function App() {
                                                                                 }
                                                                               />
                                                                               <Route
-                                                                                path="/changes/:organization"
+                                                                                path="/changes"
                                                                                 element={
                                                                                   <Modifications />
                                                                                 }

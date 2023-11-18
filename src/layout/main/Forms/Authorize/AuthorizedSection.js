@@ -17,16 +17,9 @@ const AuthorizedSection = () => {
   const { setVariables } = useContext(VariablesContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
 
-
-  const goToChanges = () => {
-    var url = `/changes/${organizationName}`;
-    navigate(url);
-  }
-
   return (
-    <div>
-      <br></br>
-      <p>Organization: {organizationName}</p>
+    <div className="form">
+      <h2>{organizationName}</h2>
       <p>
         Hi {profileName}! To change Azure organization, click here:{" "}
         <Button
@@ -39,15 +32,13 @@ const AuthorizedSection = () => {
           }}
         >
           Authorize
-        </Button>
-      </p>
-      <p>Want to see previous changes? Click here:{" "}
-      <Button
+        </Button>{" "}
+        <Button
           variant="contained"
           id="changes"
-          onClick={goToChanges}
+          onClick={() => navigate("/changes")}
         >
-          Previous changes
+          See changes history
         </Button>
       </p>
     </div>

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -14,6 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   ChangesContext,
   LoadingContext,
+  OrganizationContext,
   ProjectNameContext,
   ProjectsContext,
 } from "../../../contexts/Contexts";
@@ -22,13 +22,13 @@ import { useNavigate } from "react-router-dom";
 
 export const ModificationsForm = () => {
   const navigate = useNavigate();
-  let { organization } = useParams();
   const potentialLimits = [10, 20, 50, 100];
   const [entityType, setEntityType] = useState("");
   const [userName, setUserName] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const { organizationName } = useContext(OrganizationContext);
   const { projects } = useContext(ProjectsContext);
   const { setChanges } = useContext(ChangesContext);
   const { setLoading } = useContext(LoadingContext);
@@ -45,7 +45,7 @@ export const ModificationsForm = () => {
       alert("Fill every field!");
     } else {
       let body = {
-        organization: organization,
+        organization: organizationName,
         project: projectName,
         from: from,
         to: to,
