@@ -27,9 +27,7 @@ const OtherVGTableRow = ({
 
   const getVariableGroupValue = () => {
     return variableGroupValue.length > 60 ? (
-      <button onClick={() => alert(variableGroupValue)}>
-        Show long variable value
-      </button>
+      `${variableGroupValue.substring(0, 15)}...`
     ) : (
       variableGroupValue
     );

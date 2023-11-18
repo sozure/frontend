@@ -117,8 +117,7 @@ const OtherVGTableRowButtons = ({
   return (
     <td key={v4()}>
       {isSecretVariableGroup ||
-      variableGroup.variableGroupValue === null ||
-      variableGroup.variableGroupValue.length > 60 ? (
+      variableGroup.variableGroupValue === null? (
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
