@@ -1,40 +1,61 @@
-import React, { useContext, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Button,
   FormControl,
   InputLabel,
+  Input,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { ChangesContext, LoadingContext } from "../../../contexts/Contexts";
-import { getChangesByDate, getChangesByMaxLimit } from "../../../services/ChangesService";
+import {
+  ChangesContext,
+  LoadingContext,
+  ProjectNameContext,
+  ProjectsContext,
+} from "../../../contexts/Contexts";
+import { getChanges } from "../../../services/ChangesService";
+import { useNavigate } from "react-router-dom";
 
 export const ModificationsForm = () => {
+  const navigate = useNavigate();
+  let { organization } = useParams();
   const potentialLimits = [10, 20, 50, 100];
   const [entityType, setEntityType] = useState("");
+  const [userName, setUserName] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-
+  const { projects } = useContext(ProjectsContext);
   const { setChanges } = useContext(ChangesContext);
-
   const { setLoading } = useContext(LoadingContext);
+  const { projectName, setProjectName } = useContext(ProjectNameContext);
+
+  useEffect(() => {
+    if (projects.length === 0) {
+      navigate("/");
+    }
+  }, [projects, navigate]);
 
   const sendRequest = () => {
     if (entityType === "" || from === "" || to === "") {
       alert("Fill every field!");
     } else {
       let body = {
+        organization: organization,
+        project: projectName,
         from: from,
         to: to,
         limit: selectedLimit,
         changeTypes: [0, 1, 2],
       };
-      getChangesByMaxLimit(body, setLoading, setChanges);
+      if (userName !== "") {
+        body["user"] = userName;
+      }
+      getChanges(body, setLoading, setChanges);
     }
   };
   return (
@@ -53,6 +74,21 @@ export const ModificationsForm = () => {
           <MenuItem value={"secrets"} key={"secrets"}>
             {"Secrets"}
           </MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl fullWidth>
+        <InputLabel>Select Azure project</InputLabel>
+        <Select
+          id="project"
+          value={projectName}
+          label="Select Azure project"
+          onChange={(event) => setProjectName(event.target.value)}
+        >
+          {projects.map((project) => (
+            <MenuItem value={project.name} key={project.name}>
+              {project.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -90,6 +126,14 @@ export const ModificationsForm = () => {
           ))}
         </Select>
       </FormControl>
+      <Input
+        type="text"
+        id="user"
+        name="user"
+        placeholder="User"
+        value={userName}
+        onChange={(event) => setUserName(event.target.value)}
+      />
       <Button
         variant="contained"
         id="changes_search_button"
