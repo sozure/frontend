@@ -59,7 +59,7 @@ const PaginationButtons = ({ collection }) => {
                 : "next"
             }
             disabled={
-              (paginationCounter + number >= collectionLength) |
+              (paginationCounter + number >= collectionLength) ||
               (collectionLength < 10)
             }
             onClick={increasePaginationCounter}
