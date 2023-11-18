@@ -7,13 +7,21 @@ import {
   VariableGroupsContext,
   VariablesContext,
 } from "../../../../contexts/Contexts";
+import { useNavigate } from "react-router-dom";
 
 const AuthorizedSection = () => {
+  const navigate = useNavigate();
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { profileName } = useContext(ProfileNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { setVariables } = useContext(VariablesContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
+
+
+  const goToChanges = () => {
+    var url = `/changes/${organizationName}`;
+    navigate(url);
+  }
 
   return (
     <div>
@@ -31,6 +39,15 @@ const AuthorizedSection = () => {
           }}
         >
           Authorize
+        </Button>
+      </p>
+      <p>Want to see previous changes? Click here:{" "}
+      <Button
+          variant="contained"
+          id="changes"
+          onClick={goToChanges}
+        >
+          Previous changes
         </Button>
       </p>
     </div>
