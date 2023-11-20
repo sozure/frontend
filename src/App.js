@@ -38,6 +38,8 @@ import {
   VariableGroupsContext,
   ProfileNameContext,
   ChangesContext,
+  KeyVaultsContext,
+  KVAuthorizedContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -93,8 +95,10 @@ function App() {
   const [keyIsRegex, setKeyIsRegex] = useState(false);
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
+  const [keyVaults, setKeyVaults] = useState([]);
   const [changes, setChanges] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
+  const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
   const [tenantId, setTenantId] = useState(envTenantId);
@@ -416,23 +420,49 @@ function App() {
                                                                             ]
                                                                           )}
                                                                         >
-                                                                          <Welcome />
-                                                                          <BrowserRouter>
-                                                                            <Routes>
-                                                                              <Route
-                                                                                path="/"
-                                                                                element={
-                                                                                  <Main />
-                                                                                }
-                                                                              />
-                                                                              <Route
-                                                                                path="/changes"
-                                                                                element={
-                                                                                  <Modifications />
-                                                                                }
-                                                                              />
-                                                                            </Routes>
-                                                                          </BrowserRouter>
+                                                                          <KeyVaultsContext.Provider
+                                                                            value={useMemo(
+                                                                              () => ({
+                                                                                keyVaults,
+                                                                                setKeyVaults,
+                                                                              }),
+                                                                              [
+                                                                                keyVaults,
+                                                                                setKeyVaults,
+                                                                              ]
+                                                                            )}
+                                                                          >
+                                                                            <KVAuthorizedContext.Provider
+                                                                              value={useMemo(
+                                                                                () => ({
+                                                                                  kvAuthorized,
+                                                                                  setKvAuthorized,
+                                                                                }),
+                                                                                [
+                                                                                  kvAuthorized,
+                                                                                  setKvAuthorized,
+                                                                                ]
+                                                                              )}
+                                                                            >
+                                                                              <Welcome />
+                                                                              <BrowserRouter>
+                                                                                <Routes>
+                                                                                  <Route
+                                                                                    path="/"
+                                                                                    element={
+                                                                                      <Main />
+                                                                                    }
+                                                                                  />
+                                                                                  <Route
+                                                                                    path="/changes"
+                                                                                    element={
+                                                                                      <Modifications />
+                                                                                    }
+                                                                                  />
+                                                                                </Routes>
+                                                                              </BrowserRouter>
+                                                                            </KVAuthorizedContext.Provider>
+                                                                          </KeyVaultsContext.Provider>
                                                                         </ChangesContext.Provider>
                                                                       </ProfileNameContext.Provider>
                                                                     </VariableGroupsContext.Provider>

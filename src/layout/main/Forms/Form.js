@@ -10,6 +10,7 @@ import {
   VGRegexContext,
   NewKeyContext,
   NewValueContext,
+  KVAuthorizedContext,
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -18,7 +19,8 @@ import VariableGroupDeleteForm from "./VariableGroup/VariableGroupDeleteForm";
 import VariableGroupAddForm from "./VariableGroup/VariableGroupAddForm";
 import VariableGroupUpdateForm from "./VariableGroup/VariableGroupUpdateForm";
 import KeyVaultDeleteForm from "./KeyVault/KeyVaultDeleteForm";
-import AuthorizeForm from "./Authorize/AuthorizeForm";
+import VGAuthorizeForm from "./Authorize/VGAuthorizeForm";
+import KVAuthorizeForm from "./Authorize/KVAuthorizeForm";
 import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
@@ -33,6 +35,7 @@ function Form() {
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
+  const { kvAuthorized } = useContext(KVAuthorizedContext);
 
   useEffect(() => {
     setKeyRegex("");
@@ -50,6 +53,9 @@ function Form() {
   ]);
 
   const getKeyVaultForm = () =>{
+    if(!kvAuthorized){
+      return <KVAuthorizeForm/>
+    }
     switch(actionType){
       case "List":
         return <KeyVaultGetForm/>
@@ -63,35 +69,24 @@ function Form() {
   }  
 
   const getVGForm = () =>{
+    if(!vgAuthorized){
+      return <VGAuthorizeForm/>
+    }
     switch(actionType){
       case "List":
-        return <VariableGroupGetForm/>
+        return <><AuthorizedSection/><VariableGroupGetForm/></>
       case "Add":
-        return <VariableGroupAddForm/>
+        return <><AuthorizedSection/><VariableGroupAddForm/></>
       case "Delete":
-        return <VariableGroupDeleteForm/>
+        return <><AuthorizedSection/><VariableGroupDeleteForm/></>
       default:
-        return <VariableGroupUpdateForm/>
+        return <><AuthorizedSection/><VariableGroupUpdateForm/></>
     }
-  }  
-
-  const authorizeSection = () => {
-    return vgAuthorized ? <AuthorizedSection/> : <AuthorizeForm/>
-  }
-
+  } 
   return (
     <div>
       <MainSelects />
-      {tableType === "KV" ? (
-        getKeyVaultForm()
-      ) : (
-        authorizeSection()
-      )}
-      {tableType === "VG" && vgAuthorized ? (
-        getVGForm()
-      ) : (
-        <></>
-      )}
+      {tableType === "KV"? (getKeyVaultForm()) : getVGForm()}
     </div>
   );
 }

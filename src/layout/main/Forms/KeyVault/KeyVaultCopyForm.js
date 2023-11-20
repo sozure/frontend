@@ -68,7 +68,6 @@ const KeyVaultCopyForm = () => {
 
   return (
     <div className="form">
-      <KeyVaultBaseForm />
       <Input
         fullWidth
         type="text"

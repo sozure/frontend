@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
-import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import {
   Checkbox,
   FormControlLabel,
@@ -8,6 +7,10 @@ import {
   Button,
   Box,
   Input,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
@@ -24,6 +27,7 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
+  KeyVaultsContext,
 } from "../../../../contexts/Contexts";
 import {
   checkRequiredInputs,
@@ -43,6 +47,7 @@ const KeyVaultGetForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
 
   const mandatoryFields = [
     tenantId,
@@ -51,6 +56,12 @@ const KeyVaultGetForm = () => {
     keyVaultName,
     secretRegex,
   ];
+
+  useEffect(() => {
+    if(keyVaults.length > 0){
+      setKeyVaultName(keyVaults[0]);
+    }
+  }, [keyVaults, setKeyVaultName])
 
   const send = () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
@@ -72,19 +83,26 @@ const KeyVaultGetForm = () => {
 
   return (
     <div className="form">
-      <KeyVaultBaseForm />
+      <FormControl fullWidth>
+        <InputLabel>Select KeyVault</InputLabel>
+        <Select
+          id="keyVaultName"
+          value={keyVaults[0]}
+          label="Select KeyVault"
+          onChange={(event) => setKeyVaultName(event.target.value)}
+        >
+          {keyVaults.map((keyVault) => {
+            return (
+              <MenuItem value={keyVault} key={keyVault}>
+                {keyVault}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+      <br />
+      <br />
 
-      <Input
-        fullWidth
-        type="text"
-        id="keyVaultName"
-        name="keyVaultName"
-        placeholder="Name of key vault"
-        value={keyVaultName}
-        onChange={(event) => setKeyVaultName(event.target.value)}
-      />
-      <br />
-      <br />
       <Input
         fullWidth
         type="text"
