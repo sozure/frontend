@@ -24,6 +24,29 @@ const sendDeleteSecretRequest = (
   );
 };
 
+const sendListKeyVaultsRequest = (
+  body,
+  callbackForLoading,
+  callbackForDataSaving,
+  callbackForAuth
+) => {
+  let url = `${secretUrl}/getkeyvaults`;
+  callbackForLoading(true);
+  axios.post(url, body).then((res) => {
+    let status = res.data.status;
+    let keyVaults = res.data.keyVaults;
+    callbackForLoading(false);
+    if (status === 0) {
+      callbackForAuth(true);
+      callbackForDataSaving(keyVaults);
+    } else {
+      alert(getResponseMessage(status));
+    }
+  }).catch((err) => {
+    handleError(callbackForLoading, err);
+  });;
+};
+
 const sendListSecretRequest = (
   message,
   callbackForDataSaving,
@@ -118,4 +141,5 @@ export {
   sendListSecretRequest,
   sendCopyRequest,
   sendRecoverSecretRequest,
+  sendListKeyVaultsRequest
 };

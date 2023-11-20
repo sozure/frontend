@@ -2,10 +2,12 @@ import { toast } from "react-toastify";
 
 const responseCodes = {
   0: "Success",
-  1: "Unauthorized",
-  2: "Organization does not exist",
-  3: "Project does not exist",
-  4: "Unknown error",
+  1: "Already contains",
+  2: "Unauthorized",
+  3: "Organization does not exist",
+  4: "Project does not exist",
+  5: "No subscriptions found",
+  6: "Unknown error",
 };
 
 const getBaseUrl = () => {
