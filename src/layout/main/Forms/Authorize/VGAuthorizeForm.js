@@ -18,7 +18,7 @@ import { Button, Input } from "@mui/material";
 import { checkRequiredInputs2 } from "../../../../services/CommonService";
 import { getProfile } from "../../../../services/ProfileService";
 
-const AuthorizeForm = () => {
+const VGAuthorizeForm = () => {
   const { pat, setPat } = useContext(PATContext);
   const { organizationName, setOrganizationName } =
     useContext(OrganizationContext);
@@ -100,4 +100,4 @@ const AuthorizeForm = () => {
   );
 };
 
-export default AuthorizeForm;
+export default VGAuthorizeForm;
