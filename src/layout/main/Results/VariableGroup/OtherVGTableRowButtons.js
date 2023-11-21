@@ -121,7 +121,7 @@ const OtherVGTableRowButtons = ({
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
-          <abbr title={"copy value to clipboard"}>
+          <abbr title={"Copy value to clipboard"}>
           <button
             onClick={() =>
               navigator.clipboard.writeText(variableGroup.variableGroupValue)
@@ -143,7 +143,7 @@ const OtherVGTableRowButtons = ({
               cancelAction={cancelUpdate}
               localLoading={localLoading}
               index={index}
-              type={"update"}
+              type={"Update"}
             />
           )}
           {" "}
@@ -159,7 +159,7 @@ const OtherVGTableRowButtons = ({
               startAction={startDelete}
               cancelAction={cancelDelete}
               index={index}
-              type={"delete"}
+              type={"Delete"}
             />
           )}
         </div>
