@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
+import { FaCopy } from "react-icons/fa";
 
 import {
   AiFillMedicineBox,
@@ -31,6 +32,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { secrets, setSecrets } = useContext(SecretContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
+  const maxLengthOfSecretValue = 60;
 
   const sendRecover = () => {
     let body = {
@@ -77,8 +79,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   };
 
   const getSecretValue = () => {
-    return secretValue.length > 85 ? (
-      <button onClick={() => alert(secretValue)}>Show secret value</button>
+    return secretValue.length > maxLengthOfSecretValue ? (
+      `${secretValue.substring(0, maxLengthOfSecretValue)}...`
     ) : (
       <td key={v4()}>{secretValue}</td>
     );
@@ -158,9 +160,20 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
         getSecretValue()
       )}
       <td key={v4()}>
+      <abbr title={"Copy value to clipboard"}>
+          <button
+            onClick={() =>
+              navigator.clipboard.writeText(secretValue)
+            }
+          >
+            <FaCopy />
+          </button>
+          </abbr>
+          {" "}
         {secretValue === null || secretValue === undefined
           ? getRecoverSection()
-          : getActionSection()}
+          : getActionSection()
+          }
         {localLoading.row === index && localLoading.loading ? (
           <span>Loading...</span>
         ) : (

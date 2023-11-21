@@ -23,10 +23,11 @@ const OtherVGTableRow = ({
   const { onUpdate } = useContext(OnUpdateContext);
   const { onDelete } = useContext(OnDeleteContext);
   const inputKey = v4();
+  const maxLengthOfVariableValue = 60;
 
   const getVariableGroupValue = (variableGroupValue) => {
-    return variableGroupValue.length > 60
-      ? `${variableGroupValue.substring(0, 60)}...`
+    return variableGroupValue.length > maxLengthOfVariableValue
+      ? `${variableGroupValue.substring(0, maxLengthOfVariableValue)}...`
       : variableGroupValue;
   };
 
