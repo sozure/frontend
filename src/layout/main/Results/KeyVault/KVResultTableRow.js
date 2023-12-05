@@ -13,6 +13,8 @@ import {
   ClientIdContext,
   ClientSecretContext,
   LocalLoadingContext,
+  OnDeleteContext,
+  OnRecoverContext,
   SecretContext,
   SingleModificationContext,
   TenantIdContext,
@@ -32,6 +34,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { secrets, setSecrets } = useContext(SecretContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
+  const { onRecover } = useContext(OnRecoverContext);
+  const { onDelete } = useContext(OnDeleteContext);
   const maxLengthOfSecretValue = 60;
 
   const sendRecover = () => {
@@ -159,27 +163,25 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         getSecretValue()
       )}
-      <td key={v4()}>
-      <abbr title={"Copy value to clipboard"}>
-          <button
-            onClick={() =>
-              navigator.clipboard.writeText(secretValue)
-            }
-          >
-            <FaCopy />
-          </button>
-          </abbr>
-          {" "}
-        {secretValue === null || secretValue === undefined
-          ? getRecoverSection()
-          : getActionSection()
-          }
-        {localLoading.row === index && localLoading.loading ? (
-          <span>Loading...</span>
-        ) : (
-          <></>
-        )}
-      </td>
+      {!onDelete && !onRecover ? (
+        <td key={v4()}>
+          <abbr title={"Copy value to clipboard"}>
+            <button onClick={() => navigator.clipboard.writeText(secretValue)}>
+              <FaCopy />
+            </button>
+          </abbr>{" "}
+          {secretValue === null || secretValue === undefined
+            ? getRecoverSection()
+            : getActionSection()}
+          {localLoading.row === index && localLoading.loading ? (
+            <span>Loading...</span>
+          ) : (
+            <></>
+          )}
+        </td>
+      ) : (
+        <></>
+      )}
     </tr>
   );
 };
