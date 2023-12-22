@@ -31,7 +31,7 @@ const AuthorizedSection = () => {
             setVgAuthorized(false);
           }}
         >
-          Authorize
+          Back to authorization
         </Button>{" "}
         <Button
           variant="contained"
