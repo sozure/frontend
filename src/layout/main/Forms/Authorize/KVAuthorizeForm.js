@@ -12,6 +12,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { checkRequiredInputs } from "../../../../services/CommonService";
 import { sendListKeyVaultsRequest } from "../../../../services/SecretServices/SecretService";
+import { CommonAuthorizeFormElements } from "./CommonAuthorizeFormElements";
 
 const KVAuthorizeForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -32,18 +33,24 @@ const KVAuthorizeForm = () => {
         clientSecret: clientSecret,
       };
 
-      sendListKeyVaultsRequest(message, setLoading, setKeyVaults, setKvAuthorized);
+      sendListKeyVaultsRequest(
+        message,
+        setLoading,
+        setKeyVaults,
+        setKvAuthorized
+      );
     }
-  }
-    return (
-      <div className="form">
-        <KeyVaultBaseForm />
-        <Button variant="contained" id="authorize_keyvault" onClick={auth}>
-          Authorize
-        </Button>
-        <ToastContainer />
-      </div>
-    );
   };
+  return (
+    <div className="form">
+      <KeyVaultBaseForm />
+      <CommonAuthorizeFormElements />
+      <Button variant="contained" id="authorize_keyvault" onClick={auth}>
+        Authorize
+      </Button>
+      <ToastContainer />
+    </div>
+  );
+};
 
 export default KVAuthorizeForm;
