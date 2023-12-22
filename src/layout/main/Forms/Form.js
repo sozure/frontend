@@ -58,13 +58,13 @@ function Form() {
     }
     switch(actionType){
       case "List":
-        return <KeyVaultGetForm/>
+        return <><AuthorizedSection/><KeyVaultGetForm/></>
       case "Copy":
-        return <KeyVaultCopyForm/>
+        return <><AuthorizedSection/><KeyVaultCopyForm/></>
       case "Delete":
-        return <KeyVaultDeleteForm/>
+        return <><AuthorizedSection/><KeyVaultDeleteForm/></>
       default:
-        return <KeyVaultRecoverForm/>
+        return <><AuthorizedSection/><KeyVaultRecoverForm/></>
     }
   }  
 

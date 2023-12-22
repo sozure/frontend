@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Button } from "@mui/material";
 import {
-  OrganizationContext,
+  KVAuthorizedContext,
   ProfileNameContext,
+  SecretContext,
   VGAuthorizedContext,
   VariableGroupsContext,
   VariablesContext,
@@ -13,13 +14,13 @@ const AuthorizedSection = () => {
   const navigate = useNavigate();
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { profileName } = useContext(ProfileNameContext);
-  const { organizationName } = useContext(OrganizationContext);
   const { setVariables } = useContext(VariablesContext);
+  const { setSecrets } = useContext(SecretContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
+  const { setKvAuthorized } = useContext(KVAuthorizedContext);
 
   return (
     <div className="form">
-      <h2>{organizationName}</h2>
       <p>
         Hi {profileName}! To change Azure organization, click here:{" "}
         <Button
@@ -29,6 +30,8 @@ const AuthorizedSection = () => {
             setVariables([]);
             setVariableGroups([]);
             setVgAuthorized(false);
+            setKvAuthorized(false);
+            setSecrets([]);
           }}
         >
           Back to authorization
