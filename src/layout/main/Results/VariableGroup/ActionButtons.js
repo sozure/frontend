@@ -25,7 +25,7 @@ const ActionButtons = () => {
   const { variables, setVariables } = useContext(
     VariablesContext
   );
-  const { variableGroups } = useContext(VariableGroupsContext);
+  const { variableGroups, setVariableGroups } = useContext(VariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
@@ -74,6 +74,8 @@ const ActionButtons = () => {
               updateVariables();
             }
             setActionType("List");
+            setVariables([]);
+            setVariableGroups([]);
           }}
         >
           Yes
@@ -88,6 +90,7 @@ const ActionButtons = () => {
               setOnUpdate(false);
             }
             setVariables([]);
+            setVariableGroups([]);
           }}
         >
           No
