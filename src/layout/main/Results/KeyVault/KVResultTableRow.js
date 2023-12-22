@@ -15,6 +15,7 @@ import {
   LocalLoadingContext,
   OnDeleteContext,
   OnRecoverContext,
+  ProfileNameContext,
   SecretContext,
   SingleModificationContext,
   TenantIdContext,
@@ -35,6 +36,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { secrets, setSecrets } = useContext(SecretContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
   const { onRecover } = useContext(OnRecoverContext);
+  const { profileName } = useContext(ProfileNameContext);
   const { onDelete } = useContext(OnDeleteContext);
   const maxLengthOfSecretValue = 60;
 
@@ -45,6 +47,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
+      userName: profileName
     };
     setLocalLoading({ loading: true, row: index });
     sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
@@ -67,6 +70,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
+      userName: profileName
     };
     setLocalLoading({ loading: true, row: index });
     sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);

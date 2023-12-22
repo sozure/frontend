@@ -10,6 +10,7 @@ import {
   KeyVaultNameContext,
   SecretRegexContext,
   PaginationCounterContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
 import {
@@ -38,6 +39,7 @@ const KeyVaultCopyForm = () => {
     DestinationKeyVaultContext
   );
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const [override, setOverride] = useState(false);
 
@@ -58,6 +60,7 @@ const KeyVaultCopyForm = () => {
         clientId: clientId,
         clientSecret: clientSecret,
         originKeyVault: originKeyVault,
+        userName: profileName,
         destinationKeyVault: destinationKeyVault,
         override: override,
       };

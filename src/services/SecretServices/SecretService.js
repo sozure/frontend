@@ -60,6 +60,7 @@ const sendListSecretRequest = (
     clientSecret: message["clientSecret"],
     keyVaultName: message["keyVaultName"],
     secretFilter: message["secretRegex"],
+    userName: message["userName"],
   };
 
   callbackForLoading(true);

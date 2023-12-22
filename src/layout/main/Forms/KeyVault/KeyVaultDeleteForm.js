@@ -16,6 +16,7 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 import {
@@ -28,6 +29,7 @@ const KeyVaultDeleteForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { setSecrets } = useContext(SecretContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
+  const { profileName } = useContext(ProfileNameContext);
   const { secretRegex } = useContext(SecretRegexContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
@@ -54,6 +56,7 @@ const KeyVaultDeleteForm = () => {
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
         secretRegex: secretRegex,
+        userName: profileName
       };
 
       sendListSecretRequest(body, setSecrets, setLoading, false);

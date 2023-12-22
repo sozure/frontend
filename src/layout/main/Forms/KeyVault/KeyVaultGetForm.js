@@ -28,6 +28,7 @@ import {
   SingleModificationContext,
   SingleOperationContext,
   KeyVaultsContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import {
   checkRequiredInputs,
@@ -42,6 +43,7 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
+  const { profileName } = useContext(ProfileNameContext);
   const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
@@ -72,6 +74,7 @@ const KeyVaultGetForm = () => {
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
         secretRegex: secretRegex,
+        userName: profileName
       };
 
       sendListSecretRequest(message, setSecrets, setLoading, deleted);

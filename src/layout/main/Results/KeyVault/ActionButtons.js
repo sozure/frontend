@@ -8,6 +8,7 @@ import {
   LoadingContext,
   OnDeleteContext,
   OnRecoverContext,
+  ProfileNameContext,
   SecretContext,
   SecretRegexContext,
   TableTypeContext,
@@ -30,6 +31,7 @@ const ActionButtons = () => {
   const { setLoading } = useContext(LoadingContext);
   const { onRecover, setOnRecover } = useContext(OnRecoverContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const deleteSecrets = () => {
     let body = {
@@ -38,6 +40,7 @@ const ActionButtons = () => {
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
+      userName: profileName
     };
 
     sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
@@ -50,6 +53,7 @@ const ActionButtons = () => {
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
+      userName: profileName
     };
 
     sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
