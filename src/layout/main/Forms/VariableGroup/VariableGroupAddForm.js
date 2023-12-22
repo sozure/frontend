@@ -59,7 +59,7 @@ const VariableGroupAddForm = () => {
       pat: pat,
       userName: profileName,
       vgRegex: vgRegex,
-      keyRegex: ".*",
+      keyRegex: newKey,
       organizationName: organizationName,
       setLoading: setLoading,
       setVariables: setVariables,
@@ -75,7 +75,8 @@ const VariableGroupAddForm = () => {
     setVariables,
     setKeyIsRegex,
     setMessage,
-    profileName
+    profileName,
+    newKey
   ]);
 
   const send = () => {
