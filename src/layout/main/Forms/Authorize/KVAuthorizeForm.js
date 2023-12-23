@@ -39,20 +39,6 @@ const KVAuthorizeForm = () => {
   const auth = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
-      let message = {
-        tenantId: tenantId,
-        clientId: clientId,
-        clientSecret: clientSecret,
-        userName: profileName,
-      };
-
-      await sendListKeyVaultsRequest(
-        message,
-        setLoading,
-        setKeyVaults,
-        setKvAuthorized
-      );
-      setLoading(true);
       await getProjects(
         organizationName,
         pat,
@@ -62,12 +48,27 @@ const KVAuthorizeForm = () => {
         setLoading
       );
       setLoading(true);
+      setKvAuthorized(false);
       await getProfile(
         organizationName,
         pat,
         setProfileName,
         setKvAuthorized,
         setLoading
+      );
+      setLoading(true);
+      setKvAuthorized(false);
+      let message = {
+        tenantId: tenantId,
+        clientId: clientId,
+        clientSecret: clientSecret,
+        userName: profileName === ""? "empty" : profileName,
+      };
+      await sendListKeyVaultsRequest(
+        message,
+        setLoading,
+        setKeyVaults,
+        setKvAuthorized
       );
     }
   };
