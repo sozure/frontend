@@ -11,6 +11,8 @@ import {
   NewKeyContext,
   NewValueContext,
   KVAuthorizedContext,
+  KeyVaultsContext,
+  ProjectsContext,
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -36,6 +38,8 @@ function Form() {
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
   const { kvAuthorized } = useContext(KVAuthorizedContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
+  const { projects } = useContext(ProjectsContext);
 
   useEffect(() => {
     setKeyRegex("");
@@ -53,7 +57,7 @@ function Form() {
   ]);
 
   const getKeyVaultForm = () =>{
-    if(!kvAuthorized){
+    if(!kvAuthorized || keyVaults.length === 0){
       return <KVAuthorizeForm/>
     }
     switch(actionType){
@@ -69,7 +73,7 @@ function Form() {
   }  
 
   const getVGForm = () =>{
-    if(!vgAuthorized){
+    if(!vgAuthorized || projects.length === 0){
       return <VGAuthorizeForm/>
     }
     switch(actionType){
