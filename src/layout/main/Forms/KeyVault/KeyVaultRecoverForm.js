@@ -38,7 +38,7 @@ const KeyVaultRecoverForm = () => {
     secretRegex,
   ];
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform");
     if (!incorrectFill) {
       let body = {
@@ -50,7 +50,7 @@ const KeyVaultRecoverForm = () => {
         userName: profileName
       };
 
-      sendListSecretRequest(body, setSecrets, setLoading, true);
+      await sendListSecretRequest(body, setSecrets, setLoading, true);
       setPaginationCounter(0);
       setOnRecover(true);
       setPaginationCounter(0);

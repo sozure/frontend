@@ -83,10 +83,10 @@ const VariableGroupGetForm = () => {
     profileName
   ]);
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
-      sendListVariablesRequest(message, valueRegex, setVariables);
+      await sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);

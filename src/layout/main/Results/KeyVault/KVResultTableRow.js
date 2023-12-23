@@ -40,7 +40,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { onDelete } = useContext(OnDeleteContext);
   const maxLengthOfSecretValue = 60;
 
-  const sendRecover = () => {
+  const sendRecover = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
@@ -50,7 +50,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       userName: profileName
     };
     setLocalLoading({ loading: true, row: index });
-    sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -63,7 +63,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
     setOnSingleModificationBack(setOnSingleModification);
   };
 
-  const sendDelete = () => {
+  const sendDelete = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
@@ -73,7 +73,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       userName: profileName
     };
     setLocalLoading({ loading: true, row: index });
-    sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
     setOnSingleModificationBack(setOnSingleModification);
   };
 

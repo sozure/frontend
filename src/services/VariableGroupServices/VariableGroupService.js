@@ -4,20 +4,20 @@ import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
-const sendListVariablesRequest = (
+const sendListVariablesRequest = async (
   message,
   valueRegex,
   callbackForDataSaving
 ) => {
-  sendListRequest(message, valueRegex, "Get", callbackForDataSaving);
+  await sendListRequest(message, valueRegex, "Get", callbackForDataSaving);
 };
 
-const sendListVariableGroupsRequest = (
+const sendListVariableGroupsRequest = async (
   message,
   valueRegex,
   callbackForDataSaving
 ) => {
-  sendListRequest(
+  await sendListRequest(
     message,
     valueRegex,
     "GetVariableGroups",
@@ -25,7 +25,7 @@ const sendListVariableGroupsRequest = (
   );
 };
 
-const sendListRequest = (
+const sendListRequest = async (
   message,
   valueRegex,
   endpoint,
@@ -56,7 +56,7 @@ const sendListRequest = (
     });
 };
 
-const sendRequest = (controllerSegment, body, callback, message) => {
+const sendRequest = async (controllerSegment, body, callback, message) => {
   let callbackForLoading = message["setLoading"];
   let callbackForDataSaving = message["setVariables"];
   callbackForLoading(true);
@@ -79,7 +79,7 @@ const sendRequest = (controllerSegment, body, callback, message) => {
     });
 };
 
-const sendUpdateRequest = (
+const sendUpdateRequest = async (
   message,
   newValue,
   valueRegex,
@@ -89,10 +89,10 @@ const sendUpdateRequest = (
   body["newValue"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Update";
-  sendRequest(endpoint, body, callbackForOnUpdate, message);
+  await sendRequest(endpoint, body, callbackForOnUpdate, message);
 };
 
-const sendAddRequest = (
+const sendAddRequest = async (
   message,
   newKey,
   newValue,
@@ -104,14 +104,14 @@ const sendAddRequest = (
   body["value"] = newValue;
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Add";
-  sendRequest(endpoint, body, callbackForOnAdd, message);
+  await sendRequest(endpoint, body, callbackForOnAdd, message);
 };
 
-const sendDeleteRequest = (message, valueRegex, callbackForOnDelete) => {
+const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Delete";
-  sendRequest(endpoint, body, callbackForOnDelete, message);
+  await sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
 export {

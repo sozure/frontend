@@ -79,10 +79,10 @@ const VariableGroupAddForm = () => {
     newKey
   ]);
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
     if (!incorrectFill) {
-      sendListVariableGroupsRequest(message, "", setVariableGroups);
+      await sendListVariableGroupsRequest(message, "", setVariableGroups);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

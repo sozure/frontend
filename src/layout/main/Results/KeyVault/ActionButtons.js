@@ -33,7 +33,7 @@ const ActionButtons = () => {
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
   const { profileName } = useContext(ProfileNameContext);
 
-  const deleteSecrets = () => {
+  const deleteSecrets = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
@@ -43,10 +43,10 @@ const ActionButtons = () => {
       userName: profileName
     };
 
-    sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
+    await sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
   };
 
-  const recoverSecrets = () => {
+  const recoverSecrets = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
@@ -56,7 +56,7 @@ const ActionButtons = () => {
       userName: profileName
     };
 
-    sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
+    await sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
   };
 
   const getAreYouSureSection = () => {

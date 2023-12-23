@@ -3,7 +3,7 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/project`;
 
-const getProjects = (
+const getProjects = async (
   organizationName,
   PAT,
   setResult,

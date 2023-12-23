@@ -3,7 +3,7 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/profile`;
 
-const getProfile = (organizationName, PAT, setProfileName, setAuthorized, setLoading) => {
+const getProfile = async (organizationName, PAT, setProfileName, setAuthorized, setLoading) => {
   const url = `${baseUrl}/get`;
   const body = {
     organization: organizationName,

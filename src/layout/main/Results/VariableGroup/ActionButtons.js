@@ -34,16 +34,16 @@ const ActionButtons = () => {
   const { newValue } = useContext(NewValueContext);
   const { valueRegex } = useContext(ValueRegexContext);
 
-  const deleteVariables = () => {
-    sendDeleteRequest(message, "", setOnDelete);
+  const deleteVariables = async () => {
+    await sendDeleteRequest(message, "", setOnDelete);
   };
 
-  const addVariables = () => {
-    sendAddRequest(message, newKey, newValue, "", setOnAdd);
+  const addVariables = async () => {
+    await sendAddRequest(message, newKey, newValue, "", setOnAdd);
   };
 
-  const updateVariables = () => {
-    sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
+  const updateVariables = async () => {
+    await sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
   };
 
   const addOrUpdate = () => {

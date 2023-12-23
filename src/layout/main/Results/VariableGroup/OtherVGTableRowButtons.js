@@ -40,7 +40,7 @@ const OtherVGTableRowButtons = ({
   const { profileName } = useContext(ProfileNameContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
-  const sendUpdate = (variableGroup) => {
+  const sendUpdate = async (variableGroup) => {
     let value = document.getElementById(`single_update${inputKey}`).value;
     let message = {
       projectName: variableGroup.project,
@@ -54,7 +54,7 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     setLocalLoading({ loading: true, row: index });
-    sendUpdateRequest(
+    await sendUpdateRequest(
       message,
       setSingleOperation,
       index,
@@ -79,7 +79,7 @@ const OtherVGTableRowButtons = ({
     setOnSingleModificationBack(setOnSingleModification);
   };
 
-  const sendDelete = (variableGroup, index) => {
+  const sendDelete = async (variableGroup, index) => {
     let message = {
       projectName: variableGroup.project,
       pat: pat,
@@ -90,7 +90,7 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     setLocalLoading({ loading: true, row: index });
-    sendDeleteRequest(
+    await sendDeleteRequest(
       message,
       variableGroup.variableGroupValue,
       setSingleOperation,

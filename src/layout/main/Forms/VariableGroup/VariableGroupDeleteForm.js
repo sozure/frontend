@@ -75,10 +75,10 @@ const VariableGroupDeleteForm = () => {
     profileName
   ]);
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
-      sendListVariablesRequest(message, "", setVariables);
+      await sendListVariablesRequest(message, "", setVariables);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

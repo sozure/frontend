@@ -3,7 +3,7 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/changes`;
 
-const getChanges = (body, setLoading, setChanges) => {
+const getChanges = async (body, setLoading, setChanges) => {
   const url = `${baseUrl}/get`;
     axios
       .post(url, body)

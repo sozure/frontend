@@ -8,14 +8,14 @@ import {
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
-const sendDeleteSecretRequest = (
+const sendDeleteSecretRequest = async (
   body,
   callbackForLoading,
   callbackForDataSaving,
   setOnDelete
 ) => {
   let url = `${secretUrl}/Delete`;
-  sendRequest(
+  await sendRequest(
     url,
     body,
     callbackForLoading,
@@ -24,7 +24,7 @@ const sendDeleteSecretRequest = (
   );
 };
 
-const sendListKeyVaultsRequest = (
+const sendListKeyVaultsRequest = async (
   body,
   callbackForLoading,
   callbackForDataSaving,
@@ -47,7 +47,7 @@ const sendListKeyVaultsRequest = (
   });;
 };
 
-const sendListSecretRequest = (
+const sendListSecretRequest = async (
   message,
   callbackForDataSaving,
   callbackForLoading,
@@ -81,7 +81,7 @@ const sendListSecretRequest = (
     });
 };
 
-const sendCopyRequest = (body) => {
+const sendCopyRequest = async (body) => {
   let url = `${secretUrl}/copy`;
   axios
     .post(url, body)
@@ -94,14 +94,14 @@ const sendCopyRequest = (body) => {
     });
 };
 
-const sendRecoverSecretRequest = (
+const sendRecoverSecretRequest = async (
   body,
   callbackForLoading,
   callbackForDataSaving,
   setOnRecover
 ) => {
   let url = `${secretUrl}/Recover`;
-  sendRequest(
+  await sendRequest(
     url,
     body,
     callbackForLoading,
@@ -110,7 +110,7 @@ const sendRecoverSecretRequest = (
   );
 };
 
-const sendRequest = (
+const sendRequest = async (
   url,
   body,
   callbackForLoading,

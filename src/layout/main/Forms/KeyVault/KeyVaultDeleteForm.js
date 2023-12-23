@@ -47,7 +47,7 @@ const KeyVaultDeleteForm = () => {
     secretRegex,
   ];
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
     if (!incorrectFill) {
       let body = {
@@ -59,7 +59,7 @@ const KeyVaultDeleteForm = () => {
         userName: profileName
       };
 
-      sendListSecretRequest(body, setSecrets, setLoading, false);
+      await sendListSecretRequest(body, setSecrets, setLoading, false);
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);

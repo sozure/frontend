@@ -3,7 +3,7 @@ import { getBaseUrl, handleError, getResponseMessage } from "../CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
 
-const sendRecoverSecretRequest = (
+const sendRecoverSecretRequest = async (
   body,
   secrets,
   setSecrets,
@@ -11,10 +11,10 @@ const sendRecoverSecretRequest = (
   setLoading
 ) => {
   let url = `${secretUrl}/RecoverInline`;
-  sendRequest(url, body, secrets, setSecrets, index, setLoading);
+  await sendRequest(url, body, secrets, setSecrets, index, setLoading);
 };
 
-const sendDeleteSecretRequest = (
+const sendDeleteSecretRequest = async (
   body,
   secrets,
   setSecrets,
@@ -22,10 +22,10 @@ const sendDeleteSecretRequest = (
   setLoading
 ) => {
   let url = `${secretUrl}/DeleteInline`;
-  sendRequest(url, body, secrets, setSecrets, index, setLoading);
+  await sendRequest(url, body, secrets, setSecrets, index, setLoading);
 };
 
-const sendRequest = (url, body, secrets, setSecrets, index, setLoading) => {
+const sendRequest = async (url, body, secrets, setSecrets, index, setLoading) => {
   axios
     .post(url, body)
     .then((res) => {

@@ -42,7 +42,7 @@ export const ModificationsForm = () => {
     }
   }, [projects, navigate]);
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
     let incorrectFill = checkRequiredInputs2(
       mandatoryFields,
       "custom-auth",
@@ -60,7 +60,7 @@ export const ModificationsForm = () => {
       if (userName !== "") {
         body["user"] = userName;
       }
-      getChanges(body, setLoading, setChanges);
+      await getChanges(body, setLoading, setChanges);
     }
   };
   return (

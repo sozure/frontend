@@ -29,7 +29,7 @@ const VGAuthorizeForm = () => {
 
   const mandatoryFields = [pat, organizationName];
 
-  const auth = () => {
+  const auth = async () => {
     let incorrectFill = checkRequiredInputs2(
       mandatoryFields,
       "custom-auth",
@@ -37,7 +37,7 @@ const VGAuthorizeForm = () => {
     );
     if (!incorrectFill) {
       setLoading(true);
-      getProjects(
+      await getProjects(
         organizationName,
         pat,
         setProjects,
@@ -46,7 +46,7 @@ const VGAuthorizeForm = () => {
         setLoading
       );
       setLoading(true);
-      getProfile(
+      await getProfile(
         organizationName,
         pat,
         setProfileName,

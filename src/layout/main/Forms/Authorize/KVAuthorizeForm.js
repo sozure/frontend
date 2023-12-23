@@ -36,7 +36,7 @@ const KVAuthorizeForm = () => {
 
   const mandatoryFields = [tenantId, clientId, clientSecret];
 
-  const auth = () => {
+  const auth = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
       let message = {
@@ -46,14 +46,14 @@ const KVAuthorizeForm = () => {
         userName: profileName,
       };
 
-      sendListKeyVaultsRequest(
+      await sendListKeyVaultsRequest(
         message,
         setLoading,
         setKeyVaults,
         setKvAuthorized
       );
       setLoading(true);
-      getProjects(
+      await getProjects(
         organizationName,
         pat,
         setProjects,
@@ -62,7 +62,7 @@ const KVAuthorizeForm = () => {
         setLoading
       );
       setLoading(true);
-      getProfile(
+      await getProfile(
         organizationName,
         pat,
         setProfileName,

@@ -65,7 +65,7 @@ const KeyVaultGetForm = () => {
     }
   }, [keyVaults, setKeyVaultName])
 
-  const send = () => {
+  const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
     if (!incorrectFill) {
       let message = {
@@ -77,7 +77,7 @@ const KeyVaultGetForm = () => {
         userName: profileName
       };
 
-      sendListSecretRequest(message, setSecrets, setLoading, deleted);
+      await sendListSecretRequest(message, setSecrets, setLoading, deleted);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
