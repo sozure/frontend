@@ -11,6 +11,7 @@ import {
   ProjectNameContext,
   LoadingContext,
   ProfileNameContext,
+  SubscriptionsContext,
 } from "../../../../contexts/Contexts";
 import { Button } from "@mui/material";
 import { checkRequiredInputs2 } from "../../../../services/CommonService";
@@ -26,6 +27,7 @@ const VGAuthorizeForm = () => {
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { setLoading } = useContext(LoadingContext);
   const { setProfileName } = useContext(ProfileNameContext);
+  const { setSubscriptions } = useContext(SubscriptionsContext);
 
   const mandatoryFields = [pat, organizationName];
 
@@ -43,6 +45,7 @@ const VGAuthorizeForm = () => {
         setProjects,
         setVgAuthorized,
         setProjectName,
+        setSubscriptions,
         setLoading
       );
       setLoading(true);

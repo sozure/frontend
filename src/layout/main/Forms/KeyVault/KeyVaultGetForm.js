@@ -29,6 +29,9 @@ import {
   SingleOperationContext,
   KeyVaultsContext,
   ProfileNameContext,
+  SubscriptionsContext,
+  DefaultSubscriptionContext,
+  KVAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import {
   checkRequiredInputs,
@@ -44,12 +47,15 @@ const KeyVaultGetForm = () => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
-  const [deleted, setDeleted] = useState(false);
+  const [ deleted, setDeleted ] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { keyVaults } = useContext(KeyVaultsContext);
+  const { subscriptions } = useContext(SubscriptionsContext);
+  const { defaultSubscription } = useContext(DefaultSubscriptionContext);
+  const { kvAuthorized, setKvAuthorized } = useContext(KVAuthorizedContext);
 
   const mandatoryFields = [
     tenantId,
@@ -64,6 +70,14 @@ const KeyVaultGetForm = () => {
       setKeyVaultName(keyVaults[0]);
     }
   }, [keyVaults, setKeyVaultName])
+  
+  useEffect(() => {
+    if((kvAuthorized && subscriptions.length > 0 && defaultSubscription !== "" && profileName !== "") && 
+      !subscriptions.includes(defaultSubscription)){
+      alert("PAT doesn't match with default Azure subscription!");
+      setKvAuthorized(false);
+    }
+  }, [kvAuthorized, setKvAuthorized, subscriptions, defaultSubscription, profileName])
 
   const send = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");

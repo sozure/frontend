@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import {
   ClientIdContext,
   ClientSecretContext,
+  DefaultSubscriptionContext,
   KVAuthorizedContext,
   KeyVaultsContext,
   LoadingContext,
@@ -15,6 +16,7 @@ import {
   ProfileNameContext,
   ProjectNameContext,
   ProjectsContext,
+  SubscriptionsContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
 import { checkRequiredInputs } from "../../../../services/CommonService";
@@ -33,6 +35,8 @@ const KVAuthorizeForm = () => {
   const { setProjects } = useContext(ProjectsContext);
   const { setProjectName } = useContext(ProjectNameContext);
   const { profileName, setProfileName } = useContext(ProfileNameContext);
+  const { setSubscriptions } = useContext(SubscriptionsContext);
+  const { setDefaultSubscription } = useContext(DefaultSubscriptionContext);
 
   const mandatoryFields = [tenantId, clientId, clientSecret];
 
@@ -45,6 +49,7 @@ const KVAuthorizeForm = () => {
         setProjects,
         setKvAuthorized,
         setProjectName,
+        setSubscriptions,
         setLoading
       );
       setLoading(true);
@@ -68,6 +73,7 @@ const KVAuthorizeForm = () => {
         message,
         setLoading,
         setKeyVaults,
+        setDefaultSubscription,
         setKvAuthorized
       );
     }
