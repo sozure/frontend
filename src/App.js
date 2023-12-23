@@ -40,6 +40,8 @@ import {
   ChangesContext,
   KeyVaultsContext,
   KVAuthorizedContext,
+  SubscriptionsContext,
+  DefaultSubscriptionContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -97,9 +99,11 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [keyVaults, setKeyVaults] = useState([]);
   const [changes, setChanges] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
+  const [defaultSubscription, setDefaultSubscription] = useState("");
   const [newValue, setNewValue] = useState("");
   const [tenantId, setTenantId] = useState(envTenantId);
   const [clientId, setClientId] = useState(envClientId);
@@ -444,23 +448,49 @@ function App() {
                                                                                 ]
                                                                               )}
                                                                             >
-                                                                              <Welcome />
-                                                                              <BrowserRouter>
-                                                                                <Routes>
-                                                                                  <Route
-                                                                                    path="/"
-                                                                                    element={
-                                                                                      <Main />
-                                                                                    }
-                                                                                  />
-                                                                                  <Route
-                                                                                    path="/changes"
-                                                                                    element={
-                                                                                      <Modifications />
-                                                                                    }
-                                                                                  />
-                                                                                </Routes>
-                                                                              </BrowserRouter>
+                                                                              <SubscriptionsContext.Provider
+                                                                                value={useMemo(
+                                                                                  () => ({
+                                                                                    subscriptions,
+                                                                                    setSubscriptions,
+                                                                                  }),
+                                                                                  [
+                                                                                    subscriptions,
+                                                                                    setSubscriptions,
+                                                                                  ]
+                                                                                )}
+                                                                              >
+                                                                                <DefaultSubscriptionContext.Provider
+                                                                                  value={useMemo(
+                                                                                    () => ({
+                                                                                      defaultSubscription,
+                                                                                      setDefaultSubscription,
+                                                                                    }),
+                                                                                    [
+                                                                                      defaultSubscription,
+                                                                                      setDefaultSubscription,
+                                                                                    ]
+                                                                                  )}
+                                                                                >
+                                                                                  <Welcome />
+                                                                                  <BrowserRouter>
+                                                                                    <Routes>
+                                                                                      <Route
+                                                                                        path="/"
+                                                                                        element={
+                                                                                          <Main />
+                                                                                        }
+                                                                                      />
+                                                                                      <Route
+                                                                                        path="/changes"
+                                                                                        element={
+                                                                                          <Modifications />
+                                                                                        }
+                                                                                      />
+                                                                                    </Routes>
+                                                                                  </BrowserRouter>
+                                                                                </DefaultSubscriptionContext.Provider>
+                                                                              </SubscriptionsContext.Provider>
                                                                             </KVAuthorizedContext.Provider>
                                                                           </KeyVaultsContext.Provider>
                                                                         </ChangesContext.Provider>

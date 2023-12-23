@@ -28,6 +28,7 @@ const sendListKeyVaultsRequest = async (
   body,
   callbackForLoading,
   callbackForDataSaving,
+  setDefaultSubscription,
   callbackForAuth
 ) => {
   let url = `${secretUrl}/getkeyvaults`;
@@ -39,6 +40,7 @@ const sendListKeyVaultsRequest = async (
     if (status === 0) {
       callbackForAuth(true);
       callbackForDataSaving(keyVaults);
+      setDefaultSubscription(res.data.subscriptionId)
     } else {
       alert(getResponseMessage(status));
     }
