@@ -100,7 +100,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
 
   const getSecretValue = () => {
     return secretValue.length > maxLengthOfSecretValue ? (
-      `${secretValue.substring(0, maxLengthOfSecretValue)}...`
+      <td key={v4()}>`${secretValue.substring(0, maxLengthOfSecretValue)}...`</td>
     ) : (
       <td key={v4()}>{secretValue}</td>
     );

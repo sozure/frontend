@@ -60,13 +60,11 @@ const OtherVGTableRow = ({
             variableValue={variableGroupValue}
           />
         ) : (
-          <>
-            <span className={isSecretVariableGroup ? "error" : ""}>
-              {isSecretVariableGroup
-                ? "Secret variable, can't show it's value."
-                : getVariableGroupValue(variableGroupValue)}
-            </span>
-          </>
+          <span className={isSecretVariableGroup ? "error" : ""}>
+            {isSecretVariableGroup
+              ? "Secret variable, can't show it's value."
+              : getVariableGroupValue(variableGroupValue)}
+          </span>
         )}
       </td>
       {onUpdate || onDelete ? (
@@ -89,7 +87,7 @@ OtherVGTableRow.propTypes = {
   variableGroupValue: PropTypes.string.isRequired,
   project: PropTypes.string.isRequired,
   isSecretVariableGroup: PropTypes.bool.isRequired,
-  keyVaultName: PropTypes.string.isRequired,
+  keyVaultName: PropTypes.string,
   index: PropTypes.number.isRequired,
 };
 

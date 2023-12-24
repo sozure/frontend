@@ -40,7 +40,7 @@ const PaginationButtons = ({ collection }) => {
       <div className="page-number">
         <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber} />
       </div>
-      {collectionLength <= 10 ? (
+      {collectionLength <= number ? (
         <></>
       ) : (
         <div className="pagination-btns">
@@ -60,7 +60,7 @@ const PaginationButtons = ({ collection }) => {
             }
             disabled={
               (paginationCounter + number >= collectionLength) ||
-              (collectionLength < 10)
+              (collectionLength < number)
             }
             onClick={increasePaginationCounter}
             variant="contained"
