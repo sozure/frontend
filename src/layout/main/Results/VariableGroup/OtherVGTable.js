@@ -35,7 +35,7 @@ function OtherVGTable() {
         "Variable group name",
         "Variable key",
         "Variable value",
-        "Operations",
+        "Operation",
       ]);
     }
   }, [onDelete, onUpdate]);
