@@ -47,10 +47,16 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
-      userName: profileName
+      userName: profileName,
     };
     setLocalLoading({ loading: true, row: index });
-    await sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendRecoverSecretRequest(
+      body,
+      secrets,
+      setSecrets,
+      index,
+      setLocalLoading
+    );
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -70,10 +76,16 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
-      userName: profileName
+      userName: profileName,
     };
     setLocalLoading({ loading: true, row: index });
-    await sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendDeleteSecretRequest(
+      body,
+      secrets,
+      setSecrets,
+      index,
+      setLocalLoading
+    );
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -169,11 +181,20 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       )}
       {!onDelete && !onRecover ? (
         <td key={v4()}>
-          <abbr title={"Copy value to clipboard"}>
-            <button onClick={() => navigator.clipboard.writeText(secretValue)}>
-              <FaCopy />
-            </button>
-          </abbr>{" "}
+          {secretValue === null ||
+          (onSingleModification.modification &&
+            onSingleModification.row === index) ||
+          (localLoading.row === index && localLoading.loading) ? (
+            <></>
+          ) : (
+            <abbr title={"Copy value to clipboard"}>
+              <button
+                onClick={() => navigator.clipboard.writeText(secretValue)}
+              >
+                <FaCopy />
+              </button>
+            </abbr>
+          )}{" "}
           {secretValue === null || secretValue === undefined
             ? getRecoverSection()
             : getActionSection()}

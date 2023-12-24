@@ -121,16 +121,22 @@ const OtherVGTableRowButtons = ({
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
-          <abbr title={"Copy value to clipboard"}>
-          <button
-            onClick={() =>
-              navigator.clipboard.writeText(variableGroup.variableGroupValue)
-            }
-          >
-            <FaCopy />
-          </button>
-          </abbr>
-          {" "}
+          {(onSingleModification.modification &&
+          onSingleModification.row === index) || (localLoading.row === index && localLoading.loading)? (
+            <></>
+          ) : (
+            <abbr title={"Copy value to clipboard"}>
+              <button
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    variableGroup.variableGroupValue
+                  )
+                }
+              >
+                <FaCopy />
+              </button>
+            </abbr>
+          )}{" "}
           {onSingleModification.operation === "deletion" &&
           onSingleModification.row === index ? (
             <></>
@@ -145,8 +151,7 @@ const OtherVGTableRowButtons = ({
               index={index}
               type={"Update"}
             />
-          )}
-          {" "}
+          )}{" "}
           {onSingleModification.operation === "update" &&
           onSingleModification.row === index ? (
             <></>
