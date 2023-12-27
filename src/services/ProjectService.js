@@ -1,14 +1,15 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/project`;
 
-const getProjects = (
+const getProjects = async (
   organizationName,
   PAT,
   setResult,
   setAuthorized,
   setProjectName,
+  setSubscriptions,
   setLoading
 ) => {
   const url = `${baseUrl}/get`;
@@ -16,17 +17,22 @@ const getProjects = (
     organization: organizationName,
     pat: PAT,
   };
+  let subscriptions = [];
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;
+      projects.forEach(project => {
+        project.subscriptionIds.forEach(subscriptionId => subscriptions.push(subscriptionId))
+      });
       setLoading(false);
       if (status === 0) {
         setResult(projects);
         setProjectName(projects[0].name);
+        setSubscriptions(subscriptions);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
       }
       setAuthorized(status === 0);
     })

@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
-import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import {
   Checkbox,
   FormControlLabel,
@@ -8,6 +7,10 @@ import {
   Button,
   Box,
   Input,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
@@ -24,11 +27,17 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
+  KeyVaultsContext,
+  ProfileNameContext,
+  SubscriptionsContext,
+  DefaultSubscriptionContext,
+  KVAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import {
   checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
+  toastErrorPopUp,
 } from "../../../../services/CommonService";
 
 const KeyVaultGetForm = () => {
@@ -38,11 +47,16 @@ const KeyVaultGetForm = () => {
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
+  const { profileName } = useContext(ProfileNameContext);
   const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
+  const { subscriptions } = useContext(SubscriptionsContext);
+  const { defaultSubscription } = useContext(DefaultSubscriptionContext);
+  const { kvAuthorized, setKvAuthorized } = useContext(KVAuthorizedContext);
 
   const mandatoryFields = [
     tenantId,
@@ -52,8 +66,33 @@ const KeyVaultGetForm = () => {
     secretRegex,
   ];
 
-  const send = () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
+  useEffect(() => {
+    if (keyVaults.length > 0) {
+      setKeyVaultName(keyVaults[0]);
+    }
+  }, [keyVaults, setKeyVaultName]);
+
+  useEffect(() => {
+    if (
+      kvAuthorized &&
+      subscriptions.length > 0 &&
+      defaultSubscription !== "" &&
+      profileName !== "" &&
+      !subscriptions.includes(defaultSubscription)
+    ) {
+      toastErrorPopUp("PAT doesn't match with default Azure subscription!", "pat-error", 1500);
+      setKvAuthorized(false);
+    }
+  }, [
+    kvAuthorized,
+    setKvAuthorized,
+    subscriptions,
+    defaultSubscription,
+    profileName,
+  ]);
+
+  const send = async () => {
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
       let message = {
         tenantId: tenantId,
@@ -61,9 +100,10 @@ const KeyVaultGetForm = () => {
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
         secretRegex: secretRegex,
+        userName: profileName,
       };
 
-      sendListSecretRequest(message, setSecrets, setLoading, deleted);
+      await sendListSecretRequest(message, setSecrets, setLoading, deleted);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);
@@ -72,19 +112,26 @@ const KeyVaultGetForm = () => {
 
   return (
     <div className="form">
-      <KeyVaultBaseForm />
+      <FormControl fullWidth>
+        <InputLabel>Select KeyVault</InputLabel>
+        <Select
+          id="keyVaultName"
+          value={keyVaults[0]}
+          label="Select KeyVault"
+          onChange={(event) => setKeyVaultName(event.target.value)}
+        >
+          {keyVaults.map((keyVault) => {
+            return (
+              <MenuItem value={keyVault} key={keyVault}>
+                {keyVault}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+      <br />
+      <br />
 
-      <Input
-        fullWidth
-        type="text"
-        id="keyVaultName"
-        name="keyVaultName"
-        placeholder="Name of key vault"
-        value={keyVaultName}
-        onChange={(event) => setKeyVaultName(event.target.value)}
-      />
-      <br />
-      <br />
       <Input
         fullWidth
         type="text"

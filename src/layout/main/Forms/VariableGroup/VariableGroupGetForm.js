@@ -14,6 +14,7 @@ import {
   VariablesContext,
   LoadingContext,
   KeyIsRegexContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
 
@@ -51,6 +52,7 @@ const VariableGroupGetForm = () => {
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { keyIsRegex, setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
 
@@ -59,6 +61,7 @@ const VariableGroupGetForm = () => {
       projectName: projectName,
       pat: pat,
       vgRegex: vgRegex,
+      userName: profileName,
       organizationName: organizationName,
       keyRegex: keyRegex,
       valueRegex: valueRegex,
@@ -77,12 +80,13 @@ const VariableGroupGetForm = () => {
     setMessage,
     secretIncluded,
     keyIsRegex,
+    profileName
   ]);
 
-  const send = () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
+  const send = async () => {
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
-      sendListVariablesRequest(message, valueRegex, setVariables);
+      await sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
       setPaginationCounter(0);

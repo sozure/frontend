@@ -20,6 +20,10 @@ const PaginationButtons = ({ collection }) => {
     setPageNumber(Math.ceil(collectionLength / number));
   }, [collection]);
 
+  useEffect(() => {
+    setActualPageNumber(1);
+  }, [collection])
+
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
     setActualPageNumber(helperPageNum);
@@ -40,7 +44,7 @@ const PaginationButtons = ({ collection }) => {
       <div className="page-number">
         <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber} />
       </div>
-      {collectionLength <= 10 ? (
+      {collectionLength <= number ? (
         <></>
       ) : (
         <div className="pagination-btns">
@@ -59,8 +63,8 @@ const PaginationButtons = ({ collection }) => {
                 : "next"
             }
             disabled={
-              (paginationCounter + number >= collectionLength) |
-              (collectionLength < 10)
+              (paginationCounter + number >= collectionLength) ||
+              (collectionLength < number)
             }
             onClick={increasePaginationCounter}
             variant="contained"

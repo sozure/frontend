@@ -1,30 +1,45 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
-import KeyVaultBaseForm from "./KeyVaultBaseForm";
 import {
   KeyVaultNameContext,
+  KeyVaultsContext,
   SecretRegexContext,
 } from "../../../../../contexts/Contexts";
 
-import { Button, Box, Input } from "@mui/material";
+import {
+  Button,
+  Box,
+  Input,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 const KeyVaultBaseOperationForm = ({ send }) => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
 
   return (
     <div className="form">
-      <KeyVaultBaseForm />
-
-      <Input
-        fullWidth
-        type="text"
-        id="keyVaultName"
-        name="keyVaultName"
-        placeholder="Name of key vault"
-        value={keyVaultName}
-        onChange={(event) => setKeyVaultName(event.target.value)}
-      />
+      <FormControl fullWidth>
+        <InputLabel>Select KeyVault</InputLabel>
+        <Select
+          id="keyVaultName"
+          value={keyVaultName}
+          label="Select KeyVault"
+          onChange={(event) => setKeyVaultName(event.target.value)}
+        >
+          {keyVaults.map((keyVault) => {
+            return (
+              <MenuItem value={keyVault} key={keyVault}>
+                {keyVault}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
       <br />
       <br />
 

@@ -37,7 +37,7 @@ const OtherVGTableRowButton = ({
           ) : (
             <abbr title={type}>
               <button onClick={() => startAction(index)}>
-                {type === "update" ? <AiFillEdit /> : <AiFillDelete /> }
+                {type === "Update" ? <AiFillEdit /> : <AiFillDelete /> }
               </button>
             </abbr>
           )}

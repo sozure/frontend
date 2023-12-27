@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import KeyVaultBaseForm from "./BaseForms/KeyVaultBaseForm";
 import { sendCopyRequest } from "../../../../services//SecretServices/SecretService";
 import {
   DestinationKeyVaultContext,
@@ -10,6 +9,7 @@ import {
   KeyVaultNameContext,
   SecretRegexContext,
   PaginationCounterContext,
+  ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
 import {
@@ -38,6 +38,7 @@ const KeyVaultCopyForm = () => {
     DestinationKeyVaultContext
   );
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const [override, setOverride] = useState(false);
 
@@ -49,8 +50,8 @@ const KeyVaultCopyForm = () => {
     secretRegex,
   ];
 
-  const send = () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "copyform");
+  const send = async () => {
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "copyform", 1500);
 
     if (!incorrectFill) {
       let body = {
@@ -58,17 +59,17 @@ const KeyVaultCopyForm = () => {
         clientId: clientId,
         clientSecret: clientSecret,
         originKeyVault: originKeyVault,
+        userName: profileName,
         destinationKeyVault: destinationKeyVault,
         override: override,
       };
-      sendCopyRequest(body);
+      await sendCopyRequest(body);
       setPaginationCounter(0);
     }
   };
 
   return (
     <div className="form">
-      <KeyVaultBaseForm />
       <Input
         fullWidth
         type="text"

@@ -1,12 +1,15 @@
-import React from "react";
-import Welcome from "../main/Welcome";
-import Sheet from "../main/Sheet";
+import React, { useContext } from "react";
+import Form from "./Forms/Form";
+import Result from "./Results/Result";
+
+import { LoadingContext } from "../../contexts/Contexts";
 
 export const Main = () => {
+  const { loading } = useContext(LoadingContext);
   return (
-    <div>
-      <Welcome />
-      <Sheet />
+    <div className="result-footer">
+      <Form />
+      {loading ? <h2>Loading...</h2> : <Result />}
     </div>
   );
 };

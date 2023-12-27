@@ -29,6 +29,17 @@ const MainSelects = () => {
 
   return (
     <div className="main-select-container">
+      <FormControl fullWidth>
+        <InputLabel>Select table type</InputLabel>
+        <Select
+          label="Select table type"
+          onChange={(event) => setTableType(event.target.value)}
+          value={tableType}
+        >
+          <MenuItem value="KV">Secrets</MenuItem>
+          <MenuItem value="VG">Variable groups</MenuItem>
+        </Select>
+      </FormControl>
       {tableType === "VG" ? (
         <FormControl fullWidth>
           <InputLabel>Action type</InputLabel>
@@ -60,18 +71,6 @@ const MainSelects = () => {
           </Select>
         </FormControl>
       )}
-
-      <FormControl fullWidth>
-        <InputLabel>Select table type</InputLabel>
-        <Select
-          label="Select table type"
-          onChange={(event) => setTableType(event.target.value)}
-          value={tableType}
-        >
-          <MenuItem value="KV">Secrets</MenuItem>
-          <MenuItem value="VG">Variable groups</MenuItem>
-        </Select>
-      </FormControl>
     </div>
   );
 };
