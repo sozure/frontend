@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
-import { FaCopy } from "react-icons/fa";
 
 import {
   sendDeleteRequest,
@@ -21,6 +20,7 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 import OtherVGTableRowButton from "./OtherVGTableRowButton";
+import CopyButton from "../../CopyButton";
 
 const OtherVGTableRowButtons = ({
   variableGroup,
@@ -125,17 +125,7 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index) || (localLoading.row === index && localLoading.loading)? (
             <></>
           ) : (
-            <abbr title={"Copy value to clipboard"}>
-              <button
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    variableGroup.variableGroupValue
-                  )
-                }
-              >
-                <FaCopy />
-              </button>
-            </abbr>
+            <CopyButton value={variableGroup.variableGroupValue}/>
           )}{" "}
           {onSingleModification.operation === "deletion" &&
           onSingleModification.row === index ? (
