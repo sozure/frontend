@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
-import { FaCopy } from "react-icons/fa";
 
 import {
   AiFillMedicineBox,
@@ -25,6 +24,7 @@ import {
   sendRecoverSecretRequest,
 } from "../../../../services/SecretServices/SecretInlineService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
+import CopyButton from "../../CopyButton";
 
 const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { onSingleModification, setOnSingleModification } = useContext(
@@ -100,7 +100,9 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
 
   const getSecretValue = () => {
     return secretValue.length > maxLengthOfSecretValue ? (
-      <td key={v4()}>`${secretValue.substring(0, maxLengthOfSecretValue)}...`</td>
+      <td key={v4()}>
+        `${secretValue.substring(0, maxLengthOfSecretValue)}...`
+      </td>
     ) : (
       <td key={v4()}>{secretValue}</td>
     );
@@ -170,6 +172,29 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       : deleteSection();
   };
 
+  const getButtonSection = () => {
+    return (
+      <td key={v4()}>
+        {secretValue === null ||
+        (onSingleModification.modification &&
+          onSingleModification.row === index) ||
+        (localLoading.row === index && localLoading.loading) ? (
+          <></>
+        ) : (
+          <CopyButton value={secretValue} />
+        )}{" "}
+        {secretValue === null || secretValue === undefined
+          ? getRecoverSection()
+          : getActionSection()}
+        {localLoading.row === index && localLoading.loading ? (
+          <span>Loading...</span>
+        ) : (
+          <></>
+        )}
+      </td>
+    );
+  };
+
   return (
     <tr key={v4()}>
       <td key={v4()}>{keyVault}</td>
@@ -179,34 +204,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         getSecretValue()
       )}
-      {!onDelete && !onRecover ? (
-        <td key={v4()}>
-          {secretValue === null ||
-          (onSingleModification.modification &&
-            onSingleModification.row === index) ||
-          (localLoading.row === index && localLoading.loading) ? (
-            <></>
-          ) : (
-            <abbr title={"Copy value to clipboard"}>
-              <button
-                onClick={() => navigator.clipboard.writeText(secretValue)}
-              >
-                <FaCopy />
-              </button>
-            </abbr>
-          )}{" "}
-          {secretValue === null || secretValue === undefined
-            ? getRecoverSection()
-            : getActionSection()}
-          {localLoading.row === index && localLoading.loading ? (
-            <span>Loading...</span>
-          ) : (
-            <></>
-          )}
-        </td>
-      ) : (
-        <></>
-      )}
+      {!onDelete && !onRecover ? getButtonSection() : <></>}
     </tr>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import PropTypes from "prop-types";
 
 import {
   FormControl,
@@ -69,5 +70,16 @@ const CommonFormElements = ({
     </div>
   );
 };
+
+CommonFormElements.propTypes = {
+  setUserName : PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired,
+  setSelectedLimit: PropTypes.func.isRequired,
+  selectedLimit: PropTypes.number.isRequired,
+  setFrom: PropTypes.func.isRequired,
+  from: PropTypes.string.isRequired,
+  setTo: PropTypes.func.isRequired,
+  to: PropTypes.string.isRequired
+}
 
 export default CommonFormElements;
