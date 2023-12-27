@@ -31,7 +31,7 @@ const CommonFormElements = ({
           label="From date"
           value={from}
           onChange={(newValue) => setFrom(newValue)}
-          textField={(params) => <TextField {...params} />}
+          textField={<TextField />}
         />
       </LocalizationProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -41,7 +41,7 @@ const CommonFormElements = ({
           onChange={(newValue) => {
             setTo(newValue);
           }}
-          textField={(params) => <TextField {...params} />}
+          textField={<TextField />}
         />
       </LocalizationProvider>
       <FormControl fullWidth>
