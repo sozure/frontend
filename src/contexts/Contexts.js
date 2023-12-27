@@ -39,3 +39,4 @@ export const ChangesContext = createContext();
 export const KeyVaultsContext = createContext();
 export const SubscriptionsContext = createContext();
 export const DefaultSubscriptionContext = createContext();
+export const EntityRecordTypeContext = createContext();

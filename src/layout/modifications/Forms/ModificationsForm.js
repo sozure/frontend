@@ -10,12 +10,14 @@ import {
 
 import {
   ChangesContext,
+  EntityRecordTypeContext,
+  KeyVaultNameContext,
   LoadingContext,
   OrganizationContext,
   ProjectNameContext,
   ProjectsContext,
 } from "../../../contexts/Contexts";
-import { getChanges } from "../../../services/ChangesService";
+import { getVGChanges as requestVGChanges, getSecretChanges as requestSecretChanges } from "../../../services/ChangesService";
 import { useNavigate } from "react-router-dom";
 import { checkRequiredInputs2 } from "../../../services/CommonService";
 import { VGModificationsForm } from "./VGModificationsForm";
@@ -23,7 +25,6 @@ import { SecretModificationsForm } from "./SecretModificationsForm";
 
 export const ModificationsForm = () => {
   const navigate = useNavigate();
-  const [entityType, setEntityType] = useState("");
   const [userName, setUserName] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [from, setFrom] = useState("");
@@ -33,6 +34,8 @@ export const ModificationsForm = () => {
   const { setChanges } = useContext(ChangesContext);
   const { setLoading } = useContext(LoadingContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
+  const { keyVaultName } = useContext(KeyVaultNameContext);
+  const { entityType, setEntityType } = useContext(EntityRecordTypeContext);
 
   const mandatoryFields = [from, to, entityType];
 
@@ -49,20 +52,48 @@ export const ModificationsForm = () => {
       1500
     );
     if (!incorrectFill) {
-      let body = {
-        organization: organizationName,
-        project: projectName,
-        from: from,
-        to: to,
-        limit: selectedLimit,
-        changeTypes: [0, 1, 2],
-      };
-      if (userName !== "") {
-        body["user"] = userName;
+      switch (entityType) {
+        case "env_Variables":
+          await getVGChanges();
+          break;
+        case "secrets":
+          await getSecretChanges();
+          break;
+        default:
+          alert("Invalid record requesting!");
       }
-      await getChanges(body, setLoading, setChanges);
     }
   };
+
+  const getVGChanges = async () => {
+    let body = {
+      organization: organizationName,
+      project: projectName,
+      from: from,
+      to: to,
+      limit: selectedLimit,
+      changeTypes: [0, 1, 2],
+    };
+    if (userName !== "") {
+      body["user"] = userName;
+    }
+    await requestVGChanges(body, setLoading, setChanges);
+  };
+
+  const getSecretChanges = async () => {
+    let body = {
+      from: from,
+      to: to,
+      limit: selectedLimit,
+      keyVaultName: keyVaultName,
+      changeTypes: [0, 1, 2]
+    };
+    if (userName !== "") {
+      body["user"] = userName;
+    }
+    await requestSecretChanges(body, setLoading, setChanges);
+  };
+
   return (
     <div className="form">
       <FormControl fullWidth>
@@ -71,7 +102,10 @@ export const ModificationsForm = () => {
           id="entityType"
           value={entityType}
           label="Select entity type"
-          onChange={(event) => setEntityType(event.target.value)}
+          onChange={(event) => {
+            setChanges([]);
+            setEntityType(event.target.value)
+          }}
         >
           <MenuItem value={"env_Variables"} key={"env_Variables"}>
             {"Env. variables"}
