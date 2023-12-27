@@ -14,7 +14,7 @@ import {
   SubscriptionsContext,
 } from "../../../../contexts/Contexts";
 import { Button } from "@mui/material";
-import { checkRequiredInputs2 } from "../../../../services/CommonService";
+import { checkRequiredInputs } from "../../../../services/CommonService";
 import { getProfile } from "../../../../services/ProfileService";
 import { CommonAuthorizeFormElements } from "./CommonAuthorizeFormElements";
 
@@ -32,7 +32,7 @@ const VGAuthorizeForm = () => {
   const mandatoryFields = [pat, organizationName];
 
   const auth = async () => {
-    let incorrectFill = checkRequiredInputs2(
+    let incorrectFill = checkRequiredInputs(
       mandatoryFields,
       "custom-auth",
       1500

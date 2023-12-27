@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/project`;
 
@@ -32,7 +32,7 @@ const getProjects = async (
         setProjectName(projects[0].name);
         setSubscriptions(subscriptions);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
       }
       setAuthorized(status === 0);
     })

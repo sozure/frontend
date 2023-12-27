@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/changes`;
 
@@ -23,7 +23,7 @@ const getChanges = async (url, body, setLoading, setChanges) => {
       if (status === 0) {
         setChanges(operations);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "record_requesting", 1500);
       }
     })
     .catch((err) => {

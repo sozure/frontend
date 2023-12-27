@@ -39,7 +39,7 @@ const KeyVaultRecoverForm = () => {
   ];
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform", 1500);
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,

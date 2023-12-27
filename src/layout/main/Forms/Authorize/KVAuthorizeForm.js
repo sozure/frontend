@@ -41,7 +41,7 @@ const KVAuthorizeForm = () => {
   const mandatoryFields = [tenantId, clientId, clientSecret];
 
   const auth = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
       await getProjects(
         organizationName,

@@ -13,7 +13,7 @@ import {
   Select,
 } from "@mui/material";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -47,7 +47,7 @@ const KeyVaultGetForm = () => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
-  const [ deleted, setDeleted ] = useState(false);
+  const [deleted, setDeleted] = useState(false);
   const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
@@ -66,21 +66,35 @@ const KeyVaultGetForm = () => {
   ];
 
   useEffect(() => {
-    if(keyVaults.length > 0){
+    if (keyVaults.length > 0) {
       setKeyVaultName(keyVaults[0]);
     }
-  }, [keyVaults, setKeyVaultName])
-  
+  }, [keyVaults, setKeyVaultName]);
+
   useEffect(() => {
-    if((kvAuthorized && subscriptions.length > 0 && defaultSubscription !== "" && profileName !== "") && 
-      !subscriptions.includes(defaultSubscription)){
-      alert("PAT doesn't match with default Azure subscription!");
+    if (
+      kvAuthorized &&
+      subscriptions.length > 0 &&
+      defaultSubscription !== "" &&
+      profileName !== "" &&
+      !subscriptions.includes(defaultSubscription)
+    ) {
+      toast.error("PAT doesn't match with default Azure subscription!", {
+        position: toast.POSITION.TOP_CENTER,
+        toastId: `pat-error`,
+      });
       setKvAuthorized(false);
     }
-  }, [kvAuthorized, setKvAuthorized, subscriptions, defaultSubscription, profileName])
+  }, [
+    kvAuthorized,
+    setKvAuthorized,
+    subscriptions,
+    defaultSubscription,
+    profileName,
+  ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
       let message = {
         tenantId: tenantId,
@@ -88,7 +102,7 @@ const KeyVaultGetForm = () => {
         clientSecret: clientSecret,
         keyVaultName: keyVaultName,
         secretRegex: secretRegex,
-        userName: profileName
+        userName: profileName,
       };
 
       await sendListSecretRequest(message, setSecrets, setLoading, deleted);

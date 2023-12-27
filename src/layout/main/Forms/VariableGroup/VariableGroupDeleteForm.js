@@ -76,7 +76,7 @@ const VariableGroupDeleteForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", 1500);
     if (!incorrectFill) {
       await sendListVariablesRequest(message, "", setVariables);
       setPaginationCounter(0);

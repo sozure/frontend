@@ -51,7 +51,7 @@ const KeyVaultCopyForm = () => {
   ];
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "copyform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "copyform", 1500);
 
     if (!incorrectFill) {
       let body = {

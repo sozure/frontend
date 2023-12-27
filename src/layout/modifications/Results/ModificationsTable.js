@@ -7,6 +7,7 @@ import {
 import TableHeader from "../../main/Results/TableHeader";
 import { v4 } from "uuid";
 import PaginationButtons from "../../main/Results/PaginationButtons";
+import { toastErrorPopUp } from "../../../services/CommonService";
 
 export const ModificationsTable = () => {
   const { changes } = useContext(ChangesContext);
@@ -64,7 +65,7 @@ export const ModificationsTable = () => {
           </tr>
         );
       default:
-        alert("Invalid record requesting!");
+        toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
     }
   };
 

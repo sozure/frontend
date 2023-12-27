@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Button,
   FormControl,
@@ -23,7 +23,7 @@ import {
   getSecretChanges as requestSecretChanges,
 } from "../../../services/ChangesService";
 import { useNavigate } from "react-router-dom";
-import { checkRequiredInputs2 } from "../../../services/CommonService";
+import { checkRequiredInputs, toastErrorPopUp } from "../../../services/CommonService";
 import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 
@@ -51,22 +51,29 @@ export const ModificationsForm = () => {
   }, [projects, navigate]);
 
   const sendRequest = async () => {
-    let incorrectFill = checkRequiredInputs2(
+    let incorrectFill = checkRequiredInputs(
       mandatoryFields,
       "custom-auth",
       1500
     );
     if (!incorrectFill) {
       setPaginationCounter(0);
-      switch (entityType) {
-        case "env_Variables":
-          await getVGChanges();
-          break;
-        case "secrets":
-          await getSecretChanges();
-          break;
-        default:
-          alert("Invalid record requesting!");
+      if (from > to) {
+        toast.error("Time range is not correct!", {
+          position: toast.POSITION.TOP_CENTER,
+          toastId: `range-error`,
+        });
+      } else {
+        switch (entityType) {
+          case "env_Variables":
+            await getVGChanges();
+            break;
+          case "secrets":
+            await getSecretChanges();
+            break;
+          default:
+            toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
+        }
       }
     }
   };

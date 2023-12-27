@@ -4,6 +4,7 @@ import {
   handleError,
   handleError2,
   getResponseMessage,
+  toastErrorPopUp,
 } from "../CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
@@ -33,20 +34,23 @@ const sendListKeyVaultsRequest = async (
 ) => {
   let url = `${secretUrl}/getkeyvaults`;
   callbackForLoading(true);
-  axios.post(url, body).then((res) => {
-    let status = res.data.status;
-    let keyVaults = res.data.keyVaults;
-    callbackForLoading(false);
-    if (status === 0) {
-      callbackForAuth(true);
-      callbackForDataSaving(keyVaults);
-      setDefaultSubscription(res.data.subscriptionId)
-    } else {
-      alert(getResponseMessage(status));
-    }
-  }).catch((err) => {
-    handleError(callbackForLoading, err);
-  });;
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let keyVaults = res.data.keyVaults;
+      callbackForLoading(false);
+      if (status === 0) {
+        callbackForAuth(true);
+        callbackForDataSaving(keyVaults);
+        setDefaultSubscription(res.data.subscriptionId);
+      } else {
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+      }
+    })
+    .catch((err) => {
+      handleError(callbackForLoading, err);
+    });
 };
 
 const sendListSecretRequest = async (
@@ -75,7 +79,7 @@ const sendListSecretRequest = async (
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
     })
     .catch((err) => {
@@ -89,7 +93,7 @@ const sendCopyRequest = async (body) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      alert(getResponseMessage(status));
+      toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
     })
     .catch((err) => {
       handleError2(err);
@@ -130,7 +134,7 @@ const sendRequest = async (
       if (status === 0) {
         callbackForDataSaving(secrets);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
     })
     .catch((err) => {
@@ -144,5 +148,5 @@ export {
   sendListSecretRequest,
   sendCopyRequest,
   sendRecoverSecretRequest,
-  sendListKeyVaultsRequest
+  sendListKeyVaultsRequest,
 };

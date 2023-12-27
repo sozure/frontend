@@ -80,7 +80,7 @@ const VariableGroupAddForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "addform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "addform", 1500);
     if (!incorrectFill) {
       await sendListVariableGroupsRequest(message, "", setVariableGroups);
       setPaginationCounter(0);

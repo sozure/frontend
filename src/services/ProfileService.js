@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
+import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/profile`;
 
@@ -18,7 +18,7 @@ const getProfile = async (organizationName, PAT, setProfileName, setAuthorized, 
       if (status === 0) {
         setProfileName(profile.displayName);
       } else {
-        alert(getResponseMessage(status));
+        toastErrorPopUp(getResponseMessage(status), "profile_requesting", 1500);
       }
       setAuthorized(status === 0);
     })

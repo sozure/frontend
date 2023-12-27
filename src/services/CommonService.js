@@ -19,16 +19,14 @@ const getBaseUrl = () => {
 const handleError = (callbackForLoading, err) => {
   callbackForLoading(false);
   console.log(err);
-  alert(
-    `${err.message} occur during request. Check inspector for detailed error message!`
-  );
+  let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
+  toastErrorPopUp(errorMessage, "request-error", 1500);
 };
 
 const handleError2 = (err) => {
   console.log(err);
-  alert(
-    `${err.message} occur during request. Check inspector for detailed error message!`
-  );
+  let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
+  toastErrorPopUp(errorMessage, "request-error", 1500);
 };
 
 const getResponseMessage = (responseCode) => {
@@ -50,34 +48,24 @@ const setSingleOperationBack = (setSingleOperation) => {
   });
 };
 
-const checkRequiredInputs = (mandatoryFields, toastIdPart) => {
+const checkRequiredInputs = (mandatoryFields, toastId, autoCloseSec) => {
   let incorrectFill = false;
   mandatoryFields.forEach((element) => {
     if (element === "") {
-      toast.error("Fill every field!", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: `${toastIdPart}-error`,
-      });
+      toastErrorPopUp("Fill every field!", toastId, autoCloseSec);
       incorrectFill = true;
     }
   });
   return incorrectFill;
 };
 
-const checkRequiredInputs2 = (mandatoryFields, toastIdPart, autoCloseSec) => {
-  let incorrectFill = false;
-  mandatoryFields.forEach((element) => {
-    if (element === "") {
-      toast.error("Fill every field!", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: toastIdPart,
-        autoClose: autoCloseSec,
-      });
-      incorrectFill = true;
-    }
+const toastErrorPopUp = (errorMessage, toastId, autoCloseSec) => {
+  toast.error(errorMessage, {
+    position: toast.POSITION.TOP_CENTER,
+    toastId: toastId,
+    autoClose: autoCloseSec,
   });
-  return incorrectFill;
-};
+}
 
 export {
   getBaseUrl,
@@ -87,5 +75,5 @@ export {
   setOnSingleModificationBack,
   setSingleOperationBack,
   checkRequiredInputs,
-  checkRequiredInputs2,
+  toastErrorPopUp
 };

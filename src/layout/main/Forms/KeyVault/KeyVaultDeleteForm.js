@@ -48,7 +48,7 @@ const KeyVaultDeleteForm = () => {
   ];
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", 1500);
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,

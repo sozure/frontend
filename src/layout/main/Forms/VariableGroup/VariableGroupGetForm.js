@@ -84,7 +84,7 @@ const VariableGroupGetForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform");
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
       await sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);
