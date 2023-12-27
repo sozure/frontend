@@ -3,24 +3,33 @@ import { getBaseUrl, handleError2, getResponseMessage } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/changes`;
 
-const getChanges = async (body, setLoading, setChanges) => {
-  const url = `${baseUrl}/get`;
-    axios
-      .post(url, body)
-      .then((res) => {
-        let status = res.data.status;
-        let operations = res.data.operations;
-        setLoading(false);
-        if (status === 0) {
-            setChanges(operations);
-        } else {
-          alert(getResponseMessage(status));
-        }
-      })
-      .catch((err) => {
-        handleError2(err);
-        setLoading(false);
-      });
-  };
+const getVGChanges = async (body, setLoading, setChanges) => {
+  const url = `${baseUrl}/variables`;
+  await getChanges(url, body, setLoading, setChanges);
+};
 
-  export { getChanges };
+const getSecretChanges = async (body, setLoading, setChanges) => {
+  const url = `${baseUrl}/secrets`;
+  await getChanges(url, body, setLoading, setChanges);
+};
+
+const getChanges = async (url, body, setLoading, setChanges) => {
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let operations = res.data.operations;
+      setLoading(false);
+      if (status === 0) {
+        setChanges(operations);
+      } else {
+        alert(getResponseMessage(status));
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
+};
+
+export { getVGChanges, getSecretChanges };

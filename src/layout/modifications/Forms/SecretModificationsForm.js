@@ -22,7 +22,6 @@ export const SecretModificationsForm = ({
   const { keyVaults } = useContext(KeyVaultsContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
 
-
   return (
     <>
     <FormControl fullWidth>
@@ -35,7 +34,7 @@ export const SecretModificationsForm = ({
         >
           {keyVaults.map((keyVault) => (
             <MenuItem value={keyVault} key={keyVault}>
-              {keyVault.name}
+              {keyVault}
             </MenuItem>
           ))}
         </Select>
