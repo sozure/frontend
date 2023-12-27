@@ -37,6 +37,7 @@ import {
   checkRequiredInputs,
   setOnSingleModificationBack,
   setSingleOperationBack,
+  toastErrorPopUp,
 } from "../../../../services/CommonService";
 
 const KeyVaultGetForm = () => {
@@ -79,10 +80,7 @@ const KeyVaultGetForm = () => {
       profileName !== "" &&
       !subscriptions.includes(defaultSubscription)
     ) {
-      toast.error("PAT doesn't match with default Azure subscription!", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: `pat-error`,
-      });
+      toastErrorPopUp("PAT doesn't match with default Azure subscription!", "pat-error", 1500);
       setKvAuthorized(false);
     }
   }, [

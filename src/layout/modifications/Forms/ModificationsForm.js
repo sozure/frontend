@@ -59,10 +59,7 @@ export const ModificationsForm = () => {
     if (!incorrectFill) {
       setPaginationCounter(0);
       if (from > to) {
-        toast.error("Time range is not correct!", {
-          position: toast.POSITION.TOP_CENTER,
-          toastId: `range-error`,
-        });
+        toastErrorPopUp("Time range is not correct!", "range-error", 1500);
       } else {
         switch (entityType) {
           case "env_Variables":
