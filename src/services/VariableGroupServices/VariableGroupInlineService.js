@@ -4,7 +4,7 @@ import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
 
-const sendRequest = (
+const sendRequest = async (
   controllerSegment,
   body,
   setSingleOperation,
@@ -51,7 +51,7 @@ const sendRequest = (
     });
 };
 
-const sendUpdateRequest = (
+const sendUpdateRequest = async (
   message,
   setSingleOperation,
   row,
@@ -64,7 +64,7 @@ const sendUpdateRequest = (
   body["newValue"] = message["newValue"];
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "UpdateInline";
-  sendRequest(
+  await sendRequest(
     endpoint,
     body,
     setSingleOperation,
@@ -75,7 +75,7 @@ const sendUpdateRequest = (
   );
 };
 
-const sendDeleteRequest = (
+const sendDeleteRequest = async (
   message,
   valueRegex,
   setSingleOperation,
@@ -87,7 +87,7 @@ const sendDeleteRequest = (
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "DeleteInline";
-  sendRequest(
+  await sendRequest(
     endpoint,
     body,
     setSingleOperation,

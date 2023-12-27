@@ -1,8 +1,10 @@
 import "../../../../CSS/style.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 
 import {
+  OnDeleteContext,
+  OnRecoverContext,
   PaginationCounterContext,
   SecretContext,
 } from "../../../../contexts/Contexts";
@@ -13,7 +15,27 @@ import KVResultTableRow from "./KVResultTableRow";
 function KVResultTable() {
   const { secrets } = useContext(SecretContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
+  const { onRecover } = useContext(OnRecoverContext);
+  const { onDelete } = useContext(OnDeleteContext);
+  const [tableHeader, setTableHeader] = useState([]);
   const number = 10;
+
+  useEffect(() => {
+    if (onDelete || onRecover) {
+      setTableHeader([
+        "Key vault",
+        "Secret name",
+        "Secret value"
+      ]);
+    } else {
+      setTableHeader([
+        "Key vault",
+        "Secret name",
+        "Secret value",
+        "Operation",
+      ]);
+    }
+  }, [onDelete, onRecover]);
 
   const findIndexOfSecret = (secrets, secret) => {
     const isMatch = (sec) =>
@@ -33,12 +55,7 @@ function KVResultTable() {
           <table>
             <thead>
               <TableHeader
-                columnList={[
-                  "Key vault",
-                  "Secret name",
-                  "Secret value",
-                  "Operation",
-                ]}
+                columnList={tableHeader}
               />
             </thead>
             <tbody>

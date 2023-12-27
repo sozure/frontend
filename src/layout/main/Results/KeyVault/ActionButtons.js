@@ -8,6 +8,7 @@ import {
   LoadingContext,
   OnDeleteContext,
   OnRecoverContext,
+  ProfileNameContext,
   SecretContext,
   SecretRegexContext,
   TableTypeContext,
@@ -30,29 +31,32 @@ const ActionButtons = () => {
   const { setLoading } = useContext(LoadingContext);
   const { onRecover, setOnRecover } = useContext(OnRecoverContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
+  const { profileName } = useContext(ProfileNameContext);
 
-  const deleteSecrets = () => {
+  const deleteSecrets = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
+      userName: profileName
     };
 
-    sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
+    await sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
   };
 
-  const recoverSecrets = () => {
+  const recoverSecrets = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
+      userName: profileName
     };
 
-    sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
+    await sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
   };
 
   const getAreYouSureSection = () => {

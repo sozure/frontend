@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
+import { FaCopy } from "react-icons/fa";
 
 import {
   sendDeleteRequest,
@@ -10,6 +11,7 @@ import {
   LocalLoadingContext,
   OrganizationContext,
   PATContext,
+  ProfileNameContext,
   SingleModificationContext,
   SingleOperationContext,
   VariablesContext,
@@ -31,20 +33,19 @@ const OtherVGTableRowButtons = ({
     SingleModificationContext
   );
 
-  const { variables, setVariables } = useContext(
-    VariablesContext
-  );
+  const { variables, setVariables } = useContext(VariablesContext);
 
   const { organizationName } = useContext(OrganizationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
-
+  const { profileName } = useContext(ProfileNameContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
 
-  const sendUpdate = (variableGroup) => {
+  const sendUpdate = async (variableGroup) => {
     let value = document.getElementById(`single_update${inputKey}`).value;
     let message = {
       projectName: variableGroup.project,
       organizationName: organizationName,
+      userName: profileName,
       pat: pat,
       newValue: value,
       vgRegex: variableGroup.variableGroupName,
@@ -53,7 +54,7 @@ const OtherVGTableRowButtons = ({
       secretIncluded: false,
     };
     setLocalLoading({ loading: true, row: index });
-    sendUpdateRequest(
+    await sendUpdateRequest(
       message,
       setSingleOperation,
       index,
@@ -78,17 +79,18 @@ const OtherVGTableRowButtons = ({
     setOnSingleModificationBack(setOnSingleModification);
   };
 
-  const sendDelete = (variableGroup, index) => {
+  const sendDelete = async (variableGroup, index) => {
     let message = {
       projectName: variableGroup.project,
       pat: pat,
+      userName: profileName,
       vgRegex: variableGroup.variableGroupName,
       organizationName: organizationName,
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
     };
     setLocalLoading({ loading: true, row: index });
-    sendDeleteRequest(
+    await sendDeleteRequest(
       message,
       variableGroup.variableGroupValue,
       setSingleOperation,
@@ -115,12 +117,26 @@ const OtherVGTableRowButtons = ({
 
   return (
     <td key={v4()}>
-      {isSecretVariableGroup ||
-      variableGroup.variableGroupValue === null ||
-      variableGroup.variableGroupValue.length > 60 ? (
+      {isSecretVariableGroup || variableGroup.variableGroupValue === null ? (
         <span className={"error"}>Can't change variable.</span>
       ) : (
         <div className="tableButtons">
+          {(onSingleModification.modification &&
+          onSingleModification.row === index) || (localLoading.row === index && localLoading.loading)? (
+            <></>
+          ) : (
+            <abbr title={"Copy value to clipboard"}>
+              <button
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    variableGroup.variableGroupValue
+                  )
+                }
+              >
+                <FaCopy />
+              </button>
+            </abbr>
+          )}{" "}
           {onSingleModification.operation === "deletion" &&
           onSingleModification.row === index ? (
             <></>
@@ -133,10 +149,9 @@ const OtherVGTableRowButtons = ({
               cancelAction={cancelUpdate}
               localLoading={localLoading}
               index={index}
-              type={"update"}
+              type={"Update"}
             />
-          )}
-
+          )}{" "}
           {onSingleModification.operation === "update" &&
           onSingleModification.row === index ? (
             <></>
@@ -149,7 +164,7 @@ const OtherVGTableRowButtons = ({
               startAction={startDelete}
               cancelAction={cancelDelete}
               index={index}
-              type={"delete"}
+              type={"Delete"}
             />
           )}
         </div>

@@ -10,6 +10,9 @@ import {
   VGRegexContext,
   NewKeyContext,
   NewValueContext,
+  KVAuthorizedContext,
+  KeyVaultsContext,
+  ProjectsContext,
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -18,10 +21,12 @@ import VariableGroupDeleteForm from "./VariableGroup/VariableGroupDeleteForm";
 import VariableGroupAddForm from "./VariableGroup/VariableGroupAddForm";
 import VariableGroupUpdateForm from "./VariableGroup/VariableGroupUpdateForm";
 import KeyVaultDeleteForm from "./KeyVault/KeyVaultDeleteForm";
-import AuthorizeForm from "./Authorize/AuthorizeForm";
+import VGAuthorizeForm from "./Authorize/VGAuthorizeForm";
+import KVAuthorizeForm from "./Authorize/KVAuthorizeForm";
 import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
+import AuthorizedSection from "./Authorize/AuthorizedSection";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -32,6 +37,9 @@ function Form() {
   const { setVgRegex } = useContext(VGRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
+  const { kvAuthorized } = useContext(KVAuthorizedContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
+  const { projects } = useContext(ProjectsContext);
 
   useEffect(() => {
     setKeyRegex("");
@@ -49,44 +57,40 @@ function Form() {
   ]);
 
   const getKeyVaultForm = () =>{
+    if(!kvAuthorized || keyVaults.length === 0){
+      return <KVAuthorizeForm/>
+    }
     switch(actionType){
       case "List":
-        return <KeyVaultGetForm/>
+        return <><AuthorizedSection/><KeyVaultGetForm/></>
       case "Copy":
-        return <KeyVaultCopyForm/>
+        return <><AuthorizedSection/><KeyVaultCopyForm/></>
       case "Delete":
-        return <KeyVaultDeleteForm/>
+        return <><AuthorizedSection/><KeyVaultDeleteForm/></>
       default:
-        return <KeyVaultRecoverForm/>
+        return <><AuthorizedSection/><KeyVaultRecoverForm/></>
     }
   }  
 
   const getVGForm = () =>{
+    if(!vgAuthorized || projects.length === 0){
+      return <VGAuthorizeForm/>
+    }
     switch(actionType){
       case "List":
-        return <VariableGroupGetForm/>
+        return <><AuthorizedSection/><VariableGroupGetForm/></>
       case "Add":
-        return <VariableGroupAddForm/>
+        return <><AuthorizedSection/><VariableGroupAddForm/></>
       case "Delete":
-        return <VariableGroupDeleteForm/>
+        return <><AuthorizedSection/><VariableGroupDeleteForm/></>
       default:
-        return <VariableGroupUpdateForm/>
+        return <><AuthorizedSection/><VariableGroupUpdateForm/></>
     }
-  }  
-
+  } 
   return (
     <div>
       <MainSelects />
-      {tableType === "KV" ? (
-        getKeyVaultForm()
-      ) : (
-        <AuthorizeForm />
-      )}
-      {tableType === "VG" && vgAuthorized ? (
-        getVGForm()
-      ) : (
-        <></>
-      )}
+      {tableType === "KV"? (getKeyVaultForm()) : getVGForm()}
     </div>
   );
 }

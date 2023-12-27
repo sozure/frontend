@@ -2,10 +2,12 @@ import { toast } from "react-toastify";
 
 const responseCodes = {
   0: "Success",
-  1: "Unauthorized",
-  2: "Organization does not exist",
-  3: "Project does not exist",
-  4: "Unknown error",
+  1: "Already contains",
+  2: "Unauthorized",
+  3: "Organization does not exist",
+  4: "Project does not exist",
+  5: "No subscriptions found",
+  6: "Unknown error",
 };
 
 const getBaseUrl = () => {
@@ -17,16 +19,14 @@ const getBaseUrl = () => {
 const handleError = (callbackForLoading, err) => {
   callbackForLoading(false);
   console.log(err);
-  alert(
-    `${err.message} occur during request. Check inspector for detailed error message!`
-  );
+  let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
+  toastErrorPopUp(errorMessage, "request-error", 1500);
 };
 
 const handleError2 = (err) => {
   console.log(err);
-  alert(
-    `${err.message} occur during request. Check inspector for detailed error message!`
-  );
+  let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
+  toastErrorPopUp(errorMessage, "request-error", 1500);
 };
 
 const getResponseMessage = (responseCode) => {
@@ -48,34 +48,32 @@ const setSingleOperationBack = (setSingleOperation) => {
   });
 };
 
-const checkRequiredInputs = (mandatoryFields, toastIdPart) => {
+const checkRequiredInputs = (mandatoryFields, toastId, autoCloseSec) => {
   let incorrectFill = false;
   mandatoryFields.forEach((element) => {
     if (element === "") {
-      toast.error("Fill every field!", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: `${toastIdPart}-error`,
-      });
+      toastErrorPopUp("Fill every field!", toastId, autoCloseSec);
       incorrectFill = true;
     }
   });
   return incorrectFill;
 };
 
-const checkRequiredInputs2 = (mandatoryFields, toastIdPart, autoCloseSec) => {
-  let incorrectFill = false;
-  mandatoryFields.forEach((element) => {
-    if (element === "") {
-      toast.error("Fill every field!", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: toastIdPart,
-        autoClose: autoCloseSec,
-      });
-      incorrectFill = true;
-    }
+const toastErrorPopUp = (errorMessage, toastId, autoCloseSec) => {
+  toast.error(errorMessage, {
+    position: toast.POSITION.TOP_CENTER,
+    toastId: toastId,
+    autoClose: autoCloseSec,
   });
-  return incorrectFill;
-};
+}
+
+const toastSuccessPopUp = (message, toastId, autoCloseSec) => {
+  toast.success(message, {
+    position: toast.POSITION.TOP_CENTER,
+    toastId: toastId,
+    autoClose: autoCloseSec,
+  });
+}
 
 export {
   getBaseUrl,
@@ -85,5 +83,6 @@ export {
   setOnSingleModificationBack,
   setSingleOperationBack,
   checkRequiredInputs,
-  checkRequiredInputs2,
+  toastSuccessPopUp,
+  toastErrorPopUp
 };

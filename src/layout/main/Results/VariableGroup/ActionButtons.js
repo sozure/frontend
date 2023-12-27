@@ -25,7 +25,7 @@ const ActionButtons = () => {
   const { variables, setVariables } = useContext(
     VariablesContext
   );
-  const { variableGroups } = useContext(VariableGroupsContext);
+  const { variableGroups, setVariableGroups } = useContext(VariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
@@ -34,16 +34,16 @@ const ActionButtons = () => {
   const { newValue } = useContext(NewValueContext);
   const { valueRegex } = useContext(ValueRegexContext);
 
-  const deleteVariables = () => {
-    sendDeleteRequest(message, "", setOnDelete);
+  const deleteVariables = async () => {
+    await sendDeleteRequest(message, "", setOnDelete);
   };
 
-  const addVariables = () => {
-    sendAddRequest(message, newKey, newValue, "", setOnAdd);
+  const addVariables = async () => {
+    await sendAddRequest(message, newKey, newValue, "", setOnAdd);
   };
 
-  const updateVariables = () => {
-    sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
+  const updateVariables = async () => {
+    await sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
   };
 
   const addOrUpdate = () => {
@@ -74,6 +74,8 @@ const ActionButtons = () => {
               updateVariables();
             }
             setActionType("List");
+            setVariables([]);
+            setVariableGroups([]);
           }}
         >
           Yes
@@ -88,6 +90,7 @@ const ActionButtons = () => {
               setOnUpdate(false);
             }
             setVariables([]);
+            setVariableGroups([]);
           }}
         >
           No

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import React, { useContext } from "react";
 import { v4 } from "uuid";
 
@@ -24,15 +23,18 @@ const OtherVGTableRow = ({
   const { onUpdate } = useContext(OnUpdateContext);
   const { onDelete } = useContext(OnDeleteContext);
   const inputKey = v4();
+  const maxLengthOfVariableValue = 60;
 
-  const getVariableGroupValue = () => {
-    return variableGroupValue.length > 60 ? (
-      <button onClick={() => alert(variableGroupValue)}>
-        Show long variable value
-      </button>
-    ) : (
-      variableGroupValue
-    );
+  const getVariableGroupValue = (variableGroupValue) => {
+    return variableGroupValue.length > maxLengthOfVariableValue
+      ? `${variableGroupValue.substring(0, maxLengthOfVariableValue)}...`
+      : variableGroupValue;
+  };
+
+  const getVariableGroupKey = (variableGroupKey) => {
+    return variableGroupKey.length > 30
+      ? `${variableGroupKey.substring(0, 30)}...`
+      : variableGroupKey;
   };
 
   return (
@@ -47,7 +49,7 @@ const OtherVGTableRow = ({
         <td key={v4()}>{variableGroupName}</td>
       )}
 
-      <td key={v4()}>{variableGroup.variableGroupKey}</td>
+      <td key={v4()}>{getVariableGroupKey(variableGroup.variableGroupKey)}</td>
 
       <td key={v4()}>
         {onSingleModification.modification &&
@@ -61,7 +63,7 @@ const OtherVGTableRow = ({
           <span className={isSecretVariableGroup ? "error" : ""}>
             {isSecretVariableGroup
               ? "Secret variable, can't show it's value."
-              : getVariableGroupValue()}
+              : getVariableGroupValue(variableGroupValue)}
           </span>
         )}
       </td>
@@ -85,7 +87,7 @@ OtherVGTableRow.propTypes = {
   variableGroupValue: PropTypes.string.isRequired,
   project: PropTypes.string.isRequired,
   isSecretVariableGroup: PropTypes.bool.isRequired,
-  keyVaultName: PropTypes.string.isRequired,
+  keyVaultName: PropTypes.string,
   index: PropTypes.number.isRequired,
 };
 

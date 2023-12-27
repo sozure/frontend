@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
+import { FaCopy } from "react-icons/fa";
 
 import {
   AiFillMedicineBox,
@@ -12,6 +13,9 @@ import {
   ClientIdContext,
   ClientSecretContext,
   LocalLoadingContext,
+  OnDeleteContext,
+  OnRecoverContext,
+  ProfileNameContext,
   SecretContext,
   SingleModificationContext,
   TenantIdContext,
@@ -31,17 +35,28 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { secrets, setSecrets } = useContext(SecretContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
+  const { onRecover } = useContext(OnRecoverContext);
+  const { profileName } = useContext(ProfileNameContext);
+  const { onDelete } = useContext(OnDeleteContext);
+  const maxLengthOfSecretValue = 60;
 
-  const sendRecover = () => {
+  const sendRecover = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
+      userName: profileName,
     };
     setLocalLoading({ loading: true, row: index });
-    sendRecoverSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendRecoverSecretRequest(
+      body,
+      secrets,
+      setSecrets,
+      index,
+      setLocalLoading
+    );
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -54,16 +69,23 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
     setOnSingleModificationBack(setOnSingleModification);
   };
 
-  const sendDelete = () => {
+  const sendDelete = async () => {
     let body = {
       tenantId: tenantId,
       clientId: clientId,
       clientSecret: clientSecret,
       keyVaultName: keyVault,
       secretFilter: secretName,
+      userName: profileName,
     };
     setLocalLoading({ loading: true, row: index });
-    sendDeleteSecretRequest(body, secrets, setSecrets, index, setLocalLoading);
+    await sendDeleteSecretRequest(
+      body,
+      secrets,
+      setSecrets,
+      index,
+      setLocalLoading
+    );
     setOnSingleModificationBack(setOnSingleModification);
   };
 
@@ -77,8 +99,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   };
 
   const getSecretValue = () => {
-    return secretValue.length > 85 ? (
-      <button onClick={() => alert(secretValue)}>Show secret value</button>
+    return secretValue.length > maxLengthOfSecretValue ? (
+      <td key={v4()}>`${secretValue.substring(0, maxLengthOfSecretValue)}...`</td>
     ) : (
       <td key={v4()}>{secretValue}</td>
     );
@@ -157,16 +179,34 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         getSecretValue()
       )}
-      <td key={v4()}>
-        {secretValue === null || secretValue === undefined
-          ? getRecoverSection()
-          : getActionSection()}
-        {localLoading.row === index && localLoading.loading ? (
-          <span>Loading...</span>
-        ) : (
-          <></>
-        )}
-      </td>
+      {!onDelete && !onRecover ? (
+        <td key={v4()}>
+          {secretValue === null ||
+          (onSingleModification.modification &&
+            onSingleModification.row === index) ||
+          (localLoading.row === index && localLoading.loading) ? (
+            <></>
+          ) : (
+            <abbr title={"Copy value to clipboard"}>
+              <button
+                onClick={() => navigator.clipboard.writeText(secretValue)}
+              >
+                <FaCopy />
+              </button>
+            </abbr>
+          )}{" "}
+          {secretValue === null || secretValue === undefined
+            ? getRecoverSection()
+            : getActionSection()}
+          {localLoading.row === index && localLoading.loading ? (
+            <span>Loading...</span>
+          ) : (
+            <></>
+          )}
+        </td>
+      ) : (
+        <></>
+      )}
     </tr>
   );
 };
