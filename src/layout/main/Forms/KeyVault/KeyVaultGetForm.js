@@ -39,6 +39,8 @@ import {
   setSingleOperationBack,
   toastErrorPopUp,
 } from "../../../../services/CommonService";
+import KeyVaultSelect from "./BaseForms/KeyVaultSelect";
+import SecretRegexInput from "./BaseForms/SecretRegexInput";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -49,7 +51,7 @@ const KeyVaultGetForm = () => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const [deleted, setDeleted] = useState(false);
-  const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
+  const { secretRegex } = useContext(SecretRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
@@ -80,7 +82,11 @@ const KeyVaultGetForm = () => {
       profileName !== "" &&
       !subscriptions.includes(defaultSubscription)
     ) {
-      toastErrorPopUp("PAT doesn't match with default Azure subscription!", "pat-error", 1500);
+      toastErrorPopUp(
+        "PAT doesn't match with default Azure subscription!",
+        "pat-error",
+        1500
+      );
       setKvAuthorized(false);
     }
   }, [
@@ -112,37 +118,8 @@ const KeyVaultGetForm = () => {
 
   return (
     <div className="form">
-      <FormControl fullWidth>
-        <InputLabel>Select KeyVault</InputLabel>
-        <Select
-          id="keyVaultName"
-          value={keyVaults[0]}
-          label="Select KeyVault"
-          onChange={(event) => setKeyVaultName(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => {
-            return (
-              <MenuItem value={keyVault} key={keyVault}>
-                {keyVault}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <br />
-      <br />
-
-      <Input
-        fullWidth
-        type="text"
-        id="filter"
-        name="filter"
-        placeholder={"Secret name (regex)"}
-        value={secretRegex}
-        onChange={(event) => setSecretRegex(event.target.value)}
-      />
-      <br />
-      <br />
+      <KeyVaultSelect />
+      <SecretRegexInput />
 
       <FormGroup>
         <FormControlLabel
