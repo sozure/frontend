@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import CommonFormElements from "./CommonFormElements";
-import { KeyVaultNameContext, KeyVaultsContext } from "../../../contexts/Contexts";
-
 import {
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-  } from "@mui/material";
+  KeyVaultNameContext,
+  KeyVaultsContext,
+} from "../../../contexts/Contexts";
+
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export const SecretModificationsForm = ({
   setUserName,
@@ -24,7 +22,7 @@ export const SecretModificationsForm = ({
 
   return (
     <>
-    <FormControl fullWidth>
+      <FormControl fullWidth>
         <InputLabel>Select Azure vault</InputLabel>
         <Select
           id="project"

@@ -20,6 +20,10 @@ const PaginationButtons = ({ collection }) => {
     setPageNumber(Math.ceil(collectionLength / number));
   }, [collection]);
 
+  useEffect(() => {
+    setActualPageNumber(1);
+  }, [collection])
+
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
     setActualPageNumber(helperPageNum);

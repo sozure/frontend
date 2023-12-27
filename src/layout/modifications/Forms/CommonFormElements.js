@@ -29,9 +29,7 @@ const CommonFormElements = ({
         <DatePicker
           label="From date"
           value={from}
-          onChange={(newValue) => {
-            setFrom(newValue);
-          }}
+          onChange={(newValue) => setFrom(newValue)}
           textField={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>

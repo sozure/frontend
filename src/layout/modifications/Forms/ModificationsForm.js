@@ -14,10 +14,14 @@ import {
   KeyVaultNameContext,
   LoadingContext,
   OrganizationContext,
+  PaginationCounterContext,
   ProjectNameContext,
   ProjectsContext,
 } from "../../../contexts/Contexts";
-import { getVGChanges as requestVGChanges, getSecretChanges as requestSecretChanges } from "../../../services/ChangesService";
+import {
+  getVGChanges as requestVGChanges,
+  getSecretChanges as requestSecretChanges,
+} from "../../../services/ChangesService";
 import { useNavigate } from "react-router-dom";
 import { checkRequiredInputs2 } from "../../../services/CommonService";
 import { VGModificationsForm } from "./VGModificationsForm";
@@ -36,6 +40,7 @@ export const ModificationsForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { entityType, setEntityType } = useContext(EntityRecordTypeContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [from, to, entityType];
 
@@ -52,6 +57,7 @@ export const ModificationsForm = () => {
       1500
     );
     if (!incorrectFill) {
+      setPaginationCounter(0);
       switch (entityType) {
         case "env_Variables":
           await getVGChanges();
@@ -86,7 +92,7 @@ export const ModificationsForm = () => {
       to: to,
       limit: selectedLimit,
       keyVaultName: keyVaultName,
-      changeTypes: [0, 1, 2]
+      changeTypes: [0, 1, 2],
     };
     if (userName !== "") {
       body["user"] = userName;
@@ -104,7 +110,8 @@ export const ModificationsForm = () => {
           label="Select entity type"
           onChange={(event) => {
             setChanges([]);
-            setEntityType(event.target.value)
+            setPaginationCounter(0);
+            setEntityType(event.target.value);
           }}
         >
           <MenuItem value={"env_Variables"} key={"env_Variables"}>
