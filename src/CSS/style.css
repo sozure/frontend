@@ -38,23 +38,6 @@
   }
 }
 
-/* from Buttons.css */
-
-/* .button {
-  background-color: white;
-  border: 1%;
-  color: black;
-  padding: 15px 32px;
-  margin: 1%;
-  text-align: center;
-  display: inline-block;
-}
-
-.button:hover {
-  background-color: lightgray;
-  cursor: pointer;
-} */
-
 /* from Checkbox.css */
 
 input[type="checkbox"] {
