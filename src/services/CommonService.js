@@ -67,6 +67,14 @@ const toastErrorPopUp = (errorMessage, toastId, autoCloseSec) => {
   });
 }
 
+const toastSuccessPopUp = (message, toastId, autoCloseSec) => {
+  toast.success(message, {
+    position: toast.POSITION.TOP_CENTER,
+    toastId: toastId,
+    autoClose: autoCloseSec,
+  });
+}
+
 export {
   getBaseUrl,
   handleError,
@@ -75,5 +83,6 @@ export {
   setOnSingleModificationBack,
   setSingleOperationBack,
   checkRequiredInputs,
+  toastSuccessPopUp,
   toastErrorPopUp
 };

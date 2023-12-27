@@ -5,6 +5,7 @@ import {
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
+  toastSuccessPopUp,
 } from "../CommonService";
 
 const secretUrl = `${getBaseUrl()}/secret`;
@@ -93,7 +94,12 @@ const sendCopyRequest = async (body) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+      let statusMessage = getResponseMessage(status);
+      if(status === 0){
+        toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
+      } else {
+        toastErrorPopUp(statusMessage, "secret_requesting", 1500);
+      }
     })
     .catch((err) => {
       handleError2(err);

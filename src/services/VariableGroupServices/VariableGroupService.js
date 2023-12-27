@@ -1,5 +1,11 @@
 import axios from "axios";
-import { getBaseUrl, handleError, getResponseMessage, toastErrorPopUp } from "../CommonService";
+import {
+  getBaseUrl,
+  handleError,
+  getResponseMessage,
+  toastErrorPopUp,
+  toastSuccessPopUp,
+} from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
@@ -48,7 +54,11 @@ const sendListRequest = async (
       if (status === 0) {
         callbackForDataSaving(variableGroups);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "variable_requesting", 1500);
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variable_requesting",
+          1500
+        );
       }
     })
     .catch((err) => {
@@ -68,10 +78,13 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
       let variableGroups = res.data.variables;
       callbackForLoading(false);
       callback(false);
+      let statusMessage = getResponseMessage(status);
       if (status === 0 || status === 1) {
         callbackForDataSaving(variableGroups);
+        toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
+      } else {
+        toastErrorPopUp(statusMessage, "variable_requesting", 1500);
       }
-      toastErrorPopUp(getResponseMessage(status), "variable_requesting", 1500);
     })
     .catch((err) => {
       handleError(callbackForLoading, err);
