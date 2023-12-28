@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { sendCopyRequest } from "../../../../services//SecretServices/SecretService";
 import {
-  DestinationKeyVaultContext,
-  OriginKeyVaultContext,
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
@@ -31,17 +29,13 @@ const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
-  const { originKeyVault, setOriginKeyVault } = useContext(
-    OriginKeyVaultContext
-  );
-  const { destinationKeyVault, setDestinationKeyVault } = useContext(
-    DestinationKeyVaultContext
-  );
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { profileName } = useContext(ProfileNameContext);
   const { keyVaults } = useContext(KeyVaultsContext);
 
-  const [override, setOverride] = useState(false);
+  const [ originKeyVault, setOriginKeyVault ] = useState("");
+  const [ destinationKeyVault, setDestinationKeyVault ] = useState("");
+  const [ override, setOverride ] = useState(false);
 
   const mandatoryFields = [
     tenantId,

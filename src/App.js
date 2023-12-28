@@ -27,8 +27,6 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  OriginKeyVaultContext,
-  DestinationKeyVaultContext,
   PaginationCounterContext,
   OnRecoverContext,
   SingleModificationContext,
@@ -109,8 +107,6 @@ function App() {
   const [tenantId, setTenantId] = useState(envTenantId);
   const [clientId, setClientId] = useState(envClientId);
   const [clientSecret, setClientSecret] = useState(envClientSecret);
-  const [originKeyVault, setOriginKeyVault] = useState("");
-  const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
   const [entityType, setEntityType] = useState("env_variables");
@@ -294,231 +290,205 @@ function App() {
                                                       ]
                                                     )}
                                                   >
-                                                    <OriginKeyVaultContext.Provider
+                                                    <PaginationCounterContext.Provider
                                                       value={useMemo(
                                                         () => ({
-                                                          originKeyVault,
-                                                          setOriginKeyVault,
+                                                          paginationCounter,
+                                                          setPaginationCounter,
                                                         }),
                                                         [
-                                                          originKeyVault,
-                                                          setOriginKeyVault,
+                                                          paginationCounter,
+                                                          setPaginationCounter,
                                                         ]
                                                       )}
                                                     >
-                                                      <DestinationKeyVaultContext.Provider
+                                                      <OnRecoverContext.Provider
                                                         value={useMemo(
                                                           () => ({
-                                                            destinationKeyVault,
-                                                            setDestinationKeyVault,
+                                                            onRecover,
+                                                            setOnRecover,
                                                           }),
                                                           [
-                                                            destinationKeyVault,
-                                                            setDestinationKeyVault,
+                                                            onRecover,
+                                                            setOnRecover,
                                                           ]
                                                         )}
                                                       >
-                                                        <PaginationCounterContext.Provider
+                                                        <SingleModificationContext.Provider
                                                           value={useMemo(
                                                             () => ({
-                                                              paginationCounter,
-                                                              setPaginationCounter,
+                                                              onSingleModification,
+                                                              setOnSingleModification,
                                                             }),
                                                             [
-                                                              paginationCounter,
-                                                              setPaginationCounter,
+                                                              onSingleModification,
+                                                              setOnSingleModification,
                                                             ]
                                                           )}
                                                         >
-                                                          <OnRecoverContext.Provider
+                                                          <SingleOperationContext.Provider
                                                             value={useMemo(
                                                               () => ({
-                                                                onRecover,
-                                                                setOnRecover,
+                                                                singleOperation,
+                                                                setSingleOperation,
                                                               }),
                                                               [
-                                                                onRecover,
-                                                                setOnRecover,
+                                                                singleOperation,
+                                                                setSingleOperation,
                                                               ]
                                                             )}
                                                           >
-                                                            <SingleModificationContext.Provider
+                                                            <LocalLoadingContext.Provider
                                                               value={useMemo(
                                                                 () => ({
-                                                                  onSingleModification,
-                                                                  setOnSingleModification,
+                                                                  localLoading,
+                                                                  setLocalLoading,
                                                                 }),
                                                                 [
-                                                                  onSingleModification,
-                                                                  setOnSingleModification,
+                                                                  localLoading,
+                                                                  setLocalLoading,
                                                                 ]
                                                               )}
                                                             >
-                                                              <SingleOperationContext.Provider
+                                                              <KeyIsRegexContext.Provider
                                                                 value={useMemo(
                                                                   () => ({
-                                                                    singleOperation,
-                                                                    setSingleOperation,
+                                                                    keyIsRegex,
+                                                                    setKeyIsRegex,
                                                                   }),
                                                                   [
-                                                                    singleOperation,
-                                                                    setSingleOperation,
+                                                                    keyIsRegex,
+                                                                    setKeyIsRegex,
                                                                   ]
                                                                 )}
                                                               >
-                                                                <LocalLoadingContext.Provider
+                                                                <VariableGroupsContext.Provider
                                                                   value={useMemo(
                                                                     () => ({
-                                                                      localLoading,
-                                                                      setLocalLoading,
+                                                                      variableGroups,
+                                                                      setVariableGroups,
                                                                     }),
                                                                     [
-                                                                      localLoading,
-                                                                      setLocalLoading,
+                                                                      variableGroups,
+                                                                      setVariableGroups,
                                                                     ]
                                                                   )}
                                                                 >
-                                                                  <KeyIsRegexContext.Provider
+                                                                  <ProfileNameContext.Provider
                                                                     value={useMemo(
                                                                       () => ({
-                                                                        keyIsRegex,
-                                                                        setKeyIsRegex,
+                                                                        profileName,
+                                                                        setProfileName,
                                                                       }),
                                                                       [
-                                                                        keyIsRegex,
-                                                                        setKeyIsRegex,
+                                                                        profileName,
+                                                                        setProfileName,
                                                                       ]
                                                                     )}
                                                                   >
-                                                                    <VariableGroupsContext.Provider
+                                                                    <ChangesContext.Provider
                                                                       value={useMemo(
                                                                         () => ({
-                                                                          variableGroups,
-                                                                          setVariableGroups,
+                                                                          changes,
+                                                                          setChanges,
                                                                         }),
                                                                         [
-                                                                          variableGroups,
-                                                                          setVariableGroups,
+                                                                          changes,
+                                                                          setChanges,
                                                                         ]
                                                                       )}
                                                                     >
-                                                                      <ProfileNameContext.Provider
+                                                                      <KeyVaultsContext.Provider
                                                                         value={useMemo(
                                                                           () => ({
-                                                                            profileName,
-                                                                            setProfileName,
+                                                                            keyVaults,
+                                                                            setKeyVaults,
                                                                           }),
                                                                           [
-                                                                            profileName,
-                                                                            setProfileName,
+                                                                            keyVaults,
+                                                                            setKeyVaults,
                                                                           ]
                                                                         )}
                                                                       >
-                                                                        <ChangesContext.Provider
+                                                                        <KVAuthorizedContext.Provider
                                                                           value={useMemo(
                                                                             () => ({
-                                                                              changes,
-                                                                              setChanges,
+                                                                              kvAuthorized,
+                                                                              setKvAuthorized,
                                                                             }),
                                                                             [
-                                                                              changes,
-                                                                              setChanges,
+                                                                              kvAuthorized,
+                                                                              setKvAuthorized,
                                                                             ]
                                                                           )}
                                                                         >
-                                                                          <KeyVaultsContext.Provider
+                                                                          <SubscriptionsContext.Provider
                                                                             value={useMemo(
                                                                               () => ({
-                                                                                keyVaults,
-                                                                                setKeyVaults,
+                                                                                subscriptions,
+                                                                                setSubscriptions,
                                                                               }),
                                                                               [
-                                                                                keyVaults,
-                                                                                setKeyVaults,
+                                                                                subscriptions,
+                                                                                setSubscriptions,
                                                                               ]
                                                                             )}
                                                                           >
-                                                                            <KVAuthorizedContext.Provider
+                                                                            <DefaultSubscriptionContext.Provider
                                                                               value={useMemo(
                                                                                 () => ({
-                                                                                  kvAuthorized,
-                                                                                  setKvAuthorized,
+                                                                                  defaultSubscription,
+                                                                                  setDefaultSubscription,
                                                                                 }),
                                                                                 [
-                                                                                  kvAuthorized,
-                                                                                  setKvAuthorized,
+                                                                                  defaultSubscription,
+                                                                                  setDefaultSubscription,
                                                                                 ]
                                                                               )}
                                                                             >
-                                                                              <SubscriptionsContext.Provider
+                                                                              <EntityRecordTypeContext.Provider
                                                                                 value={useMemo(
                                                                                   () => ({
-                                                                                    subscriptions,
-                                                                                    setSubscriptions,
+                                                                                    entityType,
+                                                                                    setEntityType,
                                                                                   }),
                                                                                   [
-                                                                                    subscriptions,
-                                                                                    setSubscriptions,
+                                                                                    entityType,
+                                                                                    setEntityType,
                                                                                   ]
                                                                                 )}
                                                                               >
-                                                                                <DefaultSubscriptionContext.Provider
-                                                                                  value={useMemo(
-                                                                                    () => ({
-                                                                                      defaultSubscription,
-                                                                                      setDefaultSubscription,
-                                                                                    }),
-                                                                                    [
-                                                                                      defaultSubscription,
-                                                                                      setDefaultSubscription,
-                                                                                    ]
-                                                                                  )}
-                                                                                >
-                                                                                  <EntityRecordTypeContext.Provider
-                                                                                    value={useMemo(
-                                                                                      () => ({
-                                                                                        entityType,
-                                                                                        setEntityType,
-                                                                                      }),
-                                                                                      [
-                                                                                        entityType,
-                                                                                        setEntityType,
-                                                                                      ]
-                                                                                    )}
-                                                                                  >
-                                                                                    <Welcome />
-                                                                                    <BrowserRouter>
-                                                                                      <Routes>
-                                                                                        <Route
-                                                                                          path="/"
-                                                                                          element={
-                                                                                            <Main />
-                                                                                          }
-                                                                                        />
-                                                                                        <Route
-                                                                                          path="/changes"
-                                                                                          element={
-                                                                                            <Modifications />
-                                                                                          }
-                                                                                        />
-                                                                                      </Routes>
-                                                                                    </BrowserRouter>
-                                                                                  </EntityRecordTypeContext.Provider>
-                                                                                </DefaultSubscriptionContext.Provider>
-                                                                              </SubscriptionsContext.Provider>
-                                                                            </KVAuthorizedContext.Provider>
-                                                                          </KeyVaultsContext.Provider>
-                                                                        </ChangesContext.Provider>
-                                                                      </ProfileNameContext.Provider>
-                                                                    </VariableGroupsContext.Provider>
-                                                                  </KeyIsRegexContext.Provider>
-                                                                </LocalLoadingContext.Provider>
-                                                              </SingleOperationContext.Provider>
-                                                            </SingleModificationContext.Provider>
-                                                          </OnRecoverContext.Provider>
-                                                        </PaginationCounterContext.Provider>
-                                                      </DestinationKeyVaultContext.Provider>
-                                                    </OriginKeyVaultContext.Provider>
+                                                                                <Welcome />
+                                                                                <BrowserRouter>
+                                                                                  <Routes>
+                                                                                    <Route
+                                                                                      path="/"
+                                                                                      element={
+                                                                                        <Main />
+                                                                                      }
+                                                                                    />
+                                                                                    <Route
+                                                                                      path="/changes"
+                                                                                      element={
+                                                                                        <Modifications />
+                                                                                      }
+                                                                                    />
+                                                                                  </Routes>
+                                                                                </BrowserRouter>
+                                                                              </EntityRecordTypeContext.Provider>
+                                                                            </DefaultSubscriptionContext.Provider>
+                                                                          </SubscriptionsContext.Provider>
+                                                                        </KVAuthorizedContext.Provider>
+                                                                      </KeyVaultsContext.Provider>
+                                                                    </ChangesContext.Provider>
+                                                                  </ProfileNameContext.Provider>
+                                                                </VariableGroupsContext.Provider>
+                                                              </KeyIsRegexContext.Provider>
+                                                            </LocalLoadingContext.Provider>
+                                                          </SingleOperationContext.Provider>
+                                                        </SingleModificationContext.Provider>
+                                                      </OnRecoverContext.Provider>
+                                                    </PaginationCounterContext.Provider>
                                                   </ClientSecretContext.Provider>
                                                 </ClientIdContext.Provider>
                                               </TenantIdContext.Provider>
