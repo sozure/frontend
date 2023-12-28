@@ -6,8 +6,6 @@ import {
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
-  KeyVaultNameContext,
-  SecretRegexContext,
   PaginationCounterContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
@@ -29,8 +27,6 @@ const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
-  const { keyVaultName } = useContext(KeyVaultNameContext);
-  const { secretRegex } = useContext(SecretRegexContext);
   const { originKeyVault, setOriginKeyVault } = useContext(
     OriginKeyVaultContext
   );
@@ -46,8 +42,8 @@ const KeyVaultCopyForm = () => {
     tenantId,
     clientId,
     clientSecret,
-    keyVaultName,
-    secretRegex,
+    originKeyVault,
+    destinationKeyVault,
   ];
 
   const send = async () => {
@@ -58,10 +54,10 @@ const KeyVaultCopyForm = () => {
         tenantId: tenantId,
         clientId: clientId,
         clientSecret: clientSecret,
-        originKeyVault: originKeyVault,
         userName: profileName,
-        destinationKeyVault: destinationKeyVault,
-        override: override,
+        fromKeyVault: originKeyVault,
+        toKeyVault: destinationKeyVault,
+        overrideSecret: override
       };
       await sendCopyRequest(body);
       setPaginationCounter(0);
