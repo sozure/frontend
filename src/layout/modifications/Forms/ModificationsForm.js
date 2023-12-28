@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
 import {
   Button,
@@ -9,8 +10,6 @@ import {
 } from "@mui/material";
 
 import {
-  ChangesContext,
-  EntityRecordTypeContext,
   KeyVaultNameContext,
   LoadingContext,
   OrganizationContext,
@@ -32,7 +31,11 @@ import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
 
-export const ModificationsForm = () => {
+export const ModificationsForm = ({
+  entityType,
+  setEntityType,
+  setChanges,
+}) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(10);
@@ -40,11 +43,9 @@ export const ModificationsForm = () => {
   const [to, setTo] = useState("");
   const { organizationName } = useContext(OrganizationContext);
   const { projects } = useContext(ProjectsContext);
-  const { setChanges } = useContext(ChangesContext);
   const { setLoading } = useContext(LoadingContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
-  const { entityType, setEntityType } = useContext(EntityRecordTypeContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [from, to, entityType];
@@ -218,4 +219,10 @@ export const ModificationsForm = () => {
       <ToastContainer />
     </div>
   );
+};
+
+ModificationsForm.propTypes = {
+  entityType: PropTypes.string.isRequired,
+  setEntityType: PropTypes.func.isRequired,
+  setChanges: PropTypes.func.isRequired,
 };

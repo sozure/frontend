@@ -8,8 +8,8 @@ import {
   OnRecoverContext,
   PaginationCounterContext,
   ProfileNameContext,
-  SecretContext,
-  SecretRegexContext,
+  SecretsContext,
+  SecretNameRegexContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
 import { sendListSecretRequest } from "../../../../services/SecretServices/SecretService";
@@ -20,10 +20,10 @@ import { checkRequiredInputs } from "../../../../services/CommonService";
 
 const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
-  const { secretRegex } = useContext(SecretRegexContext);
+  const { secretRegex } = useContext(SecretNameRegexContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);

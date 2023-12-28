@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 
 import { Input } from "@mui/material";
-import { SecretRegexContext } from "../../../../../contexts/Contexts";
+import { SecretNameRegexContext } from "../../../../../contexts/Contexts";
 
 const SecretRegexInput = () => {
-  const { secretRegex, setSecretRegex } = useContext(SecretRegexContext);
+  const { secretRegex, setSecretRegex } = useContext(SecretNameRegexContext);
 
   return (
     <>

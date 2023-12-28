@@ -4,16 +4,16 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
-  ValueRegexContext,
+  VariableValueRegexContext,
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   VariablesContext,
   LoadingContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
@@ -40,18 +40,18 @@ import {
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { setVariables } = useContext(VariablesContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
-  const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
+  const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const [secretIncluded, setSecretIncluded] = useState(false);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { keyIsRegex, setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { keyIsRegex, setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];

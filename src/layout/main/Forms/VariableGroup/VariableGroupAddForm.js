@@ -4,17 +4,17 @@ import { sendListVariableGroupsRequest } from "../../../../services/VariableGrou
 import {
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
   LoadingContext,
   OnAddContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   VariableGroupsContext,
   VariablesContext,
   ProfileNameContext,
@@ -38,15 +38,15 @@ const VariableGroupAddForm = () => {
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
-  const { newKey, setNewKey } = useContext(NewKeyContext);
-  const { newValue, setNewValue } = useContext(NewValueContext);
+  const { newKey, setNewKey } = useContext(VariableNewKeyContext);
+  const { newValue, setNewValue } = useContext(VariableNewValueContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
