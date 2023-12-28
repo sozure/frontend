@@ -21,11 +21,16 @@ import {
 import {
   getVGChanges as requestVGChanges,
   getSecretChanges as requestSecretChanges,
+  getKVChanges as requestKVChanges,
 } from "../../../services/ChangesService";
 import { useNavigate } from "react-router-dom";
-import { checkRequiredInputs, toastErrorPopUp } from "../../../services/CommonService";
+import {
+  checkRequiredInputs,
+  toastErrorPopUp,
+} from "../../../services/CommonService";
 import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
+import CommonFormElements from "./CommonFormElements";
 
 export const ModificationsForm = () => {
   const navigate = useNavigate();
@@ -62,14 +67,21 @@ export const ModificationsForm = () => {
         toastErrorPopUp("Time range is not correct!", "range-error", 1500);
       } else {
         switch (entityType) {
-          case "env_Variables":
+          case "env_variables":
             await getVGChanges();
             break;
           case "secrets":
             await getSecretChanges();
             break;
+          case "key_vault_copies":
+            await getKVCopyChanges();
+            break;
           default:
-            toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
+            toastErrorPopUp(
+              "Invalid record requesting!",
+              "record_requesting",
+              1500
+            );
         }
       }
     }
@@ -104,6 +116,71 @@ export const ModificationsForm = () => {
     await requestSecretChanges(body, setLoading, setChanges);
   };
 
+  const getKVCopyChanges = async () => {
+    let body = {
+      from: from,
+      to: to,
+      limit: selectedLimit,
+    };
+    if (userName !== "") {
+      body["user"] = userName;
+    }
+    await requestKVChanges(body, setLoading, setChanges);
+  };
+
+  const getSpecificForm = () => {
+    switch (entityType) {
+      case "env_variables":
+        return (
+          <VGModificationsForm
+            setProjectName={setProjectName}
+            projectName={projectName}
+            projects={projects}
+            setUserName={setUserName}
+            userName={userName}
+            setSelectedLimit={setSelectedLimit}
+            selectedLimit={selectedLimit}
+            setFrom={setFrom}
+            from={from}
+            setTo={setTo}
+            to={to}
+          />
+        );
+      case "secrets":
+        return (
+          <SecretModificationsForm
+            setUserName={setUserName}
+            userName={userName}
+            setSelectedLimit={setSelectedLimit}
+            selectedLimit={selectedLimit}
+            setFrom={setFrom}
+            from={from}
+            setTo={setTo}
+            to={to}
+          />
+        );
+      case "key_vault_copies":
+        return (
+          <CommonFormElements
+            setUserName={setUserName}
+            userName={userName}
+            setSelectedLimit={setSelectedLimit}
+            selectedLimit={selectedLimit}
+            setFrom={setFrom}
+            from={from}
+            setTo={setTo}
+            to={to}
+          />
+        );
+      default:
+        toastErrorPopUp(
+          "Invalid record requesting!",
+          "record_requesting",
+          1500
+        );
+    }
+  };
+
   return (
     <div className="form">
       <FormControl fullWidth>
@@ -118,40 +195,18 @@ export const ModificationsForm = () => {
             setEntityType(event.target.value);
           }}
         >
-          <MenuItem value={"env_Variables"} key={"env_Variables"}>
-            {"Env. variables"}
+          <MenuItem value={"env_variables"} key={"env_variables"}>
+            {"Environment variables"}
           </MenuItem>
           <MenuItem value={"secrets"} key={"secrets"}>
             {"Secrets"}
           </MenuItem>
+          <MenuItem value={"key_vault_copies"} key={"key_vault_copies"}>
+            {"Key vault copies"}
+          </MenuItem>
         </Select>
       </FormControl>
-      {entityType === "env_Variables" ? (
-        <VGModificationsForm
-          setProjectName={setProjectName}
-          projectName={projectName}
-          projects={projects}
-          setUserName={setUserName}
-          userName={userName}
-          setSelectedLimit={setSelectedLimit}
-          selectedLimit={selectedLimit}
-          setFrom={setFrom}
-          from={from}
-          setTo={setTo}
-          to={to}
-        />
-      ) : (
-        <SecretModificationsForm
-          setUserName={setUserName}
-          userName={userName}
-          setSelectedLimit={setSelectedLimit}
-          selectedLimit={selectedLimit}
-          setFrom={setFrom}
-          from={from}
-          setTo={setTo}
-          to={to}
-        />
-      )}
+      {getSpecificForm()}
 
       <Button
         variant="contained"

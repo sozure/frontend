@@ -13,6 +13,11 @@ const getSecretChanges = async (body, setLoading, setChanges) => {
   await getChanges(url, body, setLoading, setChanges);
 };
 
+const getKVChanges = async (body, setLoading, setChanges) => {
+  const url = `${baseUrl}/keyvaultcopies`;
+  await getChanges(url, body, setLoading, setChanges);
+}
+
 const getChanges = async (url, body, setLoading, setChanges) => {
   axios
     .post(url, body)
@@ -32,4 +37,4 @@ const getChanges = async (url, body, setLoading, setChanges) => {
     });
 };
 
-export { getVGChanges, getSecretChanges };
+export { getVGChanges, getSecretChanges, getKVChanges };

@@ -93,7 +93,7 @@ const sendCopyRequest = async (body) => {
   axios
     .post(url, body)
     .then((res) => {
-      let status = res.data.status;
+      let status = res.data;
       let statusMessage = getResponseMessage(status);
       if(status === 0){
         toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
