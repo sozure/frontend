@@ -6,14 +6,14 @@ import {
   OnDeleteContext,
   OnRecoverContext,
   PaginationCounterContext,
-  SecretContext,
+  SecretsContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import TableHeader from "../TableHeader";
 import KVResultTableRow from "./KVResultTableRow";
 
 function KVResultTable() {
-  const { secrets } = useContext(SecretContext);
+  const { secrets } = useContext(SecretsContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { onRecover } = useContext(OnRecoverContext);
   const { onDelete } = useContext(OnDeleteContext);

@@ -10,12 +10,12 @@ import {
   OnAddContext,
   OnUpdateContext,
   MessageContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   TableTypeContext,
   VariablesContext,
   ActionTypeContext,
-  ValueRegexContext,
+  VariableValueRegexContext,
   VariableGroupsContext,
 } from "../../../../contexts/Contexts";
 
@@ -30,9 +30,9 @@ const ActionButtons = () => {
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
   const { message } = useContext(MessageContext);
-  const { newKey } = useContext(NewKeyContext);
-  const { newValue } = useContext(NewValueContext);
-  const { valueRegex } = useContext(ValueRegexContext);
+  const { newKey } = useContext(VariableNewKeyContext);
+  const { newValue } = useContext(VariableNewValueContext);
+  const { valueRegex } = useContext(VariableValueRegexContext);
 
   const deleteVariables = async () => {
     await sendDeleteRequest(message, "", setOnDelete);

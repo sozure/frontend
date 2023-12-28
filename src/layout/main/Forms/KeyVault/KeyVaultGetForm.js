@@ -13,9 +13,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 import {
   KeyVaultNameContext,
-  SecretRegexContext,
+  SecretNameRegexContext,
   LoadingContext,
-  SecretContext,
+  SecretsContext,
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
@@ -39,14 +39,14 @@ import SecretRegexInput from "./BaseForms/SecretRegexInput";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const [deleted, setDeleted] = useState(false);
-  const { secretRegex } = useContext(SecretRegexContext);
+  const { secretRegex } = useContext(SecretNameRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);

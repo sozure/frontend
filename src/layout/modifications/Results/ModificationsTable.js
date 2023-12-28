@@ -1,19 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  ChangesContext,
-  EntityRecordTypeContext,
-  PaginationCounterContext,
-} from "../../../contexts/Contexts";
+import PropTypes from "prop-types";
+import { PaginationCounterContext } from "../../../contexts/Contexts";
 import TableHeader from "../../main/Results/TableHeader";
 import { v4 } from "uuid";
 import PaginationButtons from "../../main/Results/PaginationButtons";
 import { toastErrorPopUp } from "../../../services/CommonService";
 
-export const ModificationsTable = () => {
-  const { changes } = useContext(ChangesContext);
+export const ModificationsTable = ({ entityType, changes }) => {
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { entityType } = useContext(EntityRecordTypeContext);
-  const [ columnList, setColumnList ] = useState([]);
+  const [columnList, setColumnList] = useState([]);
   const number = 10;
 
   useEffect(() => {
@@ -25,7 +20,7 @@ export const ModificationsTable = () => {
           "User",
           "Secret name regex",
           "Operation type",
-          "Date"
+          "Date",
         ];
         break;
       case "env_variables":
@@ -36,7 +31,7 @@ export const ModificationsTable = () => {
           "Variable group regex",
           "Key",
           "Operation type",
-          "Date"
+          "Date",
         ];
         break;
       case "key_vault_copies":
@@ -44,11 +39,15 @@ export const ModificationsTable = () => {
           "Original key vault",
           "Destination key vault",
           "User",
-          "Date"
-        ]
+          "Date",
+        ];
         break;
       default:
-        toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
+        toastErrorPopUp(
+          "Invalid record requesting!",
+          "record_requesting",
+          1500
+        );
     }
     setColumnList(columns);
   }, [entityType, setColumnList]);
@@ -61,7 +60,7 @@ export const ModificationsTable = () => {
             <td key={v4()}>{change.keyVaultName}</td>
             <td key={v4()}>{change.user}</td>
             <td key={v4()}>{change.secretNameRegex}</td>
-            <td key={v4()}>{change.changeType === 0? "Recover": "Delete"}</td>
+            <td key={v4()}>{change.changeType === 0 ? "Recover" : "Delete"}</td>
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
         );
@@ -78,16 +77,20 @@ export const ModificationsTable = () => {
           </tr>
         );
       case "key_vault_copies":
-        return(
+        return (
           <tr key={v4()}>
             <td key={v4()}>{change.originalKeyVault}</td>
             <td key={v4()}>{change.destinationKeyVault}</td>
             <td key={v4()}>{change.user}</td>
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
-        )
+        );
       default:
-        toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
+        toastErrorPopUp(
+          "Invalid record requesting!",
+          "record_requesting",
+          1500
+        );
     }
   };
 
@@ -117,4 +120,9 @@ export const ModificationsTable = () => {
       )}
     </div>
   );
+};
+
+ModificationsTable.propTypes = {
+  entityType: PropTypes.string.isRequired,
+  changes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

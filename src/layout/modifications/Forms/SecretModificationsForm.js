@@ -6,7 +6,7 @@ import {
   KeyVaultsContext,
 } from "../../../contexts/Contexts";
 
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import KeyVaultSelectMenu from "../../KeyVaultSelectMenu";
 
 export const SecretModificationsForm = ({
   setUserName,
@@ -23,21 +23,13 @@ export const SecretModificationsForm = ({
 
   return (
     <>
-      <FormControl fullWidth>
-        <InputLabel>Select Azure vault</InputLabel>
-        <Select
-          id="project"
-          value={keyVaultName}
-          label="Select Azure vault"
-          onChange={(event) => setKeyVaultName(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => (
-            <MenuItem value={keyVault} key={keyVault}>
-              {keyVault}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <KeyVaultSelectMenu
+        id={"modifications"}
+        inputLabel={"Select Azure vault"}
+        keyVaults={keyVaults}
+        keyVaultName={keyVaultName}
+        setKeyVaultName={setKeyVaultName}
+      />
       <CommonFormElements
         setUserName={setUserName}
         userName={userName}
@@ -60,5 +52,5 @@ SecretModificationsForm.propTypes = {
   setFrom: PropTypes.func.isRequired,
   from: PropTypes.string.isRequired,
   setTo: PropTypes.func.isRequired,
-  to: PropTypes.string.isRequired
-}
+  to: PropTypes.string.isRequired,
+};

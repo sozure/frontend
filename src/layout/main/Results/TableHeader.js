@@ -13,7 +13,7 @@ const TableHeader = ({ columnList }) => {
 };
 
 TableHeader.propTypes = {
-  columnList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  columnList: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default TableHeader;

@@ -8,17 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   OnDeleteContext,
   LoadingContext,
   VariablesContext,
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
@@ -35,14 +35,14 @@ const VariableGroupDeleteForm = () => {
   const { setVariables } = useContext(VariablesContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];

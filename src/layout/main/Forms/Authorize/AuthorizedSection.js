@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import {
   KVAuthorizedContext,
   ProfileNameContext,
-  SecretContext,
+  SecretsContext,
   VGAuthorizedContext,
   VariableGroupsContext,
   VariablesContext,
@@ -15,7 +15,7 @@ const AuthorizedSection = () => {
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { profileName } = useContext(ProfileNameContext);
   const { setVariables } = useContext(VariablesContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { setKvAuthorized } = useContext(KVAuthorizedContext);
 

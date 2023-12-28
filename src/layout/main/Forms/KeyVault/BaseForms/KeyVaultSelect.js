@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 
-import { MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import {
   KeyVaultNameContext,
   KeyVaultsContext,
 } from "../../../../../contexts/Contexts";
+import KeyVaultSelectMenu from "../../../../KeyVaultSelectMenu";
 
 const KeyVaultSelect = () => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
@@ -12,23 +12,13 @@ const KeyVaultSelect = () => {
 
   return (
     <>
-      <FormControl fullWidth>
-        <InputLabel>Select KeyVault</InputLabel>
-        <Select
-          id="keyVaultName"
-          value={keyVaultName}
-          label="Select KeyVault"
-          onChange={(event) => setKeyVaultName(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => {
-            return (
-              <MenuItem value={keyVault} key={keyVault}>
-                {keyVault}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+      <KeyVaultSelectMenu
+        id={"keyVaultName"}
+        inputLabel={"Select KeyVault"}
+        keyVaults={keyVaults}
+        keyVaultName={keyVaultName}
+        setKeyVaultName={setKeyVaultName}
+      />
       <br />
       <br />
     </>

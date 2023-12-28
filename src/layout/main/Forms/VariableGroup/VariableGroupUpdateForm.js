@@ -1,21 +1,21 @@
 import React, { useContext, useEffect } from "react";
 import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
-  KeyIsRegexContext,
-  NewValueContext,
+  VariableKeyIsRegexContext,
+  VariableNewValueContext,
   OnUpdateContext,
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   LoadingContext,
   VariablesContext,
-  ValueRegexContext,
+  VariableValueRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
@@ -36,16 +36,16 @@ const VariableGroupUpdateForm = () => {
   const { setOnUpdate } = useContext(OnUpdateContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
-  const { newValue, setNewValue } = useContext(NewValueContext);
-  const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
+  const { newValue, setNewValue } = useContext(VariableNewValueContext);
+  const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
