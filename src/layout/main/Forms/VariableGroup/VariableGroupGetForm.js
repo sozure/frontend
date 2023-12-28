@@ -4,10 +4,10 @@ import {
   PaginationCounterContext,
   SingleModificationContext,
   SingleOperationContext,
-  ValueRegexContext,
+  VariableValueRegexContext,
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
   KeyRegexContext,
@@ -40,12 +40,12 @@ import {
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { setVariables } = useContext(VariablesContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
-  const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
+  const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const [secretIncluded, setSecretIncluded] = useState(false);
   const { setPaginationCounter } = useContext(PaginationCounterContext);

@@ -19,8 +19,8 @@ import {
   SecretRegexContext,
   TableTypeContext,
   VGAuthorizedContext,
-  VGRegexContext,
-  ValueRegexContext,
+  VGNameRegexContext,
+  VariableValueRegexContext,
   VariablesContext,
   NewKeyContext,
   NewValueContext,
@@ -159,13 +159,13 @@ function App() {
                 [projectName, setProjectName]
               )}
             >
-              <ValueRegexContext.Provider
+              <VariableValueRegexContext.Provider
                 value={useMemo(
                   () => ({ valueRegex, setValueRegex }),
                   [valueRegex, setValueRegex]
                 )}
               >
-                <VGRegexContext.Provider
+                <VGNameRegexContext.Provider
                   value={useMemo(
                     () => ({ vgRegex, setVgRegex }),
                     [vgRegex, setVgRegex]
@@ -536,8 +536,8 @@ function App() {
                       </VariablesContext.Provider>
                     </KeyRegexContext.Provider>
                   </SecretRegexContext.Provider>
-                </VGRegexContext.Provider>
-              </ValueRegexContext.Provider>
+                </VGNameRegexContext.Provider>
+              </VariableValueRegexContext.Provider>
             </ProjectNameContext.Provider>
           </PATContext.Provider>
         </TableTypeContext.Provider>

@@ -9,13 +9,13 @@ import {
   SingleOperationContext,
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
   KeyRegexContext,
   LoadingContext,
   VariablesContext,
-  ValueRegexContext,
+  VariableValueRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
@@ -36,12 +36,12 @@ const VariableGroupUpdateForm = () => {
   const { setOnUpdate } = useContext(OnUpdateContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { newValue, setNewValue } = useContext(NewValueContext);
-  const { valueRegex, setValueRegex } = useContext(ValueRegexContext);
+  const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import {
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   ProjectsContext,
 } from "../../../../contexts/Contexts";
 import {
@@ -15,7 +15,7 @@ import {
 
 const VariableGroupBaseForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
-  const { vgRegex, setVgRegex } = useContext(VGRegexContext);
+  const { vgRegex, setVgRegex } = useContext(VGNameRegexContext);
   const { projects } = useContext(ProjectsContext);
 
   return (

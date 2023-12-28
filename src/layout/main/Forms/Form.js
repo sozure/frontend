@@ -6,8 +6,8 @@ import {
   TableTypeContext,
   VGAuthorizedContext,
   KeyRegexContext,
-  ValueRegexContext,
-  VGRegexContext,
+  VariableValueRegexContext,
+  VGNameRegexContext,
   NewKeyContext,
   NewValueContext,
   KVAuthorizedContext,
@@ -35,8 +35,8 @@ function Form() {
   const { tableType } = useContext(TableTypeContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setKeyRegex } = useContext(KeyRegexContext);
-  const { setValueRegex } = useContext(ValueRegexContext);
-  const { setVgRegex } = useContext(VGRegexContext);
+  const { setValueRegex } = useContext(VariableValueRegexContext);
+  const { setVgRegex } = useContext(VGNameRegexContext);
   const { setNewKey } = useContext(NewKeyContext);
   const { setNewValue } = useContext(NewValueContext);
   const { kvAuthorized } = useContext(KVAuthorizedContext);

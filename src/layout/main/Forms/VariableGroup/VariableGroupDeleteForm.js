@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
   KeyRegexContext,
@@ -35,7 +35,7 @@ const VariableGroupDeleteForm = () => {
   const { setVariables } = useContext(VariablesContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);

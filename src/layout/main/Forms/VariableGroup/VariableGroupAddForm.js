@@ -4,7 +4,7 @@ import { sendListVariableGroupsRequest } from "../../../../services/VariableGrou
 import {
   PATContext,
   ProjectNameContext,
-  VGRegexContext,
+  VGNameRegexContext,
   OrganizationContext,
   MessageContext,
   LoadingContext,
@@ -38,7 +38,7 @@ const VariableGroupAddForm = () => {
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
-  const { vgRegex } = useContext(VGRegexContext);
+  const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
   const { newKey, setNewKey } = useContext(NewKeyContext);
