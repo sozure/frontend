@@ -15,7 +15,7 @@ import {
   PATContext,
   ProjectNameContext,
   ProjectsContext,
-  SecretContext,
+  SecretsContext,
   SecretRegexContext,
   TableTypeContext,
   VGAuthorizedContext,
@@ -213,7 +213,7 @@ function App() {
                                   [onDelete, setOnDelete]
                                 )}
                               >
-                                <SecretContext.Provider
+                                <SecretsContext.Provider
                                   value={useMemo(
                                     () => ({ secrets, setSecrets }),
                                     [secrets, setSecrets]
@@ -528,7 +528,7 @@ function App() {
                                       </ProjectsContext.Provider>
                                     </OrganizationContext.Provider>
                                   </MessageContext.Provider>
-                                </SecretContext.Provider>
+                                </SecretsContext.Provider>
                               </OnDeleteContext.Provider>
                             </OnAddContext.Provider>
                           </OnUpdateContext.Provider>

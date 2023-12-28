@@ -9,7 +9,7 @@ import {
   OnDeleteContext,
   OnRecoverContext,
   ProfileNameContext,
-  SecretContext,
+  SecretsContext,
   SecretRegexContext,
   TableTypeContext,
   TenantIdContext,
@@ -26,7 +26,7 @@ const ActionButtons = () => {
   const { clientSecret } = useContext(ClientSecretContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { secretRegex } = useContext(SecretRegexContext);
-  const { secrets, setSecrets } = useContext(SecretContext);
+  const { secrets, setSecrets } = useContext(SecretsContext);
   const { tableType } = useContext(TableTypeContext);
   const { setLoading } = useContext(LoadingContext);
   const { onRecover, setOnRecover } = useContext(OnRecoverContext);

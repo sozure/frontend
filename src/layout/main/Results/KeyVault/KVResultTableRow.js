@@ -15,7 +15,7 @@ import {
   OnDeleteContext,
   OnRecoverContext,
   ProfileNameContext,
-  SecretContext,
+  SecretsContext,
   SingleModificationContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
@@ -33,7 +33,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
-  const { secrets, setSecrets } = useContext(SecretContext);
+  const { secrets, setSecrets } = useContext(SecretsContext);
   const { localLoading, setLocalLoading } = useContext(LocalLoadingContext);
   const { onRecover } = useContext(OnRecoverContext);
   const { profileName } = useContext(ProfileNameContext);

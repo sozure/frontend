@@ -15,7 +15,7 @@ import {
   KeyVaultNameContext,
   SecretRegexContext,
   LoadingContext,
-  SecretContext,
+  SecretsContext,
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
@@ -39,7 +39,7 @@ import SecretRegexInput from "./BaseForms/SecretRegexInput";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);

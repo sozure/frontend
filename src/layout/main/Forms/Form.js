@@ -13,7 +13,7 @@ import {
   KVAuthorizedContext,
   KeyVaultsContext,
   ProjectsContext,
-  SecretContext,
+  SecretsContext,
   VariablesContext,
 } from "../../../contexts/Contexts";
 
@@ -42,7 +42,7 @@ function Form() {
   const { kvAuthorized } = useContext(KVAuthorizedContext);
   const { keyVaults } = useContext(KeyVaultsContext);
   const { projects } = useContext(ProjectsContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { setVariables } = useContext(VariablesContext);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   KeyVaultNameContext,
   SecretRegexContext,
-  SecretContext,
+  SecretsContext,
   LoadingContext,
   TenantIdContext,
   ClientIdContext,
@@ -27,7 +27,7 @@ import {
 
 const KeyVaultDeleteForm = () => {
   const { setLoading } = useContext(LoadingContext);
-  const { setSecrets } = useContext(SecretContext);
+  const { setSecrets } = useContext(SecretsContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const { secretRegex } = useContext(SecretRegexContext);
