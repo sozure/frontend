@@ -18,24 +18,37 @@ export const ModificationsTable = () => {
 
   useEffect(() => {
     let columns = [];
-    if (entityType === "env_Variables") {
-      columns = [
-        "Organization",
-        "Project",
-        "User",
-        "Variable group regex",
-        "Key",
-        "Operation type",
-        "Date",
-      ];
-    } else {
-      columns = [
-        "KeyVaultName",
-        "User",
-        "Secret name regex",
-        "Operation type",
-        "Date",
-      ];
+    switch (entityType) {
+      case "secrets":
+        columns = [
+          "Key vault's name",
+          "User",
+          "Secret name regex",
+          "Operation type",
+          "Date"
+        ];
+        break;
+      case "env_variables":
+        columns = [
+          "Organization",
+          "Project",
+          "User",
+          "Variable group regex",
+          "Key",
+          "Operation type",
+          "Date"
+        ];
+        break;
+      case "key_vault_copies":
+        columns = [
+          "Original key vault",
+          "Destination key vault",
+          "User",
+          "Date"
+        ]
+        break;
+      default:
+        toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
     }
     setColumnList(columns);
   }, [entityType, setColumnList]);
@@ -52,7 +65,7 @@ export const ModificationsTable = () => {
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
         );
-      case "env_Variables":
+      case "env_variables":
         return (
           <tr key={v4()}>
             <td key={v4()}>{change.organization}</td>
@@ -64,6 +77,15 @@ export const ModificationsTable = () => {
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
         );
+      case "key_vault_copies":
+        return(
+          <tr key={v4()}>
+            <td key={v4()}>{change.originalKeyVault}</td>
+            <td key={v4()}>{change.destinationKeyVault}</td>
+            <td key={v4()}>{change.user}</td>
+            <td key={v4()}>{date.toUTCString()}</td>
+          </tr>
+        )
       default:
         toastErrorPopUp("Invalid record requesting!", "record_requesting", 1500);
     }
