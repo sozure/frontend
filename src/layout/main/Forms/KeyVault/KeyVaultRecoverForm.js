@@ -9,7 +9,7 @@ import {
   PaginationCounterContext,
   ProfileNameContext,
   SecretsContext,
-  SecretRegexContext,
+  SecretNameRegexContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
 import { sendListSecretRequest } from "../../../../services/SecretServices/SecretService";
@@ -23,7 +23,7 @@ const KeyVaultRecoverForm = () => {
   const { setSecrets } = useContext(SecretsContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
-  const { secretRegex } = useContext(SecretRegexContext);
+  const { secretRegex } = useContext(SecretNameRegexContext);
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);

@@ -9,8 +9,8 @@ import {
   MessageContext,
   LoadingContext,
   OnAddContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
@@ -41,8 +41,8 @@ const VariableGroupAddForm = () => {
   const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
   const { message, setMessage } = useContext(MessageContext);
-  const { newKey, setNewKey } = useContext(NewKeyContext);
-  const { newValue, setNewValue } = useContext(NewValueContext);
+  const { newKey, setNewKey } = useContext(VariableNewKeyContext);
+  const { newValue, setNewValue } = useContext(VariableNewValueContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);

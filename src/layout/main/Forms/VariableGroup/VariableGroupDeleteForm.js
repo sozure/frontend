@@ -11,7 +11,7 @@ import {
   VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   OnDeleteContext,
   LoadingContext,
   VariablesContext,
@@ -37,7 +37,7 @@ const VariableGroupDeleteForm = () => {
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);

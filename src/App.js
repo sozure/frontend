@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Main } from "./layout/main/Main";
 import {
   ActionTypeContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   KeyVaultNameContext,
   LoadingContext,
   MessageContext,
@@ -16,14 +16,14 @@ import {
   ProjectNameContext,
   ProjectsContext,
   SecretsContext,
-  SecretRegexContext,
+  SecretNameRegexContext,
   TableTypeContext,
   VGAuthorizedContext,
   VGNameRegexContext,
   VariableValueRegexContext,
   VariablesContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   TenantIdContext,
   ClientIdContext,
   ClientSecretContext,
@@ -171,13 +171,13 @@ function App() {
                     [vgRegex, setVgRegex]
                   )}
                 >
-                  <SecretRegexContext.Provider
+                  <SecretNameRegexContext.Provider
                     value={useMemo(
                       () => ({ secretRegex, setSecretRegex }),
                       [secretRegex, setSecretRegex]
                     )}
                   >
-                    <KeyRegexContext.Provider
+                    <VariableKeyRegexContext.Provider
                       value={useMemo(
                         () => ({ keyRegex, setKeyRegex }),
                         [keyRegex, setKeyRegex]
@@ -249,13 +249,13 @@ function App() {
                                             [vgAuthorized, setVgAuthorized]
                                           )}
                                         >
-                                          <NewKeyContext.Provider
+                                          <VariableNewKeyContext.Provider
                                             value={useMemo(
                                               () => ({ newKey, setNewKey }),
                                               [newKey, setNewKey]
                                             )}
                                           >
-                                            <NewValueContext.Provider
+                                            <VariableNewValueContext.Provider
                                               value={useMemo(
                                                 () => ({
                                                   newValue,
@@ -522,8 +522,8 @@ function App() {
                                                   </ClientSecretContext.Provider>
                                                 </ClientIdContext.Provider>
                                               </TenantIdContext.Provider>
-                                            </NewValueContext.Provider>
-                                          </NewKeyContext.Provider>
+                                            </VariableNewValueContext.Provider>
+                                          </VariableNewKeyContext.Provider>
                                         </VGAuthorizedContext.Provider>
                                       </ProjectsContext.Provider>
                                     </OrganizationContext.Provider>
@@ -534,8 +534,8 @@ function App() {
                           </OnUpdateContext.Provider>
                         </LoadingContext.Provider>
                       </VariablesContext.Provider>
-                    </KeyRegexContext.Provider>
-                  </SecretRegexContext.Provider>
+                    </VariableKeyRegexContext.Provider>
+                  </SecretNameRegexContext.Provider>
                 </VGNameRegexContext.Provider>
               </VariableValueRegexContext.Provider>
             </ProjectNameContext.Provider>

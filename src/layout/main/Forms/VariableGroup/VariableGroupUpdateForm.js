@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   KeyIsRegexContext,
-  NewValueContext,
+  VariableNewValueContext,
   OnUpdateContext,
   PaginationCounterContext,
   SingleModificationContext,
@@ -12,7 +12,7 @@ import {
   VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   LoadingContext,
   VariablesContext,
   VariableValueRegexContext,
@@ -38,9 +38,9 @@ const VariableGroupUpdateForm = () => {
   const { projectName } = useContext(ProjectNameContext);
   const { vgRegex } = useContext(VGNameRegexContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
   const { message, setMessage } = useContext(MessageContext);
-  const { newValue, setNewValue } = useContext(NewValueContext);
+  const { newValue, setNewValue } = useContext(VariableNewValueContext);
   const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);

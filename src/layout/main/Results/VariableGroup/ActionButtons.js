@@ -10,8 +10,8 @@ import {
   OnAddContext,
   OnUpdateContext,
   MessageContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   TableTypeContext,
   VariablesContext,
   ActionTypeContext,
@@ -30,8 +30,8 @@ const ActionButtons = () => {
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
   const { message } = useContext(MessageContext);
-  const { newKey } = useContext(NewKeyContext);
-  const { newValue } = useContext(NewValueContext);
+  const { newKey } = useContext(VariableNewKeyContext);
+  const { newValue } = useContext(VariableNewValueContext);
   const { valueRegex } = useContext(VariableValueRegexContext);
 
   const deleteVariables = async () => {

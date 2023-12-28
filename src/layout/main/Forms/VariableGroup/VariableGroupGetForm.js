@@ -10,7 +10,7 @@ import {
   VGNameRegexContext,
   OrganizationContext,
   MessageContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   VariablesContext,
   LoadingContext,
   KeyIsRegexContext,
@@ -44,7 +44,7 @@ const VariableGroupGetForm = () => {
   const { setVariables } = useContext(VariablesContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
-  const { keyRegex, setKeyRegex } = useContext(KeyRegexContext);
+  const { keyRegex, setKeyRegex } = useContext(VariableKeyRegexContext);
   const { valueRegex, setValueRegex } = useContext(VariableValueRegexContext);
   const { message, setMessage } = useContext(MessageContext);
   const [secretIncluded, setSecretIncluded] = useState(false);

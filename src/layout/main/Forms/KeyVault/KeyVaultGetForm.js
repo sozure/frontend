@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import {
   KeyVaultNameContext,
-  SecretRegexContext,
+  SecretNameRegexContext,
   LoadingContext,
   SecretsContext,
   TenantIdContext,
@@ -46,7 +46,7 @@ const KeyVaultGetForm = () => {
   const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const [deleted, setDeleted] = useState(false);
-  const { secretRegex } = useContext(SecretRegexContext);
+  const { secretRegex } = useContext(SecretNameRegexContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setSingleOperation } = useContext(SingleOperationContext);

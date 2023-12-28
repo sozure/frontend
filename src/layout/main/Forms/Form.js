@@ -5,11 +5,11 @@ import {
   ActionTypeContext,
   TableTypeContext,
   VGAuthorizedContext,
-  KeyRegexContext,
+  VariableKeyRegexContext,
   VariableValueRegexContext,
   VGNameRegexContext,
-  NewKeyContext,
-  NewValueContext,
+  VariableNewKeyContext,
+  VariableNewValueContext,
   KVAuthorizedContext,
   KeyVaultsContext,
   ProjectsContext,
@@ -34,11 +34,11 @@ function Form() {
   const { actionType } = useContext(ActionTypeContext);
   const { tableType } = useContext(TableTypeContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
-  const { setKeyRegex } = useContext(KeyRegexContext);
+  const { setKeyRegex } = useContext(VariableKeyRegexContext);
   const { setValueRegex } = useContext(VariableValueRegexContext);
   const { setVgRegex } = useContext(VGNameRegexContext);
-  const { setNewKey } = useContext(NewKeyContext);
-  const { setNewValue } = useContext(NewValueContext);
+  const { setNewKey } = useContext(VariableNewKeyContext);
+  const { setNewValue } = useContext(VariableNewValueContext);
   const { kvAuthorized } = useContext(KVAuthorizedContext);
   const { keyVaults } = useContext(KeyVaultsContext);
   const { projects } = useContext(ProjectsContext);
