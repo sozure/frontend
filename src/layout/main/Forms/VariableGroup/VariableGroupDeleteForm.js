@@ -18,7 +18,7 @@ import {
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 
@@ -42,7 +42,7 @@ const VariableGroupDeleteForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   VariableNewValueContext,
   OnUpdateContext,
   PaginationCounterContext,
@@ -45,7 +45,7 @@ const VariableGroupUpdateForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];

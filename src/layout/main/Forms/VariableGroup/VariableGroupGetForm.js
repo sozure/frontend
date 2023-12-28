@@ -13,7 +13,7 @@ import {
   VariableKeyRegexContext,
   VariablesContext,
   LoadingContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   ProfileNameContext,
 } from "../../../../contexts/Contexts";
 import "../../../../CSS/style.css";
@@ -51,7 +51,7 @@ const VariableGroupGetForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { keyIsRegex, setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { keyIsRegex, setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];

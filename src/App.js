@@ -32,7 +32,7 @@ import {
   SingleModificationContext,
   SingleOperationContext,
   LocalLoadingContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   VariableGroupsContext,
   ProfileNameContext,
   ChangesContext,
@@ -350,7 +350,7 @@ function App() {
                                                                 ]
                                                               )}
                                                             >
-                                                              <KeyIsRegexContext.Provider
+                                                              <VariableKeyIsRegexContext.Provider
                                                                 value={useMemo(
                                                                   () => ({
                                                                     keyIsRegex,
@@ -483,7 +483,7 @@ function App() {
                                                                     </ChangesContext.Provider>
                                                                   </ProfileNameContext.Provider>
                                                                 </VariableGroupsContext.Provider>
-                                                              </KeyIsRegexContext.Provider>
+                                                              </VariableKeyIsRegexContext.Provider>
                                                             </LocalLoadingContext.Provider>
                                                           </SingleOperationContext.Provider>
                                                         </SingleModificationContext.Provider>

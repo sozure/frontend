@@ -14,7 +14,7 @@ import {
   PaginationCounterContext,
   SingleOperationContext,
   SingleModificationContext,
-  KeyIsRegexContext,
+  VariableKeyIsRegexContext,
   VariableGroupsContext,
   VariablesContext,
   ProfileNameContext,
@@ -46,7 +46,7 @@ const VariableGroupAddForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(KeyIsRegexContext);
+  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
