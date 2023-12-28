@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { sendCopyRequest } from "../../../../services//SecretServices/SecretService";
-import { v4 } from "uuid";
 import {
   DestinationKeyVaultContext,
   OriginKeyVaultContext,
@@ -17,11 +16,7 @@ import {
   Box,
   Checkbox,
   FormGroup,
-  FormControlLabel,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  FormControlLabel
 } from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
@@ -30,6 +25,7 @@ import {
   checkRequiredInputs,
   toastErrorPopUp,
 } from "../../../../services/CommonService";
+import KeyVaultSelectMenu from "../../../KeyVaultSelectMenu";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -83,34 +79,20 @@ const KeyVaultCopyForm = () => {
 
   return (
     <div className="form">
-      <FormControl fullWidth>
-        <InputLabel>Select origin key vault</InputLabel>
-        <Select
-          label="Select origin key vault"
-          value={originKeyVault}
-          onChange={(event) => setOriginKeyVault(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => (
-            <MenuItem key={v4()} value={keyVault}>
-              {keyVault}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>{" "}
-      <FormControl fullWidth>
-        <InputLabel>Select destination key vault</InputLabel>
-        <Select
-          label="Select destination key vault"
-          value={destinationKeyVault}
-          onChange={(event) => setDestinationKeyVault(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => (
-            <MenuItem key={v4()} value={keyVault}>
-              {keyVault}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <KeyVaultSelectMenu
+        id={"origin"}
+        inputLabel={"Select origin key vault"}
+        keyVaults={keyVaults}
+        keyVaultName={originKeyVault}
+        setKeyVaultName={setOriginKeyVault}
+      />{" "}
+      <KeyVaultSelectMenu
+        id={"destination"}
+        inputLabel={"Select destination key vault"}
+        keyVaults={keyVaults}
+        keyVaultName={destinationKeyVault}
+        setKeyVaultName={setDestinationKeyVault}
+      />
       <FormGroup>
         <FormControlLabel
           control={
