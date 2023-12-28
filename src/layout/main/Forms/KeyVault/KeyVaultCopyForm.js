@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { sendCopyRequest } from "../../../../services//SecretServices/SecretService";
+import { v4 } from "uuid";
 import {
   DestinationKeyVaultContext,
   OriginKeyVaultContext,
@@ -8,6 +9,7 @@ import {
   ClientSecretContext,
   PaginationCounterContext,
   ProfileNameContext,
+  KeyVaultsContext,
 } from "../../../../contexts/Contexts";
 
 import {
@@ -16,12 +18,18 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
-  Input,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { checkRequiredInputs } from "../../../../services/CommonService";
+import {
+  checkRequiredInputs,
+  toastErrorPopUp,
+} from "../../../../services/CommonService";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -35,6 +43,7 @@ const KeyVaultCopyForm = () => {
   );
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { profileName } = useContext(ProfileNameContext);
+  const { keyVaults } = useContext(KeyVaultsContext);
 
   const [override, setOverride] = useState(false);
 
@@ -47,48 +56,61 @@ const KeyVaultCopyForm = () => {
   ];
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "copyform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "copy-form", 1500);
 
     if (!incorrectFill) {
-      let body = {
-        tenantId: tenantId,
-        clientId: clientId,
-        clientSecret: clientSecret,
-        userName: profileName,
-        fromKeyVault: originKeyVault,
-        toKeyVault: destinationKeyVault,
-        overrideSecret: override
-      };
-      await sendCopyRequest(body);
-      setPaginationCounter(0);
+      if (originKeyVault === destinationKeyVault) {
+        toastErrorPopUp(
+          "Origin key vault and destination key vault shouldn't be the same!",
+          "copy-form",
+          1500
+        );
+      } else {
+        let body = {
+          tenantId: tenantId,
+          clientId: clientId,
+          clientSecret: clientSecret,
+          userName: profileName,
+          fromKeyVault: originKeyVault,
+          toKeyVault: destinationKeyVault,
+          overrideSecret: override,
+        };
+        await sendCopyRequest(body);
+        setPaginationCounter(0);
+      }
     }
   };
 
   return (
     <div className="form">
-      <Input
-        fullWidth
-        type="text"
-        id="toKeyVaultName"
-        name="toKeyVaultName"
-        placeholder={"Name of origin key vault"}
-        value={originKeyVault}
-        onChange={(event) => setOriginKeyVault(event.target.value)}
-      />
-      <br />
-      <br />
-      <Input
-        fullWidth
-        type="text"
-        id="fromKeyVaultName"
-        name="fromKeyVaultName"
-        placeholder={"Name of destination key vault"}
-        value={destinationKeyVault}
-        onChange={(event) => setDestinationKeyVault(event.target.value)}
-      />
-      <br />
-      <br />
-
+      <FormControl fullWidth>
+        <InputLabel>Select origin key vault</InputLabel>
+        <Select
+          label="Select origin key vault"
+          value={originKeyVault}
+          onChange={(event) => setOriginKeyVault(event.target.value)}
+        >
+          {keyVaults.map((keyVault) => (
+            <MenuItem key={v4()} value={keyVault}>
+              {keyVault}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>{" "}
+      <FormControl fullWidth>
+        <InputLabel>Select destination key vault</InputLabel>
+        <Select
+          label="Select destination key vault"
+          value={destinationKeyVault}
+          onChange={(event) => setDestinationKeyVault(event.target.value)}
+        >
+          {keyVaults.map((keyVault) => (
+            <MenuItem key={v4()} value={keyVault}>
+              {keyVault}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <FormGroup>
         <FormControlLabel
           control={
@@ -102,7 +124,6 @@ const KeyVaultCopyForm = () => {
         ></FormControlLabel>
       </FormGroup>
       <br />
-
       <Box>
         <Button id="submit_button" onClick={send} variant="contained">
           Send request
