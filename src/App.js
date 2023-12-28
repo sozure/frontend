@@ -113,7 +113,7 @@ function App() {
   const [destinationKeyVault, setDestinationKeyVault] = useState("");
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
-  const [entityType, setEntityType] = useState("env_Variables");
+  const [entityType, setEntityType] = useState("env_variables");
 
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
