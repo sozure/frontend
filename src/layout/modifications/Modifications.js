@@ -7,6 +7,7 @@ import { PaginationCounterContext } from "../../contexts/Contexts";
 
 export const Modifications = () => {
   const [ changes, setChanges ] = useState([]);
+  const [ entityType, setEntityType ] = useState("env_variables");
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const navigate = useNavigate();
   return (
@@ -22,8 +23,8 @@ export const Modifications = () => {
       >
         Back to main
       </Button>
-      <ModificationsForm setChanges={setChanges}/>
-      <ModificationsTable changes={changes}/>
+      <ModificationsForm entityType={entityType} setEntityType={setEntityType} setChanges={setChanges}/>
+      <ModificationsTable entityType={entityType} changes={changes}/>
     </>
   );
 };

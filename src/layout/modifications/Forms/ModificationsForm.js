@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 
 import {
-  EntityRecordTypeContext,
   KeyVaultNameContext,
   LoadingContext,
   OrganizationContext,
@@ -32,7 +31,11 @@ import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
 
-export const ModificationsForm = ({ setChanges }) => {
+export const ModificationsForm = ({
+  entityType,
+  setEntityType,
+  setChanges,
+}) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(10);
@@ -43,7 +46,6 @@ export const ModificationsForm = ({ setChanges }) => {
   const { setLoading } = useContext(LoadingContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { keyVaultName } = useContext(KeyVaultNameContext);
-  const { entityType, setEntityType } = useContext(EntityRecordTypeContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [from, to, entityType];
@@ -220,5 +222,7 @@ export const ModificationsForm = ({ setChanges }) => {
 };
 
 ModificationsForm.propTypes = {
-  setChanges: PropTypes.func.isRequired
+  entityType: PropTypes.string.isRequired,
+  setEntityType: PropTypes.func.isRequired,
+  setChanges: PropTypes.func.isRequired,
 };

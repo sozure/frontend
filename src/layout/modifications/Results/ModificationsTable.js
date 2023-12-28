@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  EntityRecordTypeContext,
-  PaginationCounterContext,
-} from "../../../contexts/Contexts";
+import { PaginationCounterContext } from "../../../contexts/Contexts";
 import TableHeader from "../../main/Results/TableHeader";
 import { v4 } from "uuid";
 import PaginationButtons from "../../main/Results/PaginationButtons";
 import { toastErrorPopUp } from "../../../services/CommonService";
 
-export const ModificationsTable = ({ changes }) => {
+export const ModificationsTable = ({ entityType, changes }) => {
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { entityType } = useContext(EntityRecordTypeContext);
   const [columnList, setColumnList] = useState([]);
   const number = 10;
 
@@ -127,5 +123,6 @@ export const ModificationsTable = ({ changes }) => {
 };
 
 ModificationsTable.propTypes = {
-  changes: PropTypes.arrayOf(PropTypes.object).isRequired
+  entityType: PropTypes.string.isRequired,
+  changes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

@@ -39,7 +39,6 @@ import {
   KVAuthorizedContext,
   SubscriptionsContext,
   DefaultSubscriptionContext,
-  EntityRecordTypeContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -107,7 +106,6 @@ function App() {
   const [clientSecret, setClientSecret] = useState(envClientSecret);
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
-  const [entityType, setEntityType] = useState("env_variables");
 
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
@@ -432,36 +430,23 @@ function App() {
                                                                               ]
                                                                             )}
                                                                           >
-                                                                            <EntityRecordTypeContext.Provider
-                                                                              value={useMemo(
-                                                                                () => ({
-                                                                                  entityType,
-                                                                                  setEntityType,
-                                                                                }),
-                                                                                [
-                                                                                  entityType,
-                                                                                  setEntityType,
-                                                                                ]
-                                                                              )}
-                                                                            >
-                                                                              <Welcome />
-                                                                              <BrowserRouter>
-                                                                                <Routes>
-                                                                                  <Route
-                                                                                    path="/"
-                                                                                    element={
-                                                                                      <Main />
-                                                                                    }
-                                                                                  />
-                                                                                  <Route
-                                                                                    path="/changes"
-                                                                                    element={
-                                                                                      <Modifications />
-                                                                                    }
-                                                                                  />
-                                                                                </Routes>
-                                                                              </BrowserRouter>
-                                                                            </EntityRecordTypeContext.Provider>
+                                                                            <Welcome />
+                                                                            <BrowserRouter>
+                                                                              <Routes>
+                                                                                <Route
+                                                                                  path="/"
+                                                                                  element={
+                                                                                    <Main />
+                                                                                  }
+                                                                                />
+                                                                                <Route
+                                                                                  path="/changes"
+                                                                                  element={
+                                                                                    <Modifications />
+                                                                                  }
+                                                                                />
+                                                                              </Routes>
+                                                                            </BrowserRouter>
                                                                           </DefaultSubscriptionContext.Provider>
                                                                         </SubscriptionsContext.Provider>
                                                                       </KVAuthorizedContext.Provider>
