@@ -29,6 +29,8 @@ import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
 import AuthorizedSection from "./Authorize/AuthorizedSection";
+import { toastErrorPopUp } from "../../../services/CommonService";
+import SyncForm from "./Sync/SyncForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -63,7 +65,7 @@ function Form() {
   useEffect(() => {
     setSecrets([]);
     setVariables([]);
-  }, [actionType, tableType, setSecrets, setVariables])
+  }, [actionType, tableType, setSecrets, setVariables]);
 
   const getKeyVaultForm = () => {
     if (!kvAuthorized || keyVaults.length === 0) {
@@ -136,10 +138,36 @@ function Form() {
         );
     }
   };
+
+  const getSyncForm = () => {
+    if (!vgAuthorized || projects.length === 0) {
+      return <VGAuthorizeForm />;
+    }
+    return (
+      <>
+        <AuthorizedSection />
+        <SyncForm />
+      </>
+    );
+  };
+
+  const getForm = () => {
+    switch (tableType) {
+      case "KV":
+        return getKeyVaultForm();
+      case "VG":
+        return getVGForm();
+      case "Sync":
+        return getSyncForm();
+      default:
+        toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
+    }
+  };
+
   return (
     <div>
       <MainSelects />
-      {tableType === "KV" ? getKeyVaultForm() : getVGForm()}
+      {getForm()}
     </div>
   );
 }
