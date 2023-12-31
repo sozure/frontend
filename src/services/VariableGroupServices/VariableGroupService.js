@@ -51,7 +51,7 @@ const sendListRequest = async (
           ? res.data.variableGroups
           : res.data.variables;
       callbackForLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(variableGroups);
       } else {
         toastErrorPopUp(
@@ -79,7 +79,7 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
       callbackForLoading(false);
       callback(false);
       let statusMessage = getResponseMessage(status);
-      if (status === 0 || status === 1) {
+      if (status === 1 || status === 2) {
         callbackForDataSaving(variableGroups);
         toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
       } else {

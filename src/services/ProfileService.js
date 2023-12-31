@@ -15,12 +15,12 @@ const getProfile = async (organizationName, PAT, setProfileName, setAuthorized, 
       let status = res.data.status;
       let profile = res.data.profile;
       setLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         setProfileName(profile.displayName);
       } else {
         toastErrorPopUp(getResponseMessage(status), "profile_requesting", 1500);
       }
-      setAuthorized(status === 0);
+      setAuthorized(status === 1);
     })
     .catch((err) => {
       handleError2(err);

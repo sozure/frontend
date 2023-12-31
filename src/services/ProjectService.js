@@ -27,14 +27,14 @@ const getProjects = async (
         project.subscriptionIds.forEach(subscriptionId => subscriptions.push(subscriptionId))
       });
       setLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         setResult(projects);
         setProjectName(projects[0].name);
         setSubscriptions(subscriptions);
       } else {
         toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
       }
-      setAuthorized(status === 0);
+      setAuthorized(status === 1);
     })
     .catch((err) => {
       handleError2(err);

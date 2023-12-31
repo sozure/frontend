@@ -41,7 +41,7 @@ const sendListKeyVaultsRequest = async (
       let status = res.data.status;
       let keyVaults = res.data.keyVaults;
       callbackForLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForAuth(true);
         callbackForDataSaving(keyVaults);
         setDefaultSubscription(res.data.subscriptionId);
@@ -77,7 +77,7 @@ const sendListSecretRequest = async (
       let status = res.data.status;
       let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
       callbackForLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(secrets);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
@@ -95,7 +95,7 @@ const sendCopyRequest = async (body) => {
     .then((res) => {
       let status = res.data;
       let statusMessage = getResponseMessage(status);
-      if(status === 0){
+      if(status === 1){
         toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
       } else {
         toastErrorPopUp(statusMessage, "secret_requesting", 1500);
@@ -137,7 +137,7 @@ const sendRequest = async (
       let secrets = res.data.deletedSecrets;
       callbackForLoading(false);
       callbackForOnSet(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(secrets);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);

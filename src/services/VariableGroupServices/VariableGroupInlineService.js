@@ -22,13 +22,13 @@ const sendRequest = async (
       let result = {
         row: row,
         modificationHappened: true,
-        success: status === 0 || status === 1,
+        success: status === 1 || status === 2,
         response: message,
         operation: controllerSegment,
       };
       setSingleOperation(result);
 
-      if (status === 0 || status === 1) {
+      if (status === 1 || status === 2) {
         if (controllerSegment === "DeleteInline") {
           variableGroups.splice(row, 1);
         } else {
