@@ -39,6 +39,7 @@ import {
   KVAuthorizedContext,
   SubscriptionsContext,
   DefaultSubscriptionContext,
+  VariablesSyncContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -106,7 +107,7 @@ function App() {
   const [clientSecret, setClientSecret] = useState(envClientSecret);
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
-
+  const [syncVariables, setSyncVariables] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",
@@ -430,23 +431,36 @@ function App() {
                                                                               ]
                                                                             )}
                                                                           >
-                                                                            <Welcome />
-                                                                            <BrowserRouter>
-                                                                              <Routes>
-                                                                                <Route
-                                                                                  path="/"
-                                                                                  element={
-                                                                                    <Main />
-                                                                                  }
-                                                                                />
-                                                                                <Route
-                                                                                  path="/changes"
-                                                                                  element={
-                                                                                    <Modifications />
-                                                                                  }
-                                                                                />
-                                                                              </Routes>
-                                                                            </BrowserRouter>
+                                                                            <VariablesSyncContext.Provider
+                                                                              value={useMemo(
+                                                                                () => ({
+                                                                                  syncVariables,
+                                                                                  setSyncVariables,
+                                                                                }),
+                                                                                [
+                                                                                  syncVariables,
+                                                                                  setSyncVariables,
+                                                                                ]
+                                                                              )}
+                                                                            >
+                                                                              <Welcome />
+                                                                              <BrowserRouter>
+                                                                                <Routes>
+                                                                                  <Route
+                                                                                    path="/"
+                                                                                    element={
+                                                                                      <Main />
+                                                                                    }
+                                                                                  />
+                                                                                  <Route
+                                                                                    path="/changes"
+                                                                                    element={
+                                                                                      <Modifications />
+                                                                                    }
+                                                                                  />
+                                                                                </Routes>
+                                                                              </BrowserRouter>
+                                                                            </VariablesSyncContext.Provider>
                                                                           </DefaultSubscriptionContext.Provider>
                                                                         </SubscriptionsContext.Provider>
                                                                       </KVAuthorizedContext.Provider>

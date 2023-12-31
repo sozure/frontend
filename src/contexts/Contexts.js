@@ -36,3 +36,4 @@ export const ProfileNameContext = createContext();
 export const KeyVaultsContext = createContext();
 export const SubscriptionsContext = createContext();
 export const DefaultSubscriptionContext = createContext();
+export const VariablesSyncContext = createContext();
