@@ -15,6 +15,7 @@ import {
   ProjectsContext,
   SecretsContext,
   VariablesContext,
+  VariablesSyncContext,
 } from "../../../contexts/Contexts";
 
 import KeyVaultGetForm from "./KeyVault/KeyVaultGetForm";
@@ -46,6 +47,7 @@ function Form() {
   const { projects } = useContext(ProjectsContext);
   const { setSecrets } = useContext(SecretsContext);
   const { setVariables } = useContext(VariablesContext);
+  const { setSyncVariables } = useContext(VariablesSyncContext);
 
   useEffect(() => {
     setKeyRegex("");
@@ -65,7 +67,8 @@ function Form() {
   useEffect(() => {
     setSecrets([]);
     setVariables([]);
-  }, [actionType, tableType, setSecrets, setVariables]);
+    setSyncVariables([]);
+  }, [actionType, tableType, setSecrets, setVariables, setSyncVariables]);
 
   const getKeyVaultForm = () => {
     if (!kvAuthorized || keyVaults.length === 0) {

@@ -40,6 +40,7 @@ import {
   SubscriptionsContext,
   DefaultSubscriptionContext,
   VariablesSyncContext,
+  ContainingVGsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -97,6 +98,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [keyVaults, setKeyVaults] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
+  const [containingVGs, setContainingVGs] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
@@ -443,23 +445,36 @@ function App() {
                                                                                 ]
                                                                               )}
                                                                             >
-                                                                              <Welcome />
-                                                                              <BrowserRouter>
-                                                                                <Routes>
-                                                                                  <Route
-                                                                                    path="/"
-                                                                                    element={
-                                                                                      <Main />
-                                                                                    }
-                                                                                  />
-                                                                                  <Route
-                                                                                    path="/changes"
-                                                                                    element={
-                                                                                      <Modifications />
-                                                                                    }
-                                                                                  />
-                                                                                </Routes>
-                                                                              </BrowserRouter>
+                                                                              <ContainingVGsContext.Provider
+                                                                                value={useMemo(
+                                                                                  () => ({
+                                                                                    containingVGs,
+                                                                                    setContainingVGs,
+                                                                                  }),
+                                                                                  [
+                                                                                    containingVGs,
+                                                                                    setContainingVGs,
+                                                                                  ]
+                                                                                )}
+                                                                              >
+                                                                                <Welcome />
+                                                                                <BrowserRouter>
+                                                                                  <Routes>
+                                                                                    <Route
+                                                                                      path="/"
+                                                                                      element={
+                                                                                        <Main />
+                                                                                      }
+                                                                                    />
+                                                                                    <Route
+                                                                                      path="/changes"
+                                                                                      element={
+                                                                                        <Modifications />
+                                                                                      }
+                                                                                    />
+                                                                                  </Routes>
+                                                                                </BrowserRouter>
+                                                                              </ContainingVGsContext.Provider>
                                                                             </VariablesSyncContext.Provider>
                                                                           </DefaultSubscriptionContext.Provider>
                                                                         </SubscriptionsContext.Provider>

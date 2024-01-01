@@ -14,7 +14,6 @@ import {
   PATContext,
   PaginationCounterContext,
   ProjectNameContext,
-  ProjectsContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 import {
@@ -23,6 +22,7 @@ import {
 } from "../../../../services/GitRepositoryService";
 import { v4 } from "uuid";
 import { getBranches } from "../../../../services/GitBranchService";
+import ProjectSelectMenu from "../../../ProjectSelectMenu";
 
 const getRepositoryId = (repositories, repository) => {
   let gitRepositoryId = "";
@@ -35,7 +35,6 @@ const getRepositoryId = (repositories, repository) => {
 };
 
 const SyncForm = () => {
-  const { projects } = useContext(ProjectsContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
@@ -51,14 +50,16 @@ const SyncForm = () => {
   const [actualBranch, setActualBranch] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    getRepositories(
-      organizationName,
-      projectName,
-      pat,
-      setLoading,
-      setRepositories
-    );
+    if (projectName !== "") {
+      setLoading(true);
+      getRepositories(
+        organizationName,
+        projectName,
+        pat,
+        setLoading,
+        setRepositories
+      );
+    }
   }, [
     organizationName,
     projectName,
@@ -69,15 +70,24 @@ const SyncForm = () => {
   ]);
 
   useEffect(() => {
-    let gitRepositoryId = getRepositoryId(repositories, repository);
-    getBranches(
-      organizationName,
-      gitRepositoryId,
-      pat,
-      setLoading,
-      setBranches
-    );
-  }, [repository, organizationName, pat, setLoading, setBranches, repositories]);
+    if (repository !== "") {
+      let gitRepositoryId = getRepositoryId(repositories, repository);
+      getBranches(
+        organizationName,
+        gitRepositoryId,
+        pat,
+        setLoading,
+        setBranches
+      );
+    }
+  }, [
+    repository,
+    organizationName,
+    pat,
+    setLoading,
+    setBranches,
+    repositories,
+  ]);
 
   const send = async () => {
     setPaginationCounter(0);
@@ -94,27 +104,14 @@ const SyncForm = () => {
     };
     await getVariables(body, setLoading, setSyncVariables);
   };
-  
+
   return (
     <div className="form">
-      <FormControl fullWidth>
-        <InputLabel>Select project name</InputLabel>
-        <Select
-          id="projectName"
-          value={projectName}
-          label="Select project name"
-          onChange={(event) => setProjectName(event.target.value)}
-        >
-          {projects.map((project) => {
-            let selectedProjectName = project.name;
-            return (
-              <MenuItem value={selectedProjectName} key={selectedProjectName}>
-                {selectedProjectName}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>{" "}
+      <ProjectSelectMenu
+        allOption={false}
+        projectName={projectName}
+        setProjectName={setProjectName}
+      />{" "}
       {repositories.length > 0 ? (
         <>
           <FormControl fullWidth>

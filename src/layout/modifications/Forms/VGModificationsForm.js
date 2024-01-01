@@ -1,18 +1,11 @@
 import React from "react";
 import CommonFormElements from "./CommonFormElements";
 import PropTypes from "prop-types";
-
-import {
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-  } from "@mui/material";
+import ProjectSelectMenu from "../../ProjectSelectMenu";
 
 export const VGModificationsForm = ({
     setProjectName,
     projectName,
-    projects,
     setUserName,
     userName,
     setSelectedLimit,
@@ -24,21 +17,7 @@ export const VGModificationsForm = ({
   }) => {
   return (
     <>
-      <FormControl fullWidth>
-        <InputLabel>Select Azure project</InputLabel>
-        <Select
-          id="project"
-          value={projectName}
-          label="Select Azure project"
-          onChange={(event) => setProjectName(event.target.value)}
-        >
-          {projects.map((project) => (
-            <MenuItem value={project.name} key={project.name}>
-              {project.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <ProjectSelectMenu allOption={true} projectName={projectName} setProjectName={setProjectName}/>
       <CommonFormElements
         setUserName={setUserName}
         userName={userName}

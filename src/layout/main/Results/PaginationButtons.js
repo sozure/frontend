@@ -78,7 +78,7 @@ const PaginationButtons = ({ collection }) => {
 };
 
 PaginationButtons.propTypes = {
-  collection: PropTypes.arrayOf(PropTypes.object).isRequired,
+  collection: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default PaginationButtons;

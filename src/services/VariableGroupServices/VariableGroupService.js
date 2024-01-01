@@ -31,6 +31,43 @@ const sendListVariableGroupsRequest = async (
   );
 };
 
+const sendSyncListVariableGroupsRequest = async (
+  message,
+  valueRegex,
+  setContainingVGs
+) => {
+  let callbackForLoading = message["setLoading"];
+  let actualResults = message["containingVGs"];
+  console.log(actualResults);
+  let index = message["index"];
+  let url = `${variableGroupUrl}/GetVariableGroups`;
+  callbackForLoading(true);
+  let body = buildRequestBody(message);
+  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
+  body["containsKey"] = message["containsKey"];
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let variableGroups = res.data.variableGroups;
+      callbackForLoading(false);
+      if (status === 1) {
+        actualResults.push({ index: index, key: message["keyRegex"], result: variableGroups });
+        console.log(actualResults);
+        setContainingVGs(actualResults);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variable_requesting",
+          1500
+        );
+      }
+    })
+    .catch((err) => {
+      handleError(callbackForLoading, err);
+    });
+};
+
 const sendListRequest = async (
   message,
   valueRegex,
@@ -130,6 +167,7 @@ const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
 export {
   sendListVariablesRequest,
   sendListVariableGroupsRequest,
+  sendSyncListVariableGroupsRequest,
   sendAddRequest,
   sendDeleteRequest,
   sendUpdateRequest,
