@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { v4 } from "uuid";
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { ProjectsContext } from "../contexts/Contexts";
@@ -9,7 +10,7 @@ const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
     <FormControl fullWidth>
       <InputLabel>Select Azure project</InputLabel>
       <Select
-        id="project"
+        id={`project-${v4()}`}
         value={projectName}
         label="Select Azure project"
         onChange={(event) => setProjectName(event.target.value)}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import TableHeader from "../TableHeader";
 import {
   VGAuthorizedContext,
@@ -12,10 +12,7 @@ const SyncTable = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
 
-  const [tableHeader, setTableHeader] = useState([
-    "Variable",
-    "Containing variable groups",
-  ]);
+  const tableHeader = ["Variable", "Containing variable groups"];
 
   const getTable = () => {
     if (

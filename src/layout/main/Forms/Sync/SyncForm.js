@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  ContainingVGsContext,
+  ContainingVGsProjectContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -41,11 +43,16 @@ const SyncForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { setSyncVariables } = useContext(VariablesSyncContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setContainingVGs } = useContext(ContainingVGsContext);
+  const { setContainingVGsProject } = useContext(
+    ContainingVGsProjectContext
+  );
+
   const [repositories, setRepositories] = useState([]);
-  const [repository, setRepository] = useState("");
-  const [delimiter, setDelimiter] = useState("");
-  const [exceptions, setExceptions] = useState("");
-  const [filePath, setFilePath] = useState("");
+  const [repository, setRepository] = useState('');
+  const [delimiter, setDelimiter] = useState('');
+  const [exceptions, setExceptions] = useState('');
+  const [filePath, setFilePath] = useState('');
   const [branches, setBranches] = useState([]);
   const [actualBranch, setActualBranch] = useState([]);
 
@@ -91,6 +98,8 @@ const SyncForm = () => {
 
   const send = async () => {
     setPaginationCounter(0);
+    await setContainingVGs([]);
+    setContainingVGsProject('');
     let gitRepositoryId = getRepositoryId(repositories, repository);
     let body = {
       organization: organizationName,
@@ -126,7 +135,7 @@ const SyncForm = () => {
                 let selectedRepoName = repo.repositoryName;
                 return (
                   <MenuItem value={selectedRepoName} key={v4()}>
-                    {selectedRepoName}
+                    {selectedRepoName.length > 25? selectedRepoName.slice(0, 25) + "...": selectedRepoName}
                   </MenuItem>
                 );
               })}
@@ -143,7 +152,7 @@ const SyncForm = () => {
               {branches.map((branch) => {
                 return (
                   <MenuItem value={branch} key={v4()}>
-                    {branch}
+                    {branch.length > 25 ? branch.slice(0, 25) + "...": branch}
                   </MenuItem>
                 );
               })}
