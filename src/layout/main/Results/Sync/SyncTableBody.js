@@ -13,6 +13,7 @@ import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { sendSyncListVariableGroupsRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import SyncTableBodyInput from "./SyncTableBodyInput";
+import { toastErrorPopUp } from "../../../../services/CommonService";
 
 const SyncTableBody = () => {
   const { paginationCounter } = useContext(PaginationCounterContext);
@@ -31,42 +32,50 @@ const SyncTableBody = () => {
 
   const changeSync = async (variableToBeReplaced) => {
     let syncResult = [];
-    let value = document.getElementById(
+    let newKey = document.getElementById(
       `inline-var-${variableToBeReplaced}`
     ).value;
-    syncVariables.forEach((variable) => {
-      if (variable === variableToBeReplaced) {
-        syncResult.push(value);
-      } else {
-        syncResult.push(variable);
-      }
-    });
-    setSyncVariables(syncResult);
-    let counter = 0;
-    let result = [];
-    setNewVariableKey(value);
+    if (syncVariables.includes(newKey)) {
+      toastErrorPopUp(
+        "New key is already in variables list!",
+        "key-update",
+        1500
+      );
+    } else {
+      syncVariables.forEach((variable) => {
+        if (variable === variableToBeReplaced) {
+          syncResult.push(newKey);
+        } else {
+          syncResult.push(variable);
+        }
+      });
+      setSyncVariables(syncResult);
+      let counter = 0;
+      let result = [];
+      setNewVariableKey(newKey);
+      syncResult.forEach(async (variable) => {
+        let body = {
+          projectName: containingVGsProject,
+          pat: pat,
+          userName: profileName,
+          vgRegex: ".*",
+          keyRegex: variable,
+          organizationName: organizationName,
+          setLoading: setLocalLoading,
+          containingVGs: result,
+          index: counter,
+          secretIncluded: true,
+          containsKey: true,
+        };
+        counter++;
+        await sendSyncListVariableGroupsRequest(body, true, "");
+      });
+      setTimeout(() => {
+        setLocalLoading(false);
+        setContainingVGs(result);
+      }, 2000);
+    }
     setModification({});
-    syncResult.forEach(async (variable) => {
-      let body = {
-        projectName: containingVGsProject,
-        pat: pat,
-        userName: profileName,
-        vgRegex: ".*",
-        keyRegex: variable,
-        organizationName: organizationName,
-        setLoading: setLocalLoading,
-        containingVGs: result,
-        index: counter,
-        secretIncluded: true,
-        containsKey: true,
-      };
-      counter++;
-      await sendSyncListVariableGroupsRequest(body, true, "");
-    });
-    setTimeout(() => {
-      setLocalLoading(false);
-      setContainingVGs(result);
-    }, 2000);
   };
 
   return (
@@ -77,7 +86,7 @@ const SyncTableBody = () => {
           return (
             <tr key={v4()}>
               <td key={v4()}>
-                {localLoading && variable === newVariableKey? (
+                {localLoading && variable === newVariableKey ? (
                   <>{newVariableKey}</>
                 ) : modification.modification &&
                   modification.variable === variable ? (

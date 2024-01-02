@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SyncTableBodyInput = ({ key, variable }) => {
+const SyncTableBodyInput = ({ variable }) => {
   const [newVariableName, setNewVariableName] = useState(variable);
 
   return (
