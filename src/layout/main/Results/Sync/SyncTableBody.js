@@ -96,7 +96,7 @@ const SyncTableBody = () => {
                 )}
               </td>
               <td key={v4()}>
-                {localLoading && variable === newVariableKey ? (
+                {containingVGsProject === "" ? <>-</> : localLoading && variable === newVariableKey ? (
                   <span>Loading...</span>
                 ) : modification.modification &&
                   modification.variable === variable ? (
@@ -124,7 +124,7 @@ const SyncTableBody = () => {
                 )}
               </td>
               <td key={v4()}>
-                {containingVGs.length === 0 ? (
+                {containingVGsProject === "" ? (
                   <p>-</p>
                 ) : (
                   <ContainingVGSelectMenu variableName={variable} />

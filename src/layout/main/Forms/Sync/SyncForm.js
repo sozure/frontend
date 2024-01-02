@@ -44,8 +44,8 @@ const SyncForm = () => {
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
-  const [delimiter, setDelimiter] = useState("");
-  const [exceptions, setExceptions] = useState("");
+  const [separator, setSeparator] = useState(process.env.REACT_APP_SEPARATOR);
+  const [exceptions, setExceptions] = useState(process.env.REACT_APP_CONFIG_EXCEPTION);
   const [filePath, setFilePath] = useState("");
   const [branches, setBranches] = useState([]);
   const [actualBranch, setActualBranch] = useState([]);
@@ -108,7 +108,7 @@ const SyncForm = () => {
       branch: actualBranch,
       gitRepositoryId: gitRepositoryId,
       filePath: filePath,
-      delimiter: delimiter,
+      delimiter: separator,
       exceptions: exceptions.split(","),
     };
     await getVariables(body, setLoading, setSyncVariables);
@@ -151,11 +151,11 @@ const SyncForm = () => {
           <Input
             fullWidth
             type="text"
-            id="delimiter"
-            name="delimiter"
-            placeholder="Variable's delimiter"
-            value={delimiter}
-            onChange={(event) => setDelimiter(event.target.value)}
+            id="separator"
+            name="separator"
+            placeholder="Variable's separator"
+            value={separator}
+            onChange={(event) => setSeparator(event.target.value)}
           />
           <Input
             fullWidth
