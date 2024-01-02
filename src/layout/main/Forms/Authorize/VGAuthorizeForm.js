@@ -20,8 +20,7 @@ import { CommonAuthorizeFormElements } from "./CommonAuthorizeFormElements";
 
 const VGAuthorizeForm = () => {
   const { pat } = useContext(PATContext);
-  const { organizationName } =
-    useContext(OrganizationContext);
+  const { organizationName } = useContext(OrganizationContext);
   const { setProjects } = useContext(ProjectsContext);
   const { setProjectName } = useContext(ProjectNameContext);
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
@@ -38,30 +37,33 @@ const VGAuthorizeForm = () => {
       1500
     );
     if (!incorrectFill) {
+      let statuses = [];
       setLoading(true);
       await getProjects(
         organizationName,
         pat,
         setProjects,
-        setVgAuthorized,
         setProjectName,
         setSubscriptions,
-        setLoading
+        statuses
       );
-      setLoading(true);
-      await getProfile(
-        organizationName,
-        pat,
-        setProfileName,
-        setVgAuthorized,
-        setLoading
-      );
+      await getProfile(organizationName, pat, setProfileName, statuses);
+      setTimeout(() => {
+        let counter = 0;
+        statuses.forEach((status) => {
+          if (status === 1) {
+            counter++;
+          }
+        });
+        setVgAuthorized(statuses.length === counter);
+        setLoading(false);
+      }, 2000);
     }
   };
 
   return (
     <div className="form">
-      <CommonAuthorizeFormElements/>
+      <CommonAuthorizeFormElements />
       <Button variant="contained" id="project_button" onClick={auth}>
         Authorize
       </Button>

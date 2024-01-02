@@ -36,46 +36,48 @@ const KVAuthorizeForm = () => {
   const { setProjectName } = useContext(ProjectNameContext);
   const { profileName, setProfileName } = useContext(ProfileNameContext);
   const { setSubscriptions } = useContext(SubscriptionsContext);
-  const { setDefaultSubscription } = useContext(DefaultSubscriptionContext);
+  const { setDefaultSubscription } = useContext(
+    DefaultSubscriptionContext
+  );
 
   const mandatoryFields = [tenantId, clientId, clientSecret];
 
   const auth = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
     if (!incorrectFill) {
+      let statuses = [];
+      setLoading(true);
       await getProjects(
         organizationName,
         pat,
         setProjects,
-        setKvAuthorized,
         setProjectName,
         setSubscriptions,
-        setLoading
+        statuses
       );
-      setLoading(true);
-      setKvAuthorized(false);
-      await getProfile(
-        organizationName,
-        pat,
-        setProfileName,
-        setKvAuthorized,
-        setLoading
-      );
-      setLoading(true);
-      setKvAuthorized(false);
+      await getProfile(organizationName, pat, setProfileName, statuses);
       let message = {
         tenantId: tenantId,
         clientId: clientId,
         clientSecret: clientSecret,
-        userName: profileName === ""? "empty" : profileName,
+        userName: profileName === "" ? "empty" : profileName,
       };
       await sendListKeyVaultsRequest(
         message,
-        setLoading,
         setKeyVaults,
         setDefaultSubscription,
-        setKvAuthorized
+        statuses
       );
+      setTimeout(() => {
+        let counter = 0;
+        statuses.forEach((status) => {
+          if (status === 1) {
+            counter++;
+          }
+        });
+        setKvAuthorized(statuses.length === counter);
+        setLoading(false);
+      }, 2000);
     }
   };
   return (

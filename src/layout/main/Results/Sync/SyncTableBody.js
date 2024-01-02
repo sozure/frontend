@@ -17,7 +17,7 @@ import { toastErrorPopUp } from "../../../../services/CommonService";
 
 const SyncTableBody = () => {
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
+  const { setContainingVGs } = useContext(ContainingVGsContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
   const { pat } = useContext(PATContext);
   const { organizationName } = useContext(OrganizationContext);

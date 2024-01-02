@@ -28,29 +28,27 @@ const sendDeleteSecretRequest = async (
 
 const sendListKeyVaultsRequest = async (
   body,
-  callbackForLoading,
   callbackForDataSaving,
   setDefaultSubscription,
-  callbackForAuth
+  statusList
 ) => {
   let url = `${secretUrl}/getkeyvaults`;
-  callbackForLoading(true);
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let keyVaults = res.data.keyVaults;
-      callbackForLoading(false);
       if (status === 1) {
-        callbackForAuth(true);
         callbackForDataSaving(keyVaults);
         setDefaultSubscription(res.data.subscriptionId);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
+      statusList.push(status);
     })
     .catch((err) => {
-      handleError(callbackForLoading, err);
+      handleError2(err);
+      statusList.push(-1);
     });
 };
 

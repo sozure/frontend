@@ -1,5 +1,10 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
+import {
+  getBaseUrl,
+  handleError2,
+  getResponseMessage,
+  toastErrorPopUp,
+} from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/project`;
 
@@ -7,10 +12,9 @@ const getProjects = async (
   organizationName,
   PAT,
   setResult,
-  setAuthorized,
   setProjectName,
   setSubscriptions,
-  setLoading
+  statusList
 ) => {
   const url = `${baseUrl}/get`;
   const body = {
@@ -23,10 +27,11 @@ const getProjects = async (
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.projects;
-      projects.forEach(project => {
-        project.subscriptionIds.forEach(subscriptionId => subscriptions.push(subscriptionId))
+      projects.forEach((project) => {
+        project.subscriptionIds.forEach((subscriptionId) =>
+          subscriptions.push(subscriptionId)
+        );
       });
-      setLoading(false);
       if (status === 1) {
         setResult(projects);
         setProjectName(projects[0].name);
@@ -34,11 +39,11 @@ const getProjects = async (
       } else {
         toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
       }
-      setAuthorized(status === 1);
+      statusList.push(status);
     })
     .catch((err) => {
       handleError2(err);
-      setLoading(false);
+      statusList.push(-1);
     });
 };
 
