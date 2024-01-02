@@ -12,7 +12,7 @@ const SyncTable = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
 
-  const tableHeader = ["Variable", "Containing variable groups"];
+  const tableHeader = ["Variable", "Modify variable", "Containing variable groups"];
 
   const getTable = () => {
     if (
