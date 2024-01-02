@@ -33,13 +33,16 @@ const sendListVariableGroupsRequest = async (
 
 const sendSyncListVariableGroupsRequest = async (
   message,
+  loadingIsNeeded,
   valueRegex
 ) => {
   let callbackForLoading = message["setLoading"];
   let actualResults = message["containingVGs"];
   let index = message["index"];
   let url = `${variableGroupUrl}/GetVariableGroups`;
-  callbackForLoading(true);
+  if (loadingIsNeeded) {
+    callbackForLoading(true);
+  }
   let body = buildRequestBody(message);
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   body["containsKey"] = message["containsKey"];
@@ -49,7 +52,11 @@ const sendSyncListVariableGroupsRequest = async (
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       if (status === 1) {
-        actualResults.push({ index: index, key: message["keyRegex"], result: variableGroups });
+        actualResults.push({
+          index: index,
+          key: message["keyRegex"],
+          result: variableGroups,
+        });
       } else {
         toastErrorPopUp(
           getResponseMessage(status),

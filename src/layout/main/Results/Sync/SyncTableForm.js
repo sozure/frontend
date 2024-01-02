@@ -53,7 +53,7 @@ const SyncTableForm = () => {
               containsKey: true,
             };
             counter++;
-            await sendSyncListVariableGroupsRequest(body, "");
+            await sendSyncListVariableGroupsRequest(body, true, "");
           });
           setTimeout(() => {
             setContainingVGs(result);
