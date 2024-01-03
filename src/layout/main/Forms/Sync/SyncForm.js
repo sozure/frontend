@@ -95,6 +95,18 @@ const SyncForm = () => {
     repositories,
   ]);
 
+  useEffect(() => {
+    setSyncVariables([]);
+  }, [
+    setSyncVariables,
+    projectName,
+    repository,
+    actualBranch,
+    filePath,
+    separator,
+    exceptions,
+  ]);
+
   const send = async () => {
     setPaginationCounter(0);
     await setContainingVGs([]);
@@ -187,7 +199,7 @@ const SyncForm = () => {
                       onClick={send}
                       variant="contained"
                     >
-                      Send request
+                      Get variables from config
                     </Button>
                   </Box>
                 ) : (
@@ -209,9 +221,9 @@ const SyncForm = () => {
       separator !== "" &&
       exceptions !== "" &&
       filePath !== "" &&
-      (syncVariables !== null &&
-        syncVariables !== undefined &&
-        syncVariables.length !== 0) ? (
+      syncVariables !== null &&
+      syncVariables !== undefined &&
+      syncVariables.length !== 0 ? (
         <SyncTableForm />
       ) : (
         <></>
