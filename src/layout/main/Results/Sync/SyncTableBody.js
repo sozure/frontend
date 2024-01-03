@@ -62,18 +62,13 @@ const SyncTableBody = () => {
           keyRegex: variable,
           organizationName: organizationName,
           setLoading: setLocalLoading,
-          containingVGs: result,
           index: counter,
           secretIncluded: true,
           containsKey: true,
         };
         counter++;
-        await sendSyncListVariableGroupsRequest(body, true, "");
+        await sendSyncListVariableGroupsRequest(body, result, true, "", syncVariables.length, setContainingVGs);
       });
-      setTimeout(() => {
-        setLocalLoading(false);
-        setContainingVGs(result);
-      }, 2000);
     }
     setModification({});
   };
@@ -96,7 +91,9 @@ const SyncTableBody = () => {
                 )}
               </td>
               <td key={v4()}>
-                {containingVGsProject === "" ? <>-</> : localLoading && variable === newVariableKey ? (
+                {containingVGsProject === "" ? (
+                  <>-</>
+                ) : localLoading && variable === newVariableKey ? (
                   <span>Loading...</span>
                 ) : modification.modification &&
                   modification.variable === variable ? (

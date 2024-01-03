@@ -48,14 +48,14 @@ const VGAuthorizeForm = () => {
         statuses
       );
       await getProfile(organizationName, pat, setProfileName, statuses);
+      let counter = 0;
+      statuses.forEach((status) => {
+        if (status === 1) {
+          counter++;
+        }
+      });
+      setVgAuthorized(statuses.length === counter);
       setTimeout(() => {
-        let counter = 0;
-        statuses.forEach((status) => {
-          if (status === 1) {
-            counter++;
-          }
-        });
-        setVgAuthorized(statuses.length === counter);
         setLoading(false);
       }, 2000);
     }
