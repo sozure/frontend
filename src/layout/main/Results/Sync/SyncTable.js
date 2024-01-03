@@ -24,7 +24,6 @@ const SyncTable = () => {
     } else {
       return (
         <>
-          <SyncTableForm />
           <h2>Matched variables (Found variables: {syncVariables.length})</h2>
           <br />
           <table className="matched-variables-table">

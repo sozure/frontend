@@ -7,7 +7,13 @@ import {
 } from "./CommonService";
 const baseUrl = `${getBaseUrl()}/gitrepository`;
 
-const getRepositories = async (organization, project, pat, setLoading, setRepositories) => {
+const getRepositories = async (
+  organization,
+  project,
+  pat,
+  setLoading,
+  setRepositories
+) => {
   let body = {
     organization: organization,
     project: project,
@@ -15,14 +21,18 @@ const getRepositories = async (organization, project, pat, setLoading, setReposi
   };
   axios
     .post(baseUrl, body)
-    .then((res) => {
+    .then(async (res) => {
       let status = res.data.status;
       let repositories = res.data.repositories;
-      setLoading(false);
       if (status === 1) {
-        setRepositories(repositories);
+        await setRepositories(repositories);
+        setLoading(false);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "repository_requesting", 1500);
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "repository_requesting",
+          1500
+        );
       }
     })
     .catch((err) => {
@@ -42,7 +52,11 @@ const getVariables = async (body, setLoading, setVariables) => {
       if (status === 1) {
         setVariables(variables);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "variables_requesting", 1500);
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variables_requesting",
+          1500
+        );
       }
     })
     .catch((err) => {

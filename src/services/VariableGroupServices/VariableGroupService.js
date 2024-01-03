@@ -59,9 +59,11 @@ const sendSyncListVariableGroupsRequest = async (
           key: message["keyRegex"],
           result: variableGroups,
         });
-        if(index === syncVariablesLength - 1){
+        if (index === syncVariablesLength - 1) {
           setResult(results);
-          callbackForLoading(false);
+          setTimeout(() => {
+            callbackForLoading(false);
+          }, 1000);
         }
       } else {
         toastErrorPopUp(

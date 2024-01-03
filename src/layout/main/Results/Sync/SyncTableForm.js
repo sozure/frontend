@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { v4 } from "uuid";
 import {
   ContainingVGsContext,
@@ -28,46 +28,48 @@ const SyncTableForm = () => {
   const { setContainingVGs } = useContext(ContainingVGsContext);
 
   return (
-    <FormControl fullWidth>
-      <InputLabel>Select Azure project</InputLabel>
-      <Select
-        id={`project-${v4()}`}
-        value={containingVGsProject}
-        label="Select Azure project"
-        onChange={async (event) => {
-          setContainingVGsProject(event.target.value);
-          let counter = 0;
-          let result = [];
-          syncVariables.forEach(async (variable) => {
-            let body = {
-              projectName: event.target.value,
-              pat: pat,
-              userName: profileName,
-              vgRegex: ".*",
-              keyRegex: variable,
-              organizationName: organizationName,
-              setLoading: setLoading,
-              containingVGs: result,
-              index: counter,
-              secretIncluded: true,
-              containsKey: true,
-            };
-            counter++;
-            await sendSyncListVariableGroupsRequest(body, true, "");
-          });
-          setTimeout(() => {
-            setContainingVGs(result);
-            setLoading(false);
-          }, 2000);
-        }}
-      >
-        {projects.map((project) => (
-          <MenuItem value={project.name} key={project.name}>
-            {project.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+      <FormControl fullWidth>
+        <InputLabel>Select Azure project</InputLabel>
+        <Select
+          id={`project-${v4()}`}
+          value={containingVGsProject}
+          label="Select Azure project"
+          onChange={async (event) => {
+            setContainingVGsProject(event.target.value);
+            let counter = 0;
+            let result = [];
+            syncVariables.forEach(async (variable) => {
+              let body = {
+                projectName: event.target.value,
+                pat: pat,
+                userName: profileName,
+                vgRegex: ".*",
+                keyRegex: variable,
+                organizationName: organizationName,
+                setLoading: setLoading,
+                index: counter,
+                secretIncluded: true,
+                containsKey: true,
+              };
+              counter++;
+              await sendSyncListVariableGroupsRequest(
+                body,
+                result,
+                true,
+                "",
+                syncVariables.length,
+                setContainingVGs
+              );
+            });
+          }}
+        >
+          {projects.map((project) => (
+            <MenuItem value={project.name} key={project.name}>
+              {project.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
   );
 };
 
