@@ -11,13 +11,13 @@ import {
 } from "../../../../contexts/Contexts";
 import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import { sendSyncListVariableGroupsRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
+import { syncVariableGroup } from "../../../../services/VariableGroupServices/VariableGroupService";
 import SyncTableBodyInput from "./SyncTableBodyInput";
 import { toastErrorPopUp } from "../../../../services/CommonService";
 
 const SyncTableBody = () => {
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { setContainingVGs } = useContext(ContainingVGsContext);
+  const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
   const { pat } = useContext(PATContext);
   const { organizationName } = useContext(OrganizationContext);
@@ -31,7 +31,6 @@ const SyncTableBody = () => {
   const number = 10;
 
   const changeSync = async (variableToBeReplaced) => {
-    let syncResult = [];
     let newKey = document.getElementById(
       `inline-var-${variableToBeReplaced}`
     ).value;
@@ -42,35 +41,100 @@ const SyncTableBody = () => {
         1500
       );
     } else {
-      syncVariables.forEach((variable) => {
-        if (variable === variableToBeReplaced) {
-          syncResult.push(newKey);
-        } else {
-          syncResult.push(variable);
-        }
-      });
-      setSyncVariables(syncResult);
-      let counter = 0;
-      let result = [];
       setNewVariableKey(newKey);
-      syncResult.forEach(async (variable) => {
-        let body = {
-          projectName: containingVGsProject,
-          pat: pat,
-          userName: profileName,
-          vgRegex: ".*",
-          keyRegex: variable,
-          organizationName: organizationName,
-          setLoading: setLocalLoading,
-          index: counter,
-          secretIncluded: true,
-          containsKey: true,
-        };
-        counter++;
-        await sendSyncListVariableGroupsRequest(body, result, true, "", syncVariables.length, setContainingVGs);
-      });
+      let newSyncVariables = collectNewSyncVariables(variableToBeReplaced, newKey);
+      setSyncVariables(newSyncVariables);
+      let [indexOfVarToBeReplaced, newContainingVGs] = collectNewContainingVGs(variableToBeReplaced);
+      let body = {
+        projectName: containingVGsProject,
+        pat: pat,
+        userName: profileName,
+        vgRegex: ".*",
+        keyRegex: newKey,
+        organizationName: organizationName,
+        secretIncluded: true,
+        containsKey: true,
+      };
+      await syncVariableGroup(indexOfVarToBeReplaced, body, newContainingVGs, setContainingVGs, setLocalLoading);
     }
     setModification({});
+  };
+
+  const collectNewContainingVGs = (variableToBeReplaced) => {
+    let newContainingVGs = [];
+    let indexOfVarToBeReplaced = 0;
+    containingVGs.forEach((vgElement) => {
+      if (vgElement.key !== variableToBeReplaced) {
+        newContainingVGs.push(vgElement);
+      } else {
+        indexOfVarToBeReplaced = vgElement.index;
+      }
+    });
+    return [indexOfVarToBeReplaced, newContainingVGs];
+  }
+
+  const collectNewSyncVariables = (variableToBeReplaced, newKey) => {
+    let newSyncVariables = [];
+    syncVariables.forEach((element) => {
+      if (element === variableToBeReplaced) {
+        newSyncVariables.push(newKey);
+      } else {
+        newSyncVariables.push(element);
+      }
+    });
+    return newSyncVariables;
+  }
+
+  const getApprovalButtons = (variable) => {
+    return (
+      <>
+        <button onClick={async () => await changeSync(variable)}>
+          <AiOutlineCheck />
+        </button>
+        <button onClick={() => setModification({})}>
+          <AiOutlineClose />
+        </button>
+      </>
+    );
+  };
+
+  const getEditButton = (variable) => {
+    return (
+      <abbr title={"Custom modification of variable's key"}>
+        <button
+          onClick={() =>
+            setModification({
+              variable: variable,
+              modification: true,
+            })
+          }
+        >
+          <AiFillEdit />
+        </button>
+      </abbr>
+    );
+  };
+
+  const getActionSection = (variable) => {
+    return localLoading && variable === newVariableKey ? (
+      <span>Loading...</span>
+    ) : (
+      getActionButtons(variable)
+    );
+  };
+
+  const getActionButtons = (variable) => {
+    return modification.modification && modification.variable === variable
+      ? getApprovalButtons(variable)
+      : getEditButton(variable);
+  };
+
+  const getVariableKey = (variable) => {
+    return modification.modification && modification.variable === variable ? (
+      <SyncTableBodyInput variable={variable} />
+    ) : (
+      <>{variable}</>
+    );
   };
 
   return (
@@ -83,45 +147,20 @@ const SyncTableBody = () => {
               <td key={v4()}>
                 {localLoading && variable === newVariableKey ? (
                   <>{newVariableKey}</>
-                ) : modification.modification &&
-                  modification.variable === variable ? (
-                  <SyncTableBodyInput variable={variable} />
                 ) : (
-                  <>{variable}</>
+                  getVariableKey(variable)
                 )}
               </td>
               <td key={v4()}>
                 {containingVGsProject === "" ? (
                   <>-</>
-                ) : localLoading && variable === newVariableKey ? (
-                  <span>Loading...</span>
-                ) : modification.modification &&
-                  modification.variable === variable ? (
-                  <>
-                    <button onClick={async () => await changeSync(variable)}>
-                      <AiOutlineCheck />
-                    </button>
-                    <button onClick={() => setModification({})}>
-                      <AiOutlineClose />
-                    </button>
-                  </>
                 ) : (
-                  <abbr title={"Custom modification of variable's key"}>
-                    <button
-                      onClick={() =>
-                        setModification({
-                          variable: variable,
-                          modification: true,
-                        })
-                      }
-                    >
-                      <AiFillEdit />
-                    </button>
-                  </abbr>
+                  getActionSection(variable)
                 )}
               </td>
               <td key={v4()}>
-                {containingVGsProject === "" ? (
+                {containingVGsProject === "" ||
+                (localLoading && variable === newVariableKey) ? (
                   <p>-</p>
                 ) : (
                   <ContainingVGSelectMenu variableName={variable} />

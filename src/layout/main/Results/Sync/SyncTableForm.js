@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { v4 } from "uuid";
 import {
   ContainingVGsContext,
@@ -10,9 +10,9 @@ import {
   ProjectsContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
-import { sendSyncListVariableGroupsRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
 
 const SyncTableForm = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
@@ -46,19 +46,17 @@ const SyncTableForm = () => {
                 vgRegex: ".*",
                 keyRegex: variable,
                 organizationName: organizationName,
-                setLoading: setLoading,
                 index: counter,
                 secretIncluded: true,
                 containsKey: true,
               };
               counter++;
-              await sendSyncListVariableGroupsRequest(
+              await syncVariableGroups(
                 body,
                 result,
-                true,
-                "",
                 syncVariables.length,
-                setContainingVGs
+                setContainingVGs,
+                setLoading
               );
             });
           }}

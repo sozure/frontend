@@ -72,7 +72,7 @@ const syncVariableGroups = async (
     });
 };
 
-const syncVariableGroup = (index, message, results, setResults, setLoading) => {
+const syncVariableGroup = async (index, message, results, setResults, setLoading) => {
   let url = `${variableGroupUrl}/GetVariableGroups`;
   setLoading(true);
   let body = buildRequestBody(message);
