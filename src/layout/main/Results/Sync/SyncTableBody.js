@@ -143,7 +143,9 @@ const SyncTableBody = () => {
     return modification.modification && modification.variable === variable ? (
       <SyncTableBodyInput variable={variable} />
     ) : (
-      <>{variable}</>
+      <>
+        {variable}
+      </>
     );
   };
 
@@ -152,6 +154,12 @@ const SyncTableBody = () => {
       {syncVariables
         .slice(paginationCounter, paginationCounter + number)
         .map((variable) => {
+          let variableType = "";
+          containingVGs.forEach((element) => {
+            if (element.key === variable) {
+              variableType = element.variableGroupType;
+            }
+          });
           return (
             <tr key={v4()}>
               <td key={v4()}>
@@ -159,6 +167,13 @@ const SyncTableBody = () => {
                   <>{newVariableKey}</>
                 ) : (
                   getVariableKey(variable)
+                )}
+              </td>
+              <td key={v4()}>
+              {containingVGsProject === "" ? (
+                  <>-</>
+                ) : (
+                  <>{variableType === "AzureKeyVault"? "Secret": variableType === "Vsts"? "Standard variable": "Unknown"}</>
                 )}
               </td>
               <td key={v4()}>

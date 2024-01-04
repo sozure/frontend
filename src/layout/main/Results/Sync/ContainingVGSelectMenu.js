@@ -41,7 +41,7 @@ const ContainingVGSelectMenu = ({ variableName }) => {
 };
 
 ContainingVGSelectMenu.propTypes = {
-  containingVGs: PropTypes.arrayOf(PropTypes.object),
+  variableName: PropTypes.string
 };
 
 export default ContainingVGSelectMenu;

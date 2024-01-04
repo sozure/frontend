@@ -13,7 +13,6 @@ import {
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
-import { ToastContainer } from "react-toastify";
 
 const SyncTableForm = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
@@ -29,7 +28,6 @@ const SyncTableForm = () => {
   const { setContainingVGs } = useContext(ContainingVGsContext);
 
   return (
-    <>
       <FormControl fullWidth>
         <InputLabel>Select Azure project</InputLabel>
         <Select
@@ -70,8 +68,6 @@ const SyncTableForm = () => {
           ))}
         </Select>
       </FormControl>
-      <ToastContainer />
-    </>
   );
 };
 

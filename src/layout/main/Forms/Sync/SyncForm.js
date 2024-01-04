@@ -18,6 +18,7 @@ import { getBranches } from "../../../../services/GitBranchService";
 import ProjectSelectMenu from "../../../ProjectSelectMenu";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import SyncTableForm from "../../Results/Sync/SyncTableForm";
+import { ToastContainer } from "react-toastify";
 
 const getRepositoryId = (repositories, repository) => {
   let gitRepositoryId = "";
@@ -107,6 +108,23 @@ const SyncForm = () => {
     exceptions,
   ]);
 
+  const customSetRepository = (value) => {
+    setRepository(value);
+    setActualBranch("");
+    setFilePath("");
+  };
+
+  const customSetProject = (value) => {
+    setProjectName(value);
+    setRepository("");
+    setFilePath("");
+  };
+
+  const customSetActualBranch = (value) => {
+    setActualBranch(value);
+    setFilePath("");
+  };
+
   const send = async () => {
     setPaginationCounter(0);
     await setContainingVGs([]);
@@ -131,7 +149,7 @@ const SyncForm = () => {
         <ProjectSelectMenu
           allOption={false}
           projectName={projectName}
-          setProjectName={setProjectName}
+          setProjectName={customSetProject}
         />{" "}
         {repositories.length > 0 ? (
           <>
@@ -142,7 +160,7 @@ const SyncForm = () => {
                 elements={repositories}
                 inputLabel={"Select repository"}
                 selectedElement={repository}
-                setSelectedElement={setRepository}
+                setSelectedElement={customSetRepository}
               />
             ) : (
               <></>
@@ -153,7 +171,7 @@ const SyncForm = () => {
                 elements={branches}
                 inputLabel={"Select branch"}
                 selectedElement={actualBranch}
-                setSelectedElement={setActualBranch}
+                setSelectedElement={customSetActualBranch}
               />
             ) : (
               <></>
@@ -228,6 +246,7 @@ const SyncForm = () => {
       ) : (
         <></>
       )}
+      <ToastContainer/>
     </>
   );
 };

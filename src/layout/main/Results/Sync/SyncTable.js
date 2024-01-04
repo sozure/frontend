@@ -6,13 +6,17 @@ import {
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import SyncTableBody from "./SyncTableBody";
-import SyncTableForm from "./SyncTableForm";
 
 const SyncTable = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
 
-  const tableHeader = ["Variable", "Modify variable", "Containing variable groups"];
+  const tableHeader = [
+    "Variable",
+    "Variable type",
+    "Modify variable",
+    "Containing variable groups",
+  ];
 
   const getTable = () => {
     if (
@@ -20,20 +24,15 @@ const SyncTable = () => {
       syncVariables === undefined ||
       syncVariables.length === 0
     ) {
-      return <h2>No variables found.</h2>;
+      return <h2>No variables found in config file.</h2>;
     } else {
       return (
         <>
           <h2>Matched variables (Found variables: {syncVariables.length})</h2>
           <br />
           <table className="matched-variables-table">
-            <thead>
-              <TableHeader columnList={tableHeader} />
-            </thead>
-
-            <tbody>
-              <SyncTableBody />
-            </tbody>
+            <TableHeader columnList={tableHeader} />
+            <SyncTableBody />
           </table>
           <br />
           <PaginationButtons collection={syncVariables} />
