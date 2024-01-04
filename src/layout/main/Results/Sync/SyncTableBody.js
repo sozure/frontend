@@ -42,9 +42,13 @@ const SyncTableBody = () => {
       );
     } else {
       setNewVariableKey(newKey);
-      let newSyncVariables = collectNewSyncVariables(variableToBeReplaced, newKey);
+      let newSyncVariables = collectNewSyncVariables(
+        variableToBeReplaced,
+        newKey
+      );
       setSyncVariables(newSyncVariables);
-      let [indexOfVarToBeReplaced, newContainingVGs] = collectNewContainingVGs(variableToBeReplaced);
+      let [indexOfVarToBeReplaced, newContainingVGs] =
+        collectNewContainingVGs(variableToBeReplaced);
       let body = {
         projectName: containingVGsProject,
         pat: pat,
@@ -55,7 +59,13 @@ const SyncTableBody = () => {
         secretIncluded: true,
         containsKey: true,
       };
-      await syncVariableGroup(indexOfVarToBeReplaced, body, newContainingVGs, setContainingVGs, setLocalLoading);
+      await syncVariableGroup(
+        indexOfVarToBeReplaced,
+        body,
+        newContainingVGs,
+        setContainingVGs,
+        setLocalLoading
+      );
     }
     setModification({});
   };
@@ -71,7 +81,7 @@ const SyncTableBody = () => {
       }
     });
     return [indexOfVarToBeReplaced, newContainingVGs];
-  }
+  };
 
   const collectNewSyncVariables = (variableToBeReplaced, newKey) => {
     let newSyncVariables = [];
@@ -83,7 +93,7 @@ const SyncTableBody = () => {
       }
     });
     return newSyncVariables;
-  }
+  };
 
   const getApprovalButtons = (variable) => {
     return (
@@ -138,7 +148,7 @@ const SyncTableBody = () => {
   };
 
   return (
-    <>
+    <tbody>
       {syncVariables
         .slice(paginationCounter, paginationCounter + number)
         .map((variable) => {
@@ -169,7 +179,7 @@ const SyncTableBody = () => {
             </tr>
           );
         })}
-    </>
+    </tbody>
   );
 };
 
