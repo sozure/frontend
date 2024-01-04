@@ -48,10 +48,15 @@ const syncVariableGroups = async (
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       if (status === 1) {
+        let variableGroupType =
+          variableGroups.length > 0
+            ? variableGroups[0].variableGroupType
+            : "Unknown";
         results.push({
           index: index,
           key: message["keyRegex"],
           result: variableGroups,
+          variableGroupType: variableGroupType,
         });
         if (index === syncVariablesLength - 1) {
           setResults(results);
@@ -72,7 +77,13 @@ const syncVariableGroups = async (
     });
 };
 
-const syncVariableGroup = async (index, message, results, setResults, setLoading) => {
+const syncVariableGroup = async (
+  index,
+  message,
+  results,
+  setResults,
+  setLoading
+) => {
   let url = `${variableGroupUrl}/GetVariableGroups`;
   setLoading(true);
   let body = buildRequestBody(message);
@@ -82,10 +93,15 @@ const syncVariableGroup = async (index, message, results, setResults, setLoading
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       if (status === 1) {
+        let variableGroupType =
+          variableGroups.length > 0
+            ? variableGroups[0].variableGroupType
+            : "Unknown";
         results.push({
           index: index,
           key: message["keyRegex"],
           result: variableGroups,
+          variableGroupType: variableGroupType,
         });
         setResults(results);
         setTimeout(() => {
