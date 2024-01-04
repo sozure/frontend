@@ -39,3 +39,4 @@ export const DefaultSubscriptionContext = createContext();
 export const VariablesSyncContext = createContext();
 export const ContainingVGsContext = createContext();
 export const ContainingVGsProjectContext = createContext();
+export const PipelineConnectedVGsContext = createContext();

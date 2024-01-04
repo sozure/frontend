@@ -7,6 +7,7 @@ import {
   OrganizationContext,
   PATContext,
   PaginationCounterContext,
+  PipelineConnectedVGsContext,
   ProjectNameContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
@@ -39,6 +40,7 @@ const SyncForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setContainingVGs } = useContext(ContainingVGsContext);
   const { setContainingVGsProject } = useContext(ContainingVGsProjectContext);
+  const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
@@ -128,6 +130,7 @@ const SyncForm = () => {
   const send = async () => {
     setPaginationCounter(0);
     await setContainingVGs([]);
+    await setPipelineConnectedVGs([]);
     setContainingVGsProject("");
     let gitRepositoryId = getRepositoryId(repositories, repository);
     let body = {
@@ -242,11 +245,11 @@ const SyncForm = () => {
       syncVariables !== null &&
       syncVariables !== undefined &&
       syncVariables.length !== 0 ? (
-        <SyncTableForm />
+        <SyncTableForm repository={repository} />
       ) : (
         <></>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

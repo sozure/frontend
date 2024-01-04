@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { ContainingVGsContext } from "../../../../contexts/Contexts";
+import {
+  ContainingVGsContext,
+  PipelineConnectedVGsContext,
+} from "../../../../contexts/Contexts";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 
 const ContainingVGSelectMenu = ({ variableName }) => {
   const { containingVGs } = useContext(ContainingVGsContext);
+  const { pipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const [vgs, setVgs] = useState([]);
   const [vg, setVg] = useState("");
 
@@ -14,13 +18,19 @@ const ContainingVGSelectMenu = ({ variableName }) => {
 
   useEffect(() => {
     let result = [];
+    console.log(containingVGs);
+    console.log(pipelineConnectedVGs);
     containingVGs.forEach((element) => {
       if (element.key === variableName) {
-        result = element.result;
+        element.result.forEach((element) => {
+          if (pipelineConnectedVGs.includes(element.variableGroupName)) {
+            result.push(element);
+          }
+        });
       }
     });
     setVgs(result);
-  }, [variableName, containingVGs, setVgs]);
+  }, [variableName, containingVGs, pipelineConnectedVGs, setVgs]);
 
   return (
     <>
@@ -41,7 +51,7 @@ const ContainingVGSelectMenu = ({ variableName }) => {
 };
 
 ContainingVGSelectMenu.propTypes = {
-  variableName: PropTypes.string
+  variableName: PropTypes.string,
 };
 
 export default ContainingVGSelectMenu;

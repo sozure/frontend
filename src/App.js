@@ -42,6 +42,7 @@ import {
   VariablesSyncContext,
   ContainingVGsContext,
   ContainingVGsProjectContext,
+  PipelineConnectedVGsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -99,6 +100,7 @@ function App() {
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
   const [keyVaults, setKeyVaults] = useState([]);
+  const [pipelineConnectedVGs, setPipelineConnectedVGs] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [containingVGs, setContainingVGs] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
@@ -471,6 +473,18 @@ function App() {
                                                                                     ]
                                                                                   )}
                                                                                 >
+                                                                                  <PipelineConnectedVGsContext.Provider
+                                                                                  value={useMemo(
+                                                                                    () => ({
+                                                                                      pipelineConnectedVGs,
+                                                                                      setPipelineConnectedVGs,
+                                                                                    }),
+                                                                                    [
+                                                                                      pipelineConnectedVGs,
+                                                                                      setPipelineConnectedVGs,
+                                                                                    ]
+                                                                                  )}
+                                                                                >
                                                                                   <Welcome />
                                                                                   <BrowserRouter>
                                                                                     <Routes>
@@ -488,6 +502,7 @@ function App() {
                                                                                       />
                                                                                     </Routes>
                                                                                   </BrowserRouter>
+                                                                                  </PipelineConnectedVGsContext.Provider>
                                                                                 </ContainingVGsProjectContext.Provider>
                                                                               </ContainingVGsContext.Provider>
                                                                             </VariablesSyncContext.Provider>
