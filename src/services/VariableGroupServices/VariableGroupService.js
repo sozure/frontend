@@ -31,23 +31,17 @@ const sendListVariableGroupsRequest = async (
   );
 };
 
-const sendSyncListVariableGroupsRequest = async (
+const syncVariableGroups = async (
   message,
   results,
-  loadingIsNeeded,
-  valueRegex,
   syncVariablesLength,
-  setResult
+  setResults,
+  setLoading
 ) => {
-  let callbackForLoading = message["setLoading"];
   let index = message["index"];
   let url = `${variableGroupUrl}/GetVariableGroups`;
-  if (loadingIsNeeded) {
-    callbackForLoading(true);
-  }
+  setLoading(true);
   let body = buildRequestBody(message);
-  body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
-  body["containsKey"] = message["containsKey"];
   axios
     .post(url, body)
     .then((res) => {
@@ -60,9 +54,9 @@ const sendSyncListVariableGroupsRequest = async (
           result: variableGroups,
         });
         if (index === syncVariablesLength - 1) {
-          setResult(results);
+          setResults(results);
           setTimeout(() => {
-            callbackForLoading(false);
+            setLoading(false);
           }, 1000);
         }
       } else {
@@ -74,7 +68,39 @@ const sendSyncListVariableGroupsRequest = async (
       }
     })
     .catch((err) => {
-      handleError(callbackForLoading, err);
+      handleError(setLoading, err);
+    });
+};
+
+const syncVariableGroup = (index, message, results, setResults, setLoading) => {
+  let url = `${variableGroupUrl}/GetVariableGroups`;
+  setLoading(true);
+  let body = buildRequestBody(message);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let variableGroups = res.data.variableGroups;
+      if (status === 1) {
+        results.push({
+          index: index,
+          key: message["keyRegex"],
+          result: variableGroups,
+        });
+        setResults(results);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variable_requesting",
+          1500
+        );
+      }
+    })
+    .catch((err) => {
+      handleError(setLoading, err);
     });
 };
 
@@ -177,7 +203,8 @@ const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
 export {
   sendListVariablesRequest,
   sendListVariableGroupsRequest,
-  sendSyncListVariableGroupsRequest,
+  syncVariableGroup,
+  syncVariableGroups,
   sendAddRequest,
   sendDeleteRequest,
   sendUpdateRequest,
