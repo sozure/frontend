@@ -77,7 +77,7 @@ const KVAuthorizeForm = () => {
         });
         setKvAuthorized(statuses.length === counter);
         setLoading(false);
-      }, 2000);
+      }, 4000);
     }
   };
   return (
