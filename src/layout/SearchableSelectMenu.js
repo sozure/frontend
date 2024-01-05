@@ -28,7 +28,7 @@ const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, 
         labelId="search-select-label"
         id="search-select"
         value={selectedElement}
-        label="Variable groups"
+        label={inputLabel}
         onChange={(e) => setSelectedElement(e.target.value)}
         onClose={() => setSearchText("")}
         // This prevents rendering empty string in Select's value

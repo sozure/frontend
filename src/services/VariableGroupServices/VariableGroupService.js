@@ -40,7 +40,6 @@ const syncVariableGroups = async (
 ) => {
   let index = message["index"];
   let url = `${variableGroupUrl}/GetVariableGroups`;
-  setLoading(true);
   let body = buildRequestBody(message);
   axios
     .post(url, body)

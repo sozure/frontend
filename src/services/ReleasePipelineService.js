@@ -1,7 +1,6 @@
 import {
   getBaseUrl,
   getResponseMessage,
-  handleError,
   handleError2,
   toastErrorPopUp,
 } from "./CommonService";
@@ -14,8 +13,7 @@ const getEnvironments = async (
   project,
   pat,
   repositoryName,
-  setResults,
-  setLoading
+  setResults
 ) => {
   let url = `${baseUrl}/GetEnvironments`;
   let body = {
@@ -24,13 +22,11 @@ const getEnvironments = async (
     pat: pat,
     repositoryName: repositoryName,
   };
-  setLoading(true);
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let environments = res.data.environments;
-      setLoading(false);
       if (status === 1) {
         setResults(environments);
       } else {
@@ -42,7 +38,7 @@ const getEnvironments = async (
       }
     })
     .catch((err) => {
-      handleError(setLoading, err);
+      handleError2(err);
     });
 };
 

@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import {
   ContainingVGsContext,
   ContainingVGsProjectContext,
+  EnvironmentsContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -15,7 +16,10 @@ import {
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
-import { getVariableGroups } from "../../../../services/ReleasePipelineService";
+import {
+  getEnvironments,
+  getVariableGroups,
+} from "../../../../services/ReleasePipelineService";
 
 const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
   const { syncVariables } = useContext(VariablesSyncContext);
@@ -29,6 +33,51 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
   );
   const { setContainingVGs } = useContext(ContainingVGsContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setEnvironments } = useContext(EnvironmentsContext);
+
+  const send = async (event) => {
+    setLoading(true);
+    setPaginationCounter(0);
+    let newProject = event.target.value;
+    setContainingVGsProject(newProject);
+    let counter = 0;
+    let result = [];
+    await getEnvironments(
+      organizationName,
+      newProject,
+      pat,
+      repository,
+      setEnvironments
+    );
+    await getVariableGroups(
+      organizationName,
+      newProject,
+      pat,
+      repository,
+      setPipelineConnectedVGs
+    );
+    syncVariables.forEach(async (variable) => {
+      let body = {
+        projectName: newProject,
+        pat: pat,
+        userName: profileName,
+        vgRegex: ".*",
+        keyRegex: variable,
+        organizationName: organizationName,
+        index: counter,
+        secretIncluded: true,
+        containsKey: true,
+      };
+      counter++;
+      await syncVariableGroups(
+        body,
+        result,
+        syncVariables.length,
+        setContainingVGs,
+        setLoading
+      );
+    });
+  };
 
   return (
     <FormControl fullWidth>
@@ -37,41 +86,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
         id={`project-${v4()}`}
         value={containingVGsProject}
         label="Select Azure project"
-        onChange={async (event) => {
-          setPaginationCounter(0);
-          let newProject = event.target.value;
-          setContainingVGsProject(newProject);
-          let counter = 0;
-          let result = [];
-          await getVariableGroups(
-            organizationName,
-            newProject,
-            pat,
-            repository,
-            setPipelineConnectedVGs
-          );
-          syncVariables.forEach(async (variable) => {
-            let body = {
-              projectName: newProject,
-              pat: pat,
-              userName: profileName,
-              vgRegex: ".*",
-              keyRegex: variable,
-              organizationName: organizationName,
-              index: counter,
-              secretIncluded: true,
-              containsKey: true,
-            };
-            counter++;
-            await syncVariableGroups(
-              body,
-              result,
-              syncVariables.length,
-              setContainingVGs,
-              setLoading
-            );
-          });
-        }}
+        onChange={send}
       >
         {projectsWithReleasePipeline.map((project) => (
           <MenuItem value={project} key={project}>
