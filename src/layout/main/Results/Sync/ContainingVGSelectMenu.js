@@ -41,7 +41,7 @@ const ContainingVGSelectMenu = ({ variableName }) => {
           containsText={containsText}
           elementKey={"variableGroupName"}
           elements={vgs}
-          inputLabel={"Variable groups"}
+          inputLabel={`${vgs.length} item(s) found`}
           selectedElement={vg}
           setSelectedElement={setVg}
         />

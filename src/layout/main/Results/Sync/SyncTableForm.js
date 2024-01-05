@@ -7,9 +7,9 @@ import {
   LoadingContext,
   OrganizationContext,
   PATContext,
+  PaginationCounterContext,
   PipelineConnectedVGsContext,
   ProfileNameContext,
-  ProjectsContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 
@@ -17,27 +17,28 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
 import { getVariableGroups } from "../../../../services/ReleasePipelineService";
 
-const SyncTableForm = ({ repository }) => {
+const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { setLoading } = useContext(LoadingContext);
   const { pat } = useContext(PATContext);
   const { organizationName } = useContext(OrganizationContext);
   const { profileName } = useContext(ProfileNameContext);
-  const { projects } = useContext(ProjectsContext);
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const { containingVGsProject, setContainingVGsProject } = useContext(
     ContainingVGsProjectContext
   );
   const { setContainingVGs } = useContext(ContainingVGsContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   return (
     <FormControl fullWidth>
-      <InputLabel>Select Azure project</InputLabel>
+      <InputLabel>Projects containing pipeline</InputLabel>
       <Select
         id={`project-${v4()}`}
         value={containingVGsProject}
         label="Select Azure project"
         onChange={async (event) => {
+          setPaginationCounter(0);
           let newProject = event.target.value;
           setContainingVGsProject(newProject);
           let counter = 0;
@@ -72,9 +73,9 @@ const SyncTableForm = ({ repository }) => {
           });
         }}
       >
-        {projects.map((project) => (
-          <MenuItem value={project.name} key={project.name}>
-            {project.name}
+        {projectsWithReleasePipeline.map((project) => (
+          <MenuItem value={project} key={project}>
+            {project}
           </MenuItem>
         ))}
       </Select>
