@@ -43,6 +43,7 @@ import {
   ContainingVGsContext,
   ContainingVGsProjectContext,
   PipelineConnectedVGsContext,
+  EnvironmentsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -114,6 +115,7 @@ function App() {
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
   const [syncVariables, setSyncVariables] = useState([]);
+  const [environments, setEnvironments] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",
@@ -474,34 +476,47 @@ function App() {
                                                                                   )}
                                                                                 >
                                                                                   <PipelineConnectedVGsContext.Provider
-                                                                                  value={useMemo(
-                                                                                    () => ({
-                                                                                      pipelineConnectedVGs,
-                                                                                      setPipelineConnectedVGs,
-                                                                                    }),
-                                                                                    [
-                                                                                      pipelineConnectedVGs,
-                                                                                      setPipelineConnectedVGs,
-                                                                                    ]
-                                                                                  )}
-                                                                                >
-                                                                                  <Welcome />
-                                                                                  <BrowserRouter>
-                                                                                    <Routes>
-                                                                                      <Route
-                                                                                        path="/"
-                                                                                        element={
-                                                                                          <Main />
-                                                                                        }
-                                                                                      />
-                                                                                      <Route
-                                                                                        path="/changes"
-                                                                                        element={
-                                                                                          <Modifications />
-                                                                                        }
-                                                                                      />
-                                                                                    </Routes>
-                                                                                  </BrowserRouter>
+                                                                                    value={useMemo(
+                                                                                      () => ({
+                                                                                        pipelineConnectedVGs,
+                                                                                        setPipelineConnectedVGs,
+                                                                                      }),
+                                                                                      [
+                                                                                        pipelineConnectedVGs,
+                                                                                        setPipelineConnectedVGs,
+                                                                                      ]
+                                                                                    )}
+                                                                                  >
+                                                                                    <EnvironmentsContext.Provider
+                                                                                      value={useMemo(
+                                                                                        () => ({
+                                                                                          environments,
+                                                                                          setEnvironments,
+                                                                                        }),
+                                                                                        [
+                                                                                          environments,
+                                                                                          setEnvironments,
+                                                                                        ]
+                                                                                      )}
+                                                                                    >
+                                                                                      <Welcome />
+                                                                                      <BrowserRouter>
+                                                                                        <Routes>
+                                                                                          <Route
+                                                                                            path="/"
+                                                                                            element={
+                                                                                              <Main />
+                                                                                            }
+                                                                                          />
+                                                                                          <Route
+                                                                                            path="/changes"
+                                                                                            element={
+                                                                                              <Modifications />
+                                                                                            }
+                                                                                          />
+                                                                                        </Routes>
+                                                                                      </BrowserRouter>
+                                                                                    </EnvironmentsContext.Provider>
                                                                                   </PipelineConnectedVGsContext.Provider>
                                                                                 </ContainingVGsProjectContext.Provider>
                                                                               </ContainingVGsContext.Provider>

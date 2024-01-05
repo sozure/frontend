@@ -1,22 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import TableHeader from "../TableHeader";
 import {
+  EnvironmentsContext,
   VGAuthorizedContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 import PaginationButtons from "../PaginationButtons";
 import SyncTableBody from "./SyncTableBody";
+import SearchableSelectMenu from "../../../SearchableSelectMenu";
 
 const SyncTable = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
-
+  const { environments } = useContext(EnvironmentsContext);
+  const [selectedEnv, setSelectedEnv] = useState("");
   const tableHeader = [
     "Variable",
     "Variable type",
     "Modify variable",
     "Containing variable groups",
   ];
+
+  const containsEnvText = (element, searchText) =>
+    element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   const getTable = () => {
     if (
@@ -28,7 +34,19 @@ const SyncTable = () => {
     } else {
       return (
         <>
-          <h2>Matched variables (Found variables: {syncVariables.length})</h2>
+          {environments.length > 0 ? (
+            <SearchableSelectMenu
+              containsText={containsEnvText}
+              elementKey={"environments"}
+              elements={environments}
+              inputLabel={`Found ${environments.length} environment(s)`}
+              selectedElement={selectedEnv}
+              setSelectedElement={setSelectedEnv}
+            />
+          ) : (
+            <></>
+          )}
+          <h2>Found variables: {syncVariables.length} due to configuration</h2>
           <br />
           <table className="matched-variables-table">
             <TableHeader columnList={tableHeader} />

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   ContainingVGsContext,
   ContainingVGsProjectContext,
+  EnvironmentsContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -44,19 +45,21 @@ const SyncForm = () => {
   const { setContainingVGsProject } = useContext(ContainingVGsProjectContext);
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const { projects } = useContext(ProjectsContext);
+  const { setEnvironments } = useContext(EnvironmentsContext);
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
-  const [separator, setSeparator] = useState(process.env.REACT_APP_SEPARATOR);
-  const [exceptions, setExceptions] = useState(
-    process.env.REACT_APP_CONFIG_EXCEPTION
-  );
   const [filePath, setFilePath] = useState("");
   const [branches, setBranches] = useState([]);
   const [projectsWithPipeline, setProjectsWithPipeline] = useState([]);
   const [actualBranch, setActualBranch] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
 
+  const [separator, setSeparator] = useState(process.env.REACT_APP_SEPARATOR);
+  const [exceptions, setExceptions] = useState(
+    process.env.REACT_APP_CONFIG_EXCEPTION
+  );
+  
   const containsRepoText = (element, searchText) =>
     element.repositoryName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
@@ -130,11 +133,13 @@ const SyncForm = () => {
   const customSetActualBranch = (value) => {
     setActualBranch(value);
     setFilePath("");
+    
   };
 
   const send = async () => {
     setPaginationCounter(0);
     await setContainingVGs([]);
+    await setEnvironments([]);
     await setPipelineConnectedVGs([]);
     setContainingVGsProject("");
     let gitRepositoryId = getRepositoryId(repositories, repository);
@@ -207,24 +212,33 @@ const SyncForm = () => {
                   value={filePath}
                   onChange={(event) => setFilePath(event.target.value)}
                 />
-                <Input
-                  fullWidth
-                  type="text"
-                  id="separator"
-                  name="separator"
-                  placeholder="Variable's separator"
-                  value={separator}
-                  onChange={(event) => setSeparator(event.target.value)}
-                />
-                <Input
-                  fullWidth
-                  type="text"
-                  id="exceptions"
-                  name="exceptions"
-                  placeholder="Variable's exceptions (comma-separated values)"
-                  value={exceptions}
-                  onChange={(event) => setExceptions(event.target.value)}
-                />
+                {separator === "" ? (
+                  <Input
+                    fullWidth
+                    type="text"
+                    id="separator"
+                    name="separator"
+                    placeholder="Variable's separator"
+                    value={separator}
+                    onChange={(event) => setSeparator(event.target.value)}
+                  />
+                ) : (
+                  <></>
+                )}
+                {exceptions === "" ? (
+                  <Input
+                    fullWidth
+                    type="text"
+                    id="exceptions"
+                    name="exceptions"
+                    placeholder="Variable's exceptions (comma-separated values)"
+                    value={exceptions}
+                    onChange={(event) => setExceptions(event.target.value)}
+                  />
+                ) : (
+                  <></>
+                )}
+
                 {repository !== "" &&
                 actualBranch !== "" &&
                 projectName !== "" &&
@@ -253,16 +267,18 @@ const SyncForm = () => {
         )}
       </div>
       <br />
-      {localLoading ? <p>Loading azure projects with relevant release pipelines...</p> : repository !== "" &&
-      actualBranch !== "" &&
-      projectName !== "" &&
-      separator !== "" &&
-      exceptions !== "" &&
-      filePath !== "" &&
-      syncVariables !== null &&
-      syncVariables !== undefined &&
-      syncVariables.length !== 0 &&
-      projectsWithPipeline.length !== 0? (
+      {localLoading ? (
+        <p>Loading azure projects with relevant release pipelines...</p>
+      ) : repository !== "" &&
+        actualBranch !== "" &&
+        projectName !== "" &&
+        separator !== "" &&
+        exceptions !== "" &&
+        filePath !== "" &&
+        syncVariables !== null &&
+        syncVariables !== undefined &&
+        syncVariables.length !== 0 &&
+        projectsWithPipeline.length !== 0 ? (
         <SyncTableForm
           repository={repository}
           projectsWithReleasePipeline={projectsWithPipeline}
