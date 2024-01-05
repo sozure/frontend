@@ -23,6 +23,7 @@ import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import SyncTableForm from "../../Results/Sync/SyncTableForm";
 import { ToastContainer } from "react-toastify";
 import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipelineService";
+import { getConfigFiles } from "../../../../services/GitFileService";
 
 const getRepositoryId = (repositories, repository) => {
   let gitRepositoryId = "";
@@ -49,21 +50,26 @@ const SyncForm = () => {
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
-  const [filePath, setFilePath] = useState("");
   const [branches, setBranches] = useState([]);
   const [projectsWithPipeline, setProjectsWithPipeline] = useState([]);
   const [actualBranch, setActualBranch] = useState("");
-  const [localLoading, setLocalLoading] = useState(false);
+  const [pipelineLocalLoading, setPipelineLocalLoading] = useState(false);
+  const [configLocalLoading, setConfigLocalLoading] = useState(false);
+  const [configFiles, setConfigFiles] = useState([]);
+  const [configFile, setConfigFile] = useState("");
 
   const [separator, setSeparator] = useState(process.env.REACT_APP_SEPARATOR);
   const [exceptions, setExceptions] = useState(
     process.env.REACT_APP_CONFIG_EXCEPTION
   );
-  
+
   const containsRepoText = (element, searchText) =>
     element.repositoryName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   const containsBranchText = (element, searchText) =>
+    element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+
+  const containsConfigFileText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   useEffect(() => {
@@ -113,7 +119,6 @@ const SyncForm = () => {
     projectName,
     repository,
     actualBranch,
-    filePath,
     separator,
     exceptions,
   ]);
@@ -121,19 +126,27 @@ const SyncForm = () => {
   const customSetRepository = (value) => {
     setRepository(value);
     setActualBranch("");
-    setFilePath("");
+    setConfigFile("");
   };
 
   const customSetProject = (value) => {
     setProjectName(value);
     setRepository("");
-    setFilePath("");
+    setConfigFile("");
   };
 
-  const customSetActualBranch = (value) => {
+  const customSetActualBranch = async (value) => {
     setActualBranch(value);
-    setFilePath("");
-    
+    setConfigFile("");
+    let gitRepositoryId = getRepositoryId(repositories, repository);
+    await getConfigFiles(
+      organizationName,
+      pat,
+      gitRepositoryId,
+      value,
+      setConfigFiles,
+      setConfigLocalLoading
+    );
   };
 
   const send = async () => {
@@ -149,7 +162,7 @@ const SyncForm = () => {
       pat: pat,
       branch: actualBranch,
       gitRepositoryId: gitRepositoryId,
-      filePath: filePath,
+      filePath: configFile,
       delimiter: separator,
       exceptions: exceptions.split(","),
     };
@@ -163,7 +176,7 @@ const SyncForm = () => {
       pat,
       repository,
       setProjectsWithPipeline,
-      setLocalLoading
+      setPipelineLocalLoading
     );
     await getVariables(body, setLoading, setSyncVariables);
   };
@@ -203,15 +216,19 @@ const SyncForm = () => {
             )}
             {repository !== "" && actualBranch !== "" && projectName !== "" ? (
               <>
-                <Input
-                  fullWidth
-                  type="text"
-                  id="filePath"
-                  name="filePath"
-                  placeholder="Path of configuration file"
-                  value={filePath}
-                  onChange={(event) => setFilePath(event.target.value)}
-                />
+                {configLocalLoading ? (
+                  <p>Loading config files...</p>
+                ) : (
+                  <SearchableSelectMenu
+                    containsText={containsConfigFileText}
+                    elementKey={"configFile"}
+                    elements={configFiles}
+                    inputLabel={"Select config file"}
+                    selectedElement={configFile}
+                    setSelectedElement={setConfigFile}
+                  />
+                )}
+
                 {separator === "" ? (
                   <Input
                     fullWidth
@@ -244,7 +261,7 @@ const SyncForm = () => {
                 projectName !== "" &&
                 separator !== "" &&
                 exceptions !== "" &&
-                filePath !== "" ? (
+                configFile !== "" ? (
                   <Box>
                     <Button
                       id="submit_button"
@@ -267,14 +284,14 @@ const SyncForm = () => {
         )}
       </div>
       <br />
-      {localLoading ? (
+      {pipelineLocalLoading ? (
         <p>Loading azure projects with relevant release pipelines...</p>
       ) : repository !== "" &&
         actualBranch !== "" &&
         projectName !== "" &&
         separator !== "" &&
         exceptions !== "" &&
-        filePath !== "" &&
+        configFile !== "" &&
         syncVariables !== null &&
         syncVariables !== undefined &&
         syncVariables.length !== 0 &&
