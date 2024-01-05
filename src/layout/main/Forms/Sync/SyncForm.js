@@ -9,6 +9,7 @@ import {
   PaginationCounterContext,
   PipelineConnectedVGsContext,
   ProjectNameContext,
+  ProjectsContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 import {
@@ -20,6 +21,7 @@ import ProjectSelectMenu from "../../../ProjectSelectMenu";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import SyncTableForm from "../../Results/Sync/SyncTableForm";
 import { ToastContainer } from "react-toastify";
+import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipelineService";
 
 const getRepositoryId = (repositories, repository) => {
   let gitRepositoryId = "";
@@ -41,6 +43,7 @@ const SyncForm = () => {
   const { setContainingVGs } = useContext(ContainingVGsContext);
   const { setContainingVGsProject } = useContext(ContainingVGsProjectContext);
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
+  const { projects } = useContext(ProjectsContext);
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
@@ -50,7 +53,9 @@ const SyncForm = () => {
   );
   const [filePath, setFilePath] = useState("");
   const [branches, setBranches] = useState([]);
+  const [projectsWithPipeline, setProjectsWithPipeline] = useState([]);
   const [actualBranch, setActualBranch] = useState("");
+  const [localLoading, setLocalLoading] = useState(false);
 
   const containsRepoText = (element, searchText) =>
     element.repositoryName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
@@ -143,6 +148,18 @@ const SyncForm = () => {
       delimiter: separator,
       exceptions: exceptions.split(","),
     };
+    let projectNames = [];
+    projects.forEach((element) => {
+      projectNames.push(element.name);
+    });
+    await getProjectsWithReleasePipeline(
+      organizationName,
+      projectNames,
+      pat,
+      repository,
+      setProjectsWithPipeline,
+      setLocalLoading
+    );
     await getVariables(body, setLoading, setSyncVariables);
   };
 
@@ -236,7 +253,7 @@ const SyncForm = () => {
         )}
       </div>
       <br />
-      {repository !== "" &&
+      {localLoading ? <p>Loading azure projects with relevant release pipelines...</p> : repository !== "" &&
       actualBranch !== "" &&
       projectName !== "" &&
       separator !== "" &&
@@ -244,8 +261,12 @@ const SyncForm = () => {
       filePath !== "" &&
       syncVariables !== null &&
       syncVariables !== undefined &&
-      syncVariables.length !== 0 ? (
-        <SyncTableForm repository={repository} />
+      syncVariables.length !== 0 &&
+      projectsWithPipeline.length !== 0? (
+        <SyncTableForm
+          repository={repository}
+          projectsWithReleasePipeline={projectsWithPipeline}
+        />
       ) : (
         <></>
       )}

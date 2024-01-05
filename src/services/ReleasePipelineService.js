@@ -36,7 +36,7 @@ const getEnvironments = async (
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
-          "variable_requesting",
+          "environment_requesting",
           1500
         );
       }
@@ -70,7 +70,7 @@ const getVariableGroups = async (
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
-          "variable_requesting",
+          "variable_group_requesting",
           1500
         );
       }
@@ -80,4 +80,39 @@ const getVariableGroups = async (
     });
 };
 
-export { getEnvironments, getVariableGroups };
+const getProjectsWithReleasePipeline = async (
+  organization,
+  projects,
+  pat,
+  repositoryName,
+  setResults,
+  setLoading
+) => {
+  let url = `${baseUrl}/GetProjects`;
+  let body = {
+    organization: organization,
+    projects: projects,
+    pat: pat,
+    repositoryName: repositoryName,
+  };
+  setLoading(true);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let projects = res.data.projects;
+      if (status === 1) {
+        setResults(projects);
+      } else {
+        toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
+export { getEnvironments, getVariableGroups, getProjectsWithReleasePipeline };
