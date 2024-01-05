@@ -18,8 +18,6 @@ const ContainingVGSelectMenu = ({ variableName }) => {
 
   useEffect(() => {
     let result = [];
-    console.log(containingVGs);
-    console.log(pipelineConnectedVGs);
     containingVGs.forEach((element) => {
       if (element.key === variableName) {
         element.result.forEach((element) => {

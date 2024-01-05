@@ -57,7 +57,7 @@ const syncVariableGroups = async (
           result: variableGroups,
           variableGroupType: variableGroupType,
         });
-        if (index === syncVariablesLength - 1) {
+        if (results.length === syncVariablesLength) {
           setResults(results);
           setTimeout(() => {
             setLoading(false);
