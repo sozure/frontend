@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import TableHeader from "../TableHeader";
 import {
+  ConfigFileExtensionContext,
   EnvironmentsContext,
   VGAuthorizedContext,
   VariablesSyncContext,
@@ -14,11 +15,19 @@ const SyncTable = () => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { environments } = useContext(EnvironmentsContext);
   const [selectedEnv, setSelectedEnv] = useState("");
-  const tableHeader = [
+  const { configFileExtension } = useContext(ConfigFileExtensionContext);
+
+  const tableHeader = configFileExtension === "json"? [
     "Variable",
     "Variable type",
     "Modify variable",
     "Containing variable groups",
+    "Add variable",
+  ]: [
+    "Variable",
+    "Variable type",
+    "Containing variable groups",
+    "Add variable",
   ];
 
   const containsEnvText = (element, searchText) =>

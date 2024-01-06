@@ -1,6 +1,7 @@
 import { Box, Button, Input } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  ConfigFileExtensionContext,
   ContainingVGsContext,
   ContainingVGsProjectContext,
   EnvironmentsContext,
@@ -47,6 +48,7 @@ const SyncForm = () => {
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const { projects } = useContext(ProjectsContext);
   const { setEnvironments } = useContext(EnvironmentsContext);
+  const {setConfigFileExtension} = useContext(ConfigFileExtensionContext);
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
@@ -122,6 +124,13 @@ const SyncForm = () => {
     separator,
     exceptions,
   ]);
+
+  useEffect(() => {
+    if(configFile !== ""){
+      var configFileElements = configFile.split('.');
+      setConfigFileExtension(configFileElements[configFileElements.length - 1]);
+    }
+  })
 
   const customSetRepository = (value) => {
     setRepository(value);

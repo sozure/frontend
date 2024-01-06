@@ -44,6 +44,7 @@ import {
   ContainingVGsProjectContext,
   PipelineConnectedVGsContext,
   EnvironmentsContext,
+  ConfigFileExtensionContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -109,6 +110,7 @@ function App() {
   const [newKey, setNewKey] = useState("");
   const [defaultSubscription, setDefaultSubscription] = useState("");
   const [newValue, setNewValue] = useState("");
+  const [configFileExtension, setConfigFileExtension] = useState("");
   const [tenantId, setTenantId] = useState(envTenantId);
   const [clientId, setClientId] = useState(envClientId);
   const [clientSecret, setClientSecret] = useState(envClientSecret);
@@ -499,23 +501,36 @@ function App() {
                                                                                         ]
                                                                                       )}
                                                                                     >
-                                                                                      <Welcome />
-                                                                                      <BrowserRouter>
-                                                                                        <Routes>
-                                                                                          <Route
-                                                                                            path="/"
-                                                                                            element={
-                                                                                              <Main />
-                                                                                            }
-                                                                                          />
-                                                                                          <Route
-                                                                                            path="/changes"
-                                                                                            element={
-                                                                                              <Modifications />
-                                                                                            }
-                                                                                          />
-                                                                                        </Routes>
-                                                                                      </BrowserRouter>
+                                                                                      <ConfigFileExtensionContext.Provider
+                                                                                        value={useMemo(
+                                                                                          () => ({
+                                                                                            configFileExtension,
+                                                                                            setConfigFileExtension,
+                                                                                          }),
+                                                                                          [
+                                                                                            configFileExtension,
+                                                                                            setConfigFileExtension,
+                                                                                          ]
+                                                                                        )}
+                                                                                      >
+                                                                                        <Welcome />
+                                                                                        <BrowserRouter>
+                                                                                          <Routes>
+                                                                                            <Route
+                                                                                              path="/"
+                                                                                              element={
+                                                                                                <Main />
+                                                                                              }
+                                                                                            />
+                                                                                            <Route
+                                                                                              path="/changes"
+                                                                                              element={
+                                                                                                <Modifications />
+                                                                                              }
+                                                                                            />
+                                                                                          </Routes>
+                                                                                        </BrowserRouter>
+                                                                                      </ConfigFileExtensionContext.Provider>
                                                                                     </EnvironmentsContext.Provider>
                                                                                   </PipelineConnectedVGsContext.Provider>
                                                                                 </ContainingVGsProjectContext.Provider>
