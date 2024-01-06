@@ -1,14 +1,26 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import SyncTableBodyInput from "./SyncTableBodyInput";
 import { sendAddRequest } from "../../../../services/VariableGroupServices/VariableGroupInlineService";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
+import {
+  OrganizationContext,
+  PATContext,
+  ProfileNameContext,
+  ProjectNameContext,
+} from "../../../../contexts/Contexts";
 
-const SyncTableBodyRowAdd = ({ key, potentialMissingVgs }) => {
+const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const [modification, setModification] = useState({});
   const [actualVg, setActualVg] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
+  const [potMissingVgs, setPotMissingVgs] = useState(potentialMissingVgs);
+
+  const { organizationName } = useContext(OrganizationContext);
+  const { pat } = useContext(PATContext);
+  const { projectName } = useContext(ProjectNameContext);
+  const { profileName } = useContext(ProfileNameContext);
 
   const idPrefix = "inline-add";
 
@@ -20,8 +32,20 @@ const SyncTableBodyRowAdd = ({ key, potentialMissingVgs }) => {
       `${idPrefix}-${variableToBeReplaced}`
     ).value;
 
-    let body = {};
-    await sendAddRequest(body);
+    let body = {
+      organization: organizationName,
+      project: projectName,
+      pat: pat,
+      userName: profileName,
+      variableGroupFilter: actualVg,
+      keyFilter: variable,
+      containsSecrets: false,
+      key: variable,
+      value: newValueOfVariable,
+    };
+
+    await sendAddRequest(body, setLocalLoading);
+    
     setModification({});
   };
 
@@ -29,13 +53,13 @@ const SyncTableBodyRowAdd = ({ key, potentialMissingVgs }) => {
     <>
       {localLoading ? (
         <>Loading...</>
-      ) : !(modification.modification && modification.key === key) ? (
+      ) : !(modification.modification && modification.key === variable) ? (
         <Button
           variant="contained"
           id="add_variable"
           onClick={() => {
             setModification({
-              key: key,
+              key: variable,
               modification: true,
             });
           }}
@@ -46,13 +70,13 @@ const SyncTableBodyRowAdd = ({ key, potentialMissingVgs }) => {
         <>
           <SearchableSelectMenu
             containsText={containsVGText}
-            elements={potentialMissingVgs}
-            inputLabel={`${potentialMissingVgs.length} item(s) found`}
+            elements={potMissingVgs}
+            inputLabel={`${potMissingVgs.length} item(s) found`}
             selectedElement={actualVg}
             setSelectedElement={setActualVg}
           />
-          <SyncTableBodyInput idPrefix={idPrefix} variable={key} />
-          <button onClick={async () => await addSync(key)}>
+          <SyncTableBodyInput idPrefix={idPrefix} variable={variable} optionalValue={""} />
+          <button onClick={async () => await addSync(variable)}>
             <AiOutlineCheck />
           </button>
           <button onClick={() => setModification({})}>
