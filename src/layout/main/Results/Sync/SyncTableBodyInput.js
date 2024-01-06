@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const SyncTableBodyInput = ({ idPrefix, variable }) => {
-  const [newVariableName, setNewVariableName] = useState(variable);
+const SyncTableBodyInput = ({ idPrefix, variable, optionalValue }) => {
+  const [newVariableName, setNewVariableName] = useState(optionalValue !== null? optionalValue : variable);
 
   return (
     <input

@@ -203,7 +203,10 @@ const SyncTableBodyRow = ({
         potentialMissingVgs.length === 0 ? (
           <p>-</p>
         ) : (
-          <SyncTableBodyRowAdd key={variable} potentialMissingVgs={potentialMissingVgs}/>
+          <SyncTableBodyRowAdd
+            variable={variable}
+            potentialMissingVgs={potentialMissingVgs}
+          />
         )}
       </td>
     </tr>
