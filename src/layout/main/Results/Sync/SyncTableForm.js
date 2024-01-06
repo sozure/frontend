@@ -100,6 +100,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
 
 SyncTableForm.propTypes = {
   repository: PropTypes.string.isRequired,
+  projectsWithReleasePipeline: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default SyncTableForm;
