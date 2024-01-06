@@ -98,4 +98,9 @@ const sendDeleteRequest = async (
   );
 };
 
-export { sendDeleteRequest, sendUpdateRequest };
+const sendAddRequest = async(message) => {
+  let endpoint = "AddInline";
+  console.log(endpoint);
+}
+
+export { sendDeleteRequest, sendUpdateRequest, sendAddRequest };
