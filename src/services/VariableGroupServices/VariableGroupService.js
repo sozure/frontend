@@ -35,7 +35,7 @@ const syncVariableGroups = async (
   message,
   results,
   syncVariablesLength,
-  setResults,
+  setContainingVGs,
   setLoading
 ) => {
   let index = message["index"];
@@ -47,10 +47,7 @@ const syncVariableGroups = async (
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       if (status === 1) {
-        let variableGroupType =
-          variableGroups.length > 0
-            ? variableGroups[0].variableGroupType
-            : "Unknown";
+        let variableGroupType = getVariableGroupType(variableGroups);
         results.push({
           index: index,
           key: message["keyRegex"],
@@ -58,7 +55,7 @@ const syncVariableGroups = async (
           variableGroupType: variableGroupType,
         });
         if (results.length === syncVariablesLength) {
-          setResults(results);
+          setContainingVGs(results);
           setTimeout(() => {
             setLoading(false);
           }, 1000);
@@ -92,10 +89,7 @@ const syncVariableGroup = async (
       let status = res.data.status;
       let variableGroups = res.data.variableGroups;
       if (status === 1) {
-        let variableGroupType =
-          variableGroups.length > 0
-            ? variableGroups[0].variableGroupType
-            : "Unknown";
+        let variableGroupType = getVariableGroupType(variableGroups);
         results.push({
           index: index,
           key: message["keyRegex"],
@@ -213,6 +207,22 @@ const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
   body["valueFilter"] = valueRegex !== "" ? valueRegex : null;
   let endpoint = "Delete";
   await sendRequest(endpoint, body, callbackForOnDelete, message);
+};
+
+const getVariableGroupType = (variableGroups) => {
+  if (variableGroups.length === 0) return "Unknown";
+  var modeMap = { Vsts: 0, AzureKeyVault: 0, Unknown: 0 };
+  var maxEl = variableGroups[0].variableGroupType,
+    maxCount = 1;
+  for (var i = 0; i < variableGroups.length; i++) {
+    var el = variableGroups[i].variableGroupType;
+    modeMap[el]++;
+    if (modeMap[el] > maxCount) {
+      maxEl = el;
+      maxCount = modeMap[el];
+    }
+  }
+  return maxEl;
 };
 
 export {
