@@ -16,18 +16,14 @@ const SyncTableBody = () => {
 
   const number = 10;
 
-  useEffect(() => {
-    console.log(containingVGs);
-  }, [containingVGs]);
-
   const collectPotentialMissingVgs = (variableType, vgsNames) => {
     let potentialMissingVgs = [];
     pipelineConnectedVGs.forEach((element) => {
       if (
         (element.Type === variableType || variableType === "Unknown") &&
-        !vgsNames.includes(element.variableGroupName)
+        !vgsNames.includes(element.Name)
       ) {
-        potentialMissingVgs.push(element);
+        potentialMissingVgs.push(element.Name);
       }
     });
     return potentialMissingVgs;
@@ -43,7 +39,7 @@ const SyncTableBody = () => {
         element.result.forEach((element) => {
           if (pipelineConnectedVGsNames.includes(element.variableGroupName)) {
             vgs.push(element);
-            vgsNames.push(element.Name);
+            vgsNames.push(element.variableGroupName);
           }
         });
       }

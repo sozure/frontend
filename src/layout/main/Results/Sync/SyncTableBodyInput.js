@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-const SyncTableBodyInput = ({ variable }) => {
+const SyncTableBodyInput = ({ idPrefix, variable }) => {
   const [newVariableName, setNewVariableName] = useState(variable);
 
   return (
     <input
       type="text"
-      id={`inline-var-${variable}`}
-      name={`inline-var-${variable}`}
+      id={`${idPrefix}-${variable}`}
+      name={`${idPrefix}-${variable}`}
       value={newVariableName}
       onChange={(event) => setNewVariableName(event.target.value)}
     />

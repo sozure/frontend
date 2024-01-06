@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 } from "uuid";
 import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
-import { Button } from "@mui/material";
 import SyncTableBodyInput from "./SyncTableBodyInput";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toastErrorPopUp } from "../../../../services/CommonService";
 import {
+  ConfigFileExtensionContext,
   ContainingVGsContext,
   ContainingVGsProjectContext,
   OrganizationContext,
@@ -15,6 +15,7 @@ import {
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 import { syncVariableGroup } from "../../../../services/VariableGroupServices/VariableGroupService";
+import SyncTableBodyRowAdd from "./SyncTableBodyRowAdd";
 
 const SyncTableBodyRow = ({
   variable,
@@ -28,13 +29,17 @@ const SyncTableBodyRow = ({
   const { profileName } = useContext(ProfileNameContext);
   const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
+  const { configFileExtension } = useContext(ConfigFileExtensionContext);
 
   const [modification, setModification] = useState({});
   const [localLoading, setLocalLoading] = useState(false);
   const [newVariableKey, setNewVariableKey] = useState("");
+
+  const idPrefix = "inline-var";
+
   const changeSync = async (variableToBeReplaced) => {
     let newKey = document.getElementById(
-      `inline-var-${variableToBeReplaced}`
+      `${idPrefix}-${variableToBeReplaced}`
     ).value;
     if (syncVariables.includes(newKey)) {
       toastErrorPopUp(
@@ -99,7 +104,7 @@ const SyncTableBodyRow = ({
 
   const getVariableKey = (variable) => {
     return modification.modification && modification.variable === variable ? (
-      <SyncTableBodyInput variable={variable} />
+      <SyncTableBodyInput idPrefix={idPrefix} variable={variable} />
     ) : (
       <>{variable}</>
     );
@@ -176,9 +181,14 @@ const SyncTableBodyRow = ({
           <>{getDisplayedVariableType(variableType)}</>
         )}
       </td>
-      <td key={v4()}>
-        {containingVGsProject === "" ? <>-</> : getActionSection(variable)}
-      </td>
+      {configFileExtension === "json" ? (
+        <td key={v4()}>
+          {containingVGsProject === "" ? <>-</> : getActionSection(variable)}
+        </td>
+      ) : (
+        <></>
+      )}
+
       <td key={v4()}>
         {containingVGsProject === "" ||
         (localLoading && variable === newVariableKey) ? (
@@ -193,15 +203,7 @@ const SyncTableBodyRow = ({
         potentialMissingVgs.length === 0 ? (
           <p>-</p>
         ) : (
-          <Button
-            variant="contained"
-            id="add_variable"
-            onClick={() => {
-              console.log("Hi!");
-            }}
-          >
-            Add
-          </Button>
+          <SyncTableBodyRowAdd key={variable} potentialMissingVgs={potentialMissingVgs}/>
         )}
       </td>
     </tr>
@@ -212,7 +214,7 @@ SyncTableBodyRow.propTypes = {
   variable: PropTypes.string.isRequired,
   variableType: PropTypes.string.isRequired,
   vgs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  potentialMissingVgs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  potentialMissingVgs: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default SyncTableBodyRow;
