@@ -1,5 +1,10 @@
 import axios from "axios";
-import { getBaseUrl, getResponseMessage, handleError2, toastErrorPopUp } from "../CommonService";
+import {
+  getBaseUrl,
+  getResponseMessage,
+  handleError2,
+  toastErrorPopUp,
+} from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
@@ -98,7 +103,7 @@ const sendDeleteRequest = async (
   );
 };
 
-const sendAddRequest = async(body, setLoading) => {
+const sendAddRequest = async (body, setLoading) => {
   setLoading(true);
   let endpoint = "AddInline";
   let url = `${variableGroupUrl}/${endpoint}`;
@@ -107,13 +112,13 @@ const sendAddRequest = async(body, setLoading) => {
     .then((res) => {
       let status = res.data;
       setLoading(false);
-      if(status !== 1 && status !== 2){
+      if (status !== 1 && status !== 2) {
         toastErrorPopUp("Couldn't added new variable!", "inline-add", 1500);
       }
     })
     .catch((err) => {
       handleError2(err);
     });
-}
+};
 
 export { sendDeleteRequest, sendUpdateRequest, sendAddRequest };

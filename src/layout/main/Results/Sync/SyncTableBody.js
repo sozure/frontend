@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { v4 } from "uuid";
 import {
   ContainingVGsContext,
