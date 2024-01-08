@@ -23,7 +23,7 @@ const getRepositories = async (
     .post(baseUrl, body)
     .then(async (res) => {
       let status = res.data.status;
-      let repositories = res.data.repositories;
+      let repositories = res.data.data;
       if (status === 1) {
         await setRepositories(repositories);
         setLoading(false);
@@ -47,7 +47,7 @@ const getVariables = async (body, setLoading, setVariables) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variables = res.data.variables;
+      let variables = res.data.data;
       setLoading(false);
       if (status === 1) {
         setVariables(variables);

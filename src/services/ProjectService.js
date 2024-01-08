@@ -26,7 +26,7 @@ const getProjects = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let projects = res.data.projects;
+      let projects = res.data.data;
       projects.forEach((project) => {
         project.subscriptionIds.forEach((subscriptionId) =>
           subscriptions.push(subscriptionId)

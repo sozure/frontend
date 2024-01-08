@@ -128,10 +128,7 @@ const sendListRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups =
-        endpoint === "GetVariableGroups"
-          ? res.data.data
-          : res.data.variables;
+      let variableGroups = res.data.data;
       callbackForLoading(false);
       if (status === 1) {
         callbackForDataSaving(variableGroups);
@@ -157,7 +154,7 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variables;
+      let variableGroups = res.data.data;
       callbackForLoading(false);
       callback(false);
       let statusMessage = getResponseMessage(status);

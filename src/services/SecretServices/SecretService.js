@@ -37,10 +37,10 @@ const sendListKeyVaultsRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let keyVaults = res.data.keyVaults;
+      let keyVaults = res.data.data;
       if (status === 1) {
         callbackForDataSaving(keyVaults);
-        setDefaultSubscription(res.data.subscriptionId);
+        setDefaultSubscription(res.data.additionalData);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
@@ -73,7 +73,7 @@ const sendListSecretRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
+      let secrets = res.data.data;
       callbackForLoading(false);
       if (status === 1) {
         callbackForDataSaving(secrets);
@@ -132,7 +132,7 @@ const sendRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let secrets = res.data.deletedSecrets;
+      let secrets = res.data.data;
       callbackForLoading(false);
       callbackForOnSet(false);
       if (status === 1) {
