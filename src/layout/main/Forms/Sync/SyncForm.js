@@ -27,13 +27,13 @@ import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipe
 import { getConfigFiles } from "../../../../services/GitFileService";
 
 const getRepositoryId = (repositories, repository) => {
-  let gitRepositoryId = "";
+  let repositoryId = "";
   repositories.forEach((repo) => {
     if (repo.repositoryName === repository) {
-      gitRepositoryId = repo.repositoryId;
+      repositoryId = repo.repositoryId;
     }
   });
-  return gitRepositoryId;
+  return repositoryId;
 };
 
 const SyncForm = () => {
@@ -96,10 +96,10 @@ const SyncForm = () => {
 
   useEffect(() => {
     if (repository !== "") {
-      let gitRepositoryId = getRepositoryId(repositories, repository);
+      let repositoryId = getRepositoryId(repositories, repository);
       getBranches(
         organizationName,
-        gitRepositoryId,
+        repositoryId,
         pat,
         setLoading,
         setBranches
@@ -147,11 +147,11 @@ const SyncForm = () => {
   const customSetActualBranch = async (value) => {
     setActualBranch(value);
     setConfigFile("");
-    let gitRepositoryId = getRepositoryId(repositories, repository);
+    let repositoryId = getRepositoryId(repositories, repository);
     await getConfigFiles(
       organizationName,
       pat,
-      gitRepositoryId,
+      repositoryId,
       value,
       setConfigFiles,
       setConfigLocalLoading
@@ -164,13 +164,13 @@ const SyncForm = () => {
     await setEnvironments([]);
     await setPipelineConnectedVGs([]);
     setContainingVGsProject("");
-    let gitRepositoryId = getRepositoryId(repositories, repository);
+    let repositoryId = getRepositoryId(repositories, repository);
     let body = {
       organization: organizationName,
       project: projectName,
       pat: pat,
       branch: actualBranch,
-      gitRepositoryId: gitRepositoryId,
+      repositoryId: repositoryId,
       filePath: configFile,
       delimiter: separator,
       exceptions: exceptions.split(","),
