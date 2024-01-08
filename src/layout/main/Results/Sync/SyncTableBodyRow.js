@@ -157,7 +157,7 @@ const SyncTableBodyRow = ({
   const getDisplayedVariableType = (variableType) => {
     switch (variableType) {
       case "Vsts":
-        return "Standard variable";
+        return "Variable";
       case "AzureKeyVault":
         return "Secret";
       default:

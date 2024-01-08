@@ -19,13 +19,13 @@ const SyncTable = () => {
 
   const tableHeader = configFileExtension === "json"? [
     "Variable",
-    "Variable type",
+    "Type",
     "Modify variable",
     "Containing variable groups",
     "Add variable",
   ]: [
     "Variable",
-    "Variable type",
+    "Type",
     "Containing variable groups",
     "Add variable",
   ];
