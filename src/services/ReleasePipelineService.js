@@ -26,7 +26,7 @@ const getEnvironments = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let environments = res.data.environments;
+      let environments = res.data.data;
       if (status === 1) {
         setResults(environments);
       } else {
@@ -60,7 +60,7 @@ const getVariableGroups = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.data;
       if (status === 1) {
         setResults(variableGroups);
       } else {
@@ -96,7 +96,7 @@ const getProjectsWithReleasePipeline = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let projects = res.data.projects;
+      let projects = res.data.data;
       if (status === 1) {
         setResults(projects);
       } else {

@@ -13,7 +13,7 @@ const getProfile = async (organizationName, PAT, setProfileName, statusList) => 
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let profile = res.data.profile;
+      let profile = res.data.data;
       if (status === 1) {
         setProfileName(profile.displayName);
       } else {

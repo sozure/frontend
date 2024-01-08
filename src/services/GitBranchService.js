@@ -18,7 +18,7 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
     .post(baseUrl, body)
     .then((res) => {
       let status = res.data.status;
-      let branches = res.data.branches;
+      let branches = res.data.data;
       setLoading(false);
       if (status === 1) {
         setBranches(branches);

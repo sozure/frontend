@@ -29,7 +29,7 @@ const getConfigFiles = async (
     .post(url, body)
     .then(async (res) => {
       let status = res.data.status;
-      let configFiles = res.data.configFiles;
+      let configFiles = res.data.data;
       if (status === 1) {
         await setConfigFiles(configFiles);
         setLoading(false);

@@ -45,7 +45,7 @@ const syncVariableGroups = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.data;
       if (status === 1) {
         let variableGroupType = getVariableGroupType(variableGroups);
         results.push({
@@ -87,7 +87,7 @@ const syncVariableGroup = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variableGroups;
+      let variableGroups = res.data.data;
       if (status === 1) {
         let variableGroupType = getVariableGroupType(variableGroups);
         results.push({
@@ -130,7 +130,7 @@ const sendListRequest = async (
       let status = res.data.status;
       let variableGroups =
         endpoint === "GetVariableGroups"
-          ? res.data.variableGroups
+          ? res.data.data
           : res.data.variables;
       callbackForLoading(false);
       if (status === 1) {
