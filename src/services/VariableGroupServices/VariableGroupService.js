@@ -208,11 +208,11 @@ const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
 
 const getVariableGroupType = (variableGroups) => {
   if (variableGroups.length === 0) return "Unknown";
-  var modeMap = { Vsts: 0, AzureKeyVault: 0, Unknown: 0 };
-  var maxEl = variableGroups[0].variableGroupType,
+  let modeMap = { Vsts: 0, AzureKeyVault: 0, Unknown: 0 };
+  let maxEl = variableGroups[0].variableGroupType,
     maxCount = 1;
-  for (var i = 0; i < variableGroups.length; i++) {
-    var el = variableGroups[i].variableGroupType;
+  for (let i = 0; i < variableGroups.length; i++) {
+    let el = variableGroups[i].variableGroupType;
     modeMap[el]++;
     if (modeMap[el] > maxCount) {
       maxEl = el;

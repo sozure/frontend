@@ -7,6 +7,9 @@ import {
 } from "./CommonService";
 const baseUrl = `${getBaseUrl()}/GitFile`;
 
+const yamlFilter = process.env.REACT_APP_YAML_FILTER;
+const jsonFilter = process.env.REACT_APP_JSON_FILTER;
+
 const getConfigFiles = async (
   organization,
   pat,
@@ -31,7 +34,13 @@ const getConfigFiles = async (
       let status = res.data.status;
       let configFiles = res.data.data;
       if (status === 1) {
-        await setConfigFiles(configFiles);
+        let result = [];
+        configFiles.forEach(element => {
+          if(element.includes(yamlFilter) || element.includes(jsonFilter)){
+            result.push(element);
+          }
+        });
+        await setConfigFiles(result);
         setLoading(false);
       } else {
         toastErrorPopUp(

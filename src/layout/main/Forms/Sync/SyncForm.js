@@ -123,11 +123,12 @@ const SyncForm = () => {
     actualBranch,
     separator,
     exceptions,
+    configFile
   ]);
 
   useEffect(() => {
     if(configFile !== ""){
-      var configFileElements = configFile.split('.');
+      let configFileElements = configFile.split('.');
       setConfigFileExtension(configFileElements[configFileElements.length - 1]);
     }
   })
