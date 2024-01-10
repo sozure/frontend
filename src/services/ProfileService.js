@@ -3,7 +3,7 @@ import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from ".
 
 const baseUrl = `${getBaseUrl()}/profile`;
 
-const getProfile = async (organizationName, PAT, setProfileName, setAuthorized, setLoading) => {
+const getProfile = async (organizationName, PAT, setProfileName, statusList) => {
   const url = `${baseUrl}/get`;
   const body = {
     organization: organizationName,
@@ -13,18 +13,17 @@ const getProfile = async (organizationName, PAT, setProfileName, setAuthorized, 
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let profile = res.data.profile;
-      setLoading(false);
-      if (status === 0) {
+      let profile = res.data.data;
+      if (status === 1) {
         setProfileName(profile.displayName);
       } else {
         toastErrorPopUp(getResponseMessage(status), "profile_requesting", 1500);
       }
-      setAuthorized(status === 0);
+      statusList.push(status);
     })
     .catch((err) => {
       handleError2(err);
-      setLoading(false);
+      statusList.push(-1);
     });
 };
 

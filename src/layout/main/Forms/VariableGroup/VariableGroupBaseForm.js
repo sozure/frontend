@@ -2,45 +2,20 @@ import React, { useContext } from "react";
 
 import {
   ProjectNameContext,
-  VGNameRegexContext,
-  ProjectsContext,
+  VGNameRegexContext
 } from "../../../../contexts/Contexts";
 import {
-  FormControl,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
+  Input
 } from "@mui/material";
+import ProjectSelectMenu from "../../../ProjectSelectMenu";
 
 const VariableGroupBaseForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { vgRegex, setVgRegex } = useContext(VGNameRegexContext);
-  const { projects } = useContext(ProjectsContext);
 
   return (
     <>
-      <FormControl fullWidth>
-        <InputLabel>Select project name</InputLabel>
-        <Select
-          id="projectName"
-          value={projectName}
-          label="Select project name"
-          onChange={(event) => setProjectName(event.target.value)}
-        >
-          <MenuItem value={"All"} key={"All"}>
-            {"All"}
-          </MenuItem>
-          {projects.map((project) => {
-            let selectedProjectName = project.name;
-            return (
-              <MenuItem value={selectedProjectName} key={selectedProjectName}>
-                {selectedProjectName}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+      <ProjectSelectMenu allOption={true} projectName={projectName} setProjectName={setProjectName}/>
 
       <Input
         fullWidth

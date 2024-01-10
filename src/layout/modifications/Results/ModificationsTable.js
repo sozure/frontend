@@ -102,9 +102,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
         <>
           <h3>{`Records (found ${changes.length} elements):`}</h3>
           <table>
-            <thead>
               <TableHeader columnList={columnList} />
-            </thead>
 
             <tbody>
               {changes
