@@ -31,6 +31,88 @@ const sendListVariableGroupsRequest = async (
   );
 };
 
+const syncVariableGroups = async (
+  message,
+  results,
+  syncVariablesLength,
+  setContainingVGs,
+  setLoading
+) => {
+  let index = message["index"];
+  let url = `${variableGroupUrl}/GetVariableGroups`;
+  let body = buildRequestBody(message);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let variableGroups = res.data.data;
+      if (status === 1) {
+        let variableGroupType = getVariableGroupType(variableGroups);
+        results.push({
+          index: index,
+          key: message["keyRegex"],
+          result: variableGroups,
+          variableGroupType: variableGroupType,
+        });
+        if (results.length === syncVariablesLength) {
+          setContainingVGs(results);
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        }
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variable_requesting",
+          1500
+        );
+      }
+    })
+    .catch((err) => {
+      handleError(setLoading, err);
+    });
+};
+
+const syncVariableGroup = async (
+  index,
+  message,
+  results,
+  setResults,
+  setLoading
+) => {
+  let url = `${variableGroupUrl}/GetVariableGroups`;
+  setLoading(true);
+  let body = buildRequestBody(message);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let variableGroups = res.data.data;
+      if (status === 1) {
+        let variableGroupType = getVariableGroupType(variableGroups);
+        results.push({
+          index: index,
+          key: message["keyRegex"],
+          result: variableGroups,
+          variableGroupType: variableGroupType,
+        });
+        setResults(results);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "variable_requesting",
+          1500
+        );
+      }
+    })
+    .catch((err) => {
+      handleError(setLoading, err);
+    });
+};
+
 const sendListRequest = async (
   message,
   valueRegex,
@@ -46,12 +128,9 @@ const sendListRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups =
-        endpoint === "GetVariableGroups"
-          ? res.data.variableGroups
-          : res.data.variables;
+      let variableGroups = res.data.data;
       callbackForLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(variableGroups);
       } else {
         toastErrorPopUp(
@@ -75,11 +154,11 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let variableGroups = res.data.variables;
+      let variableGroups = res.data.data;
       callbackForLoading(false);
       callback(false);
       let statusMessage = getResponseMessage(status);
-      if (status === 0 || status === 1) {
+      if (status === 1 || status === 2) {
         callbackForDataSaving(variableGroups);
         toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
       } else {
@@ -127,9 +206,27 @@ const sendDeleteRequest = async (message, valueRegex, callbackForOnDelete) => {
   await sendRequest(endpoint, body, callbackForOnDelete, message);
 };
 
+const getVariableGroupType = (variableGroups) => {
+  if (variableGroups.length === 0) return "Unknown";
+  let modeMap = { Vsts: 0, AzureKeyVault: 0, Unknown: 0 };
+  let maxEl = variableGroups[0].variableGroupType,
+    maxCount = 1;
+  for (let i = 0; i < variableGroups.length; i++) {
+    let el = variableGroups[i].variableGroupType;
+    modeMap[el]++;
+    if (modeMap[el] > maxCount) {
+      maxEl = el;
+      maxCount = modeMap[el];
+    }
+  }
+  return maxEl;
+};
+
 export {
   sendListVariablesRequest,
   sendListVariableGroupsRequest,
+  syncVariableGroup,
+  syncVariableGroups,
   sendAddRequest,
   sendDeleteRequest,
   sendUpdateRequest,

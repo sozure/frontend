@@ -59,9 +59,7 @@ function OtherVGTable() {
           <h2>Matched variables (Found variables: {variables.length})</h2>
           <br />
           <table className="matched-variables-table">
-            <thead>
               <TableHeader columnList={tableHeader} />
-            </thead>
 
             <tbody>
               {variables

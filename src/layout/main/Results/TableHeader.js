@@ -4,16 +4,18 @@ import { PropTypes } from "prop-types";
 
 const TableHeader = ({ columnList }) => {
   return (
-    <tr>
-      {columnList.map((column) => {
-        return <th key={v4()}>{column}</th>;
-      })}
-    </tr>
+    <thead>
+      <tr>
+        {columnList.map((column) => {
+          return <th key={v4()}>{column}</th>;
+        })}
+      </tr>
+    </thead>
   );
 };
 
 TableHeader.propTypes = {
-  columnList: PropTypes.arrayOf(PropTypes.string).isRequired
+  columnList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default TableHeader;

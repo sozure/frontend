@@ -28,29 +28,27 @@ const sendDeleteSecretRequest = async (
 
 const sendListKeyVaultsRequest = async (
   body,
-  callbackForLoading,
   callbackForDataSaving,
   setDefaultSubscription,
-  callbackForAuth
+  statusList
 ) => {
   let url = `${secretUrl}/getkeyvaults`;
-  callbackForLoading(true);
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let keyVaults = res.data.keyVaults;
-      callbackForLoading(false);
-      if (status === 0) {
-        callbackForAuth(true);
+      let keyVaults = res.data.data;
+      if (status === 1) {
         callbackForDataSaving(keyVaults);
-        setDefaultSubscription(res.data.subscriptionId);
+        setDefaultSubscription(res.data.additionalData);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
+      statusList.push(status);
     })
     .catch((err) => {
-      handleError(callbackForLoading, err);
+      handleError2(err);
+      statusList.push(-1);
     });
 };
 
@@ -75,9 +73,9 @@ const sendListSecretRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let secrets = getDeleted ? res.data.deletedSecrets : res.data.secrets;
+      let secrets = res.data.data;
       callbackForLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(secrets);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
@@ -95,7 +93,7 @@ const sendCopyRequest = async (body) => {
     .then((res) => {
       let status = res.data;
       let statusMessage = getResponseMessage(status);
-      if(status === 0){
+      if(status === 1){
         toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
       } else {
         toastErrorPopUp(statusMessage, "secret_requesting", 1500);
@@ -134,10 +132,10 @@ const sendRequest = async (
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let secrets = res.data.deletedSecrets;
+      let secrets = res.data.data;
       callbackForLoading(false);
       callbackForOnSet(false);
-      if (status === 0) {
+      if (status === 1) {
         callbackForDataSaving(secrets);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);

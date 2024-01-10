@@ -39,6 +39,12 @@ import {
   KVAuthorizedContext,
   SubscriptionsContext,
   DefaultSubscriptionContext,
+  VariablesSyncContext,
+  ContainingVGsContext,
+  ContainingVGsProjectContext,
+  PipelineConnectedVGsContext,
+  EnvironmentsContext,
+  ConfigFileExtensionContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -78,6 +84,7 @@ function App() {
   const [tableType, setTableType] = useState("KV");
   const [pat, setPat] = useState(envPAT);
   const [projectName, setProjectName] = useState("");
+  const [containingVGsProject, setContainingVGsProject] = useState("");
   const [organizationName, setOrganizationName] = useState(envOrg);
   const [valueRegex, setValueRegex] = useState("");
   const [vgRegex, setVgRegex] = useState("");
@@ -95,18 +102,22 @@ function App() {
   const [message, setMessage] = useState({});
   const [projects, setProjects] = useState([]);
   const [keyVaults, setKeyVaults] = useState([]);
+  const [pipelineConnectedVGs, setPipelineConnectedVGs] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
+  const [containingVGs, setContainingVGs] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [defaultSubscription, setDefaultSubscription] = useState("");
   const [newValue, setNewValue] = useState("");
+  const [configFileExtension, setConfigFileExtension] = useState("");
   const [tenantId, setTenantId] = useState(envTenantId);
   const [clientId, setClientId] = useState(envClientId);
   const [clientSecret, setClientSecret] = useState(envClientSecret);
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
-
+  const [syncVariables, setSyncVariables] = useState([]);
+  const [environments, setEnvironments] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",
@@ -430,23 +441,101 @@ function App() {
                                                                               ]
                                                                             )}
                                                                           >
-                                                                            <Welcome />
-                                                                            <BrowserRouter>
-                                                                              <Routes>
-                                                                                <Route
-                                                                                  path="/"
-                                                                                  element={
-                                                                                    <Main />
-                                                                                  }
-                                                                                />
-                                                                                <Route
-                                                                                  path="/changes"
-                                                                                  element={
-                                                                                    <Modifications />
-                                                                                  }
-                                                                                />
-                                                                              </Routes>
-                                                                            </BrowserRouter>
+                                                                            <VariablesSyncContext.Provider
+                                                                              value={useMemo(
+                                                                                () => ({
+                                                                                  syncVariables,
+                                                                                  setSyncVariables,
+                                                                                }),
+                                                                                [
+                                                                                  syncVariables,
+                                                                                  setSyncVariables,
+                                                                                ]
+                                                                              )}
+                                                                            >
+                                                                              <ContainingVGsContext.Provider
+                                                                                value={useMemo(
+                                                                                  () => ({
+                                                                                    containingVGs,
+                                                                                    setContainingVGs,
+                                                                                  }),
+                                                                                  [
+                                                                                    containingVGs,
+                                                                                    setContainingVGs,
+                                                                                  ]
+                                                                                )}
+                                                                              >
+                                                                                <ContainingVGsProjectContext.Provider
+                                                                                  value={useMemo(
+                                                                                    () => ({
+                                                                                      containingVGsProject,
+                                                                                      setContainingVGsProject,
+                                                                                    }),
+                                                                                    [
+                                                                                      containingVGsProject,
+                                                                                      setContainingVGsProject,
+                                                                                    ]
+                                                                                  )}
+                                                                                >
+                                                                                  <PipelineConnectedVGsContext.Provider
+                                                                                    value={useMemo(
+                                                                                      () => ({
+                                                                                        pipelineConnectedVGs,
+                                                                                        setPipelineConnectedVGs,
+                                                                                      }),
+                                                                                      [
+                                                                                        pipelineConnectedVGs,
+                                                                                        setPipelineConnectedVGs,
+                                                                                      ]
+                                                                                    )}
+                                                                                  >
+                                                                                    <EnvironmentsContext.Provider
+                                                                                      value={useMemo(
+                                                                                        () => ({
+                                                                                          environments,
+                                                                                          setEnvironments,
+                                                                                        }),
+                                                                                        [
+                                                                                          environments,
+                                                                                          setEnvironments,
+                                                                                        ]
+                                                                                      )}
+                                                                                    >
+                                                                                      <ConfigFileExtensionContext.Provider
+                                                                                        value={useMemo(
+                                                                                          () => ({
+                                                                                            configFileExtension,
+                                                                                            setConfigFileExtension,
+                                                                                          }),
+                                                                                          [
+                                                                                            configFileExtension,
+                                                                                            setConfigFileExtension,
+                                                                                          ]
+                                                                                        )}
+                                                                                      >
+                                                                                        <Welcome />
+                                                                                        <BrowserRouter>
+                                                                                          <Routes>
+                                                                                            <Route
+                                                                                              path="/"
+                                                                                              element={
+                                                                                                <Main />
+                                                                                              }
+                                                                                            />
+                                                                                            <Route
+                                                                                              path="/changes"
+                                                                                              element={
+                                                                                                <Modifications />
+                                                                                              }
+                                                                                            />
+                                                                                          </Routes>
+                                                                                        </BrowserRouter>
+                                                                                      </ConfigFileExtensionContext.Provider>
+                                                                                    </EnvironmentsContext.Provider>
+                                                                                  </PipelineConnectedVGsContext.Provider>
+                                                                                </ContainingVGsProjectContext.Provider>
+                                                                              </ContainingVGsContext.Provider>
+                                                                            </VariablesSyncContext.Provider>
                                                                           </DefaultSubscriptionContext.Provider>
                                                                         </SubscriptionsContext.Provider>
                                                                       </KVAuthorizedContext.Provider>

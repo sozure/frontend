@@ -23,9 +23,9 @@ const getChanges = async (url, body, setLoading, setChanges) => {
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
-      let operations = res.data.operations;
+      let operations = res.data.data;
       setLoading(false);
-      if (status === 0) {
+      if (status === 1) {
         setChanges(operations);
       } else {
         toastErrorPopUp(getResponseMessage(status), "record_requesting", 1500);

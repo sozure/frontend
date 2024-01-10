@@ -30,7 +30,7 @@ const sendRequest = async (url, body, secrets, setSecrets, index, setLoading) =>
     .post(url, body)
     .then((res) => {
       let status = res.data;
-      if (status === 0) {
+      if (status === 1) {
         secrets.splice(index, 1);
         setSecrets(secrets);
       } else {

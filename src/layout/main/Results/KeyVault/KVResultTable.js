@@ -22,18 +22,9 @@ function KVResultTable() {
 
   useEffect(() => {
     if (onDelete || onRecover) {
-      setTableHeader([
-        "Key vault",
-        "Secret name",
-        "Secret value"
-      ]);
+      setTableHeader(["Key vault", "Secret name", "Secret value"]);
     } else {
-      setTableHeader([
-        "Key vault",
-        "Secret name",
-        "Secret value",
-        "Operation",
-      ]);
+      setTableHeader(["Key vault", "Secret name", "Secret value", "Operation"]);
     }
   }, [onDelete, onRecover]);
 
@@ -53,11 +44,7 @@ function KVResultTable() {
         <>
           <h2>Matched secrets (Found secrets: {secrets.length}).</h2>
           <table>
-            <thead>
-              <TableHeader
-                columnList={tableHeader}
-              />
-            </thead>
+            <TableHeader columnList={tableHeader} />
             <tbody>
               {secrets
                 .slice(paginationCounter, paginationCounter + number)

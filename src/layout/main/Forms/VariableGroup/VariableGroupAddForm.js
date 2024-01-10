@@ -64,6 +64,7 @@ const VariableGroupAddForm = () => {
       setLoading: setLoading,
       setVariables: setVariables,
       secretIncluded: false,
+      containsKey: false,
       keyIsRegex: keyIsRegexHelper,
     });
   }, [
