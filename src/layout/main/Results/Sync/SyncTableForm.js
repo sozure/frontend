@@ -29,7 +29,7 @@ import {
   getVariableGroups,
 } from "../../../../services/ReleasePipelineService";
 
-const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
+const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName }) => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { setLoading } = useContext(LoadingContext);
   const { pat } = useContext(PATContext);
@@ -54,6 +54,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
       newProject,
       pat,
       repository,
+      configFileName,
       setEnvironments
     );
     await getVariableGroups(
@@ -61,6 +62,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
       newProject,
       pat,
       repository,
+      configFileName,
       setPipelineConnectedVGs
     );
     syncVariables.forEach(async (variable) => {
@@ -114,6 +116,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository }) => {
 
 SyncTableForm.propTypes = {
   repository: PropTypes.string.isRequired,
+  configFileName: PropTypes.string.isRequired,
   projectsWithReleasePipeline: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

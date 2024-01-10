@@ -13,6 +13,7 @@ const getEnvironments = async (
   project,
   pat,
   repositoryName,
+  configFile,
   setResults
 ) => {
   let url = `${baseUrl}/GetEnvironments`;
@@ -21,6 +22,7 @@ const getEnvironments = async (
     project: project,
     pat: pat,
     repositoryName: repositoryName,
+    configFile: configFile
   };
   axios
     .post(url, body)
@@ -47,6 +49,7 @@ const getVariableGroups = async (
   project,
   pat,
   repositoryName,
+  configFile,
   setResults
 ) => {
   let url = `${baseUrl}/GetVariableGroups`;
@@ -55,6 +58,7 @@ const getVariableGroups = async (
     project: project,
     pat: pat,
     repositoryName: repositoryName,
+    configFile: configFile
   };
   axios
     .post(url, body)
@@ -81,6 +85,7 @@ const getProjectsWithReleasePipeline = async (
   projects,
   pat,
   repositoryName,
+  configFile,
   setResults,
   setLoading
 ) => {
@@ -90,6 +95,7 @@ const getProjectsWithReleasePipeline = async (
     projects: projects,
     pat: pat,
     repositoryName: repositoryName,
+    configFile: configFile
   };
   setLoading(true);
   axios

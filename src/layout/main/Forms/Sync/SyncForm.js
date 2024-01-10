@@ -48,7 +48,7 @@ const SyncForm = () => {
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const { projects } = useContext(ProjectsContext);
   const { setEnvironments } = useContext(EnvironmentsContext);
-  const {setConfigFileExtension} = useContext(ConfigFileExtensionContext);
+  const { setConfigFileExtension } = useContext(ConfigFileExtensionContext);
 
   const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
@@ -59,6 +59,7 @@ const SyncForm = () => {
   const [configLocalLoading, setConfigLocalLoading] = useState(false);
   const [configFiles, setConfigFiles] = useState([]);
   const [configFile, setConfigFile] = useState("");
+  const [configFileName, setConfigFileName] = useState("");
 
   const [separator, setSeparator] = useState(process.env.REACT_APP_SEPARATOR);
   const [exceptions, setExceptions] = useState(
@@ -97,13 +98,7 @@ const SyncForm = () => {
   useEffect(() => {
     if (repository !== "") {
       let repositoryId = getRepositoryId(repositories, repository);
-      getBranches(
-        organizationName,
-        repositoryId,
-        pat,
-        setLoading,
-        setBranches
-      );
+      getBranches(organizationName, repositoryId, pat, setLoading, setBranches);
     }
   }, [
     repository,
@@ -123,15 +118,18 @@ const SyncForm = () => {
     actualBranch,
     separator,
     exceptions,
-    configFile
+    configFile,
   ]);
 
   useEffect(() => {
-    if(configFile !== ""){
-      let configFileElements = configFile.split('.');
+    if (configFile !== "") {
+      let configFileElements = configFile.split(".");
+      let splittedConfigFile = configFile.split("/");
+      let configFileName = splittedConfigFile[splittedConfigFile.length - 1];
+      setConfigFileName(configFileName);
       setConfigFileExtension(configFileElements[configFileElements.length - 1]);
     }
-  })
+  }, [configFile, setConfigFileExtension]);
 
   const customSetRepository = (value) => {
     setRepository(value);
@@ -185,6 +183,7 @@ const SyncForm = () => {
       projectNames,
       pat,
       repository,
+      configFileName,
       setProjectsWithPipeline,
       setPipelineLocalLoading
     );
@@ -309,6 +308,7 @@ const SyncForm = () => {
         <SyncTableForm
           repository={repository}
           projectsWithReleasePipeline={projectsWithPipeline}
+          configFileName={configFileName}
         />
       ) : (
         <></>
