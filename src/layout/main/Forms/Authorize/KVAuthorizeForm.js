@@ -85,7 +85,7 @@ const KVAuthorizeForm = () => {
       <KeyVaultBaseForm />
       <CommonAuthorizeFormElements />
       <Button variant="contained" id="authorize_keyvault" onClick={auth}>
-        Authorize
+        Sign in
       </Button>
       <ToastContainer />
     </div>

@@ -66,7 +66,7 @@ const VGAuthorizeForm = () => {
     <div className="form">
       <CommonAuthorizeFormElements />
       <Button variant="contained" id="project_button" onClick={auth}>
-        Authorize
+        Sign in
       </Button>
       <ToastContainer />
     </div>
