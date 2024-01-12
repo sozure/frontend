@@ -5,7 +5,7 @@ import {
   getResponseMessage,
   toastErrorPopUp,
 } from "./CommonService";
-const baseUrl = `${getBaseUrl()}/gitbranch`;
+const baseUrl = `${getBaseUrl()}/gitversion`;
 
 const getBranches = async (organization, repositoryId, pat, setLoading, setBranches) => {
   let body = {
@@ -13,9 +13,9 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
     repositoryId: repositoryId,
     pat: pat,
   };
-
+  let url = `${baseUrl}/branches`;
   axios
-    .post(baseUrl, body)
+    .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let branches = res.data.data;

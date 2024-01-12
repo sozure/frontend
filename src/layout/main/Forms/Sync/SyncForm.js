@@ -18,7 +18,7 @@ import {
   getRepositories,
   getVariables,
 } from "../../../../services/GitRepositoryService";
-import { getBranches } from "../../../../services/GitBranchService";
+import { getBranches } from "../../../../services/GitVersionService";
 import ProjectSelectMenu from "../../../ProjectSelectMenu";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import SyncTableForm from "../../Results/Sync/SyncTableForm";
