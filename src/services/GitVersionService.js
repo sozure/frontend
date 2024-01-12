@@ -7,13 +7,17 @@ import {
 } from "./CommonService";
 const baseUrl = `${getBaseUrl()}/gitversion`;
 
-const getBranches = async (organization, repositoryId, pat, setLoading, setBranches) => {
-  let body = {
+const getBody = (organization, repositoryId, pat) => {
+  return {
     organization: organization,
     repositoryId: repositoryId,
     pat: pat,
-  };
+  }
+}
+
+const getBranches = async (organization, repositoryId, pat, setLoading, setBranches) => {
   let url = `${baseUrl}/branches`;
+  let body = getBody(organization, repositoryId, pat);
   axios
     .post(url, body)
     .then((res) => {
@@ -25,7 +29,7 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
-          "repository_requesting",
+          "branch_requesting",
           1500
         );
       }
@@ -36,4 +40,29 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
     });
 };
 
-export { getBranches };
+const getTags = async (organization, repositoryId, pat, setLoading, setTags) => {
+  let url = `${baseUrl}/tags`;
+  let body = getBody(organization, repositoryId, pat);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let tags = res.data.data;
+      setLoading(false);
+      if (status === 1) {
+        setTags(tags);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "tag_requesting",
+          1500
+        );
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
+};
+
+export { getBranches, getTags };
