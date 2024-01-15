@@ -10,8 +10,6 @@ import {
 } from "../../../../contexts/Contexts";
 
 import {
-  Button,
-  Box,
   Checkbox,
   FormGroup,
   FormControlLabel
@@ -24,6 +22,7 @@ import {
   toastErrorPopUp,
 } from "../../../../services/CommonService";
 import KeyVaultSelectMenu from "../../../KeyVaultSelectMenu";
+import MatUIButton from "../../../MatUIButton";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -100,11 +99,7 @@ const KeyVaultCopyForm = () => {
         ></FormControlLabel>
       </FormGroup>
       <br />
-      <Box>
-        <Button id="submit_button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />
     </div>
   );

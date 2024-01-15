@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Button, Box } from "@mui/material";
 import KeyVaultSelect from "./KeyVaultSelect";
 import SecretRegexInput from "./SecretRegexInput";
+import MatUIButton from "../../../../MatUIButton";
 
 const KeyVaultBaseOperationForm = ({ send }) => {
 
@@ -11,12 +11,7 @@ const KeyVaultBaseOperationForm = ({ send }) => {
     <div className="form">
       <KeyVaultSelect />
       <SecretRegexInput />
-
-      <Box>
-        <Button id="submit_button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
     </div>
   );
 };

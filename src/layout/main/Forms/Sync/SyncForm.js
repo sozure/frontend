@@ -1,4 +1,4 @@
-import { Box, Button, Input } from "@mui/material";
+import { Input } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ConfigFileExtensionContext,
@@ -25,6 +25,7 @@ import SyncTableForm from "../../Results/Sync/SyncTableForm";
 import { ToastContainer } from "react-toastify";
 import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipelineService";
 import { getConfigFiles } from "../../../../services/GitFileService";
+import MatUIButton from "../../../MatUIButton";
 
 const getRepositoryId = (repositories, repository) => {
   let repositoryId = "";
@@ -271,15 +272,11 @@ const SyncForm = () => {
                 separator !== "" &&
                 exceptions !== "" &&
                 configFile !== "" ? (
-                  <Box>
-                    <Button
-                      id="submit_button"
-                      onClick={send}
-                      variant="contained"
-                    >
-                      Get variables from config
-                    </Button>
-                  </Box>
+                  <MatUIButton
+                    id={"get_var_from_config"}
+                    send={send}
+                    displayName={"Get variables from config"}
+                  />
                 ) : (
                   <></>
                 )}

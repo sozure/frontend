@@ -3,9 +3,7 @@ import { sendListSecretRequest } from "../../../../services//SecretServices/Secr
 import {
   Checkbox,
   FormControlLabel,
-  FormGroup,
-  Button,
-  Box
+  FormGroup
 } from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
@@ -36,6 +34,7 @@ import {
 } from "../../../../services/CommonService";
 import KeyVaultSelect from "./BaseForms/KeyVaultSelect";
 import SecretRegexInput from "./BaseForms/SecretRegexInput";
+import MatUIButton from "../../../MatUIButton";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -128,14 +127,8 @@ const KeyVaultGetForm = () => {
           label="Get deleted secrets"
         ></FormControlLabel>
       </FormGroup>
-
       <br />
-
-      <Box>
-        <Button id="submit_button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />
     </div>
   );

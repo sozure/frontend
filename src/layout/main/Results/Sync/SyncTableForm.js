@@ -16,8 +16,6 @@ import {
 } from "../../../../contexts/Contexts";
 
 import {
-  Box,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -28,8 +26,13 @@ import {
   getEnvironments,
   getVariableGroups,
 } from "../../../../services/ReleasePipelineService";
+import MatUIButton from "../../../MatUIButton";
 
-const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName }) => {
+const SyncTableForm = ({
+  projectsWithReleasePipeline,
+  repository,
+  configFileName,
+}) => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { setLoading } = useContext(LoadingContext);
   const { pat } = useContext(PATContext);
@@ -105,11 +108,11 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName
           ))}
         </Select>
       </FormControl>
-      <Box>
-        <Button id="refresh" onClick={() => send(containingVGsProject)} variant="contained">
-          <RefreshIcon />
-        </Button>
-      </Box>
+      <MatUIButton
+        id={"get_var_from_config"}
+        send={() => send(containingVGsProject)}
+        displayName={<RefreshIcon/>}
+      />
     </>
   );
 };
