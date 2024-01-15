@@ -9,7 +9,7 @@ import {
 import { Input } from "@mui/material";
 
 const BuildPipTable = () => {
-  const tableHeader = ["Pipeline", "Source", "Action"];
+  const tableHeader = ["Pipeline", "Source type", "Source", "Action", "Result"];
   const { buildPipelines } = useContext(BuildPipelinesContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const [searchBuildPipelines, setSearchBuildPipelines] =

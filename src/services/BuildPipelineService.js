@@ -87,7 +87,8 @@ const runBuildPipeline = async (
   pat,
   definitionId,
   sourceBranch,
-  setLoading
+  setLoading,
+  setResult
 ) => {
   let url = `${baseUrl}/Run`;
   let body = {
@@ -101,13 +102,15 @@ const runBuildPipeline = async (
   axios
     .post(url, body)
     .then((res) => {
-      let status = res.data.status;
+      let status = res.data;
       if (status !== 1) {
         toastErrorPopUp(
           getResponseMessage(status),
           "run_build_pipeline_requesting",
           1500
         );
+      } else {
+        setResult({id: definitionId, success: true});
       }
       setTimeout(() => {
         setLoading(false);
