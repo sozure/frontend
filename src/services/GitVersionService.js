@@ -5,7 +5,7 @@ import {
   getResponseMessage,
   toastErrorPopUp,
 } from "./CommonService";
-const baseUrl = `${getBaseUrl()}/gitversion`;
+const baseUrl = `${getBaseUrl()}/GitVersion`;
 
 const getBody = (organization, repositoryId, pat) => {
   return {
@@ -16,7 +16,7 @@ const getBody = (organization, repositoryId, pat) => {
 }
 
 const getBranches = async (organization, repositoryId, pat, setLoading, setBranches) => {
-  let url = `${baseUrl}/branches`;
+  let url = `${baseUrl}/Branches`;
   let body = getBody(organization, repositoryId, pat);
   axios
     .post(url, body)
@@ -41,7 +41,7 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
 };
 
 const getTags = async (organization, repositoryId, pat, setLoading, setTags) => {
-  let url = `${baseUrl}/tags`;
+  let url = `${baseUrl}/Tags`;
   let body = getBody(organization, repositoryId, pat);
   axios
     .post(url, body)
