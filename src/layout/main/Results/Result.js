@@ -15,6 +15,8 @@ const Result = () => {
         return <VGTable/>
       case "Sync":
         return <SyncTable/>
+      case "Build":
+        return <h1>Hi! Here are the results!</h1>
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
     }
