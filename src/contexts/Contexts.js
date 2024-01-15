@@ -42,3 +42,4 @@ export const ContainingVGsProjectContext = createContext();
 export const PipelineConnectedVGsContext = createContext();
 export const EnvironmentsContext = createContext();
 export const ConfigFileExtensionContext = createContext();
+export const BuildPipelinesContext = createContext();
