@@ -33,22 +33,23 @@ const BuildPipTable = () => {
   };
 
   return (
-    <>
+    <div className="form">
+      <Input
+        fullWidth
+        type="text"
+        id="build_search"
+        name="build_search"
+        placeholder="Search"
+        value={filter}
+        onChange={(event) => filterPipelines(event.target.value)}
+      />
       {searchBuildPipelines.length === 0 ? (
-        <p>There are no build pipelines</p>
+        <p>There are no build pipelines.</p>
       ) : (
         <>
           <h2>Found pipelines: {searchBuildPipelines.length}</h2>
           <br />
-          <Input
-            fullWidth
-            type="text"
-            id="build_search"
-            name="build_search"
-            placeholder="Search"
-            value={filter}
-            onChange={(event) => filterPipelines(event.target.value)}
-          />
+
           <table className="matched-variables-table">
             <TableHeader columnList={tableHeader} />
             <BuildPipTableBody buildPipelines={searchBuildPipelines} />
@@ -57,7 +58,7 @@ const BuildPipTable = () => {
           <PaginationButtons collection={searchBuildPipelines} />
         </>
       )}
-    </>
+    </div>
   );
 };
 
