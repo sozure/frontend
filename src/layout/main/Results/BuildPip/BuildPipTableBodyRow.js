@@ -18,9 +18,9 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
   const { pat } = useContext(PATContext);
   const { projectName } = useContext(ProjectNameContext);
 
-  const [sourceType, setSourceType] = useState("choose one");
+  const [sourceType, setSourceType] = useState("Choose one");
   const [pipelineRunModel, setPipelineRunModel] = useState({});
-  const [source, setSource] = useState("choose one");
+  const [source, setSource] = useState("Choose one");
   const [sources, setSources] = useState([]);
   const [localLoading, setLocalLoading] = useState(false);
   const [runSuccess, setRunSuccess] = useState({});
@@ -35,8 +35,8 @@ useEffect(() =>{
 
   const setCustomSourceType = async (newSourceType) => {
     setSourceType(newSourceType);
-    if (newSourceType !== "choose one") {
-      setSource("choose one");
+    if (newSourceType !== "Choose one") {
+      setSource("Choose one");
       let model = {
         id: pipeline.id,
       };
@@ -77,7 +77,7 @@ useEffect(() =>{
             value={sourceType}
             onChange={(event) => setCustomSourceType(event.target.value)}
           >
-            <MenuItem value="choose one">Choose one</MenuItem>
+            <MenuItem value="Choose one">Choose one</MenuItem>
             <MenuItem value="branch">Branch</MenuItem>
             <MenuItem value="tag">Tag</MenuItem>
           </Select>
@@ -86,7 +86,7 @@ useEffect(() =>{
       <td key={v4()}>
         {pipelineRunModel.id !== undefined &&
         pipelineRunModel.id !== null &&
-        pipelineRunModel.id === pipeline.id ? (
+        pipelineRunModel.id === pipeline.id && sources.length > 0 && sourceType !== "Choose one" ? (
           <FormControl fullWidth>
             <InputLabel>Set source</InputLabel>
             <Select
@@ -100,8 +100,8 @@ useEffect(() =>{
                   {source}
                 </MenuItem>
               ))}
-              <MenuItem value={"choose one"} key={"choose one"}>
-                {"choose one"}
+              <MenuItem value={"Choose one"} key={"Choose one"}>
+                {"Choose one"}
               </MenuItem>
             </Select>
           </FormControl>
@@ -110,7 +110,7 @@ useEffect(() =>{
         )}
       </td>
       <td key={v4()}>
-        {source === "choose one" ? (
+        {sources.length === 0 || source === "Choose one" || sourceType === "Choose one" ? (
           <>-</>
         ) : (
           <MatUIButton
