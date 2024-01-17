@@ -96,15 +96,13 @@ const ActionButtons = () => {
   };
 
   const getKeyVaultSection = () => {
-    return onDelete || onRecover ? getAreYouSureSection() : <></>;
+    return (onDelete || onRecover) && getAreYouSureSection();
   };
 
   return (
     <>
-      {tableType === "KV" && secrets !== undefined && secrets.length > 0 ? (
+      {tableType === "KV" && secrets !== undefined && secrets.length > 0 && (
         getKeyVaultSection()
-      ) : (
-        <></>
       )}
     </>
   );

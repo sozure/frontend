@@ -43,7 +43,7 @@ const SyncTable = () => {
     } else {
       return (
         <>
-          {environments.length > 0 ? (
+          {environments.length > 0 && (
             <SearchableSelectMenu
               containsText={containsEnvText}
               elementKey={"environments"}
@@ -52,8 +52,6 @@ const SyncTable = () => {
               selectedElement={selectedEnv}
               setSelectedElement={setSelectedEnv}
             />
-          ) : (
-            <></>
           )}
           <h2>Found variables: {syncVariables.length} due to configuration</h2>
           <br />
@@ -70,7 +68,7 @@ const SyncTable = () => {
 
   return (
     <div className="form">
-      {!vgAuthorized ? <></> : getTable()}
+      {vgAuthorized && getTable()}
     </div>
   );
 };

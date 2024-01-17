@@ -44,34 +44,32 @@ const PaginationButtons = ({ collection }) => {
       <div className="page-number">
         <PagSpan actualPageNumber={actualPageNumber} pageNumber={pageNumber} />
       </div>
-      {collectionLength <= number ? (
-        <></>
-      ) : (
+      {collectionLength > number && (
         <div className="pagination-btns">
-          <Button
-            className={paginationCounter === 0 ? "previous" : "next"}
-            disabled={paginationCounter === 0}
-            onClick={decreasedPaginationCounter}
-            variant="text"
-          >
-            Previous
-          </Button>
-          <Button
-            className={
-              paginationCounter + number >= collectionLength
-                ? "previous"
-                : "next"
-            }
-            disabled={
-              (paginationCounter + number >= collectionLength) ||
-              (collectionLength < number)
-            }
-            onClick={increasePaginationCounter}
-            variant="contained"
-          >
-            Next
-          </Button>
-        </div>
+        <Button
+          className={paginationCounter === 0 ? "previous" : "next"}
+          disabled={paginationCounter === 0}
+          onClick={decreasedPaginationCounter}
+          variant="text"
+        >
+          Previous
+        </Button>
+        <Button
+          className={
+            paginationCounter + number >= collectionLength
+              ? "previous"
+              : "next"
+          }
+          disabled={
+            (paginationCounter + number >= collectionLength) ||
+            (collectionLength < number)
+          }
+          onClick={increasePaginationCounter}
+          variant="contained"
+        >
+          Next
+        </Button>
+      </div>
       )}
     </div>
   );

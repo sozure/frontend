@@ -60,7 +60,7 @@ const ActionButtons = () => {
   };
 
   const getActionSegment = () => {
-    return onDelete | onAdd | onUpdate ? (
+    return (onDelete || onAdd || onUpdate) && (
       <div>
         {getAreYouSureParagraph()}
         <br />
@@ -96,18 +96,13 @@ const ActionButtons = () => {
           No
         </button>
       </div>
-    ) : (
-      <></>
-    );
-  };
+    )};
 
   return (
     <>
       {tableType === "VG" &&
-      (variables.length > 0 || variableGroups.length > 0) ? (
+      (variables.length > 0 || variableGroups.length > 0) && (
         getActionSegment()
-      ) : (
-        <></>
       )}
     </>
   );

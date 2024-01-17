@@ -37,9 +37,7 @@ const BuildPipTable = () => {
 
   return (
     <>
-      {!vgAuthorized ? (
-        <></>
-      ) : (
+      {vgAuthorized && (
         <div className="form">
           <Input
             fullWidth

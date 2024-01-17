@@ -12,6 +12,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { getBranches, getTags } from "../../../../services/GitVersionService";
 import MatUIButton from "../../../MatUIButton";
+import PropTypes from "prop-types";
 
 const BuildPipTableBodyRow = ({ pipeline }) => {
   const { organizationName } = useContext(OrganizationContext);
@@ -25,13 +26,13 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
   const [localLoading, setLocalLoading] = useState(false);
   const [runSuccess, setRunSuccess] = useState({});
 
-useEffect(() =>{
-  if(runSuccess.id !== undefined){
-    setTimeout(() => {
-      setRunSuccess({})
-    }, 2500)
-  }
-}, [runSuccess, setRunSuccess])
+  useEffect(() => {
+    if (runSuccess.id !== undefined) {
+      setTimeout(() => {
+        setRunSuccess({});
+      }, 2500);
+    }
+  }, [runSuccess, setRunSuccess]);
 
   const setCustomSourceType = async (newSourceType) => {
     setSourceType(newSourceType);
@@ -51,6 +52,13 @@ useEffect(() =>{
         setSources
       );
     }
+  };
+
+  const getBuildRunStatus = () => {
+    if (runSuccess.id === pipeline.id && runSuccess.success) {
+      return <>Success</>;
+    }
+    return <>-</>;
   };
 
   const send = async () => {
@@ -86,7 +94,9 @@ useEffect(() =>{
       <td key={v4()}>
         {pipelineRunModel.id !== undefined &&
         pipelineRunModel.id !== null &&
-        pipelineRunModel.id === pipeline.id && sources.length > 0 && sourceType !== "Choose one" ? (
+        pipelineRunModel.id === pipeline.id &&
+        sources.length > 0 &&
+        sourceType !== "Choose one" ? (
           <FormControl fullWidth>
             <InputLabel>Set source</InputLabel>
             <Select
@@ -110,7 +120,9 @@ useEffect(() =>{
         )}
       </td>
       <td key={v4()}>
-        {sources.length === 0 || source === "Choose one" || sourceType === "Choose one" ? (
+        {sources.length === 0 ||
+        source === "Choose one" ||
+        sourceType === "Choose one" ? (
           <>-</>
         ) : (
           <MatUIButton
@@ -126,14 +138,16 @@ useEffect(() =>{
         pipelineRunModel.id === pipeline.id &&
         localLoading ? (
           <span>Loading...</span>
-        ) : runSuccess.id === pipeline.id && runSuccess.success ? (
-          <>Success</>
         ) : (
-          <>-</>
+          getBuildRunStatus()
         )}
       </td>
     </tr>
   );
+};
+
+BuildPipTableBodyRow.propTypes = {
+  pipeline: PropTypes.object.isRequired,
 };
 
 export default BuildPipTableBodyRow;

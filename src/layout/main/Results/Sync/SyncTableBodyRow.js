@@ -183,12 +183,10 @@ const SyncTableBodyRow = ({
           <>{getDisplayedVariableType(variableType)}</>
         )}
       </td>
-      {configFileExtension === "json" ? (
+      {configFileExtension === "json" && (
         <td key={v4()}>
           {containingVGsProject === "" ? <>-</> : getActionSection(variable)}
         </td>
-      ) : (
-        <></>
       )}
 
       <td key={v4()}>
