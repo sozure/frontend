@@ -179,7 +179,7 @@ const SyncForm = () => {
         )}
       </div>
       {pipelineLocalLoading ? (
-        <p>Loading azure projects with relevant release pipelines...</p>
+        <div className="form"><p>Loading azure projects with relevant release pipelines...</p></div>
       ) : (
         getSyncTableForm()
       )}

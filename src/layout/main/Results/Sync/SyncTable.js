@@ -17,18 +17,16 @@ const SyncTable = () => {
   const [selectedEnv, setSelectedEnv] = useState("");
   const { configFileExtension } = useContext(ConfigFileExtensionContext);
 
-  const tableHeader = configFileExtension === "json"? [
-    "Variable",
-    "Type",
-    "Modify variable",
-    "Containing variable groups",
-    "Add variable",
-  ]: [
-    "Variable",
-    "Type",
-    "Containing variable groups",
-    "Add variable",
-  ];
+  const tableHeader =
+    configFileExtension === "json"
+      ? [
+          "Variable",
+          "Type",
+          "Modify variable",
+          "Containing variable groups",
+          "Add variable",
+        ]
+      : ["Variable", "Type", "Containing variable groups", "Add variable"];
 
   const containsEnvText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
@@ -66,11 +64,7 @@ const SyncTable = () => {
     }
   };
 
-  return (
-    <div className="form">
-      {vgAuthorized && getTable()}
-    </div>
-  );
+  return <>{vgAuthorized && <div className="form">{getTable()}</div>}</>;
 };
 
 export default SyncTable;
