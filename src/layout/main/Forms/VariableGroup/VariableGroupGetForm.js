@@ -29,13 +29,12 @@ import {
 } from "../../../../services/CommonService";
 
 import {
-  Button,
-  Box,
   Input,
   FormGroup,
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+import MatUIButton from "../../../MatUIButton";
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -145,11 +144,7 @@ const VariableGroupGetForm = () => {
         ></FormControlLabel>
       </FormGroup>
       <br />
-      <Box>
-        <Button id="submit_button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />
     </div>
   );

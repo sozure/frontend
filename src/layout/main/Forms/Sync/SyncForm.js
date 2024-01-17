@@ -1,30 +1,21 @@
-import { Box, Button, Input } from "@mui/material";
+import { v4 } from "uuid";
 import React, { useContext, useEffect, useState } from "react";
 import {
   ConfigFileExtensionContext,
-  ContainingVGsContext,
-  ContainingVGsProjectContext,
-  EnvironmentsContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
-  PaginationCounterContext,
-  PipelineConnectedVGsContext,
   ProjectNameContext,
-  ProjectsContext,
+  RepositoriesContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
-import {
-  getRepositories,
-  getVariables,
-} from "../../../../services/GitRepositoryService";
-import { getBranches } from "../../../../services/GitBranchService";
+import { getRepositories } from "../../../../services/GitRepositoryService";
+import { getBranches } from "../../../../services/GitVersionService";
 import ProjectSelectMenu from "../../../ProjectSelectMenu";
-import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import SyncTableForm from "../../Results/Sync/SyncTableForm";
 import { ToastContainer } from "react-toastify";
-import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipelineService";
-import { getConfigFiles } from "../../../../services/GitFileService";
+import SyncFormFields2 from "./SyncFormFields2";
+import SyncFormFields1 from "./SyncFormFields1";
 
 const getRepositoryId = (repositories, repository) => {
   let repositoryId = "";
@@ -42,15 +33,9 @@ const SyncForm = () => {
   const { pat } = useContext(PATContext);
   const { setLoading } = useContext(LoadingContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
-  const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const { setContainingVGs } = useContext(ContainingVGsContext);
-  const { setContainingVGsProject } = useContext(ContainingVGsProjectContext);
-  const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
-  const { projects } = useContext(ProjectsContext);
-  const { setEnvironments } = useContext(EnvironmentsContext);
   const { setConfigFileExtension } = useContext(ConfigFileExtensionContext);
+  const { repositories, setRepositories } = useContext(RepositoriesContext);
 
-  const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
   const [branches, setBranches] = useState([]);
   const [projectsWithPipeline, setProjectsWithPipeline] = useState([]);
@@ -65,15 +50,6 @@ const SyncForm = () => {
   const [exceptions, setExceptions] = useState(
     process.env.REACT_APP_CONFIG_EXCEPTION
   );
-
-  const containsRepoText = (element, searchText) =>
-    element.repositoryName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-  const containsBranchText = (element, searchText) =>
-    element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-  const containsConfigFileText = (element, searchText) =>
-    element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   useEffect(() => {
     if (projectName !== "") {
@@ -131,63 +107,34 @@ const SyncForm = () => {
     }
   }, [configFile, setConfigFileExtension]);
 
-  const customSetRepository = (value) => {
-    setRepository(value);
-    setActualBranch("");
-    setConfigFile("");
-  };
-
   const customSetProject = (value) => {
     setProjectName(value);
     setRepository("");
     setConfigFile("");
   };
 
-  const customSetActualBranch = async (value) => {
-    setActualBranch(value);
-    setConfigFile("");
-    let repositoryId = getRepositoryId(repositories, repository);
-    await getConfigFiles(
-      organizationName,
-      pat,
-      repositoryId,
-      value,
-      setConfigFiles,
-      setConfigLocalLoading
-    );
-  };
-
-  const send = async () => {
-    setPaginationCounter(0);
-    await setContainingVGs([]);
-    await setEnvironments([]);
-    await setPipelineConnectedVGs([]);
-    setContainingVGsProject("");
-    let repositoryId = getRepositoryId(repositories, repository);
-    let body = {
-      organization: organizationName,
-      project: projectName,
-      pat: pat,
-      branch: actualBranch,
-      repositoryId: repositoryId,
-      filePath: configFile,
-      delimiter: separator,
-      exceptions: exceptions.split(","),
-    };
-    let projectNames = [];
-    projects.forEach((element) => {
-      projectNames.push(element.name);
-    });
-    await getProjectsWithReleasePipeline(
-      organizationName,
-      projectNames,
-      pat,
-      repository,
-      configFileName,
-      setProjectsWithPipeline,
-      setPipelineLocalLoading
-    );
-    await getVariables(body, setLoading, setSyncVariables);
+  const getSyncTableForm = () => {
+    if (
+      repository !== "" &&
+      actualBranch !== "" &&
+      projectName !== "" &&
+      separator !== "" &&
+      exceptions !== "" &&
+      configFile !== "" &&
+      syncVariables !== null &&
+      syncVariables !== undefined &&
+      syncVariables.length !== 0 &&
+      projectsWithPipeline.length !== 0
+    ) {
+      return (
+        <SyncTableForm
+          repository={repository}
+          projectsWithReleasePipeline={projectsWithPipeline}
+          configFileName={configFileName}
+        />
+      );
+    }
+    return <></>;
   };
 
   return (
@@ -198,120 +145,44 @@ const SyncForm = () => {
           projectName={projectName}
           setProjectName={customSetProject}
         />{" "}
-        {repositories.length > 0 ? (
+        {repositories.length > 0 && (
           <>
-            {projectName !== "" ? (
-              <SearchableSelectMenu
-                containsText={containsRepoText}
-                elementKey={"repositoryName"}
-                elements={repositories}
-                inputLabel={"Select repository"}
-                selectedElement={repository}
-                setSelectedElement={customSetRepository}
-              />
-            ) : (
-              <></>
-            )}{" "}
-            {repository !== "" ? (
-              <SearchableSelectMenu
-                containsText={containsBranchText}
-                elements={branches}
-                inputLabel={"Select branch"}
-                selectedElement={actualBranch}
-                setSelectedElement={customSetActualBranch}
-              />
-            ) : (
-              <></>
-            )}
-            {repository !== "" && actualBranch !== "" && projectName !== "" ? (
-              <>
-                {configLocalLoading ? (
-                  <p>Loading config files...</p>
-                ) : (
-                  <SearchableSelectMenu
-                    containsText={containsConfigFileText}
-                    elementKey={"configFile"}
-                    elements={configFiles}
-                    inputLabel={"Select config file"}
-                    selectedElement={configFile}
-                    setSelectedElement={setConfigFile}
-                  />
-                )}
-
-                {separator === "" ? (
-                  <Input
-                    fullWidth
-                    type="text"
-                    id="separator"
-                    name="separator"
-                    placeholder="Variable's separator"
-                    value={separator}
-                    onChange={(event) => setSeparator(event.target.value)}
-                  />
-                ) : (
-                  <></>
-                )}
-                {exceptions === "" ? (
-                  <Input
-                    fullWidth
-                    type="text"
-                    id="exceptions"
-                    name="exceptions"
-                    placeholder="Variable's exceptions (comma-separated values)"
-                    value={exceptions}
-                    onChange={(event) => setExceptions(event.target.value)}
-                  />
-                ) : (
-                  <></>
-                )}
-
-                {repository !== "" &&
-                actualBranch !== "" &&
-                projectName !== "" &&
-                separator !== "" &&
-                exceptions !== "" &&
-                configFile !== "" ? (
-                  <Box>
-                    <Button
-                      id="submit_button"
-                      onClick={send}
-                      variant="contained"
-                    >
-                      Get variables from config
-                    </Button>
-                  </Box>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <></>
-            )}
+            <SyncFormFields1
+              repository={repository}
+              setRepository={setRepository}
+              actualBranch={actualBranch}
+              setActualBranch={setActualBranch}
+              branches={branches}
+              repositories={repositories}
+              setConfigFile={setConfigFile}
+              setConfigFiles={setConfigFiles}
+              setConfigLocalLoading={setConfigLocalLoading}
+              key={v4()}
+            />
+            <SyncFormFields2
+              actualBranch={actualBranch}
+              configFile={configFile}
+              configFileName={configFileName}
+              configFiles={configFiles}
+              configLocalLoading={configLocalLoading}
+              exceptions={exceptions}
+              setExceptions={setExceptions}
+              repositories={repositories}
+              repository={repository}
+              separator={separator}
+              setConfigFile={setConfigFile}
+              setPipelineLocalLoading={setPipelineLocalLoading}
+              setProjectsWithPipeline={setProjectsWithPipeline}
+              setSeparator={setSeparator}
+              key={v4()}
+            />
           </>
-        ) : (
-          <></>
         )}
       </div>
-      <br />
       {pipelineLocalLoading ? (
-        <p>Loading azure projects with relevant release pipelines...</p>
-      ) : repository !== "" &&
-        actualBranch !== "" &&
-        projectName !== "" &&
-        separator !== "" &&
-        exceptions !== "" &&
-        configFile !== "" &&
-        syncVariables !== null &&
-        syncVariables !== undefined &&
-        syncVariables.length !== 0 &&
-        projectsWithPipeline.length !== 0 ? (
-        <SyncTableForm
-          repository={repository}
-          projectsWithReleasePipeline={projectsWithPipeline}
-          configFileName={configFileName}
-        />
+        <div className="form"><p>Loading azure projects with relevant release pipelines...</p></div>
       ) : (
-        <></>
+        getSyncTableForm()
       )}
       <ToastContainer />
     </>

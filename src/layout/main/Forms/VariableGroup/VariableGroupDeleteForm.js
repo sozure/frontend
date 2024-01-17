@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 
-import { Button, Box, Input } from "@mui/material";
+import { Input } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,6 +28,7 @@ import {
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
+import MatUIButton from "../../../MatUIButton";
 
 const VariableGroupDeleteForm = () => {
   const { setOnDelete } = useContext(OnDeleteContext);
@@ -101,12 +102,7 @@ const VariableGroupDeleteForm = () => {
       />
       <br />
       <br />
-
-      <Box>
-        <Button id="submit_button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />
     </div>
   );

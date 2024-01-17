@@ -186,10 +186,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
         {secretValue === null || secretValue === undefined
           ? getRecoverSection()
           : getActionSection()}
-        {localLoading.row === index && localLoading.loading ? (
+        {(localLoading.row === index && localLoading.loading) && (
           <span>Loading...</span>
-        ) : (
-          <></>
         )}
       </td>
     );
@@ -204,7 +202,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         getSecretValue()
       )}
-      {!onDelete && !onRecover ? getButtonSection() : <></>}
+      {(!onDelete && !onRecover) && getButtonSection()}
     </tr>
   );
 };

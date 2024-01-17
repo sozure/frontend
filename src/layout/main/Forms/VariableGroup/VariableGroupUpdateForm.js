@@ -26,9 +26,10 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
-import { Button, Box, Input } from "@mui/material";
+import { Input } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MatUIButton from "../../../MatUIButton";
 
 const VariableGroupUpdateForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -129,11 +130,7 @@ const VariableGroupUpdateForm = () => {
       <br />
       <br />
 
-      <Box>
-        <Button id="submit-button" onClick={send} variant="contained">
-          Send request
-        </Button>
-      </Box>
+      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />
     </div>
   );

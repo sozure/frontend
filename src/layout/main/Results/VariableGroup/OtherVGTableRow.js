@@ -67,9 +67,7 @@ const OtherVGTableRow = ({
           </span>
         )}
       </td>
-      {onUpdate || onDelete ? (
-        <></>
-      ) : (
+      {!onUpdate && !onDelete && (
         <OtherVGTableRowButtons
           variableGroup={variableGroup}
           isSecretVariableGroup={isSecretVariableGroup}

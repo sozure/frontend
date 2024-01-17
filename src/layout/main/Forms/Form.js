@@ -32,6 +32,8 @@ import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
 import AuthorizedSection from "./Authorize/AuthorizedSection";
 import { toastErrorPopUp } from "../../../services/CommonService";
 import SyncForm from "./Sync/SyncForm";
+import BuildPipForm from "./BuildPip/BuildPipForm";
+import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -154,6 +156,30 @@ function Form() {
     );
   };
 
+  const getBuildPipelineForm = () => {
+    if (!vgAuthorized || projects.length === 0) {
+      return <VGAuthorizeForm />;
+    }
+    return (
+      <>
+        <AuthorizedSection />
+        <BuildPipForm/>
+      </>
+    );
+  }
+
+  const getTagAndBuildForm = () => {
+    if (!vgAuthorized || projects.length === 0) {
+      return <VGAuthorizeForm />;
+    }
+    return (
+      <>
+        <AuthorizedSection />
+        <TagAndBuildForm/>
+      </>
+    );
+  }
+
   const getForm = () => {
     switch (tableType) {
       case "KV":
@@ -162,6 +188,10 @@ function Form() {
         return getVGForm();
       case "Sync":
         return getSyncForm();
+      case "Build":
+        return getBuildPipelineForm();
+      case "Tag&Build":
+        return getTagAndBuildForm();
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
     }

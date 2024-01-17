@@ -13,6 +13,7 @@ import {
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
 import { toastErrorPopUp } from "../../../../services/CommonService";
+import PropTypes from "prop-types";
 
 const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const [modification, setModification] = useState({});
@@ -76,11 +77,9 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
     }
   };
 
-  return (
-    <>
-      {localLoading ? (
-        <>Loading...</>
-      ) : !(modification.modification && modification.key === variable) ? (
+  const getAddSection = () => {
+    if (!(modification.modification && modification.key === variable)) {
+      return (
         <Button
           variant="contained"
           id="add_variable"
@@ -93,30 +92,44 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
         >
           Add
         </Button>
-      ) : (
-        <>
-          <SearchableSelectMenu
-            containsText={containsVGText}
-            elements={potentialMissingVgs}
-            inputLabel={`${potentialMissingVgs.length} item(s) found`}
-            selectedElement={actualVg}
-            setSelectedElement={setActualVg}
-          />
-          <SyncTableBodyInput
-            idPrefix={idPrefix}
-            variable={variable}
-            optionalValue={""}
-          />
-          <button onClick={async () => await addSync(variable)}>
-            <AiOutlineCheck />
-          </button>
-          <button onClick={() => setModification({})}>
-            <AiOutlineClose />
-          </button>
-        </>
-      )}
+      );
+    }
+    return (
+      <>
+        <SearchableSelectMenu
+          containsText={containsVGText}
+          elements={potentialMissingVgs}
+          inputLabel={`${potentialMissingVgs.length} item(s) found`}
+          selectedElement={actualVg}
+          setSelectedElement={setActualVg}
+        />
+        <SyncTableBodyInput
+          idPrefix={idPrefix}
+          variable={variable}
+          optionalValue={""}
+        />
+        <button onClick={async () => await addSync(variable)}>
+          <AiOutlineCheck />
+        </button>
+        <button onClick={() => setModification({})}>
+          <AiOutlineClose />
+        </button>
+      </>
+    );
+  };
+
+  return (
+    <>
+      {localLoading ? (
+        <>Loading...</>
+      ) : getAddSection()}
     </>
   );
+};
+
+SyncTableBodyRowAdd.propTypes = {
+  variable: PropTypes.string.isRequired,
+  potentialMissingVgs: PropTypes.arrayOf(PropTypes.any).isRequired
 };
 
 export default SyncTableBodyRowAdd;
