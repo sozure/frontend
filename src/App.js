@@ -47,6 +47,7 @@ import {
   ConfigFileExtensionContext,
   BuildPipelinesContext,
   RepositoriesContext,
+  LatestTagsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -121,6 +122,7 @@ function App() {
   const [syncVariables, setSyncVariables] = useState([]);
   const [environments, setEnvironments] = useState([]);
   const [buildPipelines, setBuildPipelines] = useState([]);
+  const [latestTags, setLatestTags] = useState([]);
   const [repositories, setRepositories] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
@@ -541,6 +543,18 @@ function App() {
                                                                                             ]
                                                                                           )}
                                                                                         >
+                                                                                          <LatestTagsContext.Provider
+                                                                                          value={useMemo(
+                                                                                            () => ({
+                                                                                              latestTags,
+                                                                                              setLatestTags,
+                                                                                            }),
+                                                                                            [
+                                                                                              latestTags,
+                                                                                              setLatestTags,
+                                                                                            ]
+                                                                                          )}
+                                                                                        >
                                                                                           <Welcome />
                                                                                           <BrowserRouter>
                                                                                             <Routes>
@@ -558,6 +572,7 @@ function App() {
                                                                                               />
                                                                                             </Routes>
                                                                                           </BrowserRouter>
+                                                                                          </LatestTagsContext.Provider>
                                                                                           </RepositoriesContext.Provider>
                                                                                         </BuildPipelinesContext.Provider>
                                                                                       </ConfigFileExtensionContext.Provider>

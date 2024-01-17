@@ -1,29 +1,51 @@
 import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
-import MatUIButton from "../../../MatUIButton";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { createTag, getTags } from "../../../../services/GitVersionService";
 import {
-  createTag,
-  getTags,
-} from "../../../../services/GitVersionService";
-import {
+  LatestTagsContext,
   OrganizationContext,
   PATContext,
   ProfileNameContext,
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
+import { Cancel, PlayArrow } from "@mui/icons-material";
+
+const hasItem = (latestTags, repository) => {
+  let alreadyHasItem = { found: false, element: undefined };
+  latestTags.forEach((tag) => {
+    if (tag.name === repository.repositoryName) {
+      alreadyHasItem = { found: true, element: tag };
+    }
+  });
+  return alreadyHasItem;
+};
+
+const collectLatestTags = (latestTags, repository, tag) => {
+  let newElement = { name: repository.repositoryName, tag: tag };
+  let result = [];
+  latestTags.forEach((tag) => {
+    result.push(tag);
+  });
+  result.push(newElement);
+  return result;
+};
 
 const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
+  const versionTypes = ["major", "minor", "patch"];
   const { projectName } = useContext(ProjectNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
+  const { latestTags, setLatestTags } = useContext(LatestTagsContext);
 
   const [typeOfVersion, setTypeOfVersion] = useState("");
   const [possibleNewTag, setPossibleNewTag] = useState("");
+  const [latestTag, setLatestTag] = useState("");
   const [runSuccess, setRunSuccess] = useState({});
   const [localLoading, setLocalLoading] = useState(false);
+  const [runAlready, setRunAlready] = useState(false);
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
@@ -35,7 +57,14 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
   }, [runSuccess, setRunSuccess]);
 
   useEffect(() => {
-    if (tags.length === 0) {
+    let alreadyHasItem = hasItem(latestTags, repository);
+    if (
+      !alreadyHasItem.found &&
+      !runAlready &&
+      tags.length === 0 &&
+      pipeline !== undefined
+    ) {
+      setRunAlready(true);
       getTags(
         organizationName,
         repository.repositoryId,
@@ -43,8 +72,31 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
         setLocalLoading,
         setTags
       );
+    } else if (alreadyHasItem.found) {
+      setLatestTag(alreadyHasItem.element.tag);
     }
-  }, [tags, organizationName, repository, pat]);
+  }, [
+    tags,
+    organizationName,
+    repository,
+    pat,
+    pipeline,
+    latestTag,
+    runAlready,
+    latestTags,
+  ]);
+
+  useEffect(() => {
+    let alreadyHasItem = hasItem(latestTags, repository);
+    if (tags.length > 0 && !alreadyHasItem.found) {
+      let tag = getLatestTag(tags);
+      setLatestTag(tag);
+      let result = collectLatestTags(latestTags, repository, tag);
+      setLatestTags(result);
+    } else if (alreadyHasItem.found) {
+      setLatestTag(alreadyHasItem.element.tag);
+    }
+  }, [tags, latestTags, setLatestTags, repository]);
 
   const getBuildRunStatus = () => {
     if (
@@ -59,7 +111,7 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
 
   const getLatestTag = (tags) => {
     return tags[tags.length - 1].replace("refs/tags/", "");
-  }
+  };
 
   const send = () => {
     if (pipeline !== undefined) {
@@ -79,21 +131,24 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
   const cancel = () => {
     setPossibleNewTag("-");
     setTypeOfVersion("");
-  }
+  };
 
   const setTypeOfVersionCustom = (newTypeOfVersion) => {
     setTypeOfVersion(newTypeOfVersion);
     let newTag;
-    let lastTag = getLatestTag(tags).split(".");
+    let tag = latestTag.split(".");
+    let tagHasValue = tag.length > 1;
     switch (newTypeOfVersion) {
       case "major":
-        newTag = `${Number(lastTag[0]) + 1}.0.0`;
+        newTag = tagHasValue ? `${Number(tag[0]) + 1}.0.0` : "1.0.0";
         break;
       case "minor":
-        newTag = `${lastTag[0]}.${Number(lastTag[1]) + 1}.0`;
+        newTag = tagHasValue ? `${tag[0]}.${Number(tag[1]) + 1}.0` : "0.1.0";
         break;
       case "patch":
-        newTag = `${lastTag[0]}.${lastTag[1]}.${Number(lastTag[2]) + 1}`;
+        newTag = tagHasValue
+          ? `${tag[0]}.${tag[1]}.${Number(tag[2]) + 1}`
+          : "0.0.1";
         break;
       default:
         newTag = "-";
@@ -104,11 +159,7 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
   return (
     <tr key={v4()}>
       <td key={repository.repositoryId}>{repository.repositoryName}</td>
-      <td key={v4()}>
-        {tags.length > 0
-          ? `${getLatestTag(tags)}`
-          : "-"}
-      </td>
+      <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
       <td key={v4()}>
         {pipeline !== undefined ? (
           <FormControl fullWidth>
@@ -119,15 +170,11 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
               value={typeOfVersion}
               onChange={(event) => setTypeOfVersionCustom(event.target.value)}
             >
-              <MenuItem value={"major"} key={"major"}>
-                Major
-              </MenuItem>
-              <MenuItem value={"minor"} key={"minor"}>
-                Minor
-              </MenuItem>
-              <MenuItem value={"patch"} key={"patch"}>
-                Patch
-              </MenuItem>
+              {versionTypes.map((element) => (
+                <MenuItem value={element} key={element}>
+                  {element}
+                </MenuItem>
+              ))}
               <MenuItem value={"Choose one"} key={"Choose one"} disabled>
                 {"Choose one"}
               </MenuItem>
@@ -143,16 +190,16 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
       <td key={v4()}>
         {typeOfVersion !== "" && pipeline !== undefined ? (
           <>
-            <MatUIButton
-              id={"request_tag_and_build"}
-              send={send}
-              displayName={"Create tag and run build"}
-            />{" "}
-            <MatUIButton
-              id={"request_tag_and_build_cancel"}
-              send={cancel}
-              displayName={"Cancel"}
-            />
+            <abbr title={"Start create and build"}>
+              <button onClick={send}>
+                <PlayArrow />
+              </button>
+            </abbr>{" "}
+            <abbr title={"Cancel"}>
+              <button onClick={cancel}>
+                <Cancel />
+              </button>
+            </abbr>
           </>
         ) : (
           <>-</>
