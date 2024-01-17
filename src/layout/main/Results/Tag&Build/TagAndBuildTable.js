@@ -12,7 +12,9 @@ import TagAndBuildTableBody from "./TagAndBuildTableBody";
 const TagAndBuildTable = () => {
   const tableHeader = [
     "Repository",
+    "Latest tag",
     "Type of new version",
+    "Possible new tag",
     "Create and build",
     "Result",
   ];
