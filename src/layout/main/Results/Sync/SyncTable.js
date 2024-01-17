@@ -69,7 +69,7 @@ const SyncTable = () => {
   };
 
   return (
-    <div className="matched-variables-table">
+    <div className="form">
       {!vgAuthorized ? <></> : getTable()}
     </div>
   );

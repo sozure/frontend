@@ -15,12 +15,7 @@ import {
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   getEnvironments,
@@ -92,7 +87,7 @@ const SyncTableForm = ({
   };
 
   return (
-    <>
+    <div className="form">
       <FormControl fullWidth>
         <InputLabel>Projects containing pipeline</InputLabel>
         <Select
@@ -108,12 +103,14 @@ const SyncTableForm = ({
           ))}
         </Select>
       </FormControl>
-      <MatUIButton
-        id={"get_var_from_config"}
-        send={() => send(containingVGsProject)}
-        displayName={<RefreshIcon/>}
-      />
-    </>
+      {containingVGsProject !== "" && (
+        <MatUIButton
+          id={"get_var_from_config"}
+          send={() => send(containingVGsProject)}
+          displayName={<RefreshIcon />}
+        />
+      )}
+    </div>
   );
 };
 

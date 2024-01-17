@@ -9,6 +9,7 @@ import {
   ConfigFileExtensionContext,
   ContainingVGsContext,
   ContainingVGsProjectContext,
+  EnvironmentsContext,
   OrganizationContext,
   PATContext,
   ProfileNameContext,
@@ -30,6 +31,7 @@ const SyncTableBodyRow = ({
   const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
   const { configFileExtension } = useContext(ConfigFileExtensionContext);
+  const { environments } = useContext(EnvironmentsContext);
 
   const [modification, setModification] = useState({});
   const [localLoading, setLocalLoading] = useState(false);
@@ -200,7 +202,7 @@ const SyncTableBodyRow = ({
       <td key={v4()}>
         {containingVGsProject === "" ||
         variableType === "AzureKeyVault" ||
-        potentialMissingVgs.length === 0 ? (
+        potentialMissingVgs.length === 0 || vgs.length >= environments.length ? (
           <p>-</p>
         ) : (
           <SyncTableBodyRowAdd
