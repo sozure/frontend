@@ -289,7 +289,6 @@ const SyncForm = () => {
           <></>
         )}
       </div>
-      <br />
       {pipelineLocalLoading ? (
         <p>Loading azure projects with relevant release pipelines...</p>
       ) : repository !== "" &&
