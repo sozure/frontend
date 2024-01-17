@@ -40,8 +40,10 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       setSource("Choose one");
       let model = {
         id: pipeline.id,
+        type: "source type",
       };
       setPipelineRunModel(model);
+      setLocalLoading(true);
       await getRepositoryIdByBuildPipeline(
         organizationName,
         projectName,
@@ -56,12 +58,51 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
 
   const getBuildRunStatus = () => {
     if (runSuccess.id === pipeline.id && runSuccess.success) {
-      return <>Success</>;
+      return <span>Success</span>;
     }
     return <>-</>;
   };
 
+  const getSources = () => {
+    if (isModification() && sources.length > 0 && sourceType !== "Choose one") {
+      return (
+        <FormControl fullWidth>
+          <InputLabel htmlFor="source">Set source</InputLabel>
+          <Select
+            className="source"
+            label="Set source"
+            value={source}
+            onChange={(event) => setSource(event.target.value)}
+          >
+            {sources.map((source) => (
+              <MenuItem value={source} key={source}>
+                {source}
+              </MenuItem>
+            ))}
+            <MenuItem value={"Choose one"} key={"Choose one"} disabled>
+              {"Choose one"}
+            </MenuItem>
+          </Select>
+        </FormControl>
+      );
+    }
+    return <>-</>;
+  };
+
+  const isModification = () => {
+    return (
+      pipelineRunModel.id !== undefined &&
+      pipelineRunModel.id !== null &&
+      pipelineRunModel.id === pipeline.id
+    );
+  };
+
   const send = async () => {
+    let model = {
+      id: pipeline.id,
+      type: "run pipeline",
+    };
+    setPipelineRunModel(model);
     await runBuildPipeline(
       organizationName,
       projectName,
@@ -78,45 +119,32 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       <td key={pipeline.id}>{pipeline.name}</td>
       <td key={v4()}>
         <FormControl fullWidth>
-          <InputLabel>Set source type</InputLabel>
+          <InputLabel htmlFor={"source-type"}>Set source type</InputLabel>
           <Select
             className="source-type"
             label="Set source type"
             value={sourceType}
             onChange={(event) => setCustomSourceType(event.target.value)}
           >
-            <MenuItem value="Choose one">Choose one</MenuItem>
-            <MenuItem value="branch">Branch</MenuItem>
-            <MenuItem value="tag">Tag</MenuItem>
+            <MenuItem value="Choose one" key={"Choose one"} disabled>
+              Choose one
+            </MenuItem>
+            <MenuItem value="branch" key={"branch"}>
+              Branch
+            </MenuItem>
+            <MenuItem value="tag" key={"tag"}>
+              Tag
+            </MenuItem>
           </Select>
         </FormControl>
       </td>
       <td key={v4()}>
-        {pipelineRunModel.id !== undefined &&
-        pipelineRunModel.id !== null &&
-        pipelineRunModel.id === pipeline.id &&
-        sources.length > 0 &&
-        sourceType !== "Choose one" ? (
-          <FormControl fullWidth>
-            <InputLabel>Set source</InputLabel>
-            <Select
-              className="source"
-              label="Set source"
-              value={source}
-              onChange={(event) => setSource(event.target.value)}
-            >
-              {sources.map((source) => (
-                <MenuItem value={source} key={source}>
-                  {source}
-                </MenuItem>
-              ))}
-              <MenuItem value={"Choose one"} key={"Choose one"}>
-                {"Choose one"}
-              </MenuItem>
-            </Select>
-          </FormControl>
+        {isModification() &&
+        pipelineRunModel.type === "source type" &&
+        localLoading ? (
+          <span>Loading...</span>
         ) : (
-          <>-</>
+          getSources()
         )}
       </td>
       <td key={v4()}>
@@ -133,9 +161,8 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
         )}
       </td>
       <td key={v4()}>
-        {pipelineRunModel.id !== undefined &&
-        pipelineRunModel.id !== null &&
-        pipelineRunModel.id === pipeline.id &&
+        {isModification() &&
+        pipelineRunModel.type === "run pipeline" &&
         localLoading ? (
           <span>Loading...</span>
         ) : (
