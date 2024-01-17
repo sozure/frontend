@@ -80,7 +80,6 @@ const createTag = (model, setResult, setLoading) => {
     tagName: model.tagName,
     userName: model.userName,
   };
-  console.log(body);
   axios
     .post(url, body)
     .then((res) => {
