@@ -45,6 +45,9 @@ import {
   PipelineConnectedVGsContext,
   EnvironmentsContext,
   ConfigFileExtensionContext,
+  BuildPipelinesContext,
+  RepositoriesContext,
+  LatestTagsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -118,6 +121,9 @@ function App() {
   const [profileName, setProfileName] = useState("");
   const [syncVariables, setSyncVariables] = useState([]);
   const [environments, setEnvironments] = useState([]);
+  const [buildPipelines, setBuildPipelines] = useState([]);
+  const [latestTags, setLatestTags] = useState([]);
+  const [repositories, setRepositories] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",
@@ -513,23 +519,62 @@ function App() {
                                                                                           ]
                                                                                         )}
                                                                                       >
-                                                                                        <Welcome />
-                                                                                        <BrowserRouter>
-                                                                                          <Routes>
-                                                                                            <Route
-                                                                                              path="/"
-                                                                                              element={
-                                                                                                <Main />
-                                                                                              }
-                                                                                            />
-                                                                                            <Route
-                                                                                              path="/changes"
-                                                                                              element={
-                                                                                                <Modifications />
-                                                                                              }
-                                                                                            />
-                                                                                          </Routes>
-                                                                                        </BrowserRouter>
+                                                                                        <BuildPipelinesContext.Provider
+                                                                                          value={useMemo(
+                                                                                            () => ({
+                                                                                              buildPipelines,
+                                                                                              setBuildPipelines,
+                                                                                            }),
+                                                                                            [
+                                                                                              buildPipelines,
+                                                                                              setBuildPipelines,
+                                                                                            ]
+                                                                                          )}
+                                                                                        >
+                                                                                          <RepositoriesContext.Provider
+                                                                                          value={useMemo(
+                                                                                            () => ({
+                                                                                              repositories,
+                                                                                              setRepositories,
+                                                                                            }),
+                                                                                            [
+                                                                                              repositories,
+                                                                                              setRepositories,
+                                                                                            ]
+                                                                                          )}
+                                                                                        >
+                                                                                          <LatestTagsContext.Provider
+                                                                                          value={useMemo(
+                                                                                            () => ({
+                                                                                              latestTags,
+                                                                                              setLatestTags,
+                                                                                            }),
+                                                                                            [
+                                                                                              latestTags,
+                                                                                              setLatestTags,
+                                                                                            ]
+                                                                                          )}
+                                                                                        >
+                                                                                          <Welcome />
+                                                                                          <BrowserRouter>
+                                                                                            <Routes>
+                                                                                              <Route
+                                                                                                path="/"
+                                                                                                element={
+                                                                                                  <Main />
+                                                                                                }
+                                                                                              />
+                                                                                              <Route
+                                                                                                path="/changes"
+                                                                                                element={
+                                                                                                  <Modifications />
+                                                                                                }
+                                                                                              />
+                                                                                            </Routes>
+                                                                                          </BrowserRouter>
+                                                                                          </LatestTagsContext.Provider>
+                                                                                          </RepositoriesContext.Provider>
+                                                                                        </BuildPipelinesContext.Provider>
                                                                                       </ConfigFileExtensionContext.Provider>
                                                                                     </EnvironmentsContext.Provider>
                                                                                   </PipelineConnectedVGsContext.Provider>

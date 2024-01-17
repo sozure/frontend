@@ -66,6 +66,10 @@ const MainSelects = () => {
         );
       case "Sync":
         return <></>;
+      case "Build":
+        return <></>;
+      case "Tag&Build":
+        return <></>;
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
     }
@@ -83,6 +87,8 @@ const MainSelects = () => {
           <MenuItem value="KV">Secrets</MenuItem>
           <MenuItem value="VG">Variable groups</MenuItem>
           <MenuItem value="Sync">Sync configurations</MenuItem>
+          <MenuItem value="Build">Run build pipelines</MenuItem>
+          <MenuItem value="Tag&Build">Create tag and run build</MenuItem>
         </Select>
       </FormControl>
       {getActionTypeOptions()}

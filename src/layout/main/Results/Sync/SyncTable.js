@@ -17,18 +17,16 @@ const SyncTable = () => {
   const [selectedEnv, setSelectedEnv] = useState("");
   const { configFileExtension } = useContext(ConfigFileExtensionContext);
 
-  const tableHeader = configFileExtension === "json"? [
-    "Variable",
-    "Type",
-    "Modify variable",
-    "Containing variable groups",
-    "Add variable",
-  ]: [
-    "Variable",
-    "Type",
-    "Containing variable groups",
-    "Add variable",
-  ];
+  const tableHeader =
+    configFileExtension === "json"
+      ? [
+          "Variable",
+          "Type",
+          "Modify variable",
+          "Containing variable groups",
+          "Add variable",
+        ]
+      : ["Variable", "Type", "Containing variable groups", "Add variable"];
 
   const containsEnvText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
@@ -43,7 +41,7 @@ const SyncTable = () => {
     } else {
       return (
         <>
-          {environments.length > 0 ? (
+          {environments.length > 0 && (
             <SearchableSelectMenu
               containsText={containsEnvText}
               elementKey={"environments"}
@@ -52,8 +50,6 @@ const SyncTable = () => {
               selectedElement={selectedEnv}
               setSelectedElement={setSelectedEnv}
             />
-          ) : (
-            <></>
           )}
           <h2>Found variables: {syncVariables.length} due to configuration</h2>
           <br />
@@ -68,11 +64,7 @@ const SyncTable = () => {
     }
   };
 
-  return (
-    <div className="matched-variables-table">
-      {!vgAuthorized ? <></> : getTable()}
-    </div>
-  );
+  return <>{vgAuthorized && <div className="form">{getTable()}</div>}</>;
 };
 
 export default SyncTable;

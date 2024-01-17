@@ -15,21 +15,19 @@ import {
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   getEnvironments,
   getVariableGroups,
 } from "../../../../services/ReleasePipelineService";
+import MatUIButton from "../../../MatUIButton";
 
-const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName }) => {
+const SyncTableForm = ({
+  projectsWithReleasePipeline,
+  repository,
+  configFileName,
+}) => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { setLoading } = useContext(LoadingContext);
   const { pat } = useContext(PATContext);
@@ -89,7 +87,7 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName
   };
 
   return (
-    <>
+    <div className="form">
       <FormControl fullWidth>
         <InputLabel>Projects containing pipeline</InputLabel>
         <Select
@@ -105,12 +103,14 @@ const SyncTableForm = ({ projectsWithReleasePipeline, repository, configFileName
           ))}
         </Select>
       </FormControl>
-      <Box>
-        <Button id="refresh" onClick={() => send(containingVGsProject)} variant="contained">
-          <RefreshIcon />
-        </Button>
-      </Box>
-    </>
+      {containingVGsProject !== "" && (
+        <MatUIButton
+          id={"get_var_from_config"}
+          send={() => send(containingVGsProject)}
+          displayName={<RefreshIcon />}
+        />
+      )}
+    </div>
   );
 };
 

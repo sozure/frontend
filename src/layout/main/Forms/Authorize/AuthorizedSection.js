@@ -34,7 +34,7 @@ const AuthorizedSection = () => {
             setSecrets([]);
           }}
         >
-          Back to authorization
+          Back to authentication
         </Button>{" "}
         <Button
           variant="contained"

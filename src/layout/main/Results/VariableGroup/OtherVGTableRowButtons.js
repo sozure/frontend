@@ -159,10 +159,8 @@ const OtherVGTableRowButtons = ({
           )}
         </div>
       )}
-      {localLoading.row === index && localLoading.loading ? (
+      {(localLoading.row === index && localLoading.loading) && (
         <span>Loading...</span>
-      ) : (
-        <></>
       )}
     </td>
   );

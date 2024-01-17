@@ -49,7 +49,7 @@ function OtherVGTable() {
   };
 
   return (
-    <div className="matched-variables-table">
+    <div className="form">
       {(variables === null) |
       (variables === undefined) |
       (variables.length === 0) ? (
