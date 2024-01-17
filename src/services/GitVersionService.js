@@ -5,6 +5,7 @@ import {
   getResponseMessage,
   toastErrorPopUp,
 } from "./CommonService";
+import { runBuildPipeline } from "./BuildPipelineService";
 const baseUrl = `${getBaseUrl()}/GitVersion`;
 
 const getBody = (organization, repositoryId, pat) => {
@@ -12,10 +13,16 @@ const getBody = (organization, repositoryId, pat) => {
     organization: organization,
     repositoryId: repositoryId,
     pat: pat,
-  }
-}
+  };
+};
 
-const getBranches = async (organization, repositoryId, pat, setLoading, setBranches) => {
+const getBranches = async (
+  organization,
+  repositoryId,
+  pat,
+  setLoading,
+  setBranches
+) => {
   let url = `${baseUrl}/Branches`;
   let body = getBody(organization, repositoryId, pat);
   axios
@@ -27,11 +34,7 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
       if (status === 1) {
         setBranches(branches);
       } else {
-        toastErrorPopUp(
-          getResponseMessage(status),
-          "branch_requesting",
-          1500
-        );
+        toastErrorPopUp(getResponseMessage(status), "branch_requesting", 1500);
       }
     })
     .catch((err) => {
@@ -40,7 +43,13 @@ const getBranches = async (organization, repositoryId, pat, setLoading, setBranc
     });
 };
 
-const getTags = async (organization, repositoryId, pat, setLoading, setTags) => {
+const getTags = async (
+  organization,
+  repositoryId,
+  pat,
+  setLoading,
+  setTags
+) => {
   let url = `${baseUrl}/Tags`;
   let body = getBody(organization, repositoryId, pat);
   axios
@@ -52,11 +61,7 @@ const getTags = async (organization, repositoryId, pat, setLoading, setTags) => 
       if (status === 1) {
         setTags(tags);
       } else {
-        toastErrorPopUp(
-          getResponseMessage(status),
-          "tag_requesting",
-          1500
-        );
+        toastErrorPopUp(getResponseMessage(status), "tag_requesting", 1500);
       }
     })
     .catch((err) => {
@@ -65,4 +70,41 @@ const getTags = async (organization, repositoryId, pat, setLoading, setTags) => 
     });
 };
 
-export { getBranches, getTags };
+const createTag = (model, setResult, setLoading) => {
+  let url = `${baseUrl}/Tag/Create`;
+  let body = {
+    organization: model.organization,
+    project: model.project,
+    pat: model.pat,
+    repositoryId: model.repositoryId,
+    tagName: model.tagName,
+    userName: model.userName,
+  };
+  console.log(body);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let tag = res.data.data;
+      setLoading(false);
+      if (status === 1) {
+        runBuildPipeline(
+          model.organization,
+          model.project,
+          model.pat,
+          model.definitionId,
+          tag,
+          setLoading,
+          setResult
+        );
+      } else {
+        toastErrorPopUp(getResponseMessage(status), "tag_requesting", 1500);
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
+};
+
+export { getBranches, getTags, createTag };
