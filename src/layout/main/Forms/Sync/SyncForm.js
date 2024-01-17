@@ -6,6 +6,7 @@ import {
   OrganizationContext,
   PATContext,
   ProjectNameContext,
+  RepositoriesContext,
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 import { getRepositories } from "../../../../services/GitRepositoryService";
@@ -33,8 +34,8 @@ const SyncForm = () => {
   const { setLoading } = useContext(LoadingContext);
   const { syncVariables, setSyncVariables } = useContext(VariablesSyncContext);
   const { setConfigFileExtension } = useContext(ConfigFileExtensionContext);
+  const { repositories, setRepositories } = useContext(RepositoriesContext);
 
-  const [repositories, setRepositories] = useState([]);
   const [repository, setRepository] = useState("");
   const [branches, setBranches] = useState([]);
   const [projectsWithPipeline, setProjectsWithPipeline] = useState([]);

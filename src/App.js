@@ -46,6 +46,7 @@ import {
   EnvironmentsContext,
   ConfigFileExtensionContext,
   BuildPipelinesContext,
+  RepositoriesContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -120,6 +121,7 @@ function App() {
   const [syncVariables, setSyncVariables] = useState([]);
   const [environments, setEnvironments] = useState([]);
   const [buildPipelines, setBuildPipelines] = useState([]);
+  const [repositories, setRepositories] = useState([]);
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",
@@ -527,6 +529,18 @@ function App() {
                                                                                             ]
                                                                                           )}
                                                                                         >
+                                                                                          <RepositoriesContext.Provider
+                                                                                          value={useMemo(
+                                                                                            () => ({
+                                                                                              repositories,
+                                                                                              setRepositories,
+                                                                                            }),
+                                                                                            [
+                                                                                              repositories,
+                                                                                              setRepositories,
+                                                                                            ]
+                                                                                          )}
+                                                                                        >
                                                                                           <Welcome />
                                                                                           <BrowserRouter>
                                                                                             <Routes>
@@ -544,6 +558,7 @@ function App() {
                                                                                               />
                                                                                             </Routes>
                                                                                           </BrowserRouter>
+                                                                                          </RepositoriesContext.Provider>
                                                                                         </BuildPipelinesContext.Provider>
                                                                                       </ConfigFileExtensionContext.Provider>
                                                                                     </EnvironmentsContext.Provider>
