@@ -1,13 +1,13 @@
 import axios from "axios";
 import {
-  getBaseUrl,
+  getLibraryBaseUrl,
   getResponseMessage,
   handleError2,
   toastErrorPopUp,
 } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
-const variableGroupUrl = `${getBaseUrl()}/VariableGroup`;
+const variableGroupUrl = `${getLibraryBaseUrl()}/VariableGroup`;
 
 const sendRequest = async (
   controllerSegment,
