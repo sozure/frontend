@@ -35,7 +35,6 @@ export const VGModificationsForm = ({
 VGModificationsForm.propTypes = {
   setProjectName : PropTypes.func.isRequired,
   projectName: PropTypes.string.isRequired,
-  projects: PropTypes.arrayOf(PropTypes.object).isRequired,
   setUserName: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   setSelectedLimit: PropTypes.func.isRequired,
