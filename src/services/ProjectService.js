@@ -1,12 +1,12 @@
 import axios from "axios";
 import {
-  getBaseUrl,
+  getLibraryBaseUrl,
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
 } from "./CommonService";
 
-const baseUrl = `${getBaseUrl()}/project`;
+const baseUrl = `${getLibraryBaseUrl()}/project`;
 
 const getProjects = async (
   organizationName,

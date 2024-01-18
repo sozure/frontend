@@ -1,7 +1,7 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
+import { getLibraryBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
 
-const baseUrl = `${getBaseUrl()}/changes`;
+const baseUrl = `${getLibraryBaseUrl()}/changes`;
 
 const getVGChanges = async (body, setLoading, setChanges) => {
   const url = `${baseUrl}/variables`;
