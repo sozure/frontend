@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { v4 } from "uuid";
+import PropTypes from "prop-types";
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { ProjectsContext } from "../contexts/Contexts";
@@ -28,6 +29,12 @@ const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
       </Select>
     </FormControl>
   );
+};
+
+ProjectSelectMenu.propTypes = {
+  allOption: PropTypes.bool.isRequired,
+  projectName: PropTypes.string.isRequired,
+  setProjectName: PropTypes.func.isRequired
 };
 
 export default ProjectSelectMenu;
