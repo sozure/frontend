@@ -1,7 +1,7 @@
 import axios from "axios";
-import { getBaseUrl, handleError, getResponseMessage, toastErrorPopUp } from "../CommonService";
+import { getLibraryBaseUrl, handleError, getResponseMessage, toastErrorPopUp } from "../CommonService";
 
-const secretUrl = `${getBaseUrl()}/secret`;
+const secretUrl = `${getLibraryBaseUrl()}/secret`;
 
 const sendRecoverSecretRequest = async (
   body,

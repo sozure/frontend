@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  getBaseUrl,
+  getLibraryBaseUrl,
   handleError,
   handleError2,
   getResponseMessage,
@@ -8,7 +8,7 @@ import {
   toastSuccessPopUp,
 } from "../CommonService";
 
-const secretUrl = `${getBaseUrl()}/secret`;
+const secretUrl = `${getLibraryBaseUrl()}/secret`;
 
 const sendDeleteSecretRequest = async (
   body,
