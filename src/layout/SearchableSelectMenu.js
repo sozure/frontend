@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import PropTypes from "prop-types";
+import { v4 } from "uuid";
 
 const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, selectedElement, setSelectedElement }) => {
   const [searchText, setSearchText] = useState("");
@@ -61,8 +63,8 @@ const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, 
             }}
           />
         </ListSubheader>
-        {displayedOptions.map((option, i) => (
-          <MenuItem key={i} value={typeof option === 'object' ? option[elementKey]: option}>
+        {displayedOptions.map((option) => (
+          <MenuItem key={v4()} value={typeof option === 'object' ? option[elementKey]: option}>
             {typeof option === 'object' ? option[elementKey]: option}
           </MenuItem>
         ))}
@@ -71,6 +73,13 @@ const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, 
   );
 };
 
-
+SearchableSelectMenu.propTypes = {
+  inputLabel: PropTypes.string.isRequired,
+  elements: PropTypes.arrayOf(PropTypes.string).isRequired,
+  elementKey: PropTypes.string.isRequired,
+  containsText: PropTypes.func.isRequired,
+  selectedElement: PropTypes.string.isRequired,
+  setSelectedElement: PropTypes.func.isRequired
+};
 
 export default SearchableSelectMenu;

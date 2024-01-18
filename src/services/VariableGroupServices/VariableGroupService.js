@@ -211,8 +211,8 @@ const getVariableGroupType = (variableGroups) => {
   let modeMap = { Vsts: 0, AzureKeyVault: 0, Unknown: 0 };
   let maxEl = variableGroups[0].variableGroupType,
     maxCount = 1;
-  for (let i = 0; i < variableGroups.length; i++) {
-    let el = variableGroups[i].variableGroupType;
+  for (let variableGroup of variableGroups) {
+    let el = variableGroup.variableGroupType;
     modeMap[el]++;
     if (modeMap[el] > maxCount) {
       maxEl = el;
