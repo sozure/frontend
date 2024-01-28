@@ -4,7 +4,7 @@ import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from ".
 const baseUrl = `${getBaseUrl()}/profile`;
 
 const getProfile = async (organizationName, PAT, setProfileName, statusList) => {
-  const url = `${baseUrl}/get`;
+  const url = `${baseUrl}`;
   const body = {
     organization: organizationName,
     pat: PAT,

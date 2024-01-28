@@ -67,6 +67,7 @@ const SyncTableBodyRow = ({
         organizationName: organizationName,
         secretIncluded: true,
         containsKey: true,
+        potentialVariableGroups: vgs,
       };
       await syncVariableGroup(
         indexOfVarToBeReplaced,
