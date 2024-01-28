@@ -5,25 +5,15 @@ import {
   toastErrorPopUp,
 } from "./CommonService";
 import axios from "axios";
+import { syncVariableGroups } from "./VariableGroupServices/VariableGroupService";
 
 const baseUrl = `${getBaseUrl()}/ReleasePipeline`;
 
 const getEnvironments = async (
-  organization,
-  project,
-  pat,
-  repositoryName,
-  configFile,
+  body,
   setResults
 ) => {
   let url = `${baseUrl}/GetEnvironments`;
-  let body = {
-    organization: organization,
-    project: project,
-    pat: pat,
-    repositoryName: repositoryName,
-    configFile: configFile
-  };
   axios
     .post(url, body)
     .then((res) => {
@@ -45,28 +35,45 @@ const getEnvironments = async (
 };
 
 const getVariableGroups = async (
-  organization,
-  project,
-  pat,
-  repositoryName,
-  configFile,
-  setResults
+  body,
+  syncVariables,
+  profileName,
+  setContainingVGs,
+  setResults,
+  setLoading
 ) => {
   let url = `${baseUrl}/GetVariableGroups`;
-  let body = {
-    organization: organization,
-    project: project,
-    pat: pat,
-    repositoryName: repositoryName,
-    configFile: configFile
-  };
   axios
     .post(url, body)
     .then((res) => {
+      let counter = 0;
+      let result = [];
       let status = res.data.status;
       let variableGroups = res.data.data;
       if (status === 1) {
         setResults(variableGroups);
+        syncVariables.forEach(async (variable) => {
+          let newBody = {
+            projectName: body["project"],
+            pat: body["pat"],
+            userName: profileName,
+            vgRegex: ".*",
+            keyRegex: variable,
+            organizationName: body["organization"],
+            index: counter,
+            secretIncluded: true,
+            containsKey: true,
+            potentialVariableGroups: variableGroups,
+          };
+          counter++;
+          await syncVariableGroups(
+            newBody,
+            result,
+            syncVariables.length,
+            setContainingVGs,
+            setLoading
+          );
+        });
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
@@ -95,7 +102,7 @@ const getProjectsWithReleasePipeline = async (
     projects: projects,
     pat: pat,
     repositoryName: repositoryName,
-    configFile: configFile
+    configFile: configFile,
   };
   setLoading(true);
   axios

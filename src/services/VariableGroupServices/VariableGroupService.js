@@ -41,6 +41,7 @@ const syncVariableGroups = async (
   let index = message["index"];
   let url = `${variableGroupUrl}/GetVariableGroups`;
   let body = buildRequestBody(message);
+  body["potentialVariableGroups"] = message["potentialVariableGroups"];
   axios
     .post(url, body)
     .then((res) => {
@@ -83,6 +84,7 @@ const syncVariableGroup = async (
   let url = `${variableGroupUrl}/GetVariableGroups`;
   setLoading(true);
   let body = buildRequestBody(message);
+  body["potentialVariableGroups"] = message["potentialVariableGroups"];
   axios
     .post(url, body)
     .then((res) => {

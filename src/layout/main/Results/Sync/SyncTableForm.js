@@ -16,7 +16,6 @@ import {
 } from "../../../../contexts/Contexts";
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { syncVariableGroups } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
   getEnvironments,
   getVariableGroups,
@@ -33,7 +32,9 @@ const SyncTableForm = ({
   const { pat } = useContext(PATContext);
   const { organizationName } = useContext(OrganizationContext);
   const { profileName } = useContext(ProfileNameContext);
-  const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
+  const { setPipelineConnectedVGs } = useContext(
+    PipelineConnectedVGsContext
+  );
   const { containingVGsProject, setContainingVGsProject } = useContext(
     ContainingVGsProjectContext
   );
@@ -45,45 +46,32 @@ const SyncTableForm = ({
     setLoading(true);
     setPaginationCounter(0);
     setContainingVGsProject(newProject);
-    let counter = 0;
-    let result = [];
+    let body = {
+      organization: organizationName,
+      project: newProject,
+      pat: pat,
+      repositoryName: repository,
+      configFile: configFileName,
+    };
     await getEnvironments(
-      organizationName,
-      newProject,
-      pat,
-      repository,
-      configFileName,
+      body,
       setEnvironments
     );
+    body = {
+      organization: organizationName,
+      project: newProject,
+      pat: pat,
+      repositoryName: repository,
+      configFile: configFileName,
+    };
     await getVariableGroups(
-      organizationName,
-      newProject,
-      pat,
-      repository,
-      configFileName,
-      setPipelineConnectedVGs
+      body,
+      syncVariables,
+      profileName,
+      setContainingVGs,
+      setPipelineConnectedVGs,
+      setLoading
     );
-    syncVariables.forEach(async (variable) => {
-      let body = {
-        projectName: newProject,
-        pat: pat,
-        userName: profileName,
-        vgRegex: ".*",
-        keyRegex: variable,
-        organizationName: organizationName,
-        index: counter,
-        secretIncluded: true,
-        containsKey: true,
-      };
-      counter++;
-      await syncVariableGroups(
-        body,
-        result,
-        syncVariables.length,
-        setContainingVGs,
-        setLoading
-      );
-    });
   };
 
   return (
