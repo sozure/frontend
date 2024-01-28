@@ -70,7 +70,16 @@ const getTags = async (
     });
 };
 
-const createTag = (model, setResult, setLoading) => {
+const createTag = async (
+  model,
+  latestTags,
+  repositoryName,
+  possibleNewTag,
+  setResult,
+  setLoading,
+  setLatestTags,
+  cancel
+) => {
   let url = `${baseUrl}/Tag/Create`;
   let body = {
     organization: model.organization,
@@ -87,6 +96,16 @@ const createTag = (model, setResult, setLoading) => {
       let tag = res.data.data;
       setLoading(false);
       if (status === 1) {
+        let result = [];
+        latestTags.forEach((tag) => {
+          if (tag.name === repositoryName) {
+            let newTag = { name: repositoryName, tag: possibleNewTag };
+            result.push(newTag);
+          } else {
+            result.push(tag);
+          }
+        });
+        setLatestTags(result);
         runBuildPipeline(
           model.organization,
           model.project,
@@ -96,6 +115,7 @@ const createTag = (model, setResult, setLoading) => {
           setLoading,
           setResult
         );
+        cancel();
       } else {
         toastErrorPopUp(getResponseMessage(status), "tag_requesting", 1500);
       }

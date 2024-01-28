@@ -124,7 +124,16 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
         tagName: typeOfVersion,
         userName: profileName,
       };
-      createTag(model, setRunSuccess, setLocalLoading);
+      createTag(
+        model,
+        latestTags,
+        repository.repositoryName,
+        possibleNewTag,
+        setRunSuccess,
+        setLocalLoading,
+        setLatestTags,
+        cancel
+      );
     }
   };
 
