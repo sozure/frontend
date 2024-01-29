@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { createTag, getTags } from "../../../../services/GitVersionService";
 import {
-  LatestTagsContext,
   OrganizationContext,
   PATContext,
   ProfileNameContext,
@@ -32,13 +31,12 @@ const collectLatestTags = (latestTags, repository, tag) => {
   return result;
 };
 
-const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
+const TagAndBuildTableBodyRow = ({ repository, pipeline, latestTags, setLatestTags }) => {
   const versionTypes = ["major", "minor", "patch"];
   const { projectName } = useContext(ProjectNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
-  const { latestTags, setLatestTags } = useContext(LatestTagsContext);
 
   const [typeOfVersion, setTypeOfVersion] = useState("");
   const [possibleNewTag, setPossibleNewTag] = useState("");
@@ -170,7 +168,7 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
       <td key={repository.repositoryId}>{repository.repositoryName}</td>
       <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
       <td key={v4()}>
-        {pipeline !== undefined ? (
+        {pipeline !== undefined && latestTag !== "" ? (
           <FormControl fullWidth>
             <InputLabel htmlFor="versionType">Set version type</InputLabel>
             <Select
@@ -190,7 +188,7 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
             </Select>
           </FormControl>
         ) : (
-          <>No pipeline found</>
+          <>No pipeline or previous tag found.</>
         )}
       </td>
       <td key={v4()}>
@@ -224,6 +222,8 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline }) => {
 TagAndBuildTableBodyRow.propTypes = {
   repository: PropTypes.object.isRequired,
   pipeline: PropTypes.object,
+  latestTags: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setLatestTags: PropTypes.func.isRequired
 };
 
 export default TagAndBuildTableBodyRow;

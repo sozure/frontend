@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   BuildPipelinesContext,
   PaginationCounterContext,
@@ -10,6 +10,8 @@ const TagAndBuildTableBody = ({ repositories }) => {
   const number = 10;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
+  
+  const [ latestTags, setLatestTags ] = useState([]);
 
   return (
     <tbody>
@@ -27,6 +29,8 @@ const TagAndBuildTableBody = ({ repositories }) => {
               key={repository.repositoryId}
               repository={repository}
               pipeline={result}
+              latestTags={latestTags}
+              setLatestTags={setLatestTags}
             />
           );
         })}
