@@ -15,6 +15,7 @@ const TagAndBuildTable = () => {
     "Latest tag",
     "Type of new version",
     "Possible new tag",
+    "Tag description",
     "Create and build",
     "Result",
   ];
