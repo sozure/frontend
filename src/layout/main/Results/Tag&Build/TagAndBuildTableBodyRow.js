@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { createTag, getTags } from "../../../../services/GitVersionService";
 import {
   OrganizationContext,
@@ -10,6 +15,7 @@ import {
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
 import { Cancel, PlayArrow } from "@mui/icons-material";
+import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
 
 const hasItem = (latestTags, repository) => {
   let alreadyHasItem = { found: false, element: undefined };
@@ -31,7 +37,12 @@ const collectLatestTags = (latestTags, repository, tag) => {
   return result;
 };
 
-const TagAndBuildTableBodyRow = ({ repository, pipeline, latestTags, setLatestTags }) => {
+const TagAndBuildTableBodyRow = ({
+  repository,
+  pipeline,
+  latestTags,
+  setLatestTags,
+}) => {
   const versionTypes = ["major", "minor", "patch"];
   const { projectName } = useContext(ProjectNameContext);
   const { profileName } = useContext(ProfileNameContext);
@@ -113,19 +124,22 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline, latestTags, setLatestTa
 
   const send = () => {
     if (pipeline !== undefined) {
+      let repositoryId = repository.repositoryId;
+      let description = document.getElementById(`tagDescription_${repositoryId}`).value;
       let model = {
         organization: organizationName,
         project: projectName,
         pat: pat,
         definitionId: pipeline.id,
-        repositoryId: repository.repositoryId,
+        repositoryId: repositoryId,
         tagName: typeOfVersion,
         userName: profileName,
+        description: description,
+        repositoryName: repository.repositoryName
       };
       createTag(
         model,
         latestTags,
-        repository.repositoryName,
         possibleNewTag,
         setRunSuccess,
         setLocalLoading,
@@ -195,6 +209,13 @@ const TagAndBuildTableBodyRow = ({ repository, pipeline, latestTags, setLatestTa
         {possibleNewTag !== "" ? <>{possibleNewTag}</> : <>-</>}
       </td>
       <td key={v4()}>
+        {possibleNewTag !== "" ? (
+          <TagAndBuildTableBodyRowInput repositoryId={repository.repositoryId} />
+        ) : (
+          <>-</>
+        )}
+      </td>
+      <td key={v4()}>
         {typeOfVersion !== "" && pipeline !== undefined ? (
           <>
             <abbr title={"Start create and build"}>
@@ -223,7 +244,7 @@ TagAndBuildTableBodyRow.propTypes = {
   repository: PropTypes.object.isRequired,
   pipeline: PropTypes.object,
   latestTags: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setLatestTags: PropTypes.func.isRequired
+  setLatestTags: PropTypes.func.isRequired,
 };
 
 export default TagAndBuildTableBodyRow;

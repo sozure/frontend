@@ -73,7 +73,6 @@ const getTags = async (
 const createTag = async (
   model,
   latestTags,
-  repositoryName,
   possibleNewTag,
   setResult,
   setLoading,
@@ -81,6 +80,7 @@ const createTag = async (
   cancel
 ) => {
   let url = `${baseUrl}/Tag/Create`;
+  let repositoryName = model.repositoryName;
   let body = {
     organization: model.organization,
     project: model.project,
@@ -88,6 +88,7 @@ const createTag = async (
     repositoryId: model.repositoryId,
     tagName: model.tagName,
     userName: model.userName,
+    description: model.description,
   };
   axios
     .post(url, body)
