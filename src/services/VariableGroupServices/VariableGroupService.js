@@ -162,7 +162,7 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
       let statusMessage = getResponseMessage(status);
       if (status === 1 || status === 2) {
         callbackForDataSaving(variableGroups);
-        toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
+        toastSuccessPopUp(statusMessage, "variable_requesting", 1500);
       } else {
         toastErrorPopUp(statusMessage, "variable_requesting", 1500);
       }
