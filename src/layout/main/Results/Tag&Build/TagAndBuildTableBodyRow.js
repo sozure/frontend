@@ -8,6 +8,7 @@ import {
   Select,
 } from "@mui/material";
 import { createTag, getTags } from "../../../../services/GitVersionService";
+import { hasItem, collectLatestTags } from "../../../../services/HelperFunctions/TagHelperFunctions";
 import {
   OrganizationContext,
   PATContext,
@@ -16,26 +17,6 @@ import {
 } from "../../../../contexts/Contexts";
 import { Cancel, PlayArrow } from "@mui/icons-material";
 import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
-
-const hasItem = (latestTags, repository) => {
-  let alreadyHasItem = { found: false, element: undefined };
-  latestTags.forEach((tag) => {
-    if (tag.name === repository.repositoryName) {
-      alreadyHasItem = { found: true, element: tag };
-    }
-  });
-  return alreadyHasItem;
-};
-
-const collectLatestTags = (latestTags, repository, tag) => {
-  let newElement = { name: repository.repositoryName, tag: tag };
-  let result = [];
-  latestTags.forEach((tag) => {
-    result.push(tag);
-  });
-  result.push(newElement);
-  return result;
-};
 
 const TagAndBuildTableBodyRow = ({
   repository,
@@ -209,7 +190,7 @@ const TagAndBuildTableBodyRow = ({
         {possibleNewTag !== "" ? <>{possibleNewTag}</> : <>-</>}
       </td>
       <td key={v4()}>
-        {possibleNewTag !== "" ? (
+        {possibleNewTag !== "-" && possibleNewTag !== "" ? (
           <TagAndBuildTableBodyRowInput repositoryId={repository.repositoryId} />
         ) : (
           <>-</>

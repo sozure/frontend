@@ -1,20 +1,10 @@
 import React, { useContext } from "react";
-import ProjectSelectMenu from "../../../ProjectSelectMenu";
-import MatUIButton from "../../../MatUIButton";
-import {
-  BuildPipelinesContext,
-  LoadingContext,
-  OrganizationContext,
-  PATContext,
-  PaginationCounterContext,
-  ProjectNameContext,
-  RepositoriesContext,
-} from "../../../../contexts/Contexts";
+import { BuildPipelinesContext, LoadingContext, OrganizationContext, PATContext, PaginationCounterContext, ProjectNameContext, RepositoriesContext } from "../../../../contexts/Contexts";
+import TagBaseForm from "./TagBaseForm";
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import { getBuildPipelines } from "../../../../services/BuildPipelineService";
-import TagBaseForm from "./TagBaseForm";
 
-const TagAndBuildForm = () => {
+const LatestTagForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
@@ -44,8 +34,12 @@ const TagAndBuildForm = () => {
   };
 
   return (
-    <TagBaseForm projectName={projectName} setProjectName={setProjectName} send={send}/>
+    <TagBaseForm
+      projectName={projectName}
+      setProjectName={setProjectName}
+      send={send}
+    />
   );
 };
 
-export default TagAndBuildForm;
+export default LatestTagForm;
