@@ -74,6 +74,7 @@ const SyncFormFields1 = ({
       {repository !== "" && (
         <SearchableSelectMenu
           containsText={containsBranchText}
+          elementKey={"branch"}
           elements={branches}
           inputLabel={"Select branch"}
           selectedElement={actualBranch}
