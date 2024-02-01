@@ -12,6 +12,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import { getBuildPipelines } from "../../../../services/BuildPipelineService";
+import TagBaseForm from "./TagBaseForm";
 
 const TagAndBuildForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
@@ -43,18 +44,7 @@ const TagAndBuildForm = () => {
   };
 
   return (
-    <div className="form">
-      <ProjectSelectMenu
-        allOption={false}
-        projectName={projectName}
-        setProjectName={setProjectName}
-      />
-      <MatUIButton
-        id={"request_git_repositories"}
-        send={send}
-        displayName={"Get repositories"}
-      />
-    </div>
+    <TagBaseForm projectName={projectName} setProjectName={setProjectName} send={send}/>
   );
 };
 
