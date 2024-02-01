@@ -34,6 +34,7 @@ import { toastErrorPopUp } from "../../../services/CommonService";
 import SyncForm from "./Sync/SyncForm";
 import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
+import LatestTagForm from "./Tag&Build/LatestTagForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -156,44 +157,65 @@ function Form() {
     );
   };
 
-  const getBuildPipelineForm = () => {
+  const getPipelineForm = () => {
     if (!vgAuthorized || projects.length === 0) {
       return <VGAuthorizeForm />;
     }
-    return (
-      <>
-        <AuthorizedSection />
-        <BuildPipForm/>
-      </>
-    );
-  }
+    switch (actionType) {
+      case "Build":
+        return (
+          <>
+            <AuthorizedSection />
+            <BuildPipForm />
+          </>
+        );
+      case "Release":
+        return <h1>New function is about to come :D</h1>;
+      default:
+        return <></>;
+    }
+  };
 
   const getTagAndBuildForm = () => {
     if (!vgAuthorized || projects.length === 0) {
       return <VGAuthorizeForm />;
     }
-    return (
-      <>
-        <AuthorizedSection />
-        <TagAndBuildForm/>
-      </>
-    );
-  }
+    switch (actionType) {
+      case "CreateAndBuild":
+        return (
+          <>
+            <AuthorizedSection />
+            <TagAndBuildForm />
+          </>
+        );
+      case "List":
+        return (
+          <>
+            <AuthorizedSection />
+            <LatestTagForm />
+          </>
+        );
+      default:
+        return <></>;
+    }
+  };
 
   const getForm = () => {
-    switch (tableType) {
-      case "KV":
-        return getKeyVaultForm();
-      case "VG":
-        return getVGForm();
-      case "Sync":
-        return getSyncForm();
-      case "Build":
-        return getBuildPipelineForm();
-      case "Tag&Build":
-        return getTagAndBuildForm();
-      default:
-        toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
+    if (tableType === "Sync" || actionType !== "") {
+      switch (tableType) {
+        case "KV":
+          return getKeyVaultForm();
+        case "VG":
+          return getVGForm();
+        case "Sync":
+          return getSyncForm();
+        case "Pipeline":
+          return getPipelineForm();
+        case "Tag":
+          return getTagAndBuildForm();
+        default:
+          toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
+      }
     }
   };
 

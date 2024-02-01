@@ -97,6 +97,7 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
     return (
       <>
         <SearchableSelectMenu
+          elementKey={"missing_variableGroupName"}
           containsText={containsVGText}
           elements={potentialMissingVgs}
           inputLabel={`${potentialMissingVgs.length} item(s) found`}

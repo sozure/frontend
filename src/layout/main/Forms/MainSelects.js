@@ -6,6 +6,7 @@ import {
   OnUpdateContext,
   ActionTypeContext,
   TableTypeContext,
+  PaginationCounterContext,
 } from "../../../contexts/Contexts";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { toastErrorPopUp } from "../../../services/CommonService";
@@ -16,6 +17,7 @@ const MainSelects = () => {
   const { setOnUpdate } = useContext(OnUpdateContext);
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const handleActionTypeChange = (e) => {
     e.preventDefault();
@@ -28,16 +30,21 @@ const MainSelects = () => {
     setActionType(e.target.value);
   };
 
+  const setCustomActionType = (value) => {
+    setPaginationCounter(0);
+    setActionType(value);
+  };
+
   const getActionTypeOptions = () => {
     switch (tableType) {
       case "VG":
         return (
-          <FormControl fullWidth>
-            <InputLabel>Action type</InputLabel>
+          <FormControl required fullWidth>
+            <InputLabel>VG action type</InputLabel>
             <Select
-              className="action_type"
+              className="vg-action-type"
               value={actionType}
-              label="Action type"
+              label="VG action type"
               onChange={handleActionTypeChange}
             >
               <MenuItem value="List">List variables</MenuItem>
@@ -49,11 +56,11 @@ const MainSelects = () => {
         );
       case "KV":
         return (
-          <FormControl fullWidth>
-            <InputLabel>Set action type</InputLabel>
+          <FormControl required fullWidth>
+            <InputLabel>Secret action type</InputLabel>
             <Select
-              className="action-type"
-              label="Set action type"
+              className="secret-action-type"
+              label="Secret action type"
               value={actionType}
               onChange={(event) => setActionType(event.target.value)}
             >
@@ -66,10 +73,39 @@ const MainSelects = () => {
         );
       case "Sync":
         return <></>;
-      case "Build":
-        return <></>;
-      case "Tag&Build":
-        return <></>;
+      case "Pipeline":
+        return (
+          <FormControl required fullWidth>
+            <InputLabel>Pipeline action type</InputLabel>
+            <Select
+              displayEmpty
+              className="pipeline-action-type"
+              label="Pipeline action type"
+              value={actionType}
+              onChange={(event) => setCustomActionType(event.target.value)}
+            >
+              <MenuItem selected value="Build">Run build pipelines</MenuItem>
+              <MenuItem value="Release">Create release</MenuItem>
+            </Select>
+          </FormControl>
+        );
+      case "Tag":
+        return (
+          <FormControl required fullWidth>
+            <InputLabel>Tag action type</InputLabel>
+            <Select
+              className="tag-action-type"
+              label="Tag action type"
+              value={actionType}
+              onChange={(event) => setCustomActionType(event.target.value)}
+            >
+              <MenuItem value="List">List latest tags</MenuItem>
+              <MenuItem value="CreateAndBuild">
+                Create tag and run build
+              </MenuItem>
+            </Select>
+          </FormControl>
+        );
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
     }
@@ -77,18 +113,21 @@ const MainSelects = () => {
 
   return (
     <div className="main-select-container">
-      <FormControl fullWidth>
+      <FormControl required fullWidth>
         <InputLabel>Select table type</InputLabel>
         <Select
           label="Select table type"
-          onChange={(event) => setTableType(event.target.value)}
+          onChange={(event) => { 
+            setActionType(""); 
+            setTableType(event.target.value);
+          }}
           value={tableType}
         >
           <MenuItem value="KV">Secrets</MenuItem>
           <MenuItem value="VG">Variable groups</MenuItem>
           <MenuItem value="Sync">Sync configurations</MenuItem>
-          <MenuItem value="Build">Run build pipelines</MenuItem>
-          <MenuItem value="Tag&Build">Create tag and run build</MenuItem>
+          <MenuItem value="Pipeline">Run pipelines</MenuItem>
+          <MenuItem value="Tag">Tags</MenuItem>
         </Select>
       </FormControl>
       {getActionTypeOptions()}
