@@ -1,6 +1,4 @@
 import React, { useContext } from "react";
-import ProjectSelectMenu from "../../../ProjectSelectMenu";
-import MatUIButton from "../../../MatUIButton";
 import {
   BuildPipelinesContext,
   LoadingContext,
