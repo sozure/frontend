@@ -4,6 +4,7 @@ import {
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
+  toastSuccessPopUp,
 } from "./CommonService";
 
 const baseUrl = `${getLibraryBaseUrl()}/project`;
@@ -33,6 +34,7 @@ const getProjects = async (
         );
       });
       if (status === 1) {
+        toastSuccessPopUp("Successful project requesting!", "project_requesting", 1500);
         setResult(projects);
         setProjectName(projects[0].name);
         setSubscriptions(subscriptions);

@@ -77,6 +77,7 @@ const sendListSecretRequest = async (
       callbackForLoading(false);
       if (status === 1) {
         callbackForDataSaving(secrets);
+        toastSuccessPopUp("Success", "secret_requesting", 1500);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
       }
