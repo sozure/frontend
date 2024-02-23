@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp } from "./CommonService";
+import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp, toastSuccessPopUp } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/profile`;
 
@@ -16,6 +16,7 @@ const getProfile = async (organizationName, PAT, setProfileName, statusList) => 
       let profile = res.data.data;
       if (status === 1) {
         setProfileName(profile.displayName);
+        toastSuccessPopUp("Successful profile requesting!", "project_requesting", 1500);
       } else {
         toastErrorPopUp(getResponseMessage(status), "profile_requesting", 1500);
       }
