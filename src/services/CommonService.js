@@ -5,11 +5,12 @@ const responseCodes = {
   1: "Success",
   2: "Already contains",
   3: "Unauthorized",
-  4: "Organization does not exist",
+  4: "Resource not found",
   5: "Project does not exist",
   6: "No subscriptions found",
   7: "File does not exist",
-  8: "Unknown error",
+  8: "Failed request. Consider a more specified query. Size of response message could be too large.",
+  9: "Unknown error",
 };
 
 const getBaseUrl = () => {
