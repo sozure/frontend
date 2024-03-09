@@ -1,8 +1,9 @@
-import React from 'react'
-import ProjectSelectMenu from '../../../ProjectSelectMenu'
-import MatUIButton from '../../../MatUIButton'
+import React from "react";
+import ProjectSelectMenu from "../../../ProjectSelectMenu";
+import MatUIButton from "../../../MatUIButton";
+import PropTypes from "prop-types";
 
-const TagBaseForm = ({projectName, setProjectName, send}) => {
+const TagBaseForm = ({ projectName, setProjectName, send }) => {
   return (
     <div className="form">
       <ProjectSelectMenu
@@ -16,7 +17,13 @@ const TagBaseForm = ({projectName, setProjectName, send}) => {
         displayName={"Get repositories"}
       />
     </div>
-  )
-}
+  );
+};
 
-export default TagBaseForm
+TagBaseForm.propTypes = {
+  projectName: PropTypes.string.isRequired,
+  setProjectName: PropTypes.func.isRequired,
+  send: PropTypes.func.isRequired,
+};
+
+export default TagBaseForm;

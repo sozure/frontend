@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import { OrganizationContext, PATContext } from "../../../../../contexts/Contexts";
 import { getTags } from "../../../../../services/GitVersionService";
 import { hasItem, collectLatestTags } from "../../../../../services/HelperFunctions/TagHelperFunctions";
+import PropTypes from "prop-types";
 
 const LatestTagTableBodyRow = ({
   repository,
@@ -70,6 +71,13 @@ const LatestTagTableBodyRow = ({
       <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
     </tr>
   );
+};
+
+LatestTagTableBodyRow.propTypes = {
+  latestTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setLatestTags: PropTypes.func.isRequired,
+  repository: PropTypes.object.isRequired,
+  pipeline: PropTypes.object.isRequired
 };
 
 export default LatestTagTableBodyRow;

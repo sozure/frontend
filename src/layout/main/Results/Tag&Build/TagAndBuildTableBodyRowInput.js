@@ -1,5 +1,6 @@
 import { Input } from '@mui/material';
 import React, { useState } from 'react';
+import PropTypes from "prop-types";
 
 const TagAndBuildTableBodyRowInput = ({repositoryId}) => {
   const [description, setDescription] = useState("");
@@ -16,6 +17,10 @@ const TagAndBuildTableBodyRowInput = ({repositoryId}) => {
             onChange={(event) => setDescription(event.target.value)}
           />
     );
+};
+
+TagAndBuildTableBodyRowInput.propTypes = {
+  repositoryId: PropTypes.string.isRequired
 };
 
 export default TagAndBuildTableBodyRowInput;

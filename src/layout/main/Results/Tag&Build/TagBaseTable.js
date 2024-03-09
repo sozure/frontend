@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import { PaginationCounterContext, VGAuthorizedContext } from "../../../../contexts/Contexts";
+import PropTypes from "prop-types";
 
 const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
@@ -60,6 +61,12 @@ const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
       )}
     </>
   );
+};
+
+TagBaseTable.propTypes = {
+  TableBody: PropTypes.any.isRequired,
+  tableHeader: PropTypes.any.isRequired,
+  repositories: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TagBaseTable;
