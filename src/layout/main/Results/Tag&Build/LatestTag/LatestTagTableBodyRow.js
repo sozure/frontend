@@ -12,7 +12,6 @@ const LatestTagTableBodyRow = ({
   pipeline,
 }) => {
   const [latestTag, setLatestTag] = useState("");
-  const [localLoading, setLocalLoading] = useState(false);
   const [runAlready, setRunAlready] = useState(false);
   const [tags, setTags] = useState([]);
 
@@ -63,6 +62,10 @@ const LatestTagTableBodyRow = ({
 
   const getLatestTag = (tags) => {
     return tags[tags.length - 1].replace("refs/tags/", "");
+  };
+
+  const setLocalLoading = (value) => {
+    console.log(value);
   };
 
   return (
