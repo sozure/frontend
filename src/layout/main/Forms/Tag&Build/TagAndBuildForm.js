@@ -42,7 +42,11 @@ const TagAndBuildForm = () => {
   };
 
   return (
-    <TagBaseForm projectName={projectName} setProjectName={setProjectName} send={send}/>
+    <TagBaseForm
+      projectName={projectName}
+      setProjectName={setProjectName}
+      send={send}
+    />
   );
 };
 

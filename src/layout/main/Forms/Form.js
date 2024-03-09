@@ -34,7 +34,6 @@ import { toastErrorPopUp } from "../../../services/CommonService";
 import SyncForm from "./Sync/SyncForm";
 import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
-import LatestTagForm from "./Tag&Build/LatestTagForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -180,24 +179,12 @@ function Form() {
     if (!vgAuthorized || projects.length === 0) {
       return <VGAuthorizeForm />;
     }
-    switch (actionType) {
-      case "CreateAndBuild":
-        return (
-          <>
-            <AuthorizedSection />
-            <TagAndBuildForm />
-          </>
-        );
-      case "List":
-        return (
-          <>
-            <AuthorizedSection />
-            <LatestTagForm />
-          </>
-        );
-      default:
-        return <></>;
-    }
+    return (
+      <>
+        <AuthorizedSection />
+        <TagAndBuildForm />
+      </>
+    );
   };
 
   const getForm = () => {
