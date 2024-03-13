@@ -8,7 +8,7 @@ import {
   Select,
 } from "@mui/material";
 import { createTag, getTags } from "../../../../services/GitVersionService";
-import { hasItem, collectLatestTags } from "../../../../services/HelperFunctions/TagHelperFunctions";
+import { hasItem, collectLatestTags, sortVersions } from "../../../../services/HelperFunctions/TagHelperFunctions";
 import {
   OrganizationContext,
   PATContext,
@@ -100,7 +100,8 @@ const TagAndBuildTableBodyRow = ({
   };
 
   const getLatestTag = (tags) => {
-    return tags[tags.length - 1].replace("refs/tags/", "");
+    let sortedTags = sortVersions(tags);
+    return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
   };
 
   const send = () => {

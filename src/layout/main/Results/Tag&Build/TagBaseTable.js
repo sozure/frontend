@@ -1,5 +1,5 @@
 import { Input } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import { PaginationCounterContext, VGAuthorizedContext } from "../../../../contexts/Contexts";
@@ -11,6 +11,11 @@ const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
 
   const [filter, setFilter] = useState("");
   const [searchRepositories, setSearchRepositories] = useState(repositories);
+
+
+  useEffect(() => {
+    setSearchRepositories(repositories);
+  }, [repositories]);
 
   const filterRepositories = (newFilter) => {
     setFilter(newFilter);
