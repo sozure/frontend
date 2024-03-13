@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { OrganizationContext, PATContext } from "../../../../../contexts/Contexts";
 import { getTags } from "../../../../../services/GitVersionService";
-import { hasItem, collectLatestTags } from "../../../../../services/HelperFunctions/TagHelperFunctions";
+import { hasItem, collectLatestTags, sortVersions } from "../../../../../services/HelperFunctions/TagHelperFunctions";
 import PropTypes from "prop-types";
 
 const LatestTagTableBodyRow = ({
@@ -61,7 +61,8 @@ const LatestTagTableBodyRow = ({
   }, [tags, latestTags, setLatestTags, repository]);
 
   const getLatestTag = (tags) => {
-    return tags[tags.length - 1].replace("refs/tags/", "");
+    let sortedTags = sortVersions(tags);
+    return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
   };
 
   const setLocalLoading = (value) => {
