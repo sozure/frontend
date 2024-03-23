@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import KeyVaultBaseForm from "../KeyVault/BaseForms/KeyVaultBaseForm";
 import { getProjects } from "../../../../services/ProjectService";
 import { getProfile } from "../../../../services/ProfileService";
@@ -28,8 +28,8 @@ const KVAuthorizeForm = () => {
   const { tenantId } = useContext(TenantIdContext);
   const { clientId } = useContext(ClientIdContext);
   const { clientSecret } = useContext(ClientSecretContext);
-  const { setKeyVaults } = useContext(KeyVaultsContext);
-  const { setKvAuthorized } = useContext(KVAuthorizedContext);
+  const { keyVaults, setKeyVaults } = useContext(KeyVaultsContext);
+  const { kvAuthorized, setKvAuthorized } = useContext(KVAuthorizedContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
   const { setProjects } = useContext(ProjectsContext);
@@ -69,18 +69,16 @@ const KVAuthorizeForm = () => {
         setDefaultSubscription,
         statuses
       );
-      setTimeout(() => {
-        let counter = 0;
-        statuses.forEach((status) => {
-          if (status === 1) {
-            counter++;
-          }
-        });
-        setKvAuthorized(statuses.length === counter);
-        setLoading(false);
-      }, 4000);
     }
   };
+
+  useEffect(() => {
+    if(!kvAuthorized && keyVaults.length > 0 && profileName !== ""){
+      setKvAuthorized(true);
+      setLoading(false);
+    }
+  }, [kvAuthorized, keyVaults, profileName, setKvAuthorized, setLoading]);
+
   return (
     <div className="form">
       <KeyVaultBaseForm />

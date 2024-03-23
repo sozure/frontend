@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 } from "uuid";
 import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
@@ -80,6 +80,10 @@ const SyncTableBodyRow = ({
     }
     setModification({});
   };
+
+  useEffect(() => {
+    setLocalLoading(false);
+  }, [containingVGs]);
 
   const collectNewContainingVGs = (variableToBeReplaced) => {
     let newContainingVGs = [];

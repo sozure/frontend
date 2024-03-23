@@ -2,7 +2,9 @@ import React, { useContext } from "react";
 import { Button } from "@mui/material";
 import {
   KVAuthorizedContext,
+  KeyVaultsContext,
   ProfileNameContext,
+  ProjectsContext,
   SecretsContext,
   VGAuthorizedContext,
   VariableGroupsContext,
@@ -18,6 +20,9 @@ const AuthorizedSection = () => {
   const { setSecrets } = useContext(SecretsContext);
   const { setVariableGroups } = useContext(VariableGroupsContext);
   const { setKvAuthorized } = useContext(KVAuthorizedContext);
+  const { setProjects } = useContext(ProjectsContext);
+  const { setKeyVaults } = useContext(KeyVaultsContext);
+  const { setProfileName } = useContext(ProfileNameContext);
 
   return (
     <div className="form">
@@ -27,6 +32,9 @@ const AuthorizedSection = () => {
           variant="contained"
           id="project_button_2"
           onClick={() => {
+            setProfileName("");
+            setProjects([]);
+            setKeyVaults([]);
             setVariables([]);
             setVariableGroups([]);
             setVgAuthorized(false);

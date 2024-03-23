@@ -29,7 +29,6 @@ const getRepositories = async (
       let repositories = res.data.data;
       if (status === 1) {
         await setRepositories(repositories);
-        setLoading(false);
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
@@ -37,6 +36,7 @@ const getRepositories = async (
           toastMs
         );
       }
+      setLoading(false);
     })
     .catch((err) => {
       handleError2(err);

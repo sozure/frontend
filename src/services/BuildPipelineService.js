@@ -39,11 +39,10 @@ const getBuildPipelines = async (
           toastMs
         );
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setLoading(false);
     })
     .catch((err) => {
+      setLoading(false);
       handleError2(err);
     });
 };

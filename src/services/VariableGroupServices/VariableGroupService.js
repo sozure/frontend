@@ -59,9 +59,6 @@ const syncVariableGroups = async (
         });
         if (results.length === syncVariablesLength) {
           setContainingVGs(results);
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
         }
       } else {
         toastErrorPopUp(
@@ -69,6 +66,7 @@ const syncVariableGroups = async (
           "variable_requesting",
           toastMs
         );
+        setLoading(false);
       }
     })
     .catch((err) => {
@@ -101,15 +99,13 @@ const syncVariableGroup = async (
           variableGroupType: variableGroupType,
         });
         setResults(results);
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
           "variable_requesting",
           toastMs
         );
+        setLoading(false);
       }
     })
     .catch((err) => {
