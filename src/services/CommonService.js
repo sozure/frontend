@@ -15,6 +15,7 @@ const responseCodes = {
 
 const getToastOnClose = () => {
   let strMs = process.env.REACT_APP_TOAST_ON_CLOSE_MS
+  if(strMs === undefined) return 2500;
   return parseInt(strMs);
 }
 
