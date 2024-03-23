@@ -32,7 +32,7 @@ const sendListKeyVaultsRequest = async (
   body,
   callbackForDataSaving,
   setDefaultSubscription,
-  statusList
+  setLoading
 ) => {
   let url = `${secretUrl}/getkeyvaults`;
   axios
@@ -45,12 +45,12 @@ const sendListKeyVaultsRequest = async (
         setDefaultSubscription(res.data.additionalData);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
+        setLoading(false);
       }
-      statusList.push(status);
     })
     .catch((err) => {
       handleError2(err);
-      statusList.push(-1);
+      setLoading(false);
     });
 };
 
