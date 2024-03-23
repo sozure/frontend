@@ -6,9 +6,11 @@ import {
   getResponseMessage,
   toastErrorPopUp,
   toastSuccessPopUp,
+  getToastOnClose,
 } from "../CommonService";
 
 const secretUrl = `${getLibraryBaseUrl()}/secret`;
+const toastMs = getToastOnClose();
 
 const sendDeleteSecretRequest = async (
   body,
@@ -42,7 +44,7 @@ const sendListKeyVaultsRequest = async (
         callbackForDataSaving(keyVaults);
         setDefaultSubscription(res.data.additionalData);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
       }
       statusList.push(status);
     })
@@ -77,9 +79,9 @@ const sendListSecretRequest = async (
       callbackForLoading(false);
       if (status === 1) {
         callbackForDataSaving(secrets);
-        toastSuccessPopUp("Success", "secret_requesting", 1500);
+        toastSuccessPopUp("Success", "secret_requesting", toastMs);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
       }
     })
     .catch((err) => {
@@ -95,9 +97,9 @@ const sendCopyRequest = async (body) => {
       let status = res.data;
       let statusMessage = getResponseMessage(status);
       if(status === 1){
-        toastSuccessPopUp(statusMessage, "secret_requesting", 1500);
+        toastSuccessPopUp(statusMessage, "secret_requesting", toastMs);
       } else {
-        toastErrorPopUp(statusMessage, "secret_requesting", 1500);
+        toastErrorPopUp(statusMessage, "secret_requesting", toastMs);
       }
     })
     .catch((err) => {
@@ -139,7 +141,7 @@ const sendRequest = async (
       if (status === 1) {
         callbackForDataSaving(secrets);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
       }
     })
     .catch((err) => {

@@ -13,7 +13,9 @@ import { getBuildPipelines } from "../../../../services/BuildPipelineService";
 
 const BuildPipForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
-  const { setBuildPipelines } = useContext(BuildPipelinesContext);
+  const { setBuildPipelines } = useContext(
+    BuildPipelinesContext
+  );
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
@@ -22,7 +24,13 @@ const BuildPipForm = () => {
   const send = async () => {
     setPaginationCounter(0);
     setBuildPipelines([]);
-    await getBuildPipelines(organizationName, projectName, pat, setBuildPipelines, setLoading);
+    await getBuildPipelines(
+      organizationName,
+      projectName,
+      pat,
+      setBuildPipelines,
+      setLoading
+    );
   };
 
   return (

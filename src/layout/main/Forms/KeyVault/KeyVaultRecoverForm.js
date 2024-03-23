@@ -16,7 +16,7 @@ import { sendListSecretRequest } from "../../../../services/SecretServices/Secre
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { checkRequiredInputs } from "../../../../services/CommonService";
+import { checkRequiredInputs, getToastOnClose } from "../../../../services/CommonService";
 
 const KeyVaultRecoverForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -37,9 +37,10 @@ const KeyVaultRecoverForm = () => {
     keyVaultName,
     secretRegex,
   ];
+  const toastMs = getToastOnClose();
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "recoverform", toastMs);
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,

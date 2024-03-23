@@ -4,8 +4,11 @@ import {
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
+  getToastOnClose,
 } from "./CommonService";
+
 const baseUrl = `${getBaseUrl()}/gitrepository`;
+const toastMs = getToastOnClose();
 
 const getRepositories = async (
   organization,
@@ -26,14 +29,14 @@ const getRepositories = async (
       let repositories = res.data.data;
       if (status === 1) {
         await setRepositories(repositories);
-        setLoading(false);
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
           "repository_requesting",
-          1500
+          toastMs
         );
       }
+      setLoading(false);
     })
     .catch((err) => {
       handleError2(err);
@@ -55,7 +58,7 @@ const getVariables = async (body, setLoading, setVariables) => {
         toastErrorPopUp(
           getResponseMessage(status),
           "variables_requesting",
-          1500
+          toastMs
         );
       }
     })

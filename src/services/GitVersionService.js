@@ -4,9 +4,12 @@ import {
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
+  getToastOnClose,
 } from "./CommonService";
 import { runBuildPipeline } from "./BuildPipelineService";
+
 const baseUrl = `${getBaseUrl()}/GitVersion`;
+const toastMs = getToastOnClose();
 
 const getBody = (organization, repositoryId, pat) => {
   return {
@@ -34,7 +37,7 @@ const getBranches = async (
       if (status === 1) {
         setBranches(branches);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "branch_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "branch_requesting", toastMs);
       }
     })
     .catch((err) => {
@@ -61,7 +64,7 @@ const getTags = async (
       if (status === 1) {
         setTags(tags);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "tag_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "tag_requesting", toastMs);
       }
     })
     .catch((err) => {
@@ -74,7 +77,6 @@ const createTag = async (
   model,
   latestTags,
   possibleNewTag,
-  setResult,
   setLoading,
   setLatestTags,
   cancel
@@ -113,12 +115,11 @@ const createTag = async (
           model.pat,
           model.definitionId,
           tag,
-          setLoading,
-          setResult
+          setLoading
         );
         cancel();
       } else {
-        toastErrorPopUp(getResponseMessage(status), "tag_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "tag_requesting", toastMs);
       }
     })
     .catch((err) => {

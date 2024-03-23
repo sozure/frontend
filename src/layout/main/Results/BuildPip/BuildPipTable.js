@@ -8,9 +8,10 @@ import {
   VGAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import { Input } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 const BuildPipTable = () => {
-  const tableHeader = ["Pipeline", "Source type", "Source", "Action", "Result"];
+  const tableHeader = ["Pipeline", "Source type", "Source", "Action"];
   const { buildPipelines } = useContext(BuildPipelinesContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);
@@ -65,6 +66,7 @@ const BuildPipTable = () => {
           )}
         </div>
       )}
+      <ToastContainer />
     </>
   );
 };

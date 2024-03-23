@@ -4,12 +4,13 @@ import { PaginationCounterContext } from "../../../contexts/Contexts";
 import TableHeader from "../../main/Results/TableHeader";
 import { v4 } from "uuid";
 import PaginationButtons from "../../main/Results/PaginationButtons";
-import { toastErrorPopUp } from "../../../services/CommonService";
+import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
 
 export const ModificationsTable = ({ entityType, changes }) => {
   const { paginationCounter } = useContext(PaginationCounterContext);
   const [columnList, setColumnList] = useState([]);
   const number = 10;
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     let columns = [];
@@ -46,11 +47,11 @@ export const ModificationsTable = ({ entityType, changes }) => {
         toastErrorPopUp(
           "Invalid record requesting!",
           "record_requesting",
-          1500
+          toastMs
         );
     }
     setColumnList(columns);
-  }, [entityType, setColumnList]);
+  }, [entityType, setColumnList, toastMs]);
 
   const getTableRowData = (change, date) => {
     switch (entityType) {
@@ -89,7 +90,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
         toastErrorPopUp(
           "Invalid record requesting!",
           "record_requesting",
-          1500
+          toastMs
         );
     }
   };

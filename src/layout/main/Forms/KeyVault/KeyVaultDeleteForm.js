@@ -21,6 +21,7 @@ import {
 import KeyVaultBaseOperationForm from "./BaseForms/KeyVaultBaseOperationForm";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -47,8 +48,10 @@ const KeyVaultDeleteForm = () => {
     secretRegex,
   ];
 
+  const toastMs = getToastOnClose();
+
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", toastMs);
     if (!incorrectFill) {
       let body = {
         tenantId: tenantId,

@@ -4,8 +4,11 @@ import {
   handleError2,
   getResponseMessage,
   toastErrorPopUp,
+  getToastOnClose,
 } from "./CommonService";
+
 const baseUrl = `${getBaseUrl()}/GitFile`;
+const toastMs = getToastOnClose();
 
 const yamlFilter = process.env.REACT_APP_YAML_FILTER;
 const jsonFilter = process.env.REACT_APP_JSON_FILTER;
@@ -46,7 +49,7 @@ const getConfigFiles = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "config_files_requesting",
-          1500
+          toastMs
         );
       }
     })

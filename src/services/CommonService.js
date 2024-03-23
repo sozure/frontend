@@ -13,6 +13,14 @@ const responseCodes = {
   9: "Unknown error",
 };
 
+const getToastOnClose = () => {
+  let strMs = process.env.REACT_APP_TOAST_ON_CLOSE_MS
+  if(strMs === undefined) return 2500;
+  return parseInt(strMs);
+}
+
+const toastMs = getToastOnClose();
+
 const getBaseUrl = () => {
   let backendUrl = process.env.REACT_APP_BACKEND_BASE_URL;
   let backendPort = process.env.REACT_APP_BACKEND_PORT_NUM;
@@ -29,13 +37,13 @@ const handleError = (callbackForLoading, err) => {
   callbackForLoading(false);
   console.log(err);
   let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
-  toastErrorPopUp(errorMessage, "request-error", 1500);
+  toastErrorPopUp(errorMessage, "request-error", toastMs);
 };
 
 const handleError2 = (err) => {
   console.log(err);
   let errorMessage = `${err.message} occur during request. Check inspector for detailed error message!`;
-  toastErrorPopUp(errorMessage, "request-error", 1500);
+  toastErrorPopUp(errorMessage, "request-error", toastMs);
 };
 
 const getResponseMessage = (responseCode) => {
@@ -94,5 +102,6 @@ export {
   setSingleOperationBack,
   checkRequiredInputs,
   toastSuccessPopUp,
-  toastErrorPopUp
+  toastErrorPopUp,
+  getToastOnClose
 };

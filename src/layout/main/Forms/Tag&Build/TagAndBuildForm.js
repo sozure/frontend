@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   BuildPipelinesContext,
   LoadingContext,
@@ -18,8 +18,8 @@ const TagAndBuildForm = () => {
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const { setBuildPipelines } = useContext(BuildPipelinesContext);
-  const { setRepositories } = useContext(RepositoriesContext);
+  const { buildPipelines, setBuildPipelines } = useContext(BuildPipelinesContext);
+  const { repositories, setRepositories } = useContext(RepositoriesContext);
 
   const send = async () => {
     setPaginationCounter(0);
@@ -40,6 +40,10 @@ const TagAndBuildForm = () => {
       setLoading
     );
   };
+
+  useEffect(() => {
+    setLoading(false);
+  }, [buildPipelines, repositories, setLoading]);
 
   return (
     <TagBaseForm

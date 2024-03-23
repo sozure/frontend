@@ -5,9 +5,11 @@ import {
   getResponseMessage,
   toastErrorPopUp,
   toastSuccessPopUp,
+  getToastOnClose,
 } from "./CommonService";
 
 const baseUrl = `${getLibraryBaseUrl()}/project`;
+const toastMs = getToastOnClose();
 
 const getProjects = async (
   organizationName,
@@ -34,12 +36,12 @@ const getProjects = async (
         );
       });
       if (status === 1) {
-        toastSuccessPopUp("Successful project requesting!", "project_requesting", 1500);
+        toastSuccessPopUp("Successful project requesting!", "project_requesting", toastMs);
         setResult(projects);
         setProjectName(projects[0].name);
         setSubscriptions(subscriptions);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "project_requesting", toastMs);
       }
       statusList.push(status);
     })

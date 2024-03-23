@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MatUIButton from "../../../MatUIButton";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import { Input } from "@mui/material";
@@ -41,6 +41,7 @@ const SyncFormFields2 = ({
   actualBranch,
   configLocalLoading,
   configFileName,
+  projectsWithPipeline,
   setProjectsWithPipeline,
   setPipelineLocalLoading,
   repositories,
@@ -51,11 +52,23 @@ const SyncFormFields2 = ({
   const { pat } = useContext(PATContext);
   const { setLoading } = useContext(LoadingContext);
   const { setSyncVariables } = useContext(VariablesSyncContext);
-  const { setContainingVGs } = useContext(ContainingVGsContext);
+  const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
   const { setContainingVGsProject } = useContext(ContainingVGsProjectContext);
   const { setPipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
   const { projects } = useContext(ProjectsContext);
   const { setEnvironments } = useContext(EnvironmentsContext);
+
+  useEffect(() => {
+    if(containingVGs.length > 0){
+      setLoading(false);
+    }
+  }, [containingVGs, setLoading]);
+
+  useEffect(() => {
+    if(projectsWithPipeline.length > 0){
+      setPipelineLocalLoading(false);
+    }
+  }, [projectsWithPipeline, setPipelineLocalLoading]);
 
   const send = async () => {
     setPaginationCounter(0);
@@ -92,6 +105,7 @@ const SyncFormFields2 = ({
 
   const containsConfigFileText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+
   return (
     <>
       {repository !== "" && actualBranch !== "" && projectName !== "" && (
@@ -159,6 +173,7 @@ SyncFormFields2.propTypes = {
   separator: PropTypes.string.isRequired,
   setSeparator: PropTypes.func.isRequired,
   configFiles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  projectsWithPipeline: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   actualBranch: PropTypes.string.isRequired,
   configLocalLoading: PropTypes.bool.isRequired,
   configFileName: PropTypes.string.isRequired,

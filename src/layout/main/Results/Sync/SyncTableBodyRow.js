@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 } from "uuid";
 import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
 import SyncTableBodyInput from "./SyncTableBodyInput";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import { toastErrorPopUp } from "../../../../services/CommonService";
+import { getToastOnClose, toastErrorPopUp } from "../../../../services/CommonService";
 import {
   ConfigFileExtensionContext,
   ContainingVGsContext,
@@ -38,6 +38,7 @@ const SyncTableBodyRow = ({
   const [newVariableKey, setNewVariableKey] = useState("");
 
   const idPrefix = "inline-var";
+  const toastMs = getToastOnClose();
 
   const changeSync = async (variableToBeReplaced) => {
     let newKey = document.getElementById(
@@ -47,7 +48,7 @@ const SyncTableBodyRow = ({
       toastErrorPopUp(
         "New key is already in variables list!",
         "key-update",
-        1500
+        toastMs
       );
     } else {
       setNewVariableKey(newKey);
@@ -79,6 +80,10 @@ const SyncTableBodyRow = ({
     }
     setModification({});
   };
+
+  useEffect(() => {
+    setLocalLoading(false);
+  }, [containingVGs]);
 
   const collectNewContainingVGs = (variableToBeReplaced) => {
     let newContainingVGs = [];

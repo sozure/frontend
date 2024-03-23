@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { v4 } from "uuid";
@@ -38,7 +38,7 @@ const SyncTableForm = ({
   const { containingVGsProject, setContainingVGsProject } = useContext(
     ContainingVGsProjectContext
   );
-  const { setContainingVGs } = useContext(ContainingVGsContext);
+  const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setEnvironments } = useContext(EnvironmentsContext);
 
@@ -73,6 +73,10 @@ const SyncTableForm = ({
       setLoading
     );
   };
+
+  useEffect(() => {
+    setLoading(false);
+  }, [containingVGs, setLoading]);
 
   return (
     <div className="form">

@@ -24,6 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -54,6 +55,7 @@ const VariableGroupGetForm = () => {
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     setMessage({
@@ -83,7 +85,7 @@ const VariableGroupGetForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", toastMs);
     if (!incorrectFill) {
       await sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);

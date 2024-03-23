@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { v4 } from "uuid";
 import {
   getRepositoryIdByBuildPipeline,
@@ -24,15 +24,6 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
   const [source, setSource] = useState("Choose one");
   const [sources, setSources] = useState([]);
   const [localLoading, setLocalLoading] = useState(false);
-  const [runSuccess, setRunSuccess] = useState({});
-
-  useEffect(() => {
-    if (runSuccess.id !== undefined) {
-      setTimeout(() => {
-        setRunSuccess({});
-      }, 2500);
-    }
-  }, [runSuccess, setRunSuccess]);
 
   const setCustomSourceType = async (newSourceType) => {
     setSourceType(newSourceType);
@@ -54,13 +45,6 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
         setSources
       );
     }
-  };
-
-  const getBuildRunStatus = () => {
-    if (runSuccess.id === pipeline.id && runSuccess.success) {
-      return <span>Success</span>;
-    }
-    return <>-</>;
   };
 
   const getSources = () => {
@@ -109,8 +93,26 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       pat,
       pipeline.id,
       source,
-      setLocalLoading,
-      setRunSuccess
+      setLocalLoading
+    );
+  };
+
+  const getActionSection = () => {
+    if (
+      sources.length === 0 ||
+      source === "Choose one" ||
+      sourceType === "Choose one"
+    ) {
+      return <>-</>;
+    } else if (
+      isModification() &&
+      pipelineRunModel.type === "run pipeline" &&
+      localLoading
+    ) {
+      return <span>Loading...</span>;
+    }
+    return (
+      <MatUIButton id={"run_button"} send={send} displayName={"Run pipeline"} />
     );
   };
 
@@ -147,28 +149,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
           getSources()
         )}
       </td>
-      <td key={v4()}>
-        {sources.length === 0 ||
-        source === "Choose one" ||
-        sourceType === "Choose one" ? (
-          <>-</>
-        ) : (
-          <MatUIButton
-            id={"run_button"}
-            send={send}
-            displayName={"Run pipeline"}
-          />
-        )}
-      </td>
-      <td key={v4()}>
-        {isModification() &&
-        pipelineRunModel.type === "run pipeline" &&
-        localLoading ? (
-          <span>Loading...</span>
-        ) : (
-          getBuildRunStatus()
-        )}
-      </td>
+      <td key={v4()}>{getActionSection()}</td>
     </tr>
   );
 };

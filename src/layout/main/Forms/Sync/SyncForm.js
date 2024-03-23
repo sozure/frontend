@@ -170,6 +170,7 @@ const SyncForm = () => {
               repositories={repositories}
               repository={repository}
               separator={separator}
+              projectsWithPipeline={projectsWithPipeline}
               setConfigFile={setConfigFile}
               setPipelineLocalLoading={setPipelineLocalLoading}
               setProjectsWithPipeline={setProjectsWithPipeline}

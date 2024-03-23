@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getLibraryBaseUrl, handleError2, getResponseMessage, toastErrorPopUp, toastSuccessPopUp } from "./CommonService";
+import { getLibraryBaseUrl, handleError2, getResponseMessage, toastErrorPopUp, toastSuccessPopUp, getToastOnClose } from "./CommonService";
 
 const baseUrl = `${getLibraryBaseUrl()}/changes`;
+const toastMs = getToastOnClose();
 
 const getVGChanges = async (body, setLoading, setChanges) => {
   const url = `${baseUrl}/variables`;
@@ -26,10 +27,10 @@ const getChanges = async (url, body, setLoading, setChanges) => {
       let operations = res.data.data;
       setLoading(false);
       if (status === 1) {
-        toastSuccessPopUp("Successful changes requesting!", "changes_requesting", 1500);
+        toastSuccessPopUp("Successful changes requesting!", "changes_requesting", toastMs);
         setChanges(operations);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "record_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "record_requesting", toastMs);
       }
     })
     .catch((err) => {
