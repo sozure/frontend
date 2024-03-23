@@ -117,9 +117,6 @@ const getProjectsWithReleasePipeline = async (
       } else {
         toastErrorPopUp(getResponseMessage(status), "project_requesting", toastMs);
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
     })
     .catch((err) => {
       handleError2(err);
