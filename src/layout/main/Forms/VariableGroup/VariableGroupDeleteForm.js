@@ -25,6 +25,7 @@ import {
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -47,6 +48,7 @@ const VariableGroupDeleteForm = () => {
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     let keyIsRegexHelper = false;
@@ -77,7 +79,7 @@ const VariableGroupDeleteForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "deleteform", toastMs);
     if (!incorrectFill) {
       await sendListVariablesRequest(message, "", setVariables);
       setPaginationCounter(0);

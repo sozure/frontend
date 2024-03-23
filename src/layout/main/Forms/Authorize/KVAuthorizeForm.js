@@ -19,7 +19,7 @@ import {
   SubscriptionsContext,
   TenantIdContext,
 } from "../../../../contexts/Contexts";
-import { checkRequiredInputs } from "../../../../services/CommonService";
+import { checkRequiredInputs, getToastOnClose } from "../../../../services/CommonService";
 import { sendListKeyVaultsRequest } from "../../../../services/SecretServices/SecretService";
 import { CommonAuthorizeFormElements } from "./CommonAuthorizeFormElements";
 
@@ -41,9 +41,10 @@ const KVAuthorizeForm = () => {
   );
 
   const mandatoryFields = [tenantId, clientId, clientSecret];
+  const toastMs = getToastOnClose();
 
   const auth = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", toastMs);
     if (!incorrectFill) {
       let statuses = [];
       setLoading(true);

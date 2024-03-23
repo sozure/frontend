@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   toastErrorPopUp,
 } from "../../../../services/CommonService";
 import KeyVaultSelectMenu from "../../../KeyVaultSelectMenu";
@@ -44,15 +45,17 @@ const KeyVaultCopyForm = () => {
     destinationKeyVault,
   ];
 
+  const toastMs = getToastOnClose();
+
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "copy-form", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "copy-form", toastMs);
 
     if (!incorrectFill) {
       if (originKeyVault === destinationKeyVault) {
         toastErrorPopUp(
           "Origin key vault and destination key vault shouldn't be the same!",
           "copy-form",
-          1500
+          toastMs
         );
       } else {
         let body = {

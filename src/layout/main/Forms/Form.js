@@ -30,7 +30,7 @@ import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
 import AuthorizedSection from "./Authorize/AuthorizedSection";
-import { toastErrorPopUp } from "../../../services/CommonService";
+import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
 import SyncForm from "./Sync/SyncForm";
 import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
@@ -50,6 +50,8 @@ function Form() {
   const { setSecrets } = useContext(SecretsContext);
   const { setVariables } = useContext(VariablesContext);
   const { setSyncVariables } = useContext(VariablesSyncContext);
+
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     setKeyRegex("");
@@ -201,7 +203,7 @@ function Form() {
         case "Tag":
           return getTagAndBuildForm();
         default:
-          toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
+          toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
       }
     }
   };

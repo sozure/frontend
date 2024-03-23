@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getLibraryBaseUrl, handleError, getResponseMessage, toastErrorPopUp } from "../CommonService";
+import { getLibraryBaseUrl, handleError, getResponseMessage, toastErrorPopUp, getToastOnClose } from "../CommonService";
 
 const secretUrl = `${getLibraryBaseUrl()}/secret`;
+const toastMs = getToastOnClose();
 
 const sendRecoverSecretRequest = async (
   body,
@@ -34,7 +35,7 @@ const sendRequest = async (url, body, secrets, setSecrets, index, setLoading) =>
         secrets.splice(index, 1);
         setSecrets(secrets);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "secret_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
       }
       setLoading(false);
     })

@@ -1,6 +1,7 @@
 import {
   getBaseUrl,
   getResponseMessage,
+  getToastOnClose,
   handleError2,
   toastErrorPopUp,
 } from "./CommonService";
@@ -8,6 +9,7 @@ import axios from "axios";
 import { syncVariableGroups } from "./VariableGroupServices/VariableGroupService";
 
 const baseUrl = `${getBaseUrl()}/ReleasePipeline`;
+const toastMs = getToastOnClose();
 
 const getEnvironments = async (
   body,
@@ -25,7 +27,7 @@ const getEnvironments = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "environment_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -78,7 +80,7 @@ const getVariableGroups = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "variable_group_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -113,7 +115,7 @@ const getProjectsWithReleasePipeline = async (
       if (status === 1) {
         setResults(projects);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "project_requesting", 1500);
+        toastErrorPopUp(getResponseMessage(status), "project_requesting", toastMs);
       }
       setTimeout(() => {
         setLoading(false);

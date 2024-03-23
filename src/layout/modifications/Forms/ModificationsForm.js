@@ -25,6 +25,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   toastErrorPopUp,
 } from "../../../services/CommonService";
 import { VGModificationsForm } from "./VGModificationsForm";
@@ -49,6 +50,7 @@ export const ModificationsForm = ({
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [from, to, entityType];
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     if (projects.length === 0) {
@@ -60,12 +62,12 @@ export const ModificationsForm = ({
     let incorrectFill = checkRequiredInputs(
       mandatoryFields,
       "custom-auth",
-      1500
+      toastMs
     );
     if (!incorrectFill) {
       setPaginationCounter(0);
       if (from > to) {
-        toastErrorPopUp("Time range is not correct!", "range-error", 1500);
+        toastErrorPopUp("Time range is not correct!", "range-error", toastMs);
       } else {
         switch (entityType) {
           case "env_variables":
@@ -81,7 +83,7 @@ export const ModificationsForm = ({
             toastErrorPopUp(
               "Invalid record requesting!",
               "record_requesting",
-              1500
+              toastMs
             );
         }
       }
@@ -177,7 +179,7 @@ export const ModificationsForm = ({
         toastErrorPopUp(
           "Invalid record requesting!",
           "record_requesting",
-          1500
+          toastMs
         );
     }
   };

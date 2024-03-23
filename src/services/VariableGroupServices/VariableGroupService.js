@@ -5,10 +5,12 @@ import {
   getResponseMessage,
   toastErrorPopUp,
   toastSuccessPopUp,
+  getToastOnClose,
 } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getLibraryBaseUrl()}/VariableGroup`;
+const toastMs = getToastOnClose();
 
 const sendListVariablesRequest = async (
   message,
@@ -65,7 +67,7 @@ const syncVariableGroups = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "variable_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -106,7 +108,7 @@ const syncVariableGroup = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "variable_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -138,7 +140,7 @@ const sendListRequest = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "variable_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -162,9 +164,9 @@ const sendRequest = async (controllerSegment, body, callback, message) => {
       let statusMessage = getResponseMessage(status);
       if (status === 1 || status === 2) {
         callbackForDataSaving(variableGroups);
-        toastSuccessPopUp(statusMessage, "variable_requesting", 1500);
+        toastSuccessPopUp(statusMessage, "variable_requesting", toastMs);
       } else {
-        toastErrorPopUp(statusMessage, "variable_requesting", 1500);
+        toastErrorPopUp(statusMessage, "variable_requesting", toastMs);
       }
     })
     .catch((err) => {

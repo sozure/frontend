@@ -23,6 +23,7 @@ import {
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   setOnSingleModificationBack,
   setSingleOperationBack,
 } from "../../../../services/CommonService";
@@ -51,6 +52,7 @@ const VariableGroupAddForm = () => {
   const { profileName } = useContext(ProfileNameContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     let keyIsRegexHelper = true;
@@ -82,7 +84,7 @@ const VariableGroupAddForm = () => {
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "addform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "addform", toastMs);
     if (!incorrectFill) {
       await sendListVariableGroupsRequest(message, "", setVariableGroups);
       setPaginationCounter(0);

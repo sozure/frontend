@@ -28,6 +28,7 @@ import {
 } from "../../../../contexts/Contexts";
 import {
   checkRequiredInputs,
+  getToastOnClose,
   setOnSingleModificationBack,
   setSingleOperationBack,
   toastErrorPopUp,
@@ -62,6 +63,8 @@ const KeyVaultGetForm = () => {
     secretRegex,
   ];
 
+  const toastMs = getToastOnClose();
+
   useEffect(() => {
     if (keyVaults.length > 0) {
       setKeyVaultName(keyVaults[0]);
@@ -79,7 +82,7 @@ const KeyVaultGetForm = () => {
       toastErrorPopUp(
         "PAT doesn't match with default Azure subscription!",
         "pat-error",
-        1500
+        toastMs
       );
       setKvAuthorized(false);
     }
@@ -89,10 +92,11 @@ const KeyVaultGetForm = () => {
     subscriptions,
     defaultSubscription,
     profileName,
+    toastMs
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", 1500);
+    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", toastMs);
     if (!incorrectFill) {
       let message = {
         tenantId: tenantId,

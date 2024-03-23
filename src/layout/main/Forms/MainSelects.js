@@ -9,7 +9,7 @@ import {
   PaginationCounterContext,
 } from "../../../contexts/Contexts";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { toastErrorPopUp } from "../../../services/CommonService";
+import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
 
 const MainSelects = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -18,6 +18,8 @@ const MainSelects = () => {
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+
+  const toastMs = getToastOnClose();
 
   const handleActionTypeChange = (e) => {
     e.preventDefault();
@@ -107,7 +109,7 @@ const MainSelects = () => {
           </FormControl>
         );
       default:
-        toastErrorPopUp("Invalid tableType value!", "table-type", 1500);
+        toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
     }
   };
 

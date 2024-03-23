@@ -14,7 +14,7 @@ import {
   SubscriptionsContext,
 } from "../../../../contexts/Contexts";
 import { Button } from "@mui/material";
-import { checkRequiredInputs } from "../../../../services/CommonService";
+import { checkRequiredInputs, getToastOnClose } from "../../../../services/CommonService";
 import { getProfile } from "../../../../services/ProfileService";
 import { CommonAuthorizeFormElements } from "./CommonAuthorizeFormElements";
 
@@ -29,12 +29,13 @@ const VGAuthorizeForm = () => {
   const { setSubscriptions } = useContext(SubscriptionsContext);
 
   const mandatoryFields = [pat, organizationName];
+  const toastMs = getToastOnClose();
 
   const auth = async () => {
     let incorrectFill = checkRequiredInputs(
       mandatoryFields,
       "custom-auth",
-      1500
+      toastMs
     );
     if (!incorrectFill) {
       let statuses = [];
