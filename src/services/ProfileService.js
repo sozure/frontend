@@ -4,7 +4,7 @@ import { getBaseUrl, handleError2, getResponseMessage, toastErrorPopUp, toastSuc
 const baseUrl = `${getBaseUrl()}/profile`;
 const toastMs = getToastOnClose();
 
-const getProfile = async (organizationName, PAT, setProfileName, statusList) => {
+const getProfile = async (organizationName, PAT, setProfileName, setLoading) => {
   const url = `${baseUrl}`;
   const body = {
     organization: organizationName,
@@ -20,12 +20,12 @@ const getProfile = async (organizationName, PAT, setProfileName, statusList) => 
         toastSuccessPopUp("Successful profile requesting!", "project_requesting", toastMs);
       } else {
         toastErrorPopUp(getResponseMessage(status), "profile_requesting", toastMs);
+        setLoading(false);
       }
-      statusList.push(status);
     })
     .catch((err) => {
       handleError2(err);
-      statusList.push(-1);
+      setLoading(false);
     });
 };
 

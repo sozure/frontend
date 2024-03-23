@@ -17,7 +17,7 @@ const getProjects = async (
   setResult,
   setProjectName,
   setSubscriptions,
-  statusList
+  setLoading
 ) => {
   const url = `${baseUrl}/get`;
   const body = {
@@ -42,12 +42,12 @@ const getProjects = async (
         setSubscriptions(subscriptions);
       } else {
         toastErrorPopUp(getResponseMessage(status), "project_requesting", toastMs);
+        setLoading(false);
       }
-      statusList.push(status);
     })
     .catch((err) => {
       handleError2(err);
-      statusList.push(-1);
+      setLoading(false);
     });
 };
 

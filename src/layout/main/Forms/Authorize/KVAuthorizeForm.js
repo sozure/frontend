@@ -46,7 +46,6 @@ const KVAuthorizeForm = () => {
   const auth = async () => {
     let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", toastMs);
     if (!incorrectFill) {
-      let statuses = [];
       setLoading(true);
       await getProjects(
         organizationName,
@@ -54,9 +53,9 @@ const KVAuthorizeForm = () => {
         setProjects,
         setProjectName,
         setSubscriptions,
-        statuses
+        setLoading
       );
-      await getProfile(organizationName, pat, setProfileName, statuses);
+      await getProfile(organizationName, pat, setProfileName, setLoading);
       let message = {
         tenantId: tenantId,
         clientId: clientId,
@@ -67,7 +66,7 @@ const KVAuthorizeForm = () => {
         message,
         setKeyVaults,
         setDefaultSubscription,
-        statuses
+        setLoading
       );
     }
   };

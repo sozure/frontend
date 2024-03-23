@@ -41,7 +41,6 @@ const VGAuthorizeForm = () => {
       toastMs
     );
     if (!incorrectFill) {
-      let statuses = [];
       setLoading(true);
       await getProjects(
         organizationName,
@@ -49,9 +48,9 @@ const VGAuthorizeForm = () => {
         setProjects,
         setProjectName,
         setSubscriptions,
-        statuses
+        setLoading
       );
-      await getProfile(organizationName, pat, setProfileName, statuses);
+      await getProfile(organizationName, pat, setProfileName, setLoading);
     }
   };
 
