@@ -2,11 +2,14 @@ import axios from "axios";
 import {
   getBaseUrl,
   getResponseMessage,
+  getToastOnClose,
   handleError2,
   toastErrorPopUp,
+  toastSuccessPopUp,
 } from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/BuildPipeline`;
+const toastMs = getToastOnClose();
 
 const getBuildPipelines = async (
   organization,
@@ -33,7 +36,7 @@ const getBuildPipelines = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "build_pipelines_requesting",
-          1500
+          toastMs
         );
       }
       setTimeout(() => {
@@ -72,7 +75,7 @@ const getRepositoryIdByBuildPipeline = async (
         toastErrorPopUp(
           getResponseMessage(status),
           "repository_id_build_pipelines_requesting",
-          1500
+          toastMs
         );
       }
     })
@@ -87,8 +90,7 @@ const runBuildPipeline = async (
   pat,
   definitionId,
   sourceBranch,
-  setLoading,
-  setResult
+  setLoading
 ) => {
   let url = `${baseUrl}/Run`;
   let body = {
@@ -103,18 +105,21 @@ const runBuildPipeline = async (
     .post(url, body)
     .then((res) => {
       let status = res.data;
-      if (status !== 1) {
-        toastErrorPopUp(
-          getResponseMessage(status),
-          "run_build_pipeline_requesting",
-          1500
+      let statusMessage = getResponseMessage(status);
+      if (status === 1) {
+        toastSuccessPopUp(
+          statusMessage,
+          "run-build",
+          toastMs
         );
       } else {
-        setResult({id: definitionId, success: true});
+        toastErrorPopUp(
+          statusMessage,
+          "run-build",
+          toastMs
+        );
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setLoading(false);
     })
     .catch((err) => {
       handleError2(err);

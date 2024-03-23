@@ -33,19 +33,10 @@ const TagAndBuildTableBodyRow = ({
   const [typeOfVersion, setTypeOfVersion] = useState("");
   const [possibleNewTag, setPossibleNewTag] = useState("");
   const [latestTag, setLatestTag] = useState("");
-  const [runSuccess, setRunSuccess] = useState({});
   const [localLoading, setLocalLoading] = useState(false);
   const [runAlready, setRunAlready] = useState(false);
   const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    if (runSuccess.id !== undefined) {
-      setTimeout(() => {
-        setRunSuccess({});
-      }, 2500);
-    }
-  }, [runSuccess, setRunSuccess]);
-
+  
   useEffect(() => {
     let alreadyHasItem = hasItem(latestTags, repository);
     if (
@@ -88,17 +79,6 @@ const TagAndBuildTableBodyRow = ({
     }
   }, [tags, latestTags, setLatestTags, repository]);
 
-  const getBuildRunStatus = () => {
-    if (
-      pipeline !== undefined &&
-      runSuccess.id === pipeline.id &&
-      runSuccess.success
-    ) {
-      return <span>Success</span>;
-    }
-    return <>-</>;
-  };
-
   const getLatestTag = (tags) => {
     let sortedTags = sortVersions(tags);
     return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
@@ -123,7 +103,6 @@ const TagAndBuildTableBodyRow = ({
         model,
         latestTags,
         possibleNewTag,
-        setRunSuccess,
         setLocalLoading,
         setLatestTags,
         cancel
@@ -211,12 +190,9 @@ const TagAndBuildTableBodyRow = ({
               </button>
             </abbr>
           </>
-        ) : (
+        ) : localLoading? <span>Loading...</span> : (
           <>-</>
         )}
-      </td>
-      <td key={v4()}>
-        {localLoading ? <span>Loading...</span> : getBuildRunStatus()}
       </td>
     </tr>
   );

@@ -12,7 +12,7 @@ import {
   ProfileNameContext,
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
-import { toastErrorPopUp } from "../../../../services/CommonService";
+import { getToastOnClose, toastErrorPopUp } from "../../../../services/CommonService";
 import PropTypes from "prop-types";
 
 const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
@@ -28,25 +28,10 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const { containingVGs, setContainingVGs } = useContext(ContainingVGsContext);
 
   const idPrefix = "inline-add";
+  const toastMs = getToastOnClose();
 
   const containsVGText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-  const syncVGs = async () => {
-    let newContainingVGs = [];
-    containingVGs.forEach((vgElement) => {
-      if (vgElement.key === variable) {
-        vgElement.result.push({
-          project: containingVGsProject,
-          variableGroupName: actualVg,
-          variableGroupType: "Vsts",
-        });
-      }
-      newContainingVGs.push(vgElement);
-    });
-    await setContainingVGs(newContainingVGs);
-    setModification({});
-  };
 
   const add = async (newValueOfVariable) => {
     let body = {
@@ -55,13 +40,22 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
       pat: pat,
       userName: profileName,
       variableGroupFilter: actualVg,
-      keyFilter: variable,
+      keyFilter: ".*",
       containsSecrets: false,
       key: variable,
       value: newValueOfVariable,
     };
 
-    await sendAddRequest(body, setLocalLoading);
+    await sendAddRequest(
+      body,
+      variable,
+      actualVg,
+      containingVGsProject,
+      containingVGs,
+      setContainingVGs,
+      setModification,
+      setLocalLoading
+    );
   };
 
   const addSync = async (variableToBeReplaced) => {
@@ -71,9 +65,8 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
 
     if (actualVg !== "" && newValueOfVariable !== "") {
       await add(newValueOfVariable);
-      await syncVGs();
     } else {
-      toastErrorPopUp("Fill every field!", "inline-add", 1500);
+      toastErrorPopUp("Fill every field!", "inline-add", toastMs);
     }
   };
 
@@ -104,33 +97,31 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
           selectedElement={actualVg}
           setSelectedElement={setActualVg}
         />
-        <SyncTableBodyInput
-          idPrefix={idPrefix}
-          variable={variable}
-          optionalValue={""}
-        />
-        <button onClick={async () => await addSync(variable)}>
-          <AiOutlineCheck />
-        </button>
-        <button onClick={() => setModification({})}>
-          <AiOutlineClose />
-        </button>
+        {actualVg !== "" && (
+          <>
+            <SyncTableBodyInput
+              idPrefix={idPrefix}
+              variable={variable}
+              optionalValue={""}
+            />
+            <button onClick={async () => await addSync(variable)}>
+              <AiOutlineCheck />
+            </button>
+            <button onClick={() => setModification({})}>
+              <AiOutlineClose />
+            </button>
+          </>
+        )}
       </>
     );
   };
 
-  return (
-    <>
-      {localLoading ? (
-        <>Loading...</>
-      ) : getAddSection()}
-    </>
-  );
+  return <>{localLoading ? <>Loading...</> : getAddSection()}</>;
 };
 
 SyncTableBodyRowAdd.propTypes = {
   variable: PropTypes.string.isRequired,
-  potentialMissingVgs: PropTypes.arrayOf(PropTypes.any).isRequired
+  potentialMissingVgs: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default SyncTableBodyRowAdd;

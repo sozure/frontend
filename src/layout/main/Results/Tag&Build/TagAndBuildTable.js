@@ -13,7 +13,6 @@ const TagAndBuildTable = () => {
     "Possible new tag",
     "Tag description",
     "Create and build",
-    "Result",
   ];
   const { repositories } = useContext(RepositoriesContext);
 

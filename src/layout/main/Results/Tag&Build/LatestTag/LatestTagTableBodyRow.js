@@ -81,7 +81,7 @@ LatestTagTableBodyRow.propTypes = {
   latestTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   setLatestTags: PropTypes.func.isRequired,
   repository: PropTypes.object.isRequired,
-  pipeline: PropTypes.object.isRequired
+  pipeline: PropTypes.object
 };
 
 export default LatestTagTableBodyRow;

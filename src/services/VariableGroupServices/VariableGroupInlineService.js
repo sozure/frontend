@@ -2,12 +2,15 @@ import axios from "axios";
 import {
   getLibraryBaseUrl,
   getResponseMessage,
+  getToastOnClose,
   handleError2,
   toastErrorPopUp,
+  toastSuccessPopUp,
 } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
 const variableGroupUrl = `${getLibraryBaseUrl()}/VariableGroup`;
+const toastMs = getToastOnClose();
 
 const sendRequest = async (
   controllerSegment,
@@ -103,7 +106,16 @@ const sendDeleteRequest = async (
   );
 };
 
-const sendAddRequest = async (body, setLoading) => {
+const sendAddRequest = async (
+  body,
+  variable,
+  actualVg,
+  containingVGsProject,
+  containingVGs,
+  setContainingVGs,
+  setModification,
+  setLoading
+) => {
   setLoading(true);
   let endpoint = "AddInline";
   let url = `${variableGroupUrl}/${endpoint}`;
@@ -111,14 +123,54 @@ const sendAddRequest = async (body, setLoading) => {
     .post(url, body)
     .then((res) => {
       let status = res.data;
+      let statusMessage = getResponseMessage(status);
       setLoading(false);
-      if (status !== 1 && status !== 2) {
-        toastErrorPopUp("Couldn't added new variable!", "inline-add", 1500);
+      if (status !== 1) {
+        toastErrorPopUp(
+          `Couldn't add variable! ${statusMessage}${
+            status === 2 ? ". Check VG. Potential case sensitivity error." : ""
+          }`,
+          "inline-add",
+          toastMs
+        );
+      } else {
+        toastSuccessPopUp("New variable added!", "inline-add", toastMs);
+        syncVGs(
+          variable,
+          actualVg,
+          containingVGsProject,
+          containingVGs,
+          setContainingVGs,
+          setModification
+        );
       }
     })
     .catch((err) => {
       handleError2(err);
     });
+};
+
+const syncVGs = async (
+  variable,
+  actualVg,
+  containingVGsProject,
+  containingVGs,
+  setContainingVGs,
+  setModification
+) => {
+  let newContainingVGs = [];
+  containingVGs.forEach((vgElement) => {
+    if (vgElement.key === variable) {
+      vgElement.result.push({
+        project: containingVGsProject,
+        variableGroupName: actualVg,
+        variableGroupType: "Vsts",
+      });
+    }
+    newContainingVGs.push(vgElement);
+  });
+  await setContainingVGs(newContainingVGs);
+  setModification({});
 };
 
 export { sendDeleteRequest, sendUpdateRequest, sendAddRequest };

@@ -4,6 +4,7 @@ import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import { PaginationCounterContext, VGAuthorizedContext } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
+import { ToastContainer } from "react-toastify";
 
 const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
@@ -64,6 +65,7 @@ const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
           )}
         </div>
       )}
+      <ToastContainer />
     </>
   );
 };
