@@ -77,7 +77,7 @@ const SyncTableForm = ({
   return (
     <div className="form">
       <FormControl fullWidth>
-        <InputLabel>Projects containing pipeline</InputLabel>
+        <InputLabel>{`Projects containing pipeline (${projectsWithReleasePipeline.length} found)`}</InputLabel>
         <Select
           id={`project-${v4()}`}
           value={containingVGsProject}
