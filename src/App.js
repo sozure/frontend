@@ -47,6 +47,7 @@ import {
   ConfigFileExtensionContext,
   BuildPipelinesContext,
   RepositoriesContext,
+  PullRequestsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -94,6 +95,7 @@ function App() {
   const [keyRegex, setKeyRegex] = useState("");
   const [variables, setVariables] = useState([]);
   const [variableGroups, setVariableGroups] = useState([]);
+  const [pullRequests, setPullRequests] = useState([]);
   const [secrets, setSecrets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [onUpdate, setOnUpdate] = useState(false);
@@ -541,23 +543,36 @@ function App() {
                                                                                               ]
                                                                                             )}
                                                                                           >
-                                                                                            <Welcome />
-                                                                                            <BrowserRouter>
-                                                                                              <Routes>
-                                                                                                <Route
-                                                                                                  path="/"
-                                                                                                  element={
-                                                                                                    <Main />
-                                                                                                  }
-                                                                                                />
-                                                                                                <Route
-                                                                                                  path="/changes"
-                                                                                                  element={
-                                                                                                    <Modifications />
-                                                                                                  }
-                                                                                                />
-                                                                                              </Routes>
-                                                                                            </BrowserRouter>
+                                                                                            <PullRequestsContext.Provider
+                                                                                              value={useMemo(
+                                                                                                () => ({
+                                                                                                  pullRequests,
+                                                                                                  setPullRequests,
+                                                                                                }),
+                                                                                                [
+                                                                                                  pullRequests,
+                                                                                                  setPullRequests,
+                                                                                                ]
+                                                                                              )}
+                                                                                            >
+                                                                                              <Welcome />
+                                                                                              <BrowserRouter>
+                                                                                                <Routes>
+                                                                                                  <Route
+                                                                                                    path="/"
+                                                                                                    element={
+                                                                                                      <Main />
+                                                                                                    }
+                                                                                                  />
+                                                                                                  <Route
+                                                                                                    path="/changes"
+                                                                                                    element={
+                                                                                                      <Modifications />
+                                                                                                    }
+                                                                                                  />
+                                                                                                </Routes>
+                                                                                              </BrowserRouter>
+                                                                                            </PullRequestsContext.Provider>
                                                                                           </RepositoriesContext.Provider>
                                                                                         </BuildPipelinesContext.Provider>
                                                                                       </ConfigFileExtensionContext.Provider>
