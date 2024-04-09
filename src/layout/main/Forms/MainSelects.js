@@ -9,7 +9,10 @@ import {
   PaginationCounterContext,
 } from "../../../contexts/Contexts";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../services/CommonService";
 
 const MainSelects = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -86,7 +89,9 @@ const MainSelects = () => {
               value={actionType}
               onChange={(event) => setCustomActionType(event.target.value)}
             >
-              <MenuItem selected value="Build">Run build pipelines</MenuItem>
+              <MenuItem selected value="Build">
+                Run build pipelines
+              </MenuItem>
               <MenuItem value="Release">Create release</MenuItem>
             </Select>
           </FormControl>
@@ -108,6 +113,26 @@ const MainSelects = () => {
             </Select>
           </FormControl>
         );
+      case "PR":
+        return (
+          <FormControl required fullWidth>
+            <InputLabel>PR action type</InputLabel>
+            <Select
+              className="pr-action-type"
+              label="PR action type"
+              value={actionType}
+              onChange={(event) => setCustomActionType(event.target.value)}
+            >
+              <MenuItem value="List">List PRs</MenuItem>
+              <MenuItem value="Create">
+                Create PR
+              </MenuItem>
+              <MenuItem value="CreateMultiple">
+                Create multiple PRs
+              </MenuItem>
+            </Select>
+          </FormControl>
+        );
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
     }
@@ -119,8 +144,8 @@ const MainSelects = () => {
         <InputLabel>Select table type</InputLabel>
         <Select
           label="Select table type"
-          onChange={(event) => { 
-            setActionType(""); 
+          onChange={(event) => {
+            setActionType("");
             setTableType(event.target.value);
           }}
           value={tableType}
@@ -130,6 +155,7 @@ const MainSelects = () => {
           <MenuItem value="Sync">Sync configurations</MenuItem>
           <MenuItem value="Pipeline">Run pipelines</MenuItem>
           <MenuItem value="Tag">Tags</MenuItem>
+          <MenuItem value="PR">Pull requests</MenuItem>
         </Select>
       </FormControl>
       {getActionTypeOptions()}

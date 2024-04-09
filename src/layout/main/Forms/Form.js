@@ -34,6 +34,7 @@ import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonServic
 import SyncForm from "./Sync/SyncForm";
 import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
+import PRForm from "./PR/PRForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -189,6 +190,18 @@ function Form() {
     );
   };
 
+  const getPRForm = () => {
+    if (!vgAuthorized || projects.length === 0) {
+      return <VGAuthorizeForm />;
+    }
+    return (
+      <>
+        <AuthorizedSection />
+        <PRForm/>
+      </>
+    );
+  };
+
   const getForm = () => {
     if (tableType === "Sync" || actionType !== "") {
       switch (tableType) {
@@ -202,6 +215,8 @@ function Form() {
           return getPipelineForm();
         case "Tag":
           return getTagAndBuildForm();
+        case "PR":
+          return  getPRForm(); 
         default:
           toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
       }
