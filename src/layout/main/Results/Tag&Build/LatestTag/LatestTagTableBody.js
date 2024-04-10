@@ -6,7 +6,7 @@ import {
 import LatestTagTableBodyRow from "./LatestTagTableBodyRow";
 import PropTypes from "prop-types";
 
-const LatestTagTableBody = ({ repositories }) => {
+const LatestTagTableBody = ({ filteredRepositories }) => {
   const number = 10;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
@@ -14,7 +14,7 @@ const LatestTagTableBody = ({ repositories }) => {
   const [latestTags, setLatestTags] = useState([]);
   return (
     <tbody>
-      {repositories
+      {filteredRepositories
         .slice(paginationCounter, paginationCounter + number)
         .map((repository) => {
           let result;
@@ -38,7 +38,7 @@ const LatestTagTableBody = ({ repositories }) => {
 };
 
 LatestTagTableBody.propTypes = {
-  repositories: PropTypes.arrayOf(PropTypes.object).isRequired
+  filteredRepositories: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default LatestTagTableBody;

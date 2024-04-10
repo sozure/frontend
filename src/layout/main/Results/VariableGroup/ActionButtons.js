@@ -100,7 +100,7 @@ const ActionButtons = () => {
 
   return (
     <>
-      {tableType === "VG" &&
+      {tableType === "Variable Groups" &&
       (variables.length > 0 || variableGroups.length > 0) && (
         getActionSegment()
       )}
