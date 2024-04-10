@@ -11,9 +11,10 @@ import {
   SelectedRepositoriesContext,
 } from "../../../../contexts/Contexts";
 import { v4 } from "uuid";
-import { getRepositories, createPullRequests } from "../../../../services/GitRepositoryService";
+import { getRepositories } from "../../../../services/GitRepositoryService";
 import CreatePRsTable from "../../Results/PR/CreatePRsTable";
 import MatUiSelect from "../../../MatUiSelect";
+import { createPullRequests } from "../../../../services/GitPullRequestService";
 
 const CreatePRsForm = () => {
   const availableBranches = ["main/master", "develop"];
