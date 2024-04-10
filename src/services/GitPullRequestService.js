@@ -1,23 +1,31 @@
 import axios from "axios";
-import { getBaseUrl, getResponseMessage, getToastOnClose, handleError2, toastErrorPopUp } from "./CommonService";
+import {
+  getBaseUrl,
+  getResponseMessage,
+  getToastOnClose,
+  handleError2,
+  toastErrorPopUp,
+  toastSuccessPopUp,
+} from "./CommonService";
 
 const baseUrl = `${getBaseUrl()}/gitpullrequest`;
 const toastMs = getToastOnClose();
 
 const getPullRequests = async (
-  organization,
-  project,
-  pat,
+  basicData,
   setLoading,
   setPullRequests
 ) => {
+  let organization = basicData["organization"];
+  let pat = basicData["pat"];
+  let project = basicData["project"];
   let body = {
     organization: organization,
-    project: project,
     pat: pat,
+    project: project,
   };
   axios
-    .post(`${baseUrl}/prs`, body)
+    .post(`${baseUrl}/get`, body)
     .then(async (res) => {
       let status = res.data.status;
       let pullRequests = res.data.data;
@@ -39,4 +47,39 @@ const getPullRequests = async (
     });
 };
 
-export { getPullRequests };
+const createPullRequests = async (
+  basicData,
+  repositories,
+  sourceBranch,
+  targetBranch,
+  title
+) => {
+  let organization = basicData["organization"];
+  let pat = basicData["pat"];
+  let project = basicData["project"];
+  let body = {
+    organization: organization,
+    pat: pat,
+    project: project,
+    repositories: repositories,
+    sourceBranch: sourceBranch,
+    targetBranch: targetBranch,
+    title: title,
+  };
+  axios
+    .post(`${baseUrl}/createmultiple`, body)
+    .then(async (res) => {
+      let status = res.data.status;
+      let statusMessage = getResponseMessage(status);
+      if (status === 1) {
+        toastSuccessPopUp(statusMessage, "create-prs", toastMs);
+      } else {
+        toastErrorPopUp(statusMessage, "repository_requesting", toastMs);
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
+export { getPullRequests, createPullRequests };

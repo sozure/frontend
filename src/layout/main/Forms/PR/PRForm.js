@@ -18,7 +18,12 @@ const PRForm = () => {
     const send = async () => {
       setLoading(true);
       let projectToBeAdded = projectName === "All" ? null : projectName;
-      await getPullRequests(organizationName, projectToBeAdded, pat, setLoading, setPullRequests);
+      let basicData = {
+        organization: organizationName,
+        pat: pat,
+        project: projectToBeAdded,
+      }
+      await getPullRequests(basicData, setLoading, setPullRequests);
     };
 
   return (
