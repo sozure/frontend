@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-import {
-  RepositoriesContext,
-} from "../../../../contexts/Contexts";
+import { RepositoriesContext } from "../../../../contexts/Contexts";
 import TagAndBuildTableBody from "./TagAndBuildTableBody";
 import TagBaseTable from "./TagBaseTable";
 
@@ -17,7 +15,12 @@ const TagAndBuildTable = () => {
   const { repositories } = useContext(RepositoriesContext);
 
   return (
-    <TagBaseTable TableBody={TagAndBuildTableBody} tableHeader={tableHeader} repositories={repositories}/>
+    <TagBaseTable
+      TableBody={TagAndBuildTableBody}
+      tableHeader={tableHeader}
+      repositories={repositories}
+      isPullRequestCreations={false}
+    />
   );
 };
 

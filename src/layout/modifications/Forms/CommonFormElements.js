@@ -3,14 +3,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import PropTypes from "prop-types";
 
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Input, TextField } from "@mui/material";
+import MatUiSelect from "../../MatUiSelect";
 
 const CommonFormElements = ({
   setUserName,
@@ -44,21 +38,14 @@ const CommonFormElements = ({
           textField={<TextField />}
         />
       </LocalizationProvider>
-      <FormControl fullWidth>
-        <InputLabel>Select result table limit</InputLabel>
-        <Select
-          id="limit"
-          value={selectedLimit}
-          label="Select limit"
-          onChange={(event) => setSelectedLimit(event.target.value)}
-        >
-          {potentialLimits.map((limit) => (
-            <MenuItem value={limit} key={limit}>
-              {limit}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <MatUiSelect
+        collection={potentialLimits}
+        inputLabel={"Select result table limit"}
+        id={"limit"}
+        selectValue={selectedLimit}
+        setSelectValue={setSelectedLimit}
+        allOption={false}
+      />
       <Input
         type="text"
         id="user"
@@ -72,14 +59,14 @@ const CommonFormElements = ({
 };
 
 CommonFormElements.propTypes = {
-  setUserName : PropTypes.func.isRequired,
+  setUserName: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   setSelectedLimit: PropTypes.func.isRequired,
   selectedLimit: PropTypes.number.isRequired,
   setFrom: PropTypes.func.isRequired,
   from: PropTypes.string.isRequired,
   setTo: PropTypes.func.isRequired,
-  to: PropTypes.string.isRequired
-}
+  to: PropTypes.string.isRequired,
+};
 
 export default CommonFormElements;

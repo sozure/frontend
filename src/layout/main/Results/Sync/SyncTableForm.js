@@ -15,12 +15,12 @@ import {
   VariablesSyncContext,
 } from "../../../../contexts/Contexts";
 
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import {
   getEnvironments,
   getVariableGroups,
 } from "../../../../services/ReleasePipelineService";
 import MatUIButton from "../../../MatUIButton";
+import MatUiSelect from "../../../MatUiSelect";
 
 const SyncTableForm = ({
   projectsWithReleasePipeline,
@@ -80,21 +80,14 @@ const SyncTableForm = ({
 
   return (
     <div className="form">
-      <FormControl fullWidth>
-        <InputLabel>{`Projects containing pipeline (${projectsWithReleasePipeline.length} found)`}</InputLabel>
-        <Select
+      <MatUiSelect
+          collection={projectsWithReleasePipeline}
+          inputLabel={`Projects containing pipeline (${projectsWithReleasePipeline.length} found)`}
           id={`project-${v4()}`}
-          value={containingVGsProject}
-          label="Select Azure project"
-          onChange={(event) => send(event.target.value)}
-        >
-          {projectsWithReleasePipeline.map((project) => (
-            <MenuItem value={project} key={project}>
-              {project}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          selectValue={containingVGsProject}
+          setSelectValue={send}
+          allOption={false}
+        />
       {containingVGsProject !== "" && (
         <MatUIButton
           id={"get_var_from_config"}

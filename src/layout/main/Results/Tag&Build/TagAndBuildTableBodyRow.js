@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
 import { createTag, getTags } from "../../../../services/GitVersionService";
-import { hasItem, collectLatestTags, sortVersions } from "../../../../services/HelperFunctions/TagHelperFunctions";
+import {
+  hasItem,
+  collectLatestTags,
+  sortVersions,
+} from "../../../../services/HelperFunctions/TagHelperFunctions";
 import {
   OrganizationContext,
   PATContext,
@@ -17,6 +15,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { Cancel, PlayArrow } from "@mui/icons-material";
 import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
+import MatUiSelect from "../../../MatUiSelect";
 
 const TagAndBuildTableBodyRow = ({
   repository,
@@ -36,7 +35,7 @@ const TagAndBuildTableBodyRow = ({
   const [localLoading, setLocalLoading] = useState(false);
   const [runAlready, setRunAlready] = useState(false);
   const [tags, setTags] = useState([]);
-  
+
   useEffect(() => {
     let alreadyHasItem = hasItem(latestTags, repository);
     if (
@@ -87,7 +86,9 @@ const TagAndBuildTableBodyRow = ({
   const send = () => {
     if (pipeline !== undefined) {
       let repositoryId = repository.repositoryId;
-      let description = document.getElementById(`tagDescription_${repositoryId}`).value;
+      let description = document.getElementById(
+        `tagDescription_${repositoryId}`
+      ).value;
       let model = {
         organization: organizationName,
         project: projectName,
@@ -97,7 +98,7 @@ const TagAndBuildTableBodyRow = ({
         tagName: typeOfVersion,
         userName: profileName,
         description: description,
-        repositoryName: repository.repositoryName
+        repositoryName: repository.repositoryName,
       };
       createTag(
         model,
@@ -144,24 +145,14 @@ const TagAndBuildTableBodyRow = ({
       <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
       <td key={v4()}>
         {pipeline !== undefined && latestTag !== "" ? (
-          <FormControl fullWidth>
-            <InputLabel htmlFor="versionType">Set version type</InputLabel>
-            <Select
-              className="versionType"
-              label="Set version type"
-              value={typeOfVersion}
-              onChange={(event) => setTypeOfVersionCustom(event.target.value)}
-            >
-              {versionTypes.map((element) => (
-                <MenuItem value={element} key={element}>
-                  {element}
-                </MenuItem>
-              ))}
-              <MenuItem value={"Choose one"} key={"Choose one"} disabled>
-                {"Choose one"}
-              </MenuItem>
-            </Select>
-          </FormControl>
+          <MatUiSelect
+            collection={[...versionTypes, "Choose one"]}
+            inputLabel={"Set version type"}
+            id={"versionType"}
+            selectValue={typeOfVersion}
+            setSelectValue={setTypeOfVersionCustom}
+            allOption={false}
+          />
         ) : (
           <>No pipeline or previous tag found.</>
         )}
@@ -171,7 +162,9 @@ const TagAndBuildTableBodyRow = ({
       </td>
       <td key={v4()}>
         {possibleNewTag !== "-" && possibleNewTag !== "" ? (
-          <TagAndBuildTableBodyRowInput repositoryId={repository.repositoryId} />
+          <TagAndBuildTableBodyRowInput
+            repositoryId={repository.repositoryId}
+          />
         ) : (
           <>-</>
         )}
@@ -190,7 +183,9 @@ const TagAndBuildTableBodyRow = ({
               </button>
             </abbr>
           </>
-        ) : localLoading? <span>Loading...</span> : (
+        ) : localLoading ? (
+          <span>Loading...</span>
+        ) : (
           <>-</>
         )}
       </td>

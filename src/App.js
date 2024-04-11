@@ -47,6 +47,9 @@ import {
   ConfigFileExtensionContext,
   BuildPipelinesContext,
   RepositoriesContext,
+  PullRequestsContext,
+  AllRepositoryChecked,
+  SelectedRepositoriesContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -83,7 +86,7 @@ function App() {
 
   const [keyVaultName, setKeyVaultName] = useState("");
   const [actionType, setActionType] = useState("List");
-  const [tableType, setTableType] = useState("KV");
+  const [tableType, setTableType] = useState("Secrets");
   const [pat, setPat] = useState(envPAT);
   const [projectName, setProjectName] = useState("");
   const [containingVGsProject, setContainingVGsProject] = useState("");
@@ -94,6 +97,7 @@ function App() {
   const [keyRegex, setKeyRegex] = useState("");
   const [variables, setVariables] = useState([]);
   const [variableGroups, setVariableGroups] = useState([]);
+  const [pullRequests, setPullRequests] = useState([]);
   const [secrets, setSecrets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [onUpdate, setOnUpdate] = useState(false);
@@ -128,6 +132,8 @@ function App() {
     modification: false,
   });
 
+  const [allRepositoryChecked, setAllRepositoryChecked] = useState(false);
+
   const [singleOperation, setSingleOperation] = useState({
     row: -1,
     modificationHappened: false,
@@ -135,6 +141,8 @@ function App() {
     response: "",
     operation: "",
   });
+
+  const [selectedRepositories, setSelectedRepositories] = useState([{}]);
 
   const [localLoading, setLocalLoading] = useState({ loading: false, row: -1 });
 
@@ -541,23 +549,62 @@ function App() {
                                                                                               ]
                                                                                             )}
                                                                                           >
-                                                                                            <Welcome />
-                                                                                            <BrowserRouter>
-                                                                                              <Routes>
-                                                                                                <Route
-                                                                                                  path="/"
-                                                                                                  element={
-                                                                                                    <Main />
-                                                                                                  }
-                                                                                                />
-                                                                                                <Route
-                                                                                                  path="/changes"
-                                                                                                  element={
-                                                                                                    <Modifications />
-                                                                                                  }
-                                                                                                />
-                                                                                              </Routes>
-                                                                                            </BrowserRouter>
+                                                                                            <PullRequestsContext.Provider
+                                                                                              value={useMemo(
+                                                                                                () => ({
+                                                                                                  pullRequests,
+                                                                                                  setPullRequests,
+                                                                                                }),
+                                                                                                [
+                                                                                                  pullRequests,
+                                                                                                  setPullRequests,
+                                                                                                ]
+                                                                                              )}
+                                                                                            >
+                                                                                              <AllRepositoryChecked.Provider
+                                                                                                value={useMemo(
+                                                                                                  () => ({
+                                                                                                    allRepositoryChecked,
+                                                                                                    setAllRepositoryChecked,
+                                                                                                  }),
+                                                                                                  [
+                                                                                                    allRepositoryChecked,
+                                                                                                    setAllRepositoryChecked,
+                                                                                                  ]
+                                                                                                )}
+                                                                                              >
+                                                                                                <SelectedRepositoriesContext.Provider
+                                                                                                  value={useMemo(
+                                                                                                    () => ({
+                                                                                                      selectedRepositories,
+                                                                                                      setSelectedRepositories,
+                                                                                                    }),
+                                                                                                    [
+                                                                                                      selectedRepositories,
+                                                                                                      setSelectedRepositories,
+                                                                                                    ]
+                                                                                                  )}
+                                                                                                >
+                                                                                                  <Welcome />
+                                                                                                  <BrowserRouter>
+                                                                                                    <Routes>
+                                                                                                      <Route
+                                                                                                        path="/"
+                                                                                                        element={
+                                                                                                          <Main />
+                                                                                                        }
+                                                                                                      />
+                                                                                                      <Route
+                                                                                                        path="/changes"
+                                                                                                        element={
+                                                                                                          <Modifications />
+                                                                                                        }
+                                                                                                      />
+                                                                                                    </Routes>
+                                                                                                  </BrowserRouter>
+                                                                                                </SelectedRepositoriesContext.Provider>
+                                                                                              </AllRepositoryChecked.Provider>
+                                                                                            </PullRequestsContext.Provider>
                                                                                           </RepositoriesContext.Provider>
                                                                                         </BuildPipelinesContext.Provider>
                                                                                       </ConfigFileExtensionContext.Provider>

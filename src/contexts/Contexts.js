@@ -44,3 +44,6 @@ export const EnvironmentsContext = createContext();
 export const ConfigFileExtensionContext = createContext();
 export const BuildPipelinesContext = createContext();
 export const RepositoriesContext = createContext();
+export const PullRequestsContext = createContext();
+export const AllRepositoryChecked = createContext();
+export const SelectedRepositoriesContext = createContext();
