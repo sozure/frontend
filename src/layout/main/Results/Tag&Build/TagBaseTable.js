@@ -1,18 +1,31 @@
-import { Input } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
-import { PaginationCounterContext, VGAuthorizedContext } from "../../../../contexts/Contexts";
+import {
+  AllRepositoryChecked,
+  PaginationCounterContext,
+  VGAuthorizedContext,
+} from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
+import { FormGroup, FormControlLabel, Checkbox, Input } from "@mui/material";
 
-const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
+const TagBaseTable = ({
+  TableBody,
+  tableHeader,
+  repositories,
+  isPullRequestCreations,
+}) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { allRepositoryChecked, setAllRepositoryChecked } =
+    useContext(AllRepositoryChecked);
 
+  const setCheckbox = (e) => {
+    setAllRepositoryChecked(e.target.checked);
+  };
   const [filter, setFilter] = useState("");
   const [searchRepositories, setSearchRepositories] = useState(repositories);
-
 
   useEffect(() => {
     setSearchRepositories(repositories);
@@ -54,10 +67,22 @@ const TagBaseTable = ({TableBody, tableHeader, repositories}) => {
             <>
               <h2>Found repositories: {searchRepositories.length}</h2>
               <br />
-
+              {isPullRequestCreations && (
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={allRepositoryChecked}
+                        onChange={setCheckbox}
+                      />
+                    }
+                    label="Select all"
+                  />
+                </FormGroup>
+              )}
               <table className="matched-variables-table">
                 <TableHeader columnList={tableHeader} />
-                <TableBody repositories={searchRepositories} />
+                <TableBody filteredRepositories={searchRepositories} />
               </table>
               <br />
               <PaginationButtons collection={searchRepositories} />
@@ -74,6 +99,7 @@ TagBaseTable.propTypes = {
   TableBody: PropTypes.any.isRequired,
   tableHeader: PropTypes.any.isRequired,
   repositories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isPullRequestCreations: PropTypes.bool,
 };
 
 export default TagBaseTable;

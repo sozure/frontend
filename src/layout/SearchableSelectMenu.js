@@ -12,14 +12,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
 import { v4 } from "uuid";
 
-const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, selectedElement, setSelectedElement }) => {
+const SearchableSelectMenu = ({
+  inputLabel,
+  elements,
+  elementKey,
+  containsText,
+  selectedElement,
+  setSelectedElement,
+}) => {
   const [searchText, setSearchText] = useState("");
 
   const displayedOptions = useMemo(
     () => elements.filter((element) => containsText(element, searchText)),
     [containsText, elements, searchText]
   );
-
 
   return (
     <FormControl fullWidth>
@@ -64,8 +70,11 @@ const SearchableSelectMenu = ({ inputLabel, elements, elementKey, containsText, 
           />
         </ListSubheader>
         {displayedOptions.map((option) => (
-          <MenuItem key={v4()} value={typeof option === 'object' ? option[elementKey]: option}>
-            {typeof option === 'object' ? option[elementKey]: option}
+          <MenuItem
+            key={v4()}
+            value={typeof option === "object" ? option[elementKey] : option}
+          >
+            {typeof option === "object" ? option[elementKey] : option}
           </MenuItem>
         ))}
       </Select>
@@ -79,7 +88,7 @@ SearchableSelectMenu.propTypes = {
   elementKey: PropTypes.string.isRequired,
   containsText: PropTypes.func.isRequired,
   selectedElement: PropTypes.string.isRequired,
-  setSelectedElement: PropTypes.func.isRequired
+  setSelectedElement: PropTypes.func.isRequired,
 };
 
 export default SearchableSelectMenu;

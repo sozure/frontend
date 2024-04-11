@@ -1,13 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button } from "@mui/material";
 
 import {
   KeyVaultNameContext,
@@ -31,6 +25,7 @@ import {
 import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
+import MatUiSelect from "../../MatUiSelect";
 
 export const ModificationsForm = ({
   entityType,
@@ -70,13 +65,13 @@ export const ModificationsForm = ({
         toastErrorPopUp("Time range is not correct!", "range-error", toastMs);
       } else {
         switch (entityType) {
-          case "env_variables":
+          case "Environment variables":
             await getVGChanges();
             break;
-          case "secrets":
+          case "Secrets":
             await getSecretChanges();
             break;
-          case "key_vault_copies":
+          case "Key vault copies":
             await getKVCopyChanges();
             break;
           default:
@@ -88,6 +83,12 @@ export const ModificationsForm = ({
         }
       }
     }
+  };
+
+  const setCustomEntityType = (value) => {
+    setChanges([]);
+    setPaginationCounter(0);
+    setEntityType(value);
   };
 
   const getVGChanges = async () => {
@@ -133,7 +134,7 @@ export const ModificationsForm = ({
 
   const getSpecificForm = () => {
     switch (entityType) {
-      case "env_variables":
+      case "Environment variables":
         return (
           <VGModificationsForm
             setProjectName={setProjectName}
@@ -149,7 +150,7 @@ export const ModificationsForm = ({
             to={to}
           />
         );
-      case "secrets":
+      case "Secrets":
         return (
           <SecretModificationsForm
             setUserName={setUserName}
@@ -162,7 +163,7 @@ export const ModificationsForm = ({
             to={to}
           />
         );
-      case "key_vault_copies":
+      case "Key vault copies":
         return (
           <CommonFormElements
             setUserName={setUserName}
@@ -186,29 +187,14 @@ export const ModificationsForm = ({
 
   return (
     <div className="form">
-      <FormControl fullWidth>
-        <InputLabel>Select entity type of modification</InputLabel>
-        <Select
-          id="entityType"
-          value={entityType}
-          label="Select entity type"
-          onChange={(event) => {
-            setChanges([]);
-            setPaginationCounter(0);
-            setEntityType(event.target.value);
-          }}
-        >
-          <MenuItem value={"env_variables"} key={"env_variables"}>
-            {"Environment variables"}
-          </MenuItem>
-          <MenuItem value={"secrets"} key={"secrets"}>
-            {"Secrets"}
-          </MenuItem>
-          <MenuItem value={"key_vault_copies"} key={"key_vault_copies"}>
-            {"Key vault copies"}
-          </MenuItem>
-        </Select>
-      </FormControl>
+      <MatUiSelect
+        collection={["Environment variables", "Secrets", "Key vault copies"]}
+        inputLabel={"Select entity type of modification"}
+        id={"entityType"}
+        selectValue={entityType}
+        setSelectValue={setCustomEntityType}
+        allOption={false}
+      />
       {getSpecificForm()}
 
       <Button

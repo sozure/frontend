@@ -7,7 +7,7 @@ import { PaginationCounterContext } from "../../contexts/Contexts";
 
 export const Modifications = () => {
   const [ changes, setChanges ] = useState([]);
-  const [ entityType, setEntityType ] = useState("env_variables");
+  const [ entityType, setEntityType ] = useState("Environment variables");
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const navigate = useNavigate();
   return (

@@ -14,7 +14,7 @@ const AddVGTable = () => {
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { variableGroups } = useContext(VariableGroupsContext);
 
-  const number = 10;
+  const number = 5;
 
   return (
     <div>
