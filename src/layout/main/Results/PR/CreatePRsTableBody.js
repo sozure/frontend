@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import CreatePRsTableBodyRow from "./CreatePRsTableBodyRow";
 
 const CreatePRsTableBody = ({ filteredRepositories }) => {
-  const number = 10;
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { repositories } = useContext(RepositoriesContext);
   const { setSelectedRepositories } = useContext(SelectedRepositoriesContext);

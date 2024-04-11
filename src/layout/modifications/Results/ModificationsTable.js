@@ -9,7 +9,7 @@ import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonServic
 export const ModificationsTable = ({ entityType, changes }) => {
   const { paginationCounter } = useContext(PaginationCounterContext);
   const [columnList, setColumnList] = useState([]);
-  const number = 10;
+  const number = 5;
   const toastMs = getToastOnClose();
 
   useEffect(() => {

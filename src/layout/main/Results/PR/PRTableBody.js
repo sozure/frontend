@@ -5,7 +5,7 @@ import PRTableBodyRow from "./PRTableBodyRow";
 import { v4 } from "uuid";
 
 const PRTableBody = ({ pullRequests }) => {
-  const number = 10;
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
 
   return (

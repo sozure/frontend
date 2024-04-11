@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import TagAndBuildTableBodyRow from "./TagAndBuildTableBodyRow";
 
 const TagAndBuildTableBody = ({ filteredRepositories }) => {
-  const number = 10;
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
   

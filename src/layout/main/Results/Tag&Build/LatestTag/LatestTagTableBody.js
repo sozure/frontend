@@ -7,7 +7,7 @@ import LatestTagTableBodyRow from "./LatestTagTableBodyRow";
 import PropTypes from "prop-types";
 
 const LatestTagTableBody = ({ filteredRepositories }) => {
-  const number = 10;
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
 

@@ -12,7 +12,7 @@ const PaginationButtons = ({ collection }) => {
   const [collectionLength, setCollectionLength] = useState(collection.length);
   const [actualPageNumber, setActualPageNumber] = useState(1);
 
-  const number = 10;
+  const number = 5;
 
   useEffect(() => {
     let collectionLength = collection.length;

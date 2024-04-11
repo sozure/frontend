@@ -4,7 +4,7 @@ import { PaginationCounterContext } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
 
 const BuildPipTableBody = ({ buildPipelines }) => {
-  const number = 10;
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
 
   return (
