@@ -1,4 +1,3 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { v4 } from "uuid";
 import {
@@ -13,6 +12,7 @@ import {
 import { getBranches, getTags } from "../../../../services/GitVersionService";
 import MatUIButton from "../../../MatUIButton";
 import PropTypes from "prop-types";
+import MatUiSelect from "../../../MatUiSelect";
 
 const BuildPipTableBodyRow = ({ pipeline }) => {
   const { organizationName } = useContext(OrganizationContext);
@@ -50,24 +50,14 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
   const getSources = () => {
     if (isModification() && sources.length > 0 && sourceType !== "Choose one") {
       return (
-        <FormControl fullWidth>
-          <InputLabel htmlFor="source">Set source</InputLabel>
-          <Select
-            className="source"
-            label="Set source"
-            value={source}
-            onChange={(event) => setSource(event.target.value)}
-          >
-            {sources.map((source) => (
-              <MenuItem value={source} key={source}>
-                {source}
-              </MenuItem>
-            ))}
-            <MenuItem value={"Choose one"} key={"Choose one"} disabled>
-              {"Choose one"}
-            </MenuItem>
-          </Select>
-        </FormControl>
+        <MatUiSelect
+          collection={[...sources, "Choose one"]}
+          inputLabel={"Set source"}
+          id={"source"}
+          selectValue={source}
+          setSelectValue={setSource}
+          allOption={false}
+        />
       );
     }
     return <>-</>;
@@ -120,25 +110,14 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
     <tr key={v4()}>
       <td key={pipeline.id}>{pipeline.name}</td>
       <td key={v4()}>
-        <FormControl fullWidth>
-          <InputLabel htmlFor={"source-type"}>Set source type</InputLabel>
-          <Select
-            className="source-type"
-            label="Set source type"
-            value={sourceType}
-            onChange={(event) => setCustomSourceType(event.target.value)}
-          >
-            <MenuItem value="Choose one" key={"Choose one"} disabled>
-              Choose one
-            </MenuItem>
-            <MenuItem value="branch" key={"branch"}>
-              Branch
-            </MenuItem>
-            <MenuItem value="tag" key={"tag"}>
-              Tag
-            </MenuItem>
-          </Select>
-        </FormControl>
+        <MatUiSelect
+          collection={["Choose one", "branch", "tag"]}
+          inputLabel={"Set source type"}
+          id={"source-type"}
+          selectValue={sourceType}
+          setSelectValue={setCustomSourceType}
+          allOption={false}
+        />
       </td>
       <td key={v4()}>
         {isModification() &&

@@ -101,7 +101,7 @@ const ActionButtons = () => {
 
   return (
     <>
-      {tableType === "KV" && secrets !== undefined && secrets.length > 0 && (
+      {tableType === "Secrets" && secrets !== undefined && secrets.length > 0 && (
         getKeyVaultSection()
       )}
     </>

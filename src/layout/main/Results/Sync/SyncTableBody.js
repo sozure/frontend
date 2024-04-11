@@ -14,7 +14,7 @@ const SyncTableBody = () => {
   const { syncVariables } = useContext(VariablesSyncContext);
   const { pipelineConnectedVGs } = useContext(PipelineConnectedVGsContext);
 
-  const number = 10;
+  const number = 5;
 
   const collectPotentialMissingVgs = (variableType, vgsNames) => {
     let potentialMissingVgs = [];
