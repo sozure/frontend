@@ -9,13 +9,13 @@ import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonServic
 export const ModificationsTable = ({ entityType, changes }) => {
   const { paginationCounter } = useContext(PaginationCounterContext);
   const [columnList, setColumnList] = useState([]);
-  const number = 10;
+  const number = 5;
   const toastMs = getToastOnClose();
 
   useEffect(() => {
     let columns = [];
     switch (entityType) {
-      case "secrets":
+      case "Secrets":
         columns = [
           "Key vault's name",
           "User",
@@ -24,7 +24,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
           "Date",
         ];
         break;
-      case "env_variables":
+      case "Environment variables":
         columns = [
           "Organization",
           "Project",
@@ -35,7 +35,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
           "Date",
         ];
         break;
-      case "key_vault_copies":
+      case "Key vault copies":
         columns = [
           "Original key vault",
           "Destination key vault",
@@ -55,7 +55,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
 
   const getTableRowData = (change, date) => {
     switch (entityType) {
-      case "secrets":
+      case "Secrets":
         return (
           <tr key={v4()}>
             <td key={v4()}>{change.keyVaultName}</td>
@@ -65,7 +65,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
         );
-      case "env_variables":
+      case "Environment variables":
         return (
           <tr key={v4()}>
             <td key={v4()}>{change.organization}</td>
@@ -77,7 +77,7 @@ export const ModificationsTable = ({ entityType, changes }) => {
             <td key={v4()}>{date.toUTCString()}</td>
           </tr>
         );
-      case "key_vault_copies":
+      case "Key vault copies":
         return (
           <tr key={v4()}>
             <td key={v4()}>{change.originalKeyVault}</td>

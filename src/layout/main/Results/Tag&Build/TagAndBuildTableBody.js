@@ -6,8 +6,8 @@ import {
 import PropTypes from "prop-types";
 import TagAndBuildTableBodyRow from "./TagAndBuildTableBodyRow";
 
-const TagAndBuildTableBody = ({ repositories }) => {
-  const number = 10;
+const TagAndBuildTableBody = ({ filteredRepositories }) => {
+  const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
   
@@ -15,7 +15,7 @@ const TagAndBuildTableBody = ({ repositories }) => {
 
   return (
     <tbody>
-      {repositories
+      {filteredRepositories
         .slice(paginationCounter, paginationCounter + number)
         .map((repository) => {
           let result;
@@ -39,7 +39,7 @@ const TagAndBuildTableBody = ({ repositories }) => {
 };
 
 TagAndBuildTableBody.propTypes = {
-  repositories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filteredRepositories: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TagAndBuildTableBody;

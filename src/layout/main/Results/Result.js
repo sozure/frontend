@@ -9,6 +9,7 @@ import SyncTable from "./Sync/SyncTable";
 import BuildPipTable from "./BuildPip/BuildPipTable";
 import TagAndBuildTable from "./Tag&Build/TagAndBuildTable";
 import LatestTagTable from "./Tag&Build/LatestTag/LatestTagTable";
+import PRTable from "./PR/PRTable";
 
 const Result = () => {
   const { tableType } = useContext(TableTypeContext);
@@ -16,16 +17,18 @@ const Result = () => {
 
   const getTable = () => {
     switch (tableType) {
-      case "KV":
+      case "Secrets":
         return <KVTable />;
-      case "VG":
+      case "Variable Groups":
         return <VGTable />;
-      case "Sync":
+      case "Sync configurations":
         return <SyncTable />;
-      case "Pipeline":
+      case "Run pipelines":
         return getPipelineTable();
-      case "Tag":
+      case "Tags":
         return getTagTable();
+      case "Pull requests":
+        return getPRTable();
       default:
         return <></>
     }
@@ -41,6 +44,15 @@ const Result = () => {
         return <></>;
     }
   };
+
+  const getPRTable = () => {
+    switch (actionType) {
+      case "List":
+        return <PRTable/>;
+      default:
+        return <></>;
+    }
+  }
 
   const getPipelineTable = () => {
     switch (actionType) {

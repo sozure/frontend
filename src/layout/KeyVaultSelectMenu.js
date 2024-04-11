@@ -1,34 +1,32 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import React from 'react'
+import React from "react";
 import PropTypes from "prop-types";
+import MatUiSelect from "./MatUiSelect";
 
-const KeyVaultSelectMenu = ({id, inputLabel, keyVaults, keyVaultName, setKeyVaultName}) => {
+const KeyVaultSelectMenu = ({
+  id,
+  inputLabel,
+  keyVaults,
+  keyVaultName,
+  setKeyVaultName,
+}) => {
   return (
-    <FormControl fullWidth>
-        <InputLabel>{inputLabel}</InputLabel>
-        <Select
-          id={id}
-          value={keyVaultName}
-          label={inputLabel}
-          onChange={(event) => setKeyVaultName(event.target.value)}
-        >
-          {keyVaults.map((keyVault) => (
-            <MenuItem value={keyVault} key={keyVault}>
-              {keyVault}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-  )
-}
+    <MatUiSelect
+      collection={keyVaults}
+      inputLabel={inputLabel}
+      id={id}
+      selectValue={keyVaultName}
+      setSelectValue={setKeyVaultName}
+      allOption={false}
+    />
+  );
+};
 
 KeyVaultSelectMenu.propTypes = {
-    id: PropTypes.string.isRequired,
-    inputLabel: PropTypes.string.isRequired,
-    keyVaults: PropTypes.arrayOf(PropTypes.string).isRequired,
-    keyVaultName: PropTypes.string.isRequired,
-    setKeyVaultName: PropTypes.func.isRequired
-  };
-  
+  id: PropTypes.string.isRequired,
+  inputLabel: PropTypes.string.isRequired,
+  keyVaults: PropTypes.arrayOf(PropTypes.string).isRequired,
+  keyVaultName: PropTypes.string.isRequired,
+  setKeyVaultName: PropTypes.func.isRequired,
+};
 
-export default KeyVaultSelectMenu
+export default KeyVaultSelectMenu;

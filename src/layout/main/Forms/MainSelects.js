@@ -8,8 +8,11 @@ import {
   TableTypeContext,
   PaginationCounterContext,
 } from "../../../contexts/Contexts";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../services/CommonService";
+import MatUiSelect from "../../MatUiSelect";
 
 const MainSelects = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -21,15 +24,11 @@ const MainSelects = () => {
 
   const toastMs = getToastOnClose();
 
-  const handleActionTypeChange = (e) => {
-    e.preventDefault();
-    let newActionType = e.target.value;
-    if (newActionType) {
-      setOnAdd(false);
-      setOnDelete(false);
-      setOnUpdate(false);
-    }
-    setActionType(e.target.value);
+  const handleActionTypeChange = (value) => {
+    setOnAdd(false);
+    setOnDelete(false);
+    setOnUpdate(false);
+    setActionType(value);
   };
 
   const setCustomActionType = (value) => {
@@ -37,76 +36,69 @@ const MainSelects = () => {
     setActionType(value);
   };
 
+  const setCustomTableType = (value) => {
+    setActionType("");
+    setTableType(value);
+  };
+
   const getActionTypeOptions = () => {
     switch (tableType) {
-      case "VG":
+      case "Variable Groups":
         return (
-          <FormControl required fullWidth>
-            <InputLabel>VG action type</InputLabel>
-            <Select
-              className="vg-action-type"
-              value={actionType}
-              label="VG action type"
-              onChange={handleActionTypeChange}
-            >
-              <MenuItem value="List">List variables</MenuItem>
-              <MenuItem value="Add">Add variables</MenuItem>
-              <MenuItem value="Delete">Delete variables</MenuItem>
-              <MenuItem value="Update">Update variables</MenuItem>
-            </Select>
-          </FormControl>
+          <MatUiSelect
+            collection={["List", "Add", "Delete", "Update"]}
+            inputLabel={"VG action type"}
+            id={`vg-action-type`}
+            selectValue={actionType}
+            setSelectValue={handleActionTypeChange}
+            allOption={false}
+          />
         );
-      case "KV":
+      case "Secrets":
         return (
-          <FormControl required fullWidth>
-            <InputLabel>Secret action type</InputLabel>
-            <Select
-              className="secret-action-type"
-              label="Secret action type"
-              value={actionType}
-              onChange={(event) => setActionType(event.target.value)}
-            >
-              <MenuItem value="List">List secrets</MenuItem>
-              <MenuItem value="Copy">Copy secrets</MenuItem>
-              <MenuItem value="Delete">Delete secrets</MenuItem>
-              <MenuItem value="Recover">Recover secrets</MenuItem>
-            </Select>
-          </FormControl>
+          <MatUiSelect
+            collection={["List", "Copy", "Delete", "Recover"]}
+            inputLabel={"Secret action type"}
+            id={`secret-action-type`}
+            selectValue={actionType}
+            setSelectValue={setActionType}
+            allOption={false}
+          />
         );
-      case "Sync":
+      case "Sync configurations":
         return <></>;
-      case "Pipeline":
+      case "Run pipelines":
         return (
-          <FormControl required fullWidth>
-            <InputLabel>Pipeline action type</InputLabel>
-            <Select
-              displayEmpty
-              className="pipeline-action-type"
-              label="Pipeline action type"
-              value={actionType}
-              onChange={(event) => setCustomActionType(event.target.value)}
-            >
-              <MenuItem selected value="Build">Run build pipelines</MenuItem>
-              <MenuItem value="Release">Create release</MenuItem>
-            </Select>
-          </FormControl>
+          <MatUiSelect
+            collection={["Build", "Release"]}
+            inputLabel={"Pipeline action type"}
+            id={`pipeline-action-type`}
+            selectValue={actionType}
+            setSelectValue={setCustomActionType}
+            allOption={false}
+          />
         );
-      case "Tag":
+      case "Tags":
         return (
-          <FormControl required fullWidth>
-            <InputLabel>Tag action type</InputLabel>
-            <Select
-              className="tag-action-type"
-              label="Tag action type"
-              value={actionType}
-              onChange={(event) => setCustomActionType(event.target.value)}
-            >
-              <MenuItem value="List">List latest tags</MenuItem>
-              <MenuItem value="CreateAndBuild">
-                Create tag and run build
-              </MenuItem>
-            </Select>
-          </FormControl>
+          <MatUiSelect
+            collection={["List", "CreateAndBuild"]}
+            inputLabel={"Tag action type"}
+            id={`tag-action-type`}
+            selectValue={actionType}
+            setSelectValue={setCustomActionType}
+            allOption={false}
+          />
+        );
+      case "Pull requests":
+        return (
+          <MatUiSelect
+            collection={["List", "Create", "CreateMultiple"]}
+            inputLabel={"PR action type"}
+            id={`pr-action-type`}
+            selectValue={actionType}
+            setSelectValue={setCustomActionType}
+            allOption={false}
+          />
         );
       default:
         toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
@@ -115,23 +107,21 @@ const MainSelects = () => {
 
   return (
     <div className="main-select-container">
-      <FormControl required fullWidth>
-        <InputLabel>Select table type</InputLabel>
-        <Select
-          label="Select table type"
-          onChange={(event) => { 
-            setActionType(""); 
-            setTableType(event.target.value);
-          }}
-          value={tableType}
-        >
-          <MenuItem value="KV">Secrets</MenuItem>
-          <MenuItem value="VG">Variable groups</MenuItem>
-          <MenuItem value="Sync">Sync configurations</MenuItem>
-          <MenuItem value="Pipeline">Run pipelines</MenuItem>
-          <MenuItem value="Tag">Tags</MenuItem>
-        </Select>
-      </FormControl>
+      <MatUiSelect
+        collection={[
+          "Secrets",
+          "Variable Groups",
+          "Sync configurations",
+          "Run pipelines",
+          "Tags",
+          "Pull requests",
+        ]}
+        inputLabel={"Select table type"}
+        id={`select-table-type`}
+        selectValue={tableType}
+        setSelectValue={setCustomTableType}
+        allOption={false}
+      />
       {getActionTypeOptions()}
     </div>
   );

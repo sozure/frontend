@@ -30,10 +30,15 @@ import KeyVaultCopyForm from "./KeyVault/KeyVaultCopyForm";
 import MainSelects from "./MainSelects";
 import KeyVaultRecoverForm from "./KeyVault/KeyVaultRecoverForm";
 import AuthorizedSection from "./Authorize/AuthorizedSection";
-import { getToastOnClose, toastErrorPopUp } from "../../../services/CommonService";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../services/CommonService";
 import SyncForm from "./Sync/SyncForm";
 import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
+import PRForm from "./PR/PRForm";
+import CreatePRsForm from "./PR/CreatePRsForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -189,19 +194,49 @@ function Form() {
     );
   };
 
+  const getPRForm = () => {
+    if (!vgAuthorized || projects.length === 0) {
+      return <VGAuthorizeForm />;
+    }
+
+    switch (actionType) {
+      case "List":
+        return (
+          <>
+            <AuthorizedSection />
+            <PRForm />
+          </>
+        );
+      case "CreateMultiple":
+        return (
+          <>
+            <AuthorizedSection />
+            <CreatePRsForm />
+          </>
+        );
+      case "Create":
+        <h1>Not yet.</h1>;
+        break;
+      default:
+        return <></>;
+    }
+  };
+
   const getForm = () => {
-    if (tableType === "Sync" || actionType !== "") {
+    if (tableType === "Sync configurations" || actionType !== "") {
       switch (tableType) {
-        case "KV":
+        case "Secrets":
           return getKeyVaultForm();
-        case "VG":
+        case "Variable Groups":
           return getVGForm();
-        case "Sync":
+        case "Sync configurations":
           return getSyncForm();
-        case "Pipeline":
+        case "Run pipelines":
           return getPipelineForm();
-        case "Tag":
+        case "Tags":
           return getTagAndBuildForm();
+        case "Pull requests":
+          return getPRForm();
         default:
           toastErrorPopUp("Invalid tableType value!", "table-type", toastMs);
       }

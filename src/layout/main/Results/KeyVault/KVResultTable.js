@@ -18,7 +18,7 @@ function KVResultTable() {
   const { onRecover } = useContext(OnRecoverContext);
   const { onDelete } = useContext(OnDeleteContext);
   const [tableHeader, setTableHeader] = useState([]);
-  const number = 10;
+  const number = 5;
 
   useEffect(() => {
     if (onDelete || onRecover) {
