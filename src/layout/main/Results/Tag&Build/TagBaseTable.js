@@ -4,7 +4,6 @@ import PaginationButtons from "../PaginationButtons";
 import {
   AllRepositoryChecked,
   PaginationCounterContext,
-  SelectedRepositoriesContext,
   VGAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
@@ -21,7 +20,6 @@ const TagBaseTable = ({
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { allRepositoryChecked, setAllRepositoryChecked } =
     useContext(AllRepositoryChecked);
-  const { selectedRepositories } = useContext(SelectedRepositoriesContext);
 
   const setCheckbox = (e) => {
     setAllRepositoryChecked(e.target.checked);
@@ -67,16 +65,7 @@ const TagBaseTable = ({
             <p>There are no repositories.</p>
           ) : (
             <>
-              <h2>
-                Found repositories: {searchRepositories.length}
-                {isPullRequestCreations &&
-                selectedRepositories.filter((repo) => repo.selected).length > 0
-                  ? `, ${
-                      selectedRepositories.filter((repo) => repo.selected)
-                        .length
-                    } repo selected`
-                  : ""}
-              </h2>
+              <h2>Found repositories: {searchRepositories.length}</h2>
               <br />
               {isPullRequestCreations && (
                 <FormGroup>

@@ -2,9 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { SelectedRepositoriesContext } from "../../../../contexts/Contexts";
+import PropTypes from "prop-types";
 
 const CreatePRsTableBodyRow = ({ repository }) => {
-  const { selectedRepositories, setSelectedRepositories } = useContext(SelectedRepositoriesContext);
+  const { selectedRepositories, setSelectedRepositories } = useContext(
+    SelectedRepositoriesContext
+  );
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -42,9 +45,24 @@ const CreatePRsTableBodyRow = ({ repository }) => {
           />
         </FormGroup>
       </td>
-      <td key={v4()}>{repository.repositoryName}</td>
+      <td key={v4()}>
+        {repository.projectName.length > 11
+          ? `${repository.projectName.slice(0, 11)}...`
+          : repository.projectName}
+      </td>
+      <abbr title={repository.repositoryName} >
+        <td key={v4()}>
+          {repository.repositoryName.length > 25
+            ? `${repository.repositoryName.slice(0, 25)}...`
+            : repository.repositoryName}
+        </td>
+      </abbr>
     </tr>
   );
 };
+
+CreatePRsTableBodyRow.propTypes = {
+  repository: PropTypes.object.isRequired
+}
 
 export default CreatePRsTableBodyRow;

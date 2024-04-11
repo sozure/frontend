@@ -21,7 +21,7 @@ const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
       id={`project-${v4()}`}
       selectValue={projectName}
       setSelectValue={setProjectName}
-      allOption={true}
+      allOption={allOption}
     />
   );
 };

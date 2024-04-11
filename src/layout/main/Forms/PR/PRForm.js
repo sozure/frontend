@@ -23,6 +23,7 @@ const PRForm = () => {
   const customSetProject = (value) => {
     setProjectName(value);
     setIsRefresh(false);
+    setPullRequests([]);
   };
 
   const send = async () => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import { ToastContainer } from "react-toastify";
@@ -28,6 +28,10 @@ const PRTable = () => {
 
   const [filter, setFilter] = useState("");
   const [searchPullRequests, setSearchPullRequests] = useState(pullRequests);
+
+  useEffect(() => {
+    setSearchPullRequests(pullRequests);
+  }, [pullRequests]);
 
   const filterPullRequests = (newFilter) => {
     setFilter(newFilter);

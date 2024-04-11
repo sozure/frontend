@@ -2,6 +2,7 @@ import React from "react";
 import { v4 } from "uuid";
 import { Box, Button } from "@mui/material";
 import NearMeIcon from "@mui/icons-material/NearMe";
+import PropTypes from "prop-types";
 
 const PRTableBodyRow = ({ pullRequest }) => {
   const navigate = (url) => {
@@ -29,6 +30,10 @@ const PRTableBodyRow = ({ pullRequest }) => {
       </td>
     </tr>
   );
+};
+
+PRTableBodyRow.propTypes = {
+  pullRequest: PropTypes.object.isRequired,
 };
 
 export default PRTableBodyRow;

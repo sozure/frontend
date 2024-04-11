@@ -15,6 +15,7 @@ import { getRepositories } from "../../../../services/GitRepositoryService";
 import CreatePRsTable from "../../Results/PR/CreatePRsTable";
 import MatUiSelect from "../../../MatUiSelect";
 import { createPullRequests } from "../../../../services/GitPullRequestService";
+import { ToastContainer } from "react-toastify";
 
 const CreatePRsForm = () => {
   const availableBranches = ["main/master", "develop"];
@@ -22,7 +23,7 @@ const CreatePRsForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
-  const { setLoading } = useContext(LoadingContext);
+  const { loading, setLoading } = useContext(LoadingContext);
   const { repositories, setRepositories } = useContext(RepositoriesContext);
   const { selectedRepositories } = useContext(SelectedRepositoriesContext);
 
@@ -49,6 +50,7 @@ const CreatePRsForm = () => {
 
   const customSetProject = (value) => {
     setProjectName(value);
+    setRepositories([]);
   };
 
   const sendGetRepositories = async () => {
@@ -76,13 +78,20 @@ const CreatePRsForm = () => {
       title,
       setLoading
     );
+    setRepositories([]);
+  };
+
+  const topStyles = {
+    display: "flex",
+    flexDirection: "row", // Align children horizontally
+    justifyContent: "space-between", // Distribute space evenly
   };
 
   return (
     <>
       <div className="form">
         <ProjectSelectMenu
-          allOption={false}
+          allOption={true}
           projectName={projectName}
           setProjectName={customSetProject}
         />
@@ -92,55 +101,72 @@ const CreatePRsForm = () => {
           displayName={"Get repositories"}
         />
       </div>
-      {repositories.length > 0 && (
-        <CreatePRsTable repositories={repositories} />
-      )}
-      {repositories.length > 0 &&
-        selectedRepositories.filter((repo) => repo.selected).length > 0 &&
-        projectName !== "" && (
-          <div className="form">
-            <MatUiSelect
-              collection={availableBranches}
-              inputLabel={"Select source branch"}
-              id={`source-branch-${v4()}`}
-              selectValue={sourceBranch}
-              setSelectValue={setSourceBranch}
-              allOption={false}
-            />
-            {sourceBranch !== "" && (
-              <>
+      <div style={topStyles}>
+        {!loading && repositories.length > 0 && (
+          <CreatePRsTable repositories={repositories} />
+        )}
+        {!loading &&
+          repositories.length > 0 &&
+          selectedRepositories.filter((repo) => repo.selected).length > 0 &&
+          projectName !== "" && (
+            <div className="form">
+              <h2>
+                {selectedRepositories.filter((repo) => repo.selected).length >
+                  0 &&
+                  `${
+                    selectedRepositories.filter((repo) => repo.selected).length
+                  } repo selected`}
+              </h2>
+              <br />
+              <div style={topStyles}>
                 <MatUiSelect
-                  collection={availableBranches.filter(
-                    (branch) => branch !== sourceBranch
-                  )}
-                  inputLabel={"Select target branch"}
-                  id={`target-branch-${v4()}`}
-                  selectValue={targetBranch}
-                  setSelectValue={setTargetBranch}
+                  collection={availableBranches}
+                  inputLabel={"Select source branch"}
+                  id={`source-branch-${v4()}`}
+                  selectValue={sourceBranch}
+                  setSelectValue={setSourceBranch}
                   allOption={false}
                 />
-                {targetBranch !== "" && (
-                  <>
-                    <Input
-                      fullWidth
-                      type="text"
-                      id="pr_title"
-                      name="pr_title"
-                      placeholder="Title"
-                      value={title}
-                      onChange={(event) => setTitle(event.target.value)}
-                    />
-                    <MatUIButton
-                      id={"create_pull_requests"}
-                      send={sendPullRequestCreations}
-                      displayName={"Create pull requests"}
-                    />
-                  </>
+                {sourceBranch !== "" && (
+                  <MatUiSelect
+                    collection={availableBranches.filter(
+                      (branch) => branch !== sourceBranch
+                    )}
+                    inputLabel={"Select target branch"}
+                    id={`target-branch-${v4()}`}
+                    selectValue={targetBranch}
+                    setSelectValue={setTargetBranch}
+                    allOption={false}
+                  />
                 )}
-              </>
-            )}
-          </div>
-        )}
+              </div>
+              <br />
+              {sourceBranch !== "" && targetBranch !== "" && (
+                <div style={topStyles}>
+                  <Input
+                    fullWidth
+                    type="text"
+                    id="pr_title"
+                    name="pr_title"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
+                  />
+                  {sourceBranch !== "" &&
+                    targetBranch !== "" &&
+                    title !== "" && (
+                      <MatUIButton
+                        id={"create_pull_requests"}
+                        send={sendPullRequestCreations}
+                        displayName={"Create pull requests"}
+                      />
+                    )}
+                </div>
+              )}
+            </div>
+          )}
+      </div>
+      <ToastContainer />
     </>
   );
 };

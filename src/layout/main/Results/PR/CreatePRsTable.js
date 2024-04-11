@@ -6,7 +6,7 @@ import {
 import CreatePRsTableBody from "./CreatePRsTableBody";
 
 const CreatePRsTable = () => {
-  const tableHeader = ["Selected", "Repository"];
+  const tableHeader = ["Selected", "Azure project", "Repository"];
   const { repositories } = useContext(RepositoriesContext);
 
   return (
