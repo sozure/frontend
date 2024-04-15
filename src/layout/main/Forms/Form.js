@@ -39,6 +39,7 @@ import BuildPipForm from "./BuildPip/BuildPipForm";
 import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
 import PRForm from "./PR/PRForm";
 import CreatePRsForm from "./PR/CreatePRsForm";
+import CreatePRForm from "./PR/CreatePRForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -215,8 +216,12 @@ function Form() {
           </>
         );
       case "Create":
-        <h1>Not yet.</h1>;
-        break;
+        return(
+          <>
+            <AuthorizedSection />
+            <CreatePRForm />
+          </>
+        );
       default:
         return <></>;
     }

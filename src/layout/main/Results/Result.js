@@ -10,6 +10,7 @@ import BuildPipTable from "./BuildPip/BuildPipTable";
 import TagAndBuildTable from "./Tag&Build/TagAndBuildTable";
 import LatestTagTable from "./Tag&Build/LatestTag/LatestTagTable";
 import PRTable from "./PR/PRTable";
+import CreatePRTable from "./PR/CreatePRTable";
 
 const Result = () => {
   const { tableType } = useContext(TableTypeContext);
@@ -30,7 +31,7 @@ const Result = () => {
       case "Pull requests":
         return getPRTable();
       default:
-        return <></>
+        return <></>;
     }
   };
 
@@ -48,11 +49,13 @@ const Result = () => {
   const getPRTable = () => {
     switch (actionType) {
       case "List":
-        return <PRTable/>;
+        return <PRTable />;
+      case "Create":
+        return <CreatePRTable />;
       default:
         return <></>;
     }
-  }
+  };
 
   const getPipelineTable = () => {
     switch (actionType) {

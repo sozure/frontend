@@ -74,7 +74,7 @@ const createPullRequests = async (
       if (status === 1) {
         toastSuccessPopUp(statusMessage, "create-prs", toastMs);
       } else {
-        toastErrorPopUp(statusMessage, "repository_requesting", toastMs);
+        toastErrorPopUp(statusMessage, "create_prs", toastMs);
       }
     })
     .catch((err) => {
@@ -82,4 +82,39 @@ const createPullRequests = async (
     });
 };
 
-export { getPullRequests, createPullRequests };
+const createPullRequest = async (
+  basicData,
+  repository,
+  sourceBranch,
+  targetBranch,
+  title
+) => {
+  let organization = basicData["organization"];
+  let pat = basicData["pat"];
+  let project = basicData["project"];
+  let body = {
+    organization: organization,
+    pat: pat,
+    project: project,
+    repository: repository,
+    sourceBranch: sourceBranch,
+    targetBranch: targetBranch,
+    title: title,
+  };
+  axios
+    .post(`${baseUrl}/create`, body)
+    .then(async (res) => {
+      let status = res.data.status;
+      let statusMessage = getResponseMessage(status);
+      if (status === 1) {
+        toastSuccessPopUp(statusMessage, "create-pr", toastMs);
+      } else {
+        toastErrorPopUp(statusMessage, "create_pr", toastMs);
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+    });
+};
+
+export { getPullRequests, createPullRequests, createPullRequest };
