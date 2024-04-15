@@ -106,7 +106,6 @@ const createPullRequest = async (
     .then(async (res) => {
       let status = res.data.status;
       let statusMessage = getResponseMessage(status);
-      console.log(res.data);
       if (status === 1) {
         toastSuccessPopUp(statusMessage, "create-pr", toastMs);
       } else {
