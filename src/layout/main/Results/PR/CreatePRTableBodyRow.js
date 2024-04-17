@@ -59,6 +59,11 @@ const CreatePRTableBodyRow = ({ repository }) => {
     setTargetBranch("");
   };
 
+  const setCustomSourceBranch = (branch) => {
+    setTargetBranch("");
+    setSourceBranch(branch);
+  };
+
   return (
     <tr key={v4()}>
       <td key={v4()}>
@@ -82,7 +87,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
             elements={branches}
             inputLabel={"Select source branch"}
             selectedElement={sourceBranch}
-            setSelectedElement={setSourceBranch}
+            setSelectedElement={setCustomSourceBranch}
           />
         ) : (
           <>-</>
@@ -119,6 +124,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
             id={"create_pr"}
             send={sendCreatePR}
             displayName={"Send"}
+            disabled={sourceBranch === "" || targetBranch === ""}
           />
         ) : (
           <>-</>

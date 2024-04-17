@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import {
-  AllRepositoryChecked,
   PaginationCounterContext,
+  SelectedRepositoriesContext,
   VGAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
@@ -18,18 +18,29 @@ const TagBaseTable = ({
 }) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const { allRepositoryChecked, setAllRepositoryChecked } =
-    useContext(AllRepositoryChecked);
 
-  const setCheckbox = (e) => {
-    setAllRepositoryChecked(e.target.checked);
-  };
+  const { selectedRepositories, setSelectedRepositories } = useContext(SelectedRepositoriesContext);
+
   const [filter, setFilter] = useState("");
+  const [allRepositoryChecked, setAllRepositoryChecked] = useState(false);
   const [searchRepositories, setSearchRepositories] = useState(repositories);
 
   useEffect(() => {
     setSearchRepositories(repositories);
   }, [repositories]);
+
+  const setCheckbox = (e) => {
+    let result = [];
+    selectedRepositories.forEach((repository) => {
+      result.push({
+        repositoryName: repository.repositoryName,
+        repositoryId: repository.repositoryId,
+        selected: e.target.checked,
+      });
+    });
+    setSelectedRepositories(result);
+    setAllRepositoryChecked(e.target.checked);
+  };
 
   const filterRepositories = (newFilter) => {
     setFilter(newFilter);
