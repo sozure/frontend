@@ -6,6 +6,7 @@ import {
   LoadingContext,
   OrganizationContext,
   PATContext,
+  PaginationCounterContext,
   ProjectNameContext,
   RepositoriesContext,
   SelectedRepositoriesContext,
@@ -16,6 +17,10 @@ import CreatePRsTable from "../../Results/PR/CreatePRsTable";
 import MatUiSelect from "../../../MatUiSelect";
 import { createPullRequests } from "../../../../services/GitPullRequestService";
 import { ToastContainer } from "react-toastify";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../../services/CommonService";
 
 const CreatePRsForm = () => {
   const availableBranches = ["main/master", "develop"];
@@ -26,11 +31,15 @@ const CreatePRsForm = () => {
   const { loading, setLoading } = useContext(LoadingContext);
   const { repositories, setRepositories } = useContext(RepositoriesContext);
   const { selectedRepositories } = useContext(SelectedRepositoriesContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
 
-  const [chosenRepositories, setChosenRepositories] = useState([]);
+  const [chosenRepositoryIds, setChosenRepositoryIds] = useState([]);
+  const [chosenRepositoryNames, setChosenRepositoryNames] = useState([]);
   const [sourceBranch, setSourceBranch] = useState("");
   const [targetBranch, setTargetBranch] = useState("");
   const [title, setTitle] = useState("");
+
+  const toastMs = getToastOnClose();
 
   useEffect(() => {
     if (sourceBranch !== "" && targetBranch !== "") {
@@ -39,14 +48,17 @@ const CreatePRsForm = () => {
   }, [sourceBranch, targetBranch]);
 
   useEffect(() => {
-    let result = [];
+    let ids = [];
+    let names = [];
     selectedRepositories.forEach((element) => {
       if (element.selected) {
-        result.push(element.repositoryId);
+        ids.push(element.repositoryId);
+        names.push(element.repositoryName);
       }
     });
-    setChosenRepositories(result);
-  }, [selectedRepositories, setChosenRepositories]);
+    setChosenRepositoryIds(ids);
+    setChosenRepositoryNames(names);
+  }, [selectedRepositories, setChosenRepositoryIds]);
 
   const customSetProject = (value) => {
     setProjectName(value);
@@ -54,6 +66,7 @@ const CreatePRsForm = () => {
   };
 
   const sendGetRepositories = async () => {
+    setPaginationCounter(0);
     setLoading(true);
     await getRepositories(
       organizationName,
@@ -64,21 +77,31 @@ const CreatePRsForm = () => {
     );
   };
 
+  const setCustomSourceBranch = (value) => {
+    setSourceBranch(value);
+    setTargetBranch("");
+    setTitle("");
+  }
+
   const sendPullRequestCreations = async () => {
-    let basicData = {
-      organization: organizationName,
-      pat: pat,
-      project: projectName,
-    };
-    await createPullRequests(
-      basicData,
-      chosenRepositories,
-      sourceBranch,
-      targetBranch,
-      title,
-      setLoading
-    );
-    setRepositories([]);
+    if (sourceBranch !== "" && targetBranch !== "" && title !== "") {
+      let basicData = {
+        organization: organizationName,
+        pat: pat,
+        project: projectName,
+      };
+      await createPullRequests(
+        basicData,
+        chosenRepositoryIds,
+        sourceBranch,
+        targetBranch,
+        title,
+        setLoading
+      );
+      setRepositories([]);
+    } else {
+      toastErrorPopUp("Fill every field!", "pr_creation", toastMs);
+    }
   };
 
   const topStyles = {
@@ -107,16 +130,23 @@ const CreatePRsForm = () => {
         )}
         {!loading &&
           repositories.length > 0 &&
-          selectedRepositories.filter((repo) => repo.selected).length > 0 &&
+          chosenRepositoryNames.length > 0 &&
           projectName !== "" && (
             <div className="form">
               <h2>
-                {selectedRepositories.filter((repo) => repo.selected).length >
-                  0 &&
-                  `${
-                    selectedRepositories.filter((repo) => repo.selected).length
-                  } repo selected`}
+                {chosenRepositoryNames.length > 0 &&
+                  `${chosenRepositoryNames.length} repo selected:`}
               </h2>
+              {chosenRepositoryNames.map((repo) => {
+                return <p key={v4()}>{repo}</p>;
+              })}
+            </div>
+          )}
+        {!loading &&
+          repositories.length > 0 &&
+          chosenRepositoryNames.length > 0 &&
+          projectName !== "" && (
+            <div className="form">
               <br />
               <div style={topStyles}>
                 <MatUiSelect
@@ -124,45 +154,40 @@ const CreatePRsForm = () => {
                   inputLabel={"Select source branch"}
                   id={`source-branch-${v4()}`}
                   selectValue={sourceBranch}
-                  setSelectValue={setSourceBranch}
+                  setSelectValue={setCustomSourceBranch}
                   allOption={false}
                 />
-                {sourceBranch !== "" && (
-                  <MatUiSelect
-                    collection={availableBranches.filter(
-                      (branch) => branch !== sourceBranch
-                    )}
-                    inputLabel={"Select target branch"}
-                    id={`target-branch-${v4()}`}
-                    selectValue={targetBranch}
-                    setSelectValue={setTargetBranch}
-                    allOption={false}
-                  />
-                )}
+                <MatUiSelect
+                  collection={availableBranches.filter(
+                    (branch) => branch !== sourceBranch
+                  )}
+                  inputLabel={"Select target branch"}
+                  id={`target-branch-${v4()}`}
+                  selectValue={targetBranch}
+                  setSelectValue={setTargetBranch}
+                  allOption={false}
+                />
               </div>
               <br />
-              {sourceBranch !== "" && targetBranch !== "" && (
-                <div style={topStyles}>
-                  <Input
-                    fullWidth
-                    type="text"
-                    id="pr_title"
-                    name="pr_title"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                  />
-                  {sourceBranch !== "" &&
-                    targetBranch !== "" &&
-                    title !== "" && (
-                      <MatUIButton
-                        id={"create_pull_requests"}
-                        send={sendPullRequestCreations}
-                        displayName={"Create pull requests"}
-                      />
-                    )}
-                </div>
-              )}
+              <div style={topStyles}>
+                <Input
+                  fullWidth
+                  type="text"
+                  id="pr_title"
+                  name="pr_title"
+                  placeholder="Title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                />
+                <MatUIButton
+                  id={"create_pull_requests"}
+                  send={sendPullRequestCreations}
+                  displayName={"Create pull requests"}
+                  disabled={
+                    title === "" || sourceBranch === "" || targetBranch === ""
+                  }
+                />
+              </div>
             </div>
           )}
       </div>
