@@ -1,9 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import {
-  AllRepositoryChecked,
   PaginationCounterContext,
-  RepositoriesContext,
-  SelectedRepositoriesContext,
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
 import CreatePRsTableBodyRow from "./CreatePRsTableBodyRow";
@@ -11,21 +8,6 @@ import CreatePRsTableBodyRow from "./CreatePRsTableBodyRow";
 const CreatePRsTableBody = ({ filteredRepositories }) => {
   const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
-  const { repositories } = useContext(RepositoriesContext);
-  const { setSelectedRepositories } = useContext(SelectedRepositoriesContext);
-  const { allRepositoryChecked } = useContext(AllRepositoryChecked);
-
-  useEffect(() => {
-    let result = [];
-    repositories.forEach((repository) => {
-      result.push({
-        repositoryName: repository.repositoryName,
-        repositoryId: repository.repositoryId,
-        selected: allRepositoryChecked,
-      });
-    });
-    setSelectedRepositories(result);
-  }, [repositories, allRepositoryChecked, setSelectedRepositories]);
 
   return (
     <tbody>
