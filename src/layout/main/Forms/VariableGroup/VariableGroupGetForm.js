@@ -29,13 +29,9 @@ import {
   setSingleOperationBack,
 } from "../../../../services/CommonService";
 
-import {
-  Input,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material";
+import { Input, FormGroup } from "@mui/material";
 import MatUIButton from "../../../MatUIButton";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const VariableGroupGetForm = () => {
   const { pat } = useContext(PATContext);
@@ -81,11 +77,15 @@ const VariableGroupGetForm = () => {
     setMessage,
     secretIncluded,
     keyIsRegex,
-    profileName
+    profileName,
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "getform", toastMs);
+    let incorrectFill = checkRequiredInputs(
+      mandatoryFields,
+      "getform",
+      toastMs
+    );
     if (!incorrectFill) {
       await sendListVariablesRequest(message, valueRegex, setVariables);
       setSingleOperationBack(setSingleOperation);
@@ -122,31 +122,25 @@ const VariableGroupGetForm = () => {
       <br />
       <br />
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => setSecretIncluded(e.target.checked)}
-              value={secretIncluded}
-              id="secretNeeded"
-              name="secretNeeded"
-            />
-          }
-          label="Secret included"
-        ></FormControlLabel>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => setKeyIsRegex(e.target.checked)}
-              value={keyIsRegex}
-              id="keyRegexOrNot"
-              name="keyRegexOrNot"
-            />
-          }
-          label="Key's name should be regex"
-        ></FormControlLabel>
+        <MatUICheckbox
+          id={"secretNeeded"}
+          name={"secretNeeded"}
+          label={"Secret included"}
+          setValue={setSecretIncluded}
+        />
+        <MatUICheckbox
+          id={"keyRegexOrNot"}
+          name={"keyRegexOrNot"}
+          label={"Key's name should be regex"}
+          setValue={setKeyIsRegex}
+        />
       </FormGroup>
       <br />
-      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
+      <MatUIButton
+        id={"submit_button"}
+        send={send}
+        displayName={"Send request"}
+      />
       <ToastContainer />
     </div>
   );

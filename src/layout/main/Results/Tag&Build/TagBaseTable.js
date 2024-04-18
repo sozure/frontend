@@ -8,7 +8,8 @@ import {
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
-import { FormGroup, FormControlLabel, Checkbox, Input } from "@mui/material";
+import { Input } from "@mui/material";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const TagBaseTable = ({
   TableBody,
@@ -19,27 +20,27 @@ const TagBaseTable = ({
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
-  const { selectedRepositories, setSelectedRepositories } = useContext(SelectedRepositoriesContext);
+  const { selectedRepositories, setSelectedRepositories } = useContext(
+    SelectedRepositoriesContext
+  );
 
   const [filter, setFilter] = useState("");
-  const [allRepositoryChecked, setAllRepositoryChecked] = useState(false);
   const [searchRepositories, setSearchRepositories] = useState(repositories);
 
   useEffect(() => {
     setSearchRepositories(repositories);
   }, [repositories]);
 
-  const setCheckbox = (e) => {
+  const setCheckbox = (checked) => {
     let result = [];
     selectedRepositories.forEach((repository) => {
       result.push({
         repositoryName: repository.repositoryName,
         repositoryId: repository.repositoryId,
-        selected: e.target.checked,
+        selected: checked,
       });
     });
     setSelectedRepositories(result);
-    setAllRepositoryChecked(e.target.checked);
   };
 
   const filterRepositories = (newFilter) => {
@@ -79,17 +80,12 @@ const TagBaseTable = ({
               <h2>Found repositories: {searchRepositories.length}</h2>
               <br />
               {isPullRequestCreations && (
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={allRepositoryChecked}
-                        onChange={setCheckbox}
-                      />
-                    }
-                    label="Select all"
-                  />
-                </FormGroup>
+                <MatUICheckbox
+                  id={"tagBaseTableCheckbox"}
+                  name={"tagBaseTableCheckbox"}
+                  label={"Select all"}
+                  setValue={setCheckbox}
+                />
               )}
               <table className="matched-variables-table">
                 <TableHeader columnList={tableHeader} />

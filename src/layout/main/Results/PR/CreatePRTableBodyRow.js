@@ -80,7 +80,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
         />
       </td>
       <td key={v4()}>
-        {createPR && branches.length > 0 ? (
+        {createPR && branches.length > 1 && (
           <SearchableSelectMenu
             containsText={containsBranchText}
             elementKey={"source_branch"}
@@ -89,9 +89,11 @@ const CreatePRTableBodyRow = ({ repository }) => {
             selectedElement={sourceBranch}
             setSelectedElement={setCustomSourceBranch}
           />
-        ) : (
-          <>-</>
         )}
+        {createPR && branches.length === 1 && (
+          <>Only one branch exists. Can't create PR.</>
+        )}
+        {(!createPR || branches.length === 0) && <>-</>}
       </td>
       <td key={v4()}>
         {createPR && sourceBranch !== "" ? (

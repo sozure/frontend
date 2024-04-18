@@ -9,11 +9,6 @@ import {
   KeyVaultsContext,
 } from "../../../../contexts/Contexts";
 
-import {
-  Checkbox,
-  FormGroup,
-  FormControlLabel
-} from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +19,7 @@ import {
 } from "../../../../services/CommonService";
 import KeyVaultSelectMenu from "../../../KeyVaultSelectMenu";
 import MatUIButton from "../../../MatUIButton";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -33,9 +29,9 @@ const KeyVaultCopyForm = () => {
   const { profileName } = useContext(ProfileNameContext);
   const { keyVaults } = useContext(KeyVaultsContext);
 
-  const [ originKeyVault, setOriginKeyVault ] = useState("");
-  const [ destinationKeyVault, setDestinationKeyVault ] = useState("");
-  const [ override, setOverride ] = useState(false);
+  const [originKeyVault, setOriginKeyVault] = useState("");
+  const [destinationKeyVault, setDestinationKeyVault] = useState("");
+  const [override, setOverride] = useState(false);
 
   const mandatoryFields = [
     tenantId,
@@ -48,7 +44,11 @@ const KeyVaultCopyForm = () => {
   const toastMs = getToastOnClose();
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "copy-form", toastMs);
+    let incorrectFill = checkRequiredInputs(
+      mandatoryFields,
+      "copy-form",
+      toastMs
+    );
 
     if (!incorrectFill) {
       if (originKeyVault === destinationKeyVault) {
@@ -89,20 +89,18 @@ const KeyVaultCopyForm = () => {
         keyVaultName={destinationKeyVault}
         setKeyVaultName={setDestinationKeyVault}
       />
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={() => setOverride(!override)}
-              id="overrideNeeded"
-              name="overrideNeeded"
-            />
-          }
-          label="Override secret if it exists on destination key vault"
-        ></FormControlLabel>
-      </FormGroup>
+      <MatUICheckbox
+        id={"overrideNeeded"}
+        name={"overrideNeeded"}
+        label={"Override secret if it exists on destination key vault"}
+        setValue={setOverride}
+      />
       <br />
-      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
+      <MatUIButton
+        id={"submit_button"}
+        send={send}
+        displayName={"Send request"}
+      />
       <ToastContainer />
     </div>
   );
