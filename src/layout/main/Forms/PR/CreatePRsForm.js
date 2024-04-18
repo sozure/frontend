@@ -14,7 +14,7 @@ import {
 import { v4 } from "uuid";
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import CreatePRsTable from "../../Results/PR/CreatePRsTable";
-import MatUiSelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 import { createPullRequests } from "../../../../services/GitPullRequestService";
 import { ToastContainer } from "react-toastify";
 import {
@@ -149,7 +149,7 @@ const CreatePRsForm = () => {
             <div className="form">
               <br />
               <div style={topStyles}>
-                <MatUiSelect
+                <MatUISelect
                   collection={availableBranches}
                   inputLabel={"Select source branch"}
                   id={`source-branch-${v4()}`}
@@ -157,7 +157,7 @@ const CreatePRsForm = () => {
                   setSelectValue={setCustomSourceBranch}
                   allOption={false}
                 />
-                <MatUiSelect
+                <MatUISelect
                   collection={availableBranches.filter(
                     (branch) => branch !== sourceBranch
                   )}

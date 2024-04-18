@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MatUiSelect from "./MatUiSelect";
+import MatUISelect from "./MatUISelect";
 
 const KeyVaultSelectMenu = ({
   id,
@@ -10,7 +10,7 @@ const KeyVaultSelectMenu = ({
   setKeyVaultName,
 }) => {
   return (
-    <MatUiSelect
+    <MatUISelect
       collection={keyVaults}
       inputLabel={inputLabel}
       id={id}

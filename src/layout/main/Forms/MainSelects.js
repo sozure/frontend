@@ -12,7 +12,7 @@ import {
   getToastOnClose,
   toastErrorPopUp,
 } from "../../../services/CommonService";
-import MatUiSelect from "../../MatUiSelect";
+import MatUISelect from "../../MatUISelect";
 
 const MainSelects = () => {
   const { setOnAdd } = useContext(OnAddContext);
@@ -45,7 +45,7 @@ const MainSelects = () => {
     switch (tableType) {
       case "Variable Groups":
         return (
-          <MatUiSelect
+          <MatUISelect
             collection={["List", "Add", "Delete", "Update"]}
             inputLabel={"VG action type"}
             id={`vg-action-type`}
@@ -56,7 +56,7 @@ const MainSelects = () => {
         );
       case "Secrets":
         return (
-          <MatUiSelect
+          <MatUISelect
             collection={["List", "Copy", "Delete", "Recover"]}
             inputLabel={"Secret action type"}
             id={`secret-action-type`}
@@ -69,7 +69,7 @@ const MainSelects = () => {
         return <></>;
       case "Run pipelines":
         return (
-          <MatUiSelect
+          <MatUISelect
             collection={["Build", "Release"]}
             inputLabel={"Pipeline action type"}
             id={`pipeline-action-type`}
@@ -80,7 +80,7 @@ const MainSelects = () => {
         );
       case "Tags":
         return (
-          <MatUiSelect
+          <MatUISelect
             collection={["List", "CreateAndBuild"]}
             inputLabel={"Tag action type"}
             id={`tag-action-type`}
@@ -91,7 +91,7 @@ const MainSelects = () => {
         );
       case "Pull requests":
         return (
-          <MatUiSelect
+          <MatUISelect
             collection={["List", "Create", "CreateMultiple"]}
             inputLabel={"PR action type"}
             id={`pr-action-type`}
@@ -107,7 +107,7 @@ const MainSelects = () => {
 
   return (
     <div className="main-select-container">
-      <MatUiSelect
+      <MatUISelect
         collection={[
           "Secrets",
           "Variable Groups",

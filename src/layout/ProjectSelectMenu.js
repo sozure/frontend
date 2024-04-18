@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import PropTypes from "prop-types";
 
 import { ProjectsContext } from "../contexts/Contexts";
-import MatUiSelect from "./MatUiSelect";
+import MatUISelect from "./MatUISelect";
 
 const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
   const { projects } = useContext(ProjectsContext);
@@ -15,7 +15,7 @@ const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
   }, [projects, setProjectNames]);
 
   return (
-    <MatUiSelect
+    <MatUISelect
       collection={projectNames}
       inputLabel={"Select Azure project"}
       id={`project-${v4()}`}

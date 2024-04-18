@@ -20,7 +20,7 @@ import {
   getVariableGroups,
 } from "../../../../services/ReleasePipelineService";
 import MatUIButton from "../../../MatUIButton";
-import MatUiSelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 
 const SyncTableForm = ({
   projectsWithReleasePipeline,
@@ -80,7 +80,7 @@ const SyncTableForm = ({
 
   return (
     <div className="form">
-      <MatUiSelect
+      <MatUISelect
           collection={projectsWithReleasePipeline}
           inputLabel={`Projects containing pipeline (${projectsWithReleasePipeline.length} found)`}
           id={`project-${v4()}`}

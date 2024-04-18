@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import PropTypes from "prop-types";
 
 import { Input, TextField } from "@mui/material";
-import MatUiSelect from "../../MatUiSelect";
+import MatUISelect from "../../MatUISelect";
 
 const CommonFormElements = ({
   setUserName,
@@ -38,7 +38,7 @@ const CommonFormElements = ({
           textField={<TextField />}
         />
       </LocalizationProvider>
-      <MatUiSelect
+      <MatUISelect
         collection={potentialLimits}
         inputLabel={"Select result table limit"}
         id={"limit"}

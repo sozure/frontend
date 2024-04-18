@@ -15,7 +15,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { Cancel, PlayArrow } from "@mui/icons-material";
 import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
-import MatUiSelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 
 const TagAndBuildTableBodyRow = ({
   repository,
@@ -145,7 +145,7 @@ const TagAndBuildTableBodyRow = ({
       <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
       <td key={v4()}>
         {pipeline !== undefined && latestTag !== "" ? (
-          <MatUiSelect
+          <MatUISelect
             collection={[...versionTypes, "Choose one"]}
             inputLabel={"Set version type"}
             id={"versionType"}
