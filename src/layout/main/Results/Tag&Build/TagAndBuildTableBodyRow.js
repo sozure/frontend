@@ -13,9 +13,9 @@ import {
   ProfileNameContext,
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
-import { Cancel, PlayArrow } from "@mui/icons-material";
 import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
 import MatUISelect from "../../../MatUISelect";
+import MatUIButton from "../../../MatUIButton";
 
 const TagAndBuildTableBodyRow = ({
   repository,
@@ -100,14 +100,8 @@ const TagAndBuildTableBodyRow = ({
         description: description,
         repositoryName: repository.repositoryName,
       };
-      createTag(
-        model,
-        latestTags,
-        possibleNewTag,
-        setLocalLoading,
-        setLatestTags,
-        cancel
-      );
+      createTag(model, latestTags, possibleNewTag, setLatestTags, cancel);
+      cancel();
     }
   };
 
@@ -172,18 +166,11 @@ const TagAndBuildTableBodyRow = ({
       </td>
       <td key={v4()}>
         {typeOfVersion !== "" && pipeline !== undefined ? (
-          <>
-            <abbr title={"Start create and build"}>
-              <button onClick={send}>
-                <PlayArrow />
-              </button>
-            </abbr>{" "}
-            <abbr title={"Cancel"}>
-              <button onClick={cancel}>
-                <Cancel />
-              </button>
-            </abbr>
-          </>
+          <MatUIButton
+            id={"submit_button"}
+            send={send}
+            displayName={"Start create and build"}
+          />
         ) : localLoading ? (
           <span>Loading...</span>
         ) : (

@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import SyncTableBodyInput from "./SyncTableBodyInput";
@@ -12,8 +11,12 @@ import {
   ProfileNameContext,
   ProjectNameContext,
 } from "../../../../contexts/Contexts";
-import { getToastOnClose, toastErrorPopUp } from "../../../../services/CommonService";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../../services/CommonService";
 import PropTypes from "prop-types";
+import MatUIButton from "../../../MatUIButton";
 
 const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const [modification, setModification] = useState({});
@@ -73,18 +76,16 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const getAddSection = () => {
     if (!(modification.modification && modification.key === variable)) {
       return (
-        <Button
-          variant="contained"
-          id="add_variable"
-          onClick={() => {
+        <MatUIButton
+          id={"add_variable"}
+          send={() => {
             setModification({
               key: variable,
               modification: true,
             });
           }}
-        >
-          Add
-        </Button>
+          displayName={"Add"}
+        />
       );
     }
     return (

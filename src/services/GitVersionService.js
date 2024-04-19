@@ -77,7 +77,6 @@ const createTag = async (
   model,
   latestTags,
   possibleNewTag,
-  setLoading,
   setLatestTags,
   cancel
 ) => {
@@ -97,7 +96,6 @@ const createTag = async (
     .then((res) => {
       let status = res.data.status;
       let tag = res.data.data;
-      setLoading(false);
       if (status === 1) {
         let result = [];
         latestTags.forEach((tag) => {
@@ -114,8 +112,7 @@ const createTag = async (
           model.project,
           model.pat,
           model.definitionId,
-          tag,
-          setLoading
+          tag
         );
         cancel();
       } else {
@@ -124,7 +121,6 @@ const createTag = async (
     })
     .catch((err) => {
       handleError2(err);
-      setLoading(false);
     });
 };
 

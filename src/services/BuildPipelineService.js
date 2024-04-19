@@ -88,8 +88,7 @@ const runBuildPipeline = async (
   project,
   pat,
   definitionId,
-  sourceBranch,
-  setLoading
+  sourceBranch
 ) => {
   let url = `${baseUrl}/Run`;
   let body = {
@@ -99,7 +98,6 @@ const runBuildPipeline = async (
     definitionId: definitionId,
     sourceBranch: sourceBranch,
   };
-  setLoading(true);
   axios
     .post(url, body)
     .then((res) => {
@@ -118,7 +116,6 @@ const runBuildPipeline = async (
           toastMs
         );
       }
-      setLoading(false);
     })
     .catch((err) => {
       handleError2(err);

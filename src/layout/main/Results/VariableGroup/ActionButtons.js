@@ -18,14 +18,15 @@ import {
   VariableValueRegexContext,
   VariableGroupsContext,
 } from "../../../../contexts/Contexts";
+import MatUIButton from "../../../MatUIButton";
 
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);
   const { onDelete, setOnDelete } = useContext(OnDeleteContext);
-  const { variables, setVariables } = useContext(
-    VariablesContext
+  const { variables, setVariables } = useContext(VariablesContext);
+  const { variableGroups, setVariableGroups } = useContext(
+    VariableGroupsContext
   );
-  const { variableGroups, setVariableGroups } = useContext(VariableGroupsContext);
   const { tableType } = useContext(TableTypeContext);
   const { onAdd, setOnAdd } = useContext(OnAddContext);
   const { onUpdate, setOnUpdate } = useContext(OnUpdateContext);
@@ -59,51 +60,60 @@ const ActionButtons = () => {
     );
   };
 
+  const topStyles = {
+    display: "flex",
+    flexDirection: "row", // Align children horizontally
+  };
+
   const getActionSegment = () => {
-    return (onDelete || onAdd || onUpdate) && (
-      <div>
-        {getAreYouSureParagraph()}
-        <br />
-        <button
-          onClick={() => {
-            if (onDelete) {
-              deleteVariables();
-            } else if (onAdd) {
-              addVariables();
-            } else {
-              updateVariables();
-            }
-            setActionType("List");
-            setVariables([]);
-            setVariableGroups([]);
-          }}
-        >
-          Yes
-        </button>
-        <button
-          onClick={() => {
-            if (onDelete) {
-              setOnDelete(false);
-            } else if (onAdd) {
-              setOnAdd(false);
-            } else {
-              setOnUpdate(false);
-            }
-            setVariables([]);
-            setVariableGroups([]);
-          }}
-        >
-          No
-        </button>
-      </div>
-    )};
+    return (
+      (onDelete || onAdd || onUpdate) && (
+        <div>
+          {getAreYouSureParagraph()}
+          <br />
+          <div style={topStyles}>
+            <MatUIButton
+              id={"add_update_or_delete_vg"}
+              send={() => {
+                if (onDelete) {
+                  deleteVariables();
+                } else if (onAdd) {
+                  addVariables();
+                } else {
+                  updateVariables();
+                }
+                setActionType("List");
+                setVariables([]);
+                setVariableGroups([]);
+              }}
+              displayName={"Yes"}
+            />
+            <MatUIButton
+              id={"cancel_add_update_or_delete_vg"}
+              send={() => {
+                if (onDelete) {
+                  setOnDelete(false);
+                } else if (onAdd) {
+                  setOnAdd(false);
+                } else {
+                  setOnUpdate(false);
+                }
+                setVariables([]);
+                setVariableGroups([]);
+              }}
+              displayName={"No"}
+            />
+          </div>
+        </div>
+      )
+    );
+  };
 
   return (
     <>
       {tableType === "Variable Groups" &&
-      (variables.length > 0 || variableGroups.length > 0) && (
-        getActionSegment()
-      )}
+        (variables.length > 0 || variableGroups.length > 0) &&
+        getActionSegment()}
     </>
   );
 };
