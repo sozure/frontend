@@ -12,6 +12,7 @@ import {
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import { createPullRequest } from "../../../../services/GitPullRequestService";
 import CreatePRTableBodyRowInput from "./CreatePRTableBodyRowInput";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const CreatePRTableBodyRow = ({ repository }) => {
   const { organizationName } = useContext(OrganizationContext);
@@ -20,6 +21,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
   const { projectName } = useContext(ProjectNameContext);
 
   const [createPR, setCreatePR] = useState(false);
+  const [autoComplete, setAutoComplete] = useState(false);
   const [branches, setBranches] = useState([]);
   const [sourceBranch, setSourceBranch] = useState("");
   const [targetBranch, setTargetBranch] = useState("");
@@ -52,7 +54,8 @@ const CreatePRTableBodyRow = ({ repository }) => {
       repository.repositoryId,
       sourceBranch,
       targetBranch,
-      title
+      title,
+      autoComplete
     );
     setCreatePR(false);
     setSourceBranch("");
@@ -73,13 +76,13 @@ const CreatePRTableBodyRow = ({ repository }) => {
       </td>
       <td key={v4()}>{repository.repositoryName}</td>
       <td key={v4()}>
-        <MatUIButton
-          id={"get_branches"}
-          send={sendGetBranches}
-          displayName={"Create PR"}
-        />
-      </td>
-      <td key={v4()}>
+        {!createPR && (
+          <MatUIButton
+            id={"get_branches"}
+            send={sendGetBranches}
+            displayName={"Create PR"}
+          />
+        )}
         {createPR && branches.length > 1 && (
           <SearchableSelectMenu
             containsText={containsBranchText}
@@ -93,7 +96,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
         {createPR && branches.length === 1 && (
           <>Only one branch exists. Can't create PR.</>
         )}
-        {(!createPR || branches.length === 0) && <>-</>}
+        {createPR && branches.length === 0 && <>-</>}
       </td>
       <td key={v4()}>
         {createPR && sourceBranch !== "" ? (
@@ -115,6 +118,18 @@ const CreatePRTableBodyRow = ({ repository }) => {
             repositoryId={repository.repositoryId}
             sourceBranch={sourceBranch}
             targetBranch={targetBranch}
+          />
+        ) : (
+          <>-</>
+        )}
+      </td>
+      <td key={v4()}>
+        {createPR && targetBranch !== "" ? (
+          <MatUICheckbox
+            id={"autocomplete"}
+            name={"autocomplete"}
+            value={autoComplete}
+            setValue={setAutoComplete}
           />
         ) : (
           <>-</>

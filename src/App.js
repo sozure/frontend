@@ -50,6 +50,7 @@ import {
   PullRequestsContext,
   AllRepositoryChecked,
   SelectedRepositoriesContext,
+  AutocompleteContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -112,6 +113,7 @@ function App() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [containingVGs, setContainingVGs] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
+  const [autocomplete, setAutocomplete] = useState(false);
   const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [defaultSubscription, setDefaultSubscription] = useState("");
@@ -585,23 +587,36 @@ function App() {
                                                                                                     ]
                                                                                                   )}
                                                                                                 >
-                                                                                                  <Welcome />
-                                                                                                  <BrowserRouter>
-                                                                                                    <Routes>
-                                                                                                      <Route
-                                                                                                        path="/"
-                                                                                                        element={
-                                                                                                          <Main />
-                                                                                                        }
-                                                                                                      />
-                                                                                                      <Route
-                                                                                                        path="/changes"
-                                                                                                        element={
-                                                                                                          <Modifications />
-                                                                                                        }
-                                                                                                      />
-                                                                                                    </Routes>
-                                                                                                  </BrowserRouter>
+                                                                                                  <AutocompleteContext.Provider
+                                                                                                    value={useMemo(
+                                                                                                      () => ({
+                                                                                                        autocomplete,
+                                                                                                        setAutocomplete,
+                                                                                                      }),
+                                                                                                      [
+                                                                                                        autocomplete,
+                                                                                                        setAutocomplete,
+                                                                                                      ]
+                                                                                                    )}
+                                                                                                  >
+                                                                                                    <Welcome />
+                                                                                                    <BrowserRouter>
+                                                                                                      <Routes>
+                                                                                                        <Route
+                                                                                                          path="/"
+                                                                                                          element={
+                                                                                                            <Main />
+                                                                                                          }
+                                                                                                        />
+                                                                                                        <Route
+                                                                                                          path="/changes"
+                                                                                                          element={
+                                                                                                            <Modifications />
+                                                                                                          }
+                                                                                                        />
+                                                                                                      </Routes>
+                                                                                                    </BrowserRouter>
+                                                                                                  </AutocompleteContext.Provider>
                                                                                                 </SelectedRepositoriesContext.Provider>
                                                                                               </AllRepositoryChecked.Provider>
                                                                                             </PullRequestsContext.Provider>

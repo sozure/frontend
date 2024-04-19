@@ -4,7 +4,7 @@ import { RepositoriesContext } from "../../../../contexts/Contexts";
 import CreatePRTableBody from "./CreatePRTableBody";
 
 const CreatePRTable = () => {
-  const tableHeader = ["Azure project", "Repository", "Action", "Source branch", "Target branch", "Title", "Send"];
+  const tableHeader = ["Azure project", "Repository", "Source branch", "Target branch", "Title", "Autocomplete", "Send"];
 
   const { repositories } = useContext(RepositoriesContext);
   return (

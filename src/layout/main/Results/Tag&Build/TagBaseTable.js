@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import {
+  AutocompleteContext,
   PaginationCounterContext,
   SelectedRepositoriesContext,
   VGAuthorizedContext,
@@ -19,6 +20,7 @@ const TagBaseTable = ({
 }) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setAutocomplete } = useContext(AutocompleteContext);
 
   const { selectedRepositories, setSelectedRepositories } = useContext(
     SelectedRepositoriesContext
@@ -60,6 +62,13 @@ const TagBaseTable = ({
       setSearchRepositories(repositories);
     }
   };
+
+  const topStyles = {
+    display: "flex",
+    flexDirection: "row", // Align children horizontally
+    justifyContent: "space-between", // Distribute space evenly
+  };
+
   return (
     <>
       {vgAuthorized && (
@@ -80,12 +89,20 @@ const TagBaseTable = ({
               <h2>Found repositories: {searchRepositories.length}</h2>
               <br />
               {isPullRequestCreations && (
+                <div style={topStyles}>
                 <MatUICheckbox
-                  id={"tagBaseTableCheckbox"}
-                  name={"tagBaseTableCheckbox"}
+                  id={"tagBaseTableSelectAllCheckbox"}
+                  name={"tagBaseTableSelectAllCheckbox"}
                   label={"Select all"}
                   setValue={setCheckbox}
                 />
+                <MatUICheckbox
+                  id={"tagBaseTableAutoCompleteCheckbox"}
+                  name={"tagBaseTableAutoCompleteCheckbox"}
+                  label={"Autocomplete pull requests"}
+                  setValue={setAutocomplete}
+                />
+                </div>
               )}
               <table className="matched-variables-table">
                 <TableHeader columnList={tableHeader} />

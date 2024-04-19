@@ -50,13 +50,13 @@ const CreatePRsTableBodyRow = ({ repository }) => {
           ? `${repository.projectName.slice(0, 11)}...`
           : repository.projectName}
       </td>
-      <abbr title={repository.repositoryName}>
-        <td key={v4()}>
+      <td key={v4()}>
+        <abbr title={repository.repositoryName}>
           {repository.repositoryName.length > 25
             ? `${repository.repositoryName.slice(0, 25)}...`
             : repository.repositoryName}
-        </td>
-      </abbr>
+        </abbr>
+      </td>
     </tr>
   );
 };

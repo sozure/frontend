@@ -52,7 +52,8 @@ const createPullRequests = async (
   repositories,
   sourceBranch,
   targetBranch,
-  title
+  title,
+  autocomplete
 ) => {
   let organization = basicData["organization"];
   let pat = basicData["pat"];
@@ -65,6 +66,7 @@ const createPullRequests = async (
     sourceBranch: sourceBranch,
     targetBranch: targetBranch,
     title: title,
+    autoComplete: autocomplete
   };
   axios
     .post(`${baseUrl}/createmultiple`, body)
@@ -87,7 +89,8 @@ const createPullRequest = async (
   repository,
   sourceBranch,
   targetBranch,
-  title
+  title,
+  autoComplete
 ) => {
   let organization = basicData["organization"];
   let pat = basicData["pat"];
@@ -100,6 +103,7 @@ const createPullRequest = async (
     sourceBranch: sourceBranch,
     targetBranch: targetBranch,
     title: title,
+    autoComplete: autoComplete
   };
   axios
     .post(`${baseUrl}/create`, body)
