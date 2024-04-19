@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MatUISelect from "./MatUiSelect";
+import MatUISelect from "./MatUISelect";
 
 const KeyVaultSelectMenu = ({
   id,

@@ -15,7 +15,7 @@ import {
 import { v4 } from "uuid";
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import CreatePRsTable from "../../Results/PR/CreatePRsTable";
-import MatUISelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 import { createPullRequests } from "../../../../services/GitPullRequestService";
 import { ToastContainer } from "react-toastify";
 import {

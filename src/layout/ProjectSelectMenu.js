@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import PropTypes from "prop-types";
 
 import { ProjectsContext } from "../contexts/Contexts";
-import MatUISelect from "./MatUiSelect";
+import MatUISelect from "./MatUISelect";
 
 const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
   const { projects } = useContext(ProjectsContext);

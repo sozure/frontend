@@ -39,7 +39,7 @@ MatUISelect.propTypes = {
   collection: PropTypes.any.isRequired,
   inputLabel: PropTypes.any.isRequired,
   selectValue: PropTypes.any.isRequired,
-  setSelectValue: PropTypes.func.isRequired,
+  setSelectValue: PropTypes.func,
   allOption: PropTypes.bool
 };
 

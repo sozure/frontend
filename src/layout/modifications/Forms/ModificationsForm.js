@@ -25,7 +25,7 @@ import {
 import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
-import MatUISelect from "../../MatUiSelect";
+import MatUISelect from "../../MatUISelect";
 
 export const ModificationsForm = ({
   entityType,
