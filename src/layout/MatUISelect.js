@@ -9,28 +9,62 @@ const MatUISelect = ({
   selectValue,
   setSelectValue,
   allOption,
+  required,
 }) => {
   return (
-    <FormControl required fullWidth>
-      <InputLabel>{inputLabel}</InputLabel>
-      <Select
-        id={id}
-        value={selectValue}
-        label={inputLabel}
-        onChange={(event) => setSelectValue(event.target.value)}
-      >
-        {allOption && (
-          <MenuItem value={"All"} key={"All"}>
-            {"All"}
-          </MenuItem>
-        )}
-        {collection.map((element) => (
-          <MenuItem value={element} key={element} disabled={element === "Choose one"}>
-            {element}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <>
+      {required !== undefined && required ? (
+        <FormControl required fullWidth>
+          <InputLabel>{inputLabel}</InputLabel>
+          <Select
+            id={id}
+            value={selectValue}
+            label={inputLabel}
+            onChange={(event) => setSelectValue(event.target.value)}
+          >
+            {allOption && (
+              <MenuItem value={"All"} key={"All"}>
+                {"All"}
+              </MenuItem>
+            )}
+            {collection.map((element) => (
+              <MenuItem
+                value={element}
+                key={element}
+                disabled={element === "Choose one"}
+              >
+                {element}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      ) : (
+        <FormControl fullWidth>
+          <InputLabel>{inputLabel}</InputLabel>
+          <Select
+            id={id}
+            value={selectValue}
+            label={inputLabel}
+            onChange={(event) => setSelectValue(event.target.value)}
+          >
+            {allOption && (
+              <MenuItem value={"All"} key={"All"}>
+                {"All"}
+              </MenuItem>
+            )}
+            {collection.map((element) => (
+              <MenuItem
+                value={element}
+                key={element}
+                disabled={element === "Choose one"}
+              >
+                {element}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+    </>
   );
 };
 
@@ -40,7 +74,8 @@ MatUISelect.propTypes = {
   inputLabel: PropTypes.any.isRequired,
   selectValue: PropTypes.any.isRequired,
   setSelectValue: PropTypes.func.isRequired,
-  allOption: PropTypes.bool
+  allOption: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 export default MatUISelect;

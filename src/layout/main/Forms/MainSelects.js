@@ -52,6 +52,7 @@ const MainSelects = () => {
             selectValue={actionType}
             setSelectValue={handleActionTypeChange}
             allOption={false}
+            required={true}
           />
         );
       case "Secrets":
@@ -63,6 +64,7 @@ const MainSelects = () => {
             selectValue={actionType}
             setSelectValue={setActionType}
             allOption={false}
+            required={true}
           />
         );
       case "Sync configurations":
@@ -76,6 +78,7 @@ const MainSelects = () => {
             selectValue={actionType}
             setSelectValue={setCustomActionType}
             allOption={false}
+            required={true}
           />
         );
       case "Tags":
@@ -87,6 +90,7 @@ const MainSelects = () => {
             selectValue={actionType}
             setSelectValue={setCustomActionType}
             allOption={false}
+            required={true}
           />
         );
       case "Pull requests":
@@ -98,6 +102,7 @@ const MainSelects = () => {
             selectValue={actionType}
             setSelectValue={setCustomActionType}
             allOption={false}
+            required={true}
           />
         );
       default:
@@ -121,6 +126,7 @@ const MainSelects = () => {
         selectValue={tableType}
         setSelectValue={setCustomTableType}
         allOption={false}
+        required={true}
       />
       {getActionTypeOptions()}
     </div>

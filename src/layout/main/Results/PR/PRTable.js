@@ -19,6 +19,7 @@ const PRTable = () => {
     "Created by",
     "Created",
     "Size",
+    "Approvers",
     "Navigate",
   ];
 

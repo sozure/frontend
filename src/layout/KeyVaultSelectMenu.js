@@ -17,6 +17,7 @@ const KeyVaultSelectMenu = ({
       selectValue={keyVaultName}
       setSelectValue={setKeyVaultName}
       allOption={false}
+      required={true}
     />
   );
 };
