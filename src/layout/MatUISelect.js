@@ -1,10 +1,11 @@
 import React from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import PropTypes from "prop-types";
 
-const MatUiSelect = ({
+const MatUISelect = ({
+  id,
   collection,
   inputLabel,
-  id,
   selectValue,
   setSelectValue,
   allOption,
@@ -33,4 +34,13 @@ const MatUiSelect = ({
   );
 };
 
-export default MatUiSelect;
+MatUISelect.propTypes = {
+  id: PropTypes.any.isRequired,
+  collection: PropTypes.any.isRequired,
+  inputLabel: PropTypes.any.isRequired,
+  selectValue: PropTypes.any.isRequired,
+  setSelectValue: PropTypes.func.isRequired,
+  allOption: PropTypes.bool
+};
+
+export default MatUISelect;

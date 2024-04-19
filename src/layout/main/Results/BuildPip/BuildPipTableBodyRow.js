@@ -12,7 +12,7 @@ import {
 import { getBranches, getTags } from "../../../../services/GitVersionService";
 import MatUIButton from "../../../MatUIButton";
 import PropTypes from "prop-types";
-import MatUiSelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 
 const BuildPipTableBodyRow = ({ pipeline }) => {
   const { organizationName } = useContext(OrganizationContext);
@@ -50,7 +50,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
   const getSources = () => {
     if (isModification() && sources.length > 0 && sourceType !== "Choose one") {
       return (
-        <MatUiSelect
+        <MatUISelect
           collection={[...sources, "Choose one"]}
           inputLabel={"Set source"}
           id={"source"}
@@ -110,7 +110,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
     <tr key={v4()}>
       <td key={pipeline.id}>{pipeline.name}</td>
       <td key={v4()}>
-        <MatUiSelect
+        <MatUISelect
           collection={["Choose one", "branch", "tag"]}
           inputLabel={"Set source type"}
           id={"source-type"}

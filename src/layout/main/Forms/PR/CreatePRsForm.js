@@ -3,6 +3,7 @@ import MatUIButton from "../../../MatUIButton";
 import ProjectSelectMenu from "../../../ProjectSelectMenu";
 import { Input } from "@mui/material";
 import {
+  AutocompleteContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -14,7 +15,7 @@ import {
 import { v4 } from "uuid";
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import CreatePRsTable from "../../Results/PR/CreatePRsTable";
-import MatUiSelect from "../../../MatUiSelect";
+import MatUISelect from "../../../MatUISelect";
 import { createPullRequests } from "../../../../services/GitPullRequestService";
 import { ToastContainer } from "react-toastify";
 import {
@@ -32,6 +33,7 @@ const CreatePRsForm = () => {
   const { repositories, setRepositories } = useContext(RepositoriesContext);
   const { selectedRepositories } = useContext(SelectedRepositoriesContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { autocomplete } = useContext(AutocompleteContext);
 
   const [chosenRepositoryIds, setChosenRepositoryIds] = useState([]);
   const [chosenRepositoryNames, setChosenRepositoryNames] = useState([]);
@@ -96,7 +98,7 @@ const CreatePRsForm = () => {
         sourceBranch,
         targetBranch,
         title,
-        setLoading
+        autocomplete
       );
       setRepositories([]);
     } else {
@@ -149,7 +151,7 @@ const CreatePRsForm = () => {
             <div className="form">
               <br />
               <div style={topStyles}>
-                <MatUiSelect
+                <MatUISelect
                   collection={availableBranches}
                   inputLabel={"Select source branch"}
                   id={`source-branch-${v4()}`}
@@ -157,7 +159,7 @@ const CreatePRsForm = () => {
                   setSelectValue={setCustomSourceBranch}
                   allOption={false}
                 />
-                <MatUiSelect
+                <MatUISelect
                   collection={availableBranches.filter(
                     (branch) => branch !== sourceBranch
                   )}

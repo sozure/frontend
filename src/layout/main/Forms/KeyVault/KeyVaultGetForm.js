@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { sendListSecretRequest } from "../../../../services//SecretServices/SecretService";
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup
-} from "@mui/material";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,6 +31,7 @@ import {
 import KeyVaultSelect from "./BaseForms/KeyVaultSelect";
 import SecretRegexInput from "./BaseForms/SecretRegexInput";
 import MatUIButton from "../../../MatUIButton";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const KeyVaultGetForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -118,19 +114,12 @@ const KeyVaultGetForm = () => {
     <div className="form">
       <KeyVaultSelect />
       <SecretRegexInput />
-
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => setDeleted(e.target.checked)}
-              id="getDeletedSecrets"
-              name="getDeletedSecrets"
-            />
-          }
-          label="Get deleted secrets"
-        ></FormControlLabel>
-      </FormGroup>
+      <MatUICheckbox
+        id={"getDeletedSecrets"}
+        name={"getDeletedSecrets"}
+        label={"Get deleted secrets"}
+        setValue={setDeleted}
+      />
       <br />
       <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
       <ToastContainer />

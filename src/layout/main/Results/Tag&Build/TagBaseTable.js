@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import {
+  AutocompleteContext,
   PaginationCounterContext,
   SelectedRepositoriesContext,
   VGAuthorizedContext,
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
-import { FormGroup, FormControlLabel, Checkbox, Input } from "@mui/material";
+import { Input } from "@mui/material";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const TagBaseTable = ({
   TableBody,
@@ -18,28 +20,29 @@ const TagBaseTable = ({
 }) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { setAutocomplete } = useContext(AutocompleteContext);
 
-  const { selectedRepositories, setSelectedRepositories } = useContext(SelectedRepositoriesContext);
+  const { selectedRepositories, setSelectedRepositories } = useContext(
+    SelectedRepositoriesContext
+  );
 
   const [filter, setFilter] = useState("");
-  const [allRepositoryChecked, setAllRepositoryChecked] = useState(false);
   const [searchRepositories, setSearchRepositories] = useState(repositories);
 
   useEffect(() => {
     setSearchRepositories(repositories);
   }, [repositories]);
 
-  const setCheckbox = (e) => {
+  const setCheckbox = (checked) => {
     let result = [];
     selectedRepositories.forEach((repository) => {
       result.push({
         repositoryName: repository.repositoryName,
         repositoryId: repository.repositoryId,
-        selected: e.target.checked,
+        selected: checked,
       });
     });
     setSelectedRepositories(result);
-    setAllRepositoryChecked(e.target.checked);
   };
 
   const filterRepositories = (newFilter) => {
@@ -59,6 +62,13 @@ const TagBaseTable = ({
       setSearchRepositories(repositories);
     }
   };
+
+  const topStyles = {
+    display: "flex",
+    flexDirection: "row", // Align children horizontally
+    justifyContent: "space-between", // Distribute space evenly
+  };
+
   return (
     <>
       {vgAuthorized && (
@@ -79,17 +89,20 @@ const TagBaseTable = ({
               <h2>Found repositories: {searchRepositories.length}</h2>
               <br />
               {isPullRequestCreations && (
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={allRepositoryChecked}
-                        onChange={setCheckbox}
-                      />
-                    }
-                    label="Select all"
-                  />
-                </FormGroup>
+                <div style={topStyles}>
+                <MatUICheckbox
+                  id={"tagBaseTableSelectAllCheckbox"}
+                  name={"tagBaseTableSelectAllCheckbox"}
+                  label={"Select all"}
+                  setValue={setCheckbox}
+                />
+                <MatUICheckbox
+                  id={"tagBaseTableAutoCompleteCheckbox"}
+                  name={"tagBaseTableAutoCompleteCheckbox"}
+                  label={"Autocomplete pull requests"}
+                  setValue={setAutocomplete}
+                />
+                </div>
               )}
               <table className="matched-variables-table">
                 <TableHeader columnList={tableHeader} />

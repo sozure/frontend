@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { SelectedRepositoriesContext } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const CreatePRsTableBodyRow = ({ repository }) => {
   const { selectedRepositories, setSelectedRepositories } = useContext(
@@ -18,16 +18,15 @@ const CreatePRsTableBodyRow = ({ repository }) => {
     });
   }, [selectedRepositories, repository, setChecked]);
 
-  const setCheckbox = (e) => {
-    let value = e.target.checked;
-    setChecked(value);
+  const setCheckbox = (checked) => {
+    setChecked(checked);
     let result = [];
     selectedRepositories.forEach((selectedRepository) => {
       if (selectedRepository.repositoryName === repository.repositoryName) {
         result.push({
           repositoryName: selectedRepository.repositoryName,
           repositoryId: selectedRepository.repositoryId,
-          selected: value,
+          selected: checked,
         });
       } else {
         result.push(selectedRepository);
@@ -39,30 +38,31 @@ const CreatePRsTableBodyRow = ({ repository }) => {
   return (
     <tr key={v4()}>
       <td key={v4()}>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox checked={checked} onChange={setCheckbox} />}
-          />
-        </FormGroup>
+        <MatUICheckbox
+          id={"createPRsTableCheckbox"}
+          name={"createPRsTableCheckbox"}
+          value={checked}
+          setValue={setCheckbox}
+        />
       </td>
       <td key={v4()}>
         {repository.projectName.length > 11
           ? `${repository.projectName.slice(0, 11)}...`
           : repository.projectName}
       </td>
-      <abbr title={repository.repositoryName} >
-        <td key={v4()}>
+      <td key={v4()}>
+        <abbr title={repository.repositoryName}>
           {repository.repositoryName.length > 25
             ? `${repository.repositoryName.slice(0, 25)}...`
             : repository.repositoryName}
-        </td>
-      </abbr>
+        </abbr>
+      </td>
     </tr>
   );
 };
 
 CreatePRsTableBodyRow.propTypes = {
-  repository: PropTypes.object.isRequired
-}
+  repository: PropTypes.object.isRequired,
+};
 
 export default CreatePRsTableBodyRow;

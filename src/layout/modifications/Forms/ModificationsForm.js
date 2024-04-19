@@ -25,7 +25,7 @@ import {
 import { VGModificationsForm } from "./VGModificationsForm";
 import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
-import MatUiSelect from "../../MatUiSelect";
+import MatUISelect from "../../MatUISelect";
 
 export const ModificationsForm = ({
   entityType,
@@ -187,7 +187,7 @@ export const ModificationsForm = ({
 
   return (
     <div className="form">
-      <MatUiSelect
+      <MatUISelect
         collection={["Environment variables", "Secrets", "Key vault copies"]}
         inputLabel={"Select entity type of modification"}
         id={"entityType"}
