@@ -47,23 +47,6 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
     }
   };
 
-  const getSources = () => {
-    if (isModification() && sources.length > 0 && sourceType !== "Choose one") {
-      return (
-        <MatUISelect
-          collection={[...sources, "Choose one"]}
-          inputLabel={"Set source"}
-          id={"source"}
-          selectValue={source}
-          setSelectValue={setSource}
-          allOption={false}
-          required={true}
-        />
-      );
-    }
-    return <>-</>;
-  };
-
   const isModification = () => {
     return (
       pipelineRunModel.id !== undefined &&
@@ -83,9 +66,11 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       projectName,
       pat,
       pipeline.id,
-      source,
-      setLocalLoading
+      source
     );
+    setSource("Choose one");
+    setSourceType("Choose one");
+    setPipelineRunModel({});
   };
 
   const getActionSection = () => {
@@ -123,12 +108,23 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       </td>
       <td key={v4()}>
         {isModification() &&
-        pipelineRunModel.type === "source type" &&
-        localLoading ? (
-          <span>Loading...</span>
-        ) : (
-          getSources()
-        )}
+          pipelineRunModel.type === "source type" &&
+          sources.length === 0 &&
+          localLoading && <span>Loading...</span>}
+        {isModification() &&
+          sources.length > 0 &&
+          sourceType !== "Choose one" && (
+            <MatUISelect
+              collection={[...sources, "Choose one"]}
+              inputLabel={"Set source"}
+              id={"source"}
+              selectValue={source}
+              setSelectValue={setSource}
+              allOption={false}
+              required={true}
+            />
+          )}
+        {!isModification() && <>-</>}
       </td>
       <td key={v4()}>{getActionSection()}</td>
     </tr>

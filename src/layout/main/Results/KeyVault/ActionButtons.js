@@ -18,6 +18,7 @@ import {
   sendDeleteSecretRequest,
   sendRecoverSecretRequest,
 } from "../../../../services/SecretServices/SecretService";
+import MatUIButton from "../../../MatUIButton";
 
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);
@@ -40,7 +41,7 @@ const ActionButtons = () => {
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
-      userName: profileName
+      userName: profileName,
     };
 
     await sendDeleteSecretRequest(body, setLoading, setSecrets, setOnDelete);
@@ -53,44 +54,52 @@ const ActionButtons = () => {
       clientSecret: clientSecret,
       keyVaultName: keyVaultName,
       secretFilter: secretRegex,
-      userName: profileName
+      userName: profileName,
     };
 
     await sendRecoverSecretRequest(body, setLoading, setSecrets, setOnRecover);
   };
 
+  const topStyles = {
+    display: "flex",
+    flexDirection: "row", // Align children horizontally
+  };
+
   const getAreYouSureSection = () => {
     return (
       <div>
+        <br />
         <p>
           Are you sure you want to {onDelete ? "delete" : "recover"}{" "}
           {secrets.length > 1 ? "secrets?" : "secret?"}
         </p>
         <br />
-        <button
-          onClick={() => {
-            if (onDelete) {
-              deleteSecrets();
-            } else {
-              recoverSecrets();
-            }
-            setActionType("List");
-          }}
-        >
-          Yes
-        </button>
-        <button
-          onClick={() => {
-            if (onDelete) {
-              setOnDelete(false);
-            } else {
-              setOnRecover(false);
-            }
-            setSecrets([]);
-          }}
-        >
-          No
-        </button>
+        <div style={topStyles}>
+          <MatUIButton
+            id={"delete_or_recover"}
+            send={() => {
+              if (onDelete) {
+                deleteSecrets();
+              } else {
+                recoverSecrets();
+              }
+              setActionType("List");
+            }}
+            displayName={"Yes"}
+          />
+          <MatUIButton
+            id={"cancel_delete_or_recover"}
+            send={() => {
+              if (onDelete) {
+                setOnDelete(false);
+              } else {
+                setOnRecover(false);
+              }
+              setSecrets([]);
+            }}
+            displayName={"No"}
+          />
+        </div>
       </div>
     );
   };
@@ -101,9 +110,10 @@ const ActionButtons = () => {
 
   return (
     <>
-      {tableType === "Secrets" && secrets !== undefined && secrets.length > 0 && (
-        getKeyVaultSection()
-      )}
+      {tableType === "Secrets" &&
+        secrets !== undefined &&
+        secrets.length > 0 &&
+        getKeyVaultSection()}
     </>
   );
 };
