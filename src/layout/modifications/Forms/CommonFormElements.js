@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import PropTypes from "prop-types";
 
 import { Input, TextField } from "@mui/material";
-import MatUISelect from "../../MatUISelect";
+import MatUISelect from "../../MatUiSelect";
 
 const CommonFormElements = ({
   setUserName,
