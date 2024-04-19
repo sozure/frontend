@@ -152,6 +152,7 @@ const TagAndBuildTableBodyRow = ({
             selectValue={typeOfVersion}
             setSelectValue={setTypeOfVersionCustom}
             allOption={false}
+            required={true}
           />
         ) : (
           <>No pipeline or previous tag found.</>

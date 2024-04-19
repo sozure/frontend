@@ -45,6 +45,7 @@ const CommonFormElements = ({
         selectValue={selectedLimit}
         setSelectValue={setSelectedLimit}
         allOption={false}
+        required={true}
       />
       <Input
         type="text"

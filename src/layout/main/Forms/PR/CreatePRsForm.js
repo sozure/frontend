@@ -83,7 +83,7 @@ const CreatePRsForm = () => {
     setSourceBranch(value);
     setTargetBranch("");
     setTitle("");
-  }
+  };
 
   const sendPullRequestCreations = async () => {
     if (sourceBranch !== "" && targetBranch !== "" && title !== "") {
@@ -158,6 +158,7 @@ const CreatePRsForm = () => {
                   selectValue={sourceBranch}
                   setSelectValue={setCustomSourceBranch}
                   allOption={false}
+                  required={true}
                 />
                 <MatUISelect
                   collection={availableBranches.filter(
@@ -168,6 +169,7 @@ const CreatePRsForm = () => {
                   selectValue={targetBranch}
                   setSelectValue={setTargetBranch}
                   allOption={false}
+                  required={true}
                 />
               </div>
               <br />

@@ -22,6 +22,7 @@ const ProjectSelectMenu = ({ allOption, projectName, setProjectName }) => {
       selectValue={projectName}
       setSelectValue={setProjectName}
       allOption={allOption}
+      required={true}
     />
   );
 };

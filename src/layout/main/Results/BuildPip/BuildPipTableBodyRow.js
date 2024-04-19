@@ -57,6 +57,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
           selectValue={source}
           setSelectValue={setSource}
           allOption={false}
+          required={true}
         />
       );
     }
@@ -117,6 +118,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
           selectValue={sourceType}
           setSelectValue={setCustomSourceType}
           allOption={false}
+          required={true}
         />
       </td>
       <td key={v4()}>

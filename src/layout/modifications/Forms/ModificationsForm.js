@@ -194,6 +194,7 @@ export const ModificationsForm = ({
         selectValue={entityType}
         setSelectValue={setCustomEntityType}
         allOption={false}
+        required={true}
       />
       {getSpecificForm()}
 
