@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import {
   BuildPipelinesContext,
+  LatestTagsContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -20,9 +21,11 @@ const TagAndBuildForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines, setBuildPipelines } = useContext(BuildPipelinesContext);
   const { repositories, setRepositories } = useContext(RepositoriesContext);
+  const { setLatestTags } = useContext(LatestTagsContext);
 
   const send = async () => {
     setPaginationCounter(0);
+    setLatestTags([]);
     setRepositories([]);
     setLoading(true);
     await getRepositories(

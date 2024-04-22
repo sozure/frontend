@@ -7,6 +7,7 @@ import {
   getToastOnClose,
 } from "./CommonService";
 import { runBuildPipeline } from "./BuildPipelineService";
+import { sortVersions } from "./HelperFunctions/TagHelperFunctions";
 
 const baseUrl = `${getBaseUrl()}/GitVersion`;
 const toastMs = getToastOnClose();
@@ -37,7 +38,11 @@ const getBranches = async (
       if (status === 1) {
         setBranches(branches);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "branch_requesting", toastMs);
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "branch_requesting",
+          toastMs
+        );
       }
     })
     .catch((err) => {
@@ -71,6 +76,56 @@ const getTags = async (
       handleError2(err);
       setLoading(false);
     });
+};
+
+const queryLatestTag = async (
+  organization,
+  repositoryId,
+  pat,
+  setLoading,
+  helperLatestTags,
+  setLatestTags
+) => {
+  let url = `${baseUrl}/Tags`;
+  let body = getBody(organization, repositoryId, pat);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let tags = res.data.data;
+      if (status === 1) {
+        let latestTag = getLatestTag(tags);
+        helperLatestTags.push({ repositoryId: repositoryId, tag: latestTag });
+        setLatestTags(helperLatestTags);
+      } else {
+        toastErrorPopUp(getResponseMessage(status), "tag_requesting", toastMs);
+      }
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
+};
+
+const queryLatestTags = async (
+  organization,
+  pat,
+  repositories,
+  setLoading,
+  setLatestTags
+) => {
+  let result = [];
+  repositories.forEach(async (repository) => {
+    await queryLatestTag(
+      organization,
+      repository.repositoryId,
+      pat,
+      setLoading,
+      result,
+      setLatestTags
+    );
+  });
+  setLoading(false);
 };
 
 const createTag = async (
@@ -124,4 +179,12 @@ const createTag = async (
     });
 };
 
-export { getBranches, getTags, createTag };
+const getLatestTag = (tags) => {
+  if (tags.length === 0) {
+    return "";
+  }
+  let sortedTags = sortVersions(tags);
+  return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
+};
+
+export { getBranches, getTags, createTag, queryLatestTags };
