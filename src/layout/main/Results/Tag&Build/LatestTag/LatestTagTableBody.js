@@ -16,17 +16,12 @@ const LatestTagTableBody = ({ filteredRepositories }) => {
       {filteredRepositories
         .slice(paginationCounter, paginationCounter + number)
         .map((repository) => {
-          let latestTag = "";
-          latestTags.forEach((element) => {
-            if (element.repositoryId === repository.repositoryId) {
-              latestTag = element.tag;
-            }
-          });
+          let latestTag = latestTags[repository.repositoryId];
           return (
             <LatestTagTableBodyRow
               key={repository.repositoryId}
               repository={repository}
-              latestTag={latestTag}
+              latestTag={latestTag === undefined ? "-" : latestTag}
             />
           );
         })}

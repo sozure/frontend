@@ -7,7 +7,6 @@ import {
   getToastOnClose,
 } from "./CommonService";
 import { runBuildPipeline } from "./BuildPipelineService";
-import { sortVersions } from "./HelperFunctions/TagHelperFunctions";
 
 const baseUrl = `${getBaseUrl()}/GitVersion`;
 const toastMs = getToastOnClose();
@@ -16,6 +15,14 @@ const getBody = (organization, repositoryId, pat) => {
   return {
     organization: organization,
     repositoryId: repositoryId,
+    pat: pat,
+  };
+};
+
+const getBody2 = (organization, repositoryIds, pat) => {
+  return {
+    organization: organization,
+    repositoryIds: repositoryIds,
     pat: pat,
   };
 };
@@ -78,35 +85,6 @@ const getTags = async (
     });
 };
 
-const queryLatestTag = async (
-  organization,
-  repositoryId,
-  pat,
-  setLoading,
-  helperLatestTags,
-  setLatestTags
-) => {
-  let url = `${baseUrl}/Tags`;
-  let body = getBody(organization, repositoryId, pat);
-  axios
-    .post(url, body)
-    .then((res) => {
-      let status = res.data.status;
-      let tags = res.data.data;
-      if (status === 1) {
-        let latestTag = getLatestTag(tags);
-        helperLatestTags.push({ repositoryId: repositoryId, tag: latestTag });
-        setLatestTags(helperLatestTags);
-      } else {
-        toastErrorPopUp(getResponseMessage(status), "tag_requesting", toastMs);
-      }
-    })
-    .catch((err) => {
-      handleError2(err);
-      setLoading(false);
-    });
-};
-
 const queryLatestTags = async (
   organization,
   pat,
@@ -114,18 +92,29 @@ const queryLatestTags = async (
   setLoading,
   setLatestTags
 ) => {
-  let result = [];
-  repositories.forEach(async (repository) => {
-    await queryLatestTag(
-      organization,
-      repository.repositoryId,
-      pat,
-      setLoading,
-      result,
-      setLatestTags
-    );
-  });
-  setLoading(false);
+  let url = `${baseUrl}/LatestTags`;
+  let repositoryIds = repositories.map((repository) => repository.repositoryId);
+  let body = getBody2(organization, repositoryIds, pat);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let tags = res.data.data;
+      if (status === 1) {
+        setLatestTags(tags);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "latest_tags_requesting",
+          toastMs
+        );
+      }
+      setLoading(false);
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
 };
 
 const createTag = async (
@@ -136,7 +125,6 @@ const createTag = async (
   cancel
 ) => {
   let url = `${baseUrl}/Tag/Create`;
-  let repositoryName = model.repositoryName;
   let body = {
     organization: model.organization,
     project: model.project,
@@ -152,13 +140,13 @@ const createTag = async (
       let status = res.data.status;
       let tag = res.data.data;
       if (status === 1) {
-        let result = [];
-        latestTags.forEach((tag) => {
-          if (tag.name === repositoryName) {
-            let newTag = { name: repositoryName, tag: possibleNewTag };
-            result.push(newTag);
+        let result = {};
+        const keys = Object.keys(latestTags);
+        keys.forEach((key) => {
+          if (key === model.repositoryId) {
+            result[key] = possibleNewTag;
           } else {
-            result.push(tag);
+            result[key] = tag;
           }
         });
         setLatestTags(result);
@@ -177,14 +165,6 @@ const createTag = async (
     .catch((err) => {
       handleError2(err);
     });
-};
-
-const getLatestTag = (tags) => {
-  if (tags.length === 0) {
-    return "";
-  }
-  let sortedTags = sortVersions(tags);
-  return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
 };
 
 export { getBranches, getTags, createTag, queryLatestTags };

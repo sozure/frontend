@@ -129,7 +129,7 @@ function App() {
   const [environments, setEnvironments] = useState([]);
   const [buildPipelines, setBuildPipelines] = useState([]);
   const [repositories, setRepositories] = useState([]);
-  const [latestTags, setLatestTags] = useState([]);
+  const [latestTags, setLatestTags] = useState({});
   const [onSingleModification, setOnSingleModification] = useState({
     row: -1,
     operation: "",

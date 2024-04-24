@@ -6,7 +6,7 @@ const LatestTagTableBodyRow = ({ repository, latestTag }) => {
   return (
     <tr key={v4()}>
       <td key={repository.repositoryId}>{repository.repositoryName}</td>
-      <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
+      <td key={v4()}>{latestTag}</td>
     </tr>
   );
 };
