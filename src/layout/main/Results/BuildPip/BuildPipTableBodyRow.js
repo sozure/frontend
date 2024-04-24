@@ -124,7 +124,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
               required={true}
             />
           )}
-        {!isModification() && <>-</>}
+        {(!isModification() || (!localLoading && sources.length === 0)) && <>-</>}
       </td>
       <td key={v4()}>{getActionSection()}</td>
     </tr>

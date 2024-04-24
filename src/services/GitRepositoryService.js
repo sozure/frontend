@@ -36,11 +36,15 @@ const getRepositories = async (
           toastMs
         );
       }
-      setLoading(false);
+      if(setLoading !== undefined){
+        setLoading(false);
+      }
     })
     .catch((err) => {
       handleError2(err);
-      setLoading(false);
+      if(setLoading !== undefined){
+        setLoading(false);
+      }
     });
 };
 

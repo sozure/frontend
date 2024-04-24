@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   BuildPipelinesContext,
+  LatestTagsContext,
   PaginationCounterContext,
 } from "../../../../contexts/Contexts";
 import PropTypes from "prop-types";
@@ -10,8 +11,7 @@ const TagAndBuildTableBody = ({ filteredRepositories }) => {
   const number = 5;
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { buildPipelines } = useContext(BuildPipelinesContext);
-  
-  const [ latestTags, setLatestTags ] = useState([]);
+  const { latestTags } = useContext(LatestTagsContext);
 
   return (
     <tbody>
@@ -24,13 +24,13 @@ const TagAndBuildTableBody = ({ filteredRepositories }) => {
               result = pipeline;
             }
           });
+          let latestTag = latestTags[repository.repositoryId];
           return (
             <TagAndBuildTableBodyRow
               key={repository.repositoryId}
               repository={repository}
               pipeline={result}
-              latestTags={latestTags}
-              setLatestTags={setLatestTags}
+              latestTag={latestTag === undefined ? "-" : latestTag}
             />
           );
         })}

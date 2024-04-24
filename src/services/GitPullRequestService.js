@@ -29,7 +29,6 @@ const getPullRequests = async (
     .then(async (res) => {
       let status = res.data.status;
       let pullRequests = res.data.data;
-      console.log(res.data);
       if (status === 1) {
         await setPullRequests(pullRequests);
       } else {

@@ -19,6 +19,14 @@ const getBody = (organization, repositoryId, pat) => {
   };
 };
 
+const getBody2 = (organization, repositoryIds, pat) => {
+  return {
+    organization: organization,
+    repositoryIds: repositoryIds,
+    pat: pat,
+  };
+};
+
 const getBranches = async (
   organization,
   repositoryId,
@@ -37,7 +45,11 @@ const getBranches = async (
       if (status === 1) {
         setBranches(branches);
       } else {
-        toastErrorPopUp(getResponseMessage(status), "branch_requesting", toastMs);
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "branch_requesting",
+          toastMs
+        );
       }
     })
     .catch((err) => {
@@ -73,6 +85,38 @@ const getTags = async (
     });
 };
 
+const queryLatestTags = async (
+  organization,
+  pat,
+  repositories,
+  setLoading,
+  setLatestTags
+) => {
+  let url = `${baseUrl}/LatestTags`;
+  let repositoryIds = repositories.map((repository) => repository.repositoryId);
+  let body = getBody2(organization, repositoryIds, pat);
+  axios
+    .post(url, body)
+    .then((res) => {
+      let status = res.data.status;
+      let tags = res.data.data;
+      if (status === 1) {
+        setLatestTags(tags);
+      } else {
+        toastErrorPopUp(
+          getResponseMessage(status),
+          "latest_tags_requesting",
+          toastMs
+        );
+      }
+      setLoading(false);
+    })
+    .catch((err) => {
+      handleError2(err);
+      setLoading(false);
+    });
+};
+
 const createTag = async (
   model,
   latestTags,
@@ -81,7 +125,6 @@ const createTag = async (
   cancel
 ) => {
   let url = `${baseUrl}/Tag/Create`;
-  let repositoryName = model.repositoryName;
   let body = {
     organization: model.organization,
     project: model.project,
@@ -97,13 +140,13 @@ const createTag = async (
       let status = res.data.status;
       let tag = res.data.data;
       if (status === 1) {
-        let result = [];
-        latestTags.forEach((tag) => {
-          if (tag.name === repositoryName) {
-            let newTag = { name: repositoryName, tag: possibleNewTag };
-            result.push(newTag);
+        let result = {};
+        const keys = Object.keys(latestTags);
+        keys.forEach((key) => {
+          if (key === model.repositoryId) {
+            result[key] = possibleNewTag;
           } else {
-            result.push(tag);
+            result[key] = tag;
           }
         });
         setLatestTags(result);
@@ -124,4 +167,4 @@ const createTag = async (
     });
 };
 
-export { getBranches, getTags, createTag };
+export { getBranches, getTags, createTag, queryLatestTags };

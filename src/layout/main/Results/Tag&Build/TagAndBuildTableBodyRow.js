@@ -1,13 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
-import { createTag, getTags } from "../../../../services/GitVersionService";
+import { createTag } from "../../../../services/GitVersionService";
 import {
-  hasItem,
-  collectLatestTags,
-  sortVersions,
-} from "../../../../services/HelperFunctions/TagHelperFunctions";
-import {
+  LatestTagsContext,
   OrganizationContext,
   PATContext,
   ProfileNameContext,
@@ -17,71 +13,16 @@ import TagAndBuildTableBodyRowInput from "./TagAndBuildTableBodyRowInput";
 import MatUISelect from "../../../MatUISelect";
 import MatUIButton from "../../../MatUIButton";
 
-const TagAndBuildTableBodyRow = ({
-  repository,
-  pipeline,
-  latestTags,
-  setLatestTags,
-}) => {
+const TagAndBuildTableBodyRow = ({ repository, pipeline, latestTag }) => {
   const versionTypes = ["major", "minor", "patch"];
   const { projectName } = useContext(ProjectNameContext);
   const { profileName } = useContext(ProfileNameContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
+  const { latestTags, setLatestTags } = useContext(LatestTagsContext);
 
   const [typeOfVersion, setTypeOfVersion] = useState("");
   const [possibleNewTag, setPossibleNewTag] = useState("");
-  const [latestTag, setLatestTag] = useState("");
-  const [localLoading, setLocalLoading] = useState(false);
-  const [runAlready, setRunAlready] = useState(false);
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    let alreadyHasItem = hasItem(latestTags, repository);
-    if (
-      !alreadyHasItem.found &&
-      !runAlready &&
-      tags.length === 0 &&
-      pipeline !== undefined
-    ) {
-      setRunAlready(true);
-      getTags(
-        organizationName,
-        repository.repositoryId,
-        pat,
-        setLocalLoading,
-        setTags
-      );
-    } else if (alreadyHasItem.found) {
-      setLatestTag(alreadyHasItem.element.tag);
-    }
-  }, [
-    tags,
-    organizationName,
-    repository,
-    pat,
-    pipeline,
-    latestTag,
-    runAlready,
-    latestTags,
-  ]);
-
-  useEffect(() => {
-    let alreadyHasItem = hasItem(latestTags, repository);
-    if (tags.length > 0 && !alreadyHasItem.found) {
-      let tag = getLatestTag(tags);
-      setLatestTag(tag);
-      let result = collectLatestTags(latestTags, repository, tag);
-      setLatestTags(result);
-    } else if (alreadyHasItem.found) {
-      setLatestTag(alreadyHasItem.element.tag);
-    }
-  }, [tags, latestTags, setLatestTags, repository]);
-
-  const getLatestTag = (tags) => {
-    let sortedTags = sortVersions(tags);
-    return sortedTags[sortedTags.length - 1].replace("refs/tags/", "");
-  };
 
   const send = () => {
     if (pipeline !== undefined) {
@@ -100,7 +41,13 @@ const TagAndBuildTableBodyRow = ({
         description: description,
         repositoryName: repository.repositoryName,
       };
-      createTag(model, latestTags, possibleNewTag, setLatestTags, cancel);
+      createTag(
+        model,
+        latestTags,
+        possibleNewTag,
+        setLatestTags,
+        cancel
+      );
       cancel();
     }
   };
@@ -136,7 +83,7 @@ const TagAndBuildTableBodyRow = ({
   return (
     <tr key={v4()}>
       <td key={repository.repositoryId}>{repository.repositoryName}</td>
-      <td key={v4()}>{latestTag !== "" ? `${latestTag}` : "-"}</td>
+      <td key={v4()}>{latestTag}</td>
       <td key={v4()}>
         {pipeline !== undefined && latestTag !== "" ? (
           <MatUISelect
@@ -171,8 +118,6 @@ const TagAndBuildTableBodyRow = ({
             send={send}
             displayName={"Start create and build"}
           />
-        ) : localLoading ? (
-          <span>Loading...</span>
         ) : (
           <>-</>
         )}
@@ -184,8 +129,7 @@ const TagAndBuildTableBodyRow = ({
 TagAndBuildTableBodyRow.propTypes = {
   repository: PropTypes.object.isRequired,
   pipeline: PropTypes.object,
-  latestTags: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setLatestTags: PropTypes.func.isRequired,
+  latestTag: PropTypes.string.isRequired,
 };
 
 export default TagAndBuildTableBodyRow;

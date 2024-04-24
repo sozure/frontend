@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
+import TagBaseForm from "../TagBaseForm";
+import { getRepositories } from "../../../../../services/GitRepositoryService";
 import {
-  BuildPipelinesContext,
   LatestTagsContext,
   LoadingContext,
   OrganizationContext,
@@ -8,19 +9,15 @@ import {
   PaginationCounterContext,
   ProjectNameContext,
   RepositoriesContext,
-} from "../../../../contexts/Contexts";
-import { getRepositories } from "../../../../services/GitRepositoryService";
-import { getBuildPipelines } from "../../../../services/BuildPipelineService";
-import TagBaseForm from "./TagBaseForm";
-import { queryLatestTags } from "../../../../services/GitVersionService";
+} from "../../../../../contexts/Contexts";
+import { queryLatestTags } from "../../../../../services/GitVersionService";
 
-const TagAndBuildForm = () => {
+const LatestTagForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
   const { setLoading } = useContext(LoadingContext);
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const { buildPipelines, setBuildPipelines } = useContext(BuildPipelinesContext);
   const { repositories, setRepositories } = useContext(RepositoriesContext);
   const { setLatestTags } = useContext(LatestTagsContext);
 
@@ -36,17 +33,10 @@ const TagAndBuildForm = () => {
       undefined,
       setRepositories
     );
-    await getBuildPipelines(
-      organizationName,
-      projectName,
-      pat,
-      setBuildPipelines,
-      undefined
-    );
   };
 
   useEffect(() => {
-    if (repositories.length > 0 && buildPipelines.length > 0) {
+    if (repositories.length > 0) {
       queryLatestTags(
         organizationName,
         pat,
@@ -55,7 +45,7 @@ const TagAndBuildForm = () => {
         setLatestTags
       );
     }
-  }, [organizationName, pat, repositories, buildPipelines, setLatestTags, setLoading]);
+  }, [organizationName, pat, repositories, setLatestTags, setLoading]);
 
   return (
     <TagBaseForm
@@ -66,4 +56,4 @@ const TagAndBuildForm = () => {
   );
 };
 
-export default TagAndBuildForm;
+export default LatestTagForm;
