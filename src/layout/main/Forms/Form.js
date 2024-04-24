@@ -40,6 +40,7 @@ import TagAndBuildForm from "./Tag&Build/TagAndBuildForm";
 import PRForm from "./PR/PRForm";
 import CreatePRsForm from "./PR/CreatePRsForm";
 import CreatePRForm from "./PR/CreatePRForm";
+import LatestTagForm from "./Tag&Build/LatestTagForm.js/LatestTagForm";
 
 function Form() {
   const { actionType } = useContext(ActionTypeContext);
@@ -187,12 +188,24 @@ function Form() {
     if (!vgAuthorized || projects.length === 0) {
       return <VGAuthorizeForm />;
     }
-    return (
-      <>
-        <AuthorizedSection />
-        <TagAndBuildForm />
-      </>
-    );
+    switch (actionType) {
+      case "List":
+        return (
+          <>
+            <AuthorizedSection />
+            <LatestTagForm />
+          </>
+        );
+      case "CreateAndBuild":
+        return (
+          <>
+            <AuthorizedSection />
+            <TagAndBuildForm />
+          </>
+        );
+      default:
+        return <></>;
+    }
   };
 
   const getPRForm = () => {
@@ -216,7 +229,7 @@ function Form() {
           </>
         );
       case "Create":
-        return(
+        return (
           <>
             <AuthorizedSection />
             <CreatePRForm />

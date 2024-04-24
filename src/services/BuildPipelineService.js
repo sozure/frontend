@@ -24,7 +24,9 @@ const getBuildPipelines = async (
     project: project,
     pat: pat,
   };
-  setLoading(true);
+  if(setLoading !== undefined){
+    setLoading(true);
+  }
   axios
     .post(url, body)
     .then((res) => {
@@ -39,11 +41,15 @@ const getBuildPipelines = async (
           toastMs
         );
       }
-      setLoading(false);
+      if(setLoading !== undefined){
+        setLoading(false);
+      }
     })
     .catch((err) => {
-      setLoading(false);
       handleError2(err);
+      if(setLoading !== undefined){
+        setLoading(false);
+      }
     });
 };
 

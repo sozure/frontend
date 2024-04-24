@@ -7,6 +7,9 @@ import {
   ActionTypeContext,
   TableTypeContext,
   PaginationCounterContext,
+  RepositoriesContext,
+  LatestTagsContext,
+  BuildPipelinesContext,
 } from "../../../contexts/Contexts";
 import {
   getToastOnClose,
@@ -21,7 +24,11 @@ const MainSelects = () => {
   const { actionType, setActionType } = useContext(ActionTypeContext);
   const { tableType, setTableType } = useContext(TableTypeContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-
+  const { setRepositories } = useContext(RepositoriesContext);
+  const { setLatestTags } = useContext(LatestTagsContext);
+  const { setBuildPipelines } = useContext(
+    BuildPipelinesContext
+  );
   const toastMs = getToastOnClose();
 
   const handleActionTypeChange = (value) => {
@@ -32,11 +39,21 @@ const MainSelects = () => {
   };
 
   const setCustomActionType = (value) => {
+    setRepositories([]);
+    setBuildPipelines([]);
+    setLatestTags({});
     setPaginationCounter(0);
     setActionType(value);
   };
 
   const setCustomTableType = (value) => {
+    setOnAdd(false);
+    setOnDelete(false);
+    setOnUpdate(false);
+    setRepositories([]);
+    setBuildPipelines([]);
+    setLatestTags({});
+    setPaginationCounter(0);
     setActionType("");
     setTableType(value);
   };

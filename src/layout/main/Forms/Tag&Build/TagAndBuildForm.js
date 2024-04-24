@@ -12,6 +12,7 @@ import {
 import { getRepositories } from "../../../../services/GitRepositoryService";
 import { getBuildPipelines } from "../../../../services/BuildPipelineService";
 import TagBaseForm from "./TagBaseForm";
+import { queryLatestTags } from "../../../../services/GitVersionService";
 
 const TagAndBuildForm = () => {
   const { projectName, setProjectName } = useContext(ProjectNameContext);
@@ -25,14 +26,14 @@ const TagAndBuildForm = () => {
 
   const send = async () => {
     setPaginationCounter(0);
-    setLatestTags([]);
+    setLatestTags({});
     setRepositories([]);
     setLoading(true);
     await getRepositories(
       organizationName,
       projectName,
       pat,
-      setLoading,
+      undefined,
       setRepositories
     );
     await getBuildPipelines(
@@ -40,13 +41,21 @@ const TagAndBuildForm = () => {
       projectName,
       pat,
       setBuildPipelines,
-      setLoading
+      undefined
     );
   };
 
   useEffect(() => {
-    setLoading(false);
-  }, [buildPipelines, repositories, setLoading]);
+    if (repositories.length > 0 && buildPipelines.length > 0) {
+      queryLatestTags(
+        organizationName,
+        pat,
+        repositories,
+        setLoading,
+        setLatestTags
+      );
+    }
+  }, [organizationName, pat, repositories, buildPipelines, setLatestTags, setLoading]);
 
   return (
     <TagBaseForm
