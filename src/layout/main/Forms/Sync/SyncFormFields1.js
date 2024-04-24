@@ -27,6 +27,7 @@ const SyncFormFields1 = ({
   repositories,
   setConfigFile,
   setConfigFiles,
+  setProjectsWithPipeline,
   setConfigLocalLoading
 }) => {
   const { projectName } = useContext(ProjectNameContext);
@@ -40,12 +41,14 @@ const SyncFormFields1 = ({
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
   const customSetRepository = (value) => {
+    setProjectsWithPipeline([]);
     setRepository(value);
     setActualBranch("");
     setConfigFile("");
   };
 
   const customSetActualBranch = async (value) => {
+    setProjectsWithPipeline([]);
     setActualBranch(value);
     setConfigFile("");
     let repositoryId = getRepositoryId(repositories, repository);
@@ -94,6 +97,7 @@ SyncFormFields1.propTypes = {
     repositories: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     setConfigFile: PropTypes.func.isRequired,
     setConfigFiles: PropTypes.func.isRequired,
+    setProjectsWithPipeline: PropTypes.func.isRequired,
     setConfigLocalLoading: PropTypes.func.isRequired
 }
 

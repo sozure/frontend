@@ -156,6 +156,7 @@ const SyncForm = () => {
               repositories={repositories}
               setConfigFile={setConfigFile}
               setConfigFiles={setConfigFiles}
+              setProjectsWithPipeline={setProjectsWithPipeline}
               setConfigLocalLoading={setConfigLocalLoading}
               key={v4()}
             />
