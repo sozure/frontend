@@ -24,7 +24,7 @@ const getBuildPipelines = async (
     project: project,
     pat: pat,
   };
-  if(setLoading !== undefined){
+  if (setLoading !== undefined) {
     setLoading(true);
   }
   axios
@@ -41,13 +41,13 @@ const getBuildPipelines = async (
           toastMs
         );
       }
-      if(setLoading !== undefined){
+      if (setLoading !== undefined) {
         setLoading(false);
       }
     })
     .catch((err) => {
       handleError2(err);
-      if(setLoading !== undefined){
+      if (setLoading !== undefined) {
         setLoading(false);
       }
     });
@@ -75,7 +75,17 @@ const getRepositoryIdByBuildPipeline = async (
       let status = res.data.status;
       let id = res.data.data;
       if (status === 1) {
-        await callback(organization, id, pat, setLoading, setResult);
+        if (id !== "00000000-0000-0000-0000-000000000000") {
+          await callback(organization, id, pat, setLoading, setResult);
+        } else {
+          setLoading(false);
+          setResult([]);
+          toastErrorPopUp(
+            "Repository not found",
+            "repository_id_build_pipelines_requesting",
+            toastMs
+          );
+        }
       } else {
         toastErrorPopUp(
           getResponseMessage(status),
@@ -110,17 +120,9 @@ const runBuildPipeline = async (
       let status = res.data;
       let statusMessage = getResponseMessage(status);
       if (status === 1) {
-        toastSuccessPopUp(
-          statusMessage,
-          "run-build",
-          toastMs
-        );
+        toastSuccessPopUp(statusMessage, "run-build", toastMs);
       } else {
-        toastErrorPopUp(
-          statusMessage,
-          "run-build",
-          toastMs
-        );
+        toastErrorPopUp(statusMessage, "run-build", toastMs);
       }
     })
     .catch((err) => {
