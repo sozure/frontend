@@ -59,13 +59,13 @@ const SyncFormFields2 = ({
   const { setEnvironments } = useContext(EnvironmentsContext);
 
   useEffect(() => {
-    if(containingVGs.length > 0){
+    if (containingVGs.length > 0) {
       setLoading(false);
     }
   }, [containingVGs, setLoading]);
 
   useEffect(() => {
-    if(projectsWithPipeline.length > 0){
+    if (projectsWithPipeline.length > 0) {
       setPipelineLocalLoading(false);
     }
   }, [projectsWithPipeline, setPipelineLocalLoading]);
@@ -103,6 +103,11 @@ const SyncFormFields2 = ({
     await getVariables(body, setLoading, setSyncVariables);
   };
 
+  const setCustomConfigFile = (value) => {
+    setProjectsWithPipeline([]);
+    setConfigFile(value);
+  };
+
   const containsConfigFileText = (element, searchText) =>
     element.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 
@@ -110,17 +115,19 @@ const SyncFormFields2 = ({
     <>
       {repository !== "" && actualBranch !== "" && projectName !== "" && (
         <>
-          {configLocalLoading ? (
-            <p>Loading config files...</p>
-          ) : (
+          {configLocalLoading && <p>Loading config files...</p>}
+          {(!configLocalLoading && configFiles.length > 0) && (
             <SearchableSelectMenu
               containsText={containsConfigFileText}
               elementKey={"configFile"}
               elements={configFiles}
               inputLabel={"Select config file"}
               selectedElement={configFile}
-              setSelectedElement={setConfigFile}
+              setSelectedElement={setCustomConfigFile}
             />
+          )}
+          {!configLocalLoading && configFiles.length === 0 && (
+            <p>No config file found with specified rules.</p>
           )}
 
           {separator === "" && (
@@ -173,7 +180,8 @@ SyncFormFields2.propTypes = {
   separator: PropTypes.string.isRequired,
   setSeparator: PropTypes.func.isRequired,
   configFiles: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  projectsWithPipeline: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  projectsWithPipeline: PropTypes.arrayOf(PropTypes.string.isRequired)
+    .isRequired,
   actualBranch: PropTypes.string.isRequired,
   configLocalLoading: PropTypes.bool.isRequired,
   configFileName: PropTypes.string.isRequired,
