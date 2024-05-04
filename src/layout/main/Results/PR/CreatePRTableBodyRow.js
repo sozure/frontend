@@ -6,8 +6,7 @@ import { getBranches } from "../../../../services/GitVersionService";
 import {
   LoadingContext,
   OrganizationContext,
-  PATContext,
-  ProjectNameContext,
+  PATContext
 } from "../../../../contexts/Contexts";
 import SearchableSelectMenu from "../../../SearchableSelectMenu";
 import { createPullRequest } from "../../../../services/GitPullRequestService";
@@ -18,7 +17,6 @@ const CreatePRTableBodyRow = ({ repository }) => {
   const { organizationName } = useContext(OrganizationContext);
   const { pat } = useContext(PATContext);
   const { setLoading } = useContext(LoadingContext);
-  const { projectName } = useContext(ProjectNameContext);
 
   const [createPR, setCreatePR] = useState(false);
   const [autoComplete, setAutoComplete] = useState(false);
@@ -47,7 +45,7 @@ const CreatePRTableBodyRow = ({ repository }) => {
     let basicData = {
       organization: organizationName,
       pat: pat,
-      project: projectName,
+      project: repository.projectName,
     };
     await createPullRequest(
       basicData,
