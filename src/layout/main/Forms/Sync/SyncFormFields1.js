@@ -64,7 +64,7 @@ const SyncFormFields1 = ({
 
   return (
     <>
-      {projectName !== "" && (
+      {(projectName !== "" && repositories.length > 0) && (
         <SearchableSelectMenu
           containsText={containsRepoText}
           elementKey={"repositoryName"}
@@ -74,7 +74,7 @@ const SyncFormFields1 = ({
           setSelectedElement={customSetRepository}
         />
       )}{" "}
-      {repository !== "" && (
+      {(repository !== "" && branches.length > 0) && (
         <SearchableSelectMenu
           containsText={containsBranchText}
           elementKey={"branch"}
