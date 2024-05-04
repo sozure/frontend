@@ -9,8 +9,9 @@ const responseCodes = {
   5: "Project does not exist",
   6: "No subscriptions found",
   7: "File does not exist",
-  8: "Failed request. Consider a more specified query. Size of response message could be too large.",
-  9: "Unknown error",
+  8: "Failed request. Consider a more specified query. Size of response message could be too large",
+  9: "Branches do not exist in the Git repository",
+  10: "Unknown error",
 };
 
 const getToastOnClose = () => {
