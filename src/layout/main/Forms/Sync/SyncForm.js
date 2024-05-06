@@ -109,6 +109,7 @@ const SyncForm = () => {
 
   const customSetProject = (value) => {
     setProjectName(value);
+    setRepositories([]);
     setRepository("");
     setConfigFile("");
   };
@@ -153,6 +154,7 @@ const SyncForm = () => {
               actualBranch={actualBranch}
               setActualBranch={setActualBranch}
               branches={branches}
+              setBranches={setBranches}
               repositories={repositories}
               setConfigFile={setConfigFile}
               setConfigFiles={setConfigFiles}
