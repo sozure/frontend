@@ -24,6 +24,7 @@ const SyncFormFields1 = ({
   actualBranch,
   setActualBranch,
   branches,
+  setBranches,
   repositories,
   setConfigFile,
   setConfigFiles,
@@ -42,6 +43,7 @@ const SyncFormFields1 = ({
 
   const customSetRepository = (value) => {
     setProjectsWithPipeline([]);
+    setBranches([]);
     setRepository(value);
     setActualBranch("");
     setConfigFile("");
@@ -98,7 +100,8 @@ SyncFormFields1.propTypes = {
     setConfigFile: PropTypes.func.isRequired,
     setConfigFiles: PropTypes.func.isRequired,
     setProjectsWithPipeline: PropTypes.func.isRequired,
-    setConfigLocalLoading: PropTypes.func.isRequired
+    setConfigLocalLoading: PropTypes.func.isRequired,
+    setBranches: PropTypes.func.isRequired
 }
 
 export default SyncFormFields1;
