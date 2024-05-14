@@ -1,6 +1,7 @@
 # Use an official Node.js runtime as a parent image
 FROM node:20-alpine
 ENV REACT_APP_BACKEND_BASE_URL="http://localhost"
+ENV REACT_APP_LIBRARY_BACKEND_BASE_URL="http://localhost"
 ENV REACT_APP_BACKEND_PORT_NUM="5000"
 ENV REACT_APP_TENANT_ID=""
 ENV REACT_APP_CLIENT_ID=""
