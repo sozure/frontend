@@ -4,6 +4,7 @@ import ProjectSelectMenu from "../../../ProjectSelectMenu";
 import { Input } from "@mui/material";
 import {
   AutocompleteContext,
+  ForceCompleteContext,
   LoadingContext,
   OrganizationContext,
   PATContext,
@@ -34,6 +35,7 @@ const CreatePRsForm = () => {
   const { selectedRepositories } = useContext(SelectedRepositoriesContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { autocomplete } = useContext(AutocompleteContext);
+  const { forceComplete } = useContext(ForceCompleteContext);
 
   const [chosenRepositoryIds, setChosenRepositoryIds] = useState([]);
   const [chosenRepositoryNames, setChosenRepositoryNames] = useState([]);
@@ -98,7 +100,8 @@ const CreatePRsForm = () => {
         sourceBranch,
         targetBranch,
         title,
-        autocomplete
+        autocomplete,
+        forceComplete
       );
       setRepositories([]);
     } else {

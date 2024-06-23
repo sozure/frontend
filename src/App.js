@@ -52,6 +52,7 @@ import {
   SelectedRepositoriesContext,
   AutocompleteContext,
   LatestTagsContext,
+  ForceCompleteContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -115,6 +116,7 @@ function App() {
   const [containingVGs, setContainingVGs] = useState([]);
   const [vgAuthorized, setVgAuthorized] = useState(false);
   const [autocomplete, setAutocomplete] = useState(false);
+  const [forceComplete, setForceComplete] = useState(false);
   const [kvAuthorized, setKvAuthorized] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [defaultSubscription, setDefaultSubscription] = useState("");
@@ -613,6 +615,18 @@ function App() {
                                                                                                         ]
                                                                                                       )}
                                                                                                     >
+                                                                                                      <ForceCompleteContext.Provider
+                                                                                                      value={useMemo(
+                                                                                                        () => ({
+                                                                                                          forceComplete,
+                                                                                                          setForceComplete,
+                                                                                                        }),
+                                                                                                        [
+                                                                                                          forceComplete,
+                                                                                                          setForceComplete,
+                                                                                                        ]
+                                                                                                      )}
+                                                                                                    >
                                                                                                       <Welcome />
                                                                                                       <BrowserRouter>
                                                                                                         <Routes>
@@ -630,6 +644,7 @@ function App() {
                                                                                                           />
                                                                                                         </Routes>
                                                                                                       </BrowserRouter>
+                                                                                                      </ForceCompleteContext.Provider>
                                                                                                     </LatestTagsContext.Provider>
                                                                                                   </AutocompleteContext.Provider>
                                                                                                 </SelectedRepositoriesContext.Provider>
