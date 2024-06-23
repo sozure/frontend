@@ -48,4 +48,5 @@ export const PullRequestsContext = createContext();
 export const AllRepositoryChecked = createContext();
 export const SelectedRepositoriesContext = createContext();
 export const AutocompleteContext = createContext();
+export const ForceCompleteContext = createContext();
 export const LatestTagsContext = createContext();
