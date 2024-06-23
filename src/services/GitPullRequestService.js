@@ -52,7 +52,8 @@ const createPullRequests = async (
   sourceBranch,
   targetBranch,
   title,
-  autocomplete
+  autocomplete,
+  forceComplete
 ) => {
   let organization = basicData["organization"];
   let pat = basicData["pat"];
@@ -65,7 +66,8 @@ const createPullRequests = async (
     sourceBranch: sourceBranch,
     targetBranch: targetBranch,
     title: title,
-    autoComplete: autocomplete
+    autoComplete: autocomplete,
+    forceComplete: forceComplete
   };
   axios
     .post(`${baseUrl}/createmultiple`, body)
