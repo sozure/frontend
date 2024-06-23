@@ -3,6 +3,7 @@ import TableHeader from "../TableHeader";
 import PaginationButtons from "../PaginationButtons";
 import {
   AutocompleteContext,
+  ForceCompleteContext,
   PaginationCounterContext,
   SelectedRepositoriesContext,
   VGAuthorizedContext,
@@ -20,7 +21,8 @@ const TagBaseTable = ({
 }) => {
   const { vgAuthorized } = useContext(VGAuthorizedContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
-  const { setAutocomplete } = useContext(AutocompleteContext);
+  const { autocomplete, setAutocomplete } = useContext(AutocompleteContext);
+  const { forceComplete, setForceComplete } = useContext(ForceCompleteContext);
 
   const { selectedRepositories, setSelectedRepositories } = useContext(
     SelectedRepositoriesContext
@@ -63,6 +65,16 @@ const TagBaseTable = ({
     }
   };
 
+  const customSetAutocomplete = (value) => {
+    setAutocomplete(value);
+    setForceComplete(false);
+  } 
+
+  const customSetForceComplete = (value) => {
+    setForceComplete(value);
+    setAutocomplete(false);
+  } 
+
   const topStyles = {
     display: "flex",
     flexDirection: "row", // Align children horizontally
@@ -100,7 +112,15 @@ const TagBaseTable = ({
                   id={"tagBaseTableAutoCompleteCheckbox"}
                   name={"tagBaseTableAutoCompleteCheckbox"}
                   label={"Autocomplete pull requests"}
-                  setValue={setAutocomplete}
+                  value={autocomplete}
+                  setValue={customSetAutocomplete}
+                />
+                <MatUICheckbox
+                  id={"tagBaseTableForceCompleteCheckbox"}
+                  name={"tagBaseTableForceCompleteCheckbox"}
+                  label={"Force complete pull requests"}
+                  value={forceComplete}
+                  setValue={customSetForceComplete}
                 />
                 </div>
               )}
