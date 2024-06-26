@@ -25,6 +25,7 @@ import {
 } from "../../../../services/SecretServices/SecretInlineService";
 import { setOnSingleModificationBack } from "../../../../services/CommonService";
 import CopyButton from "../../CopyButton";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
   const { onSingleModification, setOnSingleModification } = useContext(
@@ -186,8 +187,8 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
         {secretValue === null || secretValue === undefined
           ? getRecoverSection()
           : getActionSection()}
-        {(localLoading.row === index && localLoading.loading) && (
-          <span>Loading...</span>
+        {localLoading.row === index && localLoading.loading && (
+          <CustomClipLoader />
         )}
       </td>
     );
@@ -202,7 +203,7 @@ const KVResultTableRow = ({ keyVault, secretName, secretValue, index }) => {
       ) : (
         getSecretValue()
       )}
-      {(!onDelete && !onRecover) && getButtonSection()}
+      {!onDelete && !onRecover && getButtonSection()}
     </tr>
   );
 };

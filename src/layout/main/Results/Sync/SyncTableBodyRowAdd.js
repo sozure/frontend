@@ -17,6 +17,7 @@ import {
 } from "../../../../services/CommonService";
 import PropTypes from "prop-types";
 import MatUIButton from "../../../MatUIButton";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
   const [modification, setModification] = useState({});
@@ -117,7 +118,7 @@ const SyncTableBodyRowAdd = ({ variable, potentialMissingVgs }) => {
     );
   };
 
-  return <>{localLoading ? <>Loading...</> : getAddSection()}</>;
+  return <>{localLoading ? <CustomClipLoader /> : getAddSection()}</>;
 };
 
 SyncTableBodyRowAdd.propTypes = {

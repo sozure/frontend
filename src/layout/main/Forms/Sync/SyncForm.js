@@ -16,6 +16,7 @@ import SyncTableForm from "../../Results/Sync/SyncTableForm";
 import { ToastContainer } from "react-toastify";
 import SyncFormFields2 from "./SyncFormFields2";
 import SyncFormFields1 from "./SyncFormFields1";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const getRepositoryId = (repositories, repository) => {
   let repositoryId = "";
@@ -183,11 +184,7 @@ const SyncForm = () => {
           </>
         )}
       </div>
-      {pipelineLocalLoading ? (
-        <div className="form"><p>Loading azure projects with relevant release pipelines...</p></div>
-      ) : (
-        getSyncTableForm()
-      )}
+      {pipelineLocalLoading ? <CustomClipLoader /> : getSyncTableForm()}
       <ToastContainer />
     </>
   );

@@ -18,6 +18,7 @@ import {
 import { getProjectsWithReleasePipeline } from "../../../../services/ReleasePipelineService";
 import { getVariables } from "../../../../services/GitRepositoryService";
 import PropTypes from "prop-types";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const getRepositoryId = (repositories, repository) => {
   let repositoryId = "";
@@ -115,8 +116,8 @@ const SyncFormFields2 = ({
     <>
       {repository !== "" && actualBranch !== "" && projectName !== "" && (
         <>
-          {configLocalLoading && <p>Loading config files...</p>}
-          {(!configLocalLoading && configFiles.length > 0) && (
+          {configLocalLoading && <CustomClipLoader />}
+          {!configLocalLoading && configFiles.length > 0 && (
             <SearchableSelectMenu
               containsText={containsConfigFileText}
               elementKey={"configFile"}
