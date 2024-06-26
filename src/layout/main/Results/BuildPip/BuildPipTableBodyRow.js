@@ -13,6 +13,7 @@ import { getBranches, getTags } from "../../../../services/GitVersionService";
 import MatUIButton from "../../../MatUIButton";
 import PropTypes from "prop-types";
 import MatUISelect from "../../../MatUISelect";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const BuildPipTableBodyRow = ({ pipeline }) => {
   const { organizationName } = useContext(OrganizationContext);
@@ -85,7 +86,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
       pipelineRunModel.type === "run pipeline" &&
       localLoading
     ) {
-      return <span>Loading...</span>;
+      return <CustomClipLoader />;
     }
     return (
       <MatUIButton id={"run_button"} send={send} displayName={"Run pipeline"} />
@@ -110,7 +111,7 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
         {isModification() &&
           pipelineRunModel.type === "source type" &&
           sources.length === 0 &&
-          localLoading && <span>Loading...</span>}
+          localLoading && <CustomClipLoader />}
         {isModification() &&
           sources.length > 0 &&
           sourceType !== "Choose one" && (
@@ -124,7 +125,9 @@ const BuildPipTableBodyRow = ({ pipeline }) => {
               required={true}
             />
           )}
-        {(!isModification() || (!localLoading && sources.length === 0)) && <>-</>}
+        {(!isModification() || (!localLoading && sources.length === 0)) && (
+          <>-</>
+        )}
       </td>
       <td key={v4()}>{getActionSection()}</td>
     </tr>

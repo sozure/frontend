@@ -21,6 +21,7 @@ import {
 } from "../../../../services/CommonService";
 import OtherVGTableRowButton from "./OtherVGTableRowButton";
 import CopyButton from "../../CopyButton";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const OtherVGTableRowButtons = ({
   variableGroup,
@@ -160,7 +161,7 @@ const OtherVGTableRowButtons = ({
         </div>
       )}
       {(localLoading.row === index && localLoading.loading) && (
-        <span>Loading...</span>
+        <CustomClipLoader /> 
       )}
     </td>
   );

@@ -4,7 +4,10 @@ import { v4 } from "uuid";
 import ContainingVGSelectMenu from "./ContainingVGSelectMenu";
 import SyncTableBodyInput from "./SyncTableBodyInput";
 import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import { getToastOnClose, toastErrorPopUp } from "../../../../services/CommonService";
+import {
+  getToastOnClose,
+  toastErrorPopUp,
+} from "../../../../services/CommonService";
 import {
   ConfigFileExtensionContext,
   ContainingVGsContext,
@@ -17,6 +20,7 @@ import {
 } from "../../../../contexts/Contexts";
 import { syncVariableGroup } from "../../../../services/VariableGroupServices/VariableGroupService";
 import SyncTableBodyRowAdd from "./SyncTableBodyRowAdd";
+import CustomClipLoader from "../../../CustomClipLoader";
 
 const SyncTableBodyRow = ({
   variable,
@@ -120,7 +124,7 @@ const SyncTableBodyRow = ({
 
   const getActionSection = (variable) => {
     return localLoading && variable === newVariableKey ? (
-      <span>Loading...</span>
+      <CustomClipLoader />
     ) : (
       getActionButtons(variable)
     );
@@ -206,7 +210,8 @@ const SyncTableBodyRow = ({
       <td key={v4()}>
         {containingVGsProject === "" ||
         variableType === "AzureKeyVault" ||
-        potentialMissingVgs.length === 0 || vgs.length >= environments.length ? (
+        potentialMissingVgs.length === 0 ||
+        vgs.length >= environments.length ? (
           <p>-</p>
         ) : (
           <SyncTableBodyRowAdd
