@@ -53,6 +53,7 @@ import {
   AutocompleteContext,
   LatestTagsContext,
   ForceCompleteContext,
+  VGChangeExceptionsContext,
 } from "./contexts/Contexts";
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
@@ -128,6 +129,7 @@ function App() {
   const [paginationCounter, setPaginationCounter] = useState(0);
   const [profileName, setProfileName] = useState("");
   const [syncVariables, setSyncVariables] = useState([]);
+  const [vgChangeExceptions, setVgChangeExceptions] = useState([]);
   const [environments, setEnvironments] = useState([]);
   const [buildPipelines, setBuildPipelines] = useState([]);
   const [repositories, setRepositories] = useState([]);
@@ -616,34 +618,47 @@ function App() {
                                                                                                       )}
                                                                                                     >
                                                                                                       <ForceCompleteContext.Provider
-                                                                                                      value={useMemo(
-                                                                                                        () => ({
-                                                                                                          forceComplete,
-                                                                                                          setForceComplete,
-                                                                                                        }),
-                                                                                                        [
-                                                                                                          forceComplete,
-                                                                                                          setForceComplete,
-                                                                                                        ]
-                                                                                                      )}
-                                                                                                    >
-                                                                                                      <Welcome />
-                                                                                                      <BrowserRouter>
-                                                                                                        <Routes>
-                                                                                                          <Route
-                                                                                                            path="/"
-                                                                                                            element={
-                                                                                                              <Main />
-                                                                                                            }
-                                                                                                          />
-                                                                                                          <Route
-                                                                                                            path="/changes"
-                                                                                                            element={
-                                                                                                              <Modifications />
-                                                                                                            }
-                                                                                                          />
-                                                                                                        </Routes>
-                                                                                                      </BrowserRouter>
+                                                                                                        value={useMemo(
+                                                                                                          () => ({
+                                                                                                            forceComplete,
+                                                                                                            setForceComplete,
+                                                                                                          }),
+                                                                                                          [
+                                                                                                            forceComplete,
+                                                                                                            setForceComplete,
+                                                                                                          ]
+                                                                                                        )}
+                                                                                                      >
+                                                                                                        <VGChangeExceptionsContext.Provider
+                                                                                                          value={useMemo(
+                                                                                                            () => ({
+                                                                                                              vgChangeExceptions,
+                                                                                                              setVgChangeExceptions,
+                                                                                                            }),
+                                                                                                            [
+                                                                                                              vgChangeExceptions,
+                                                                                                              setVgChangeExceptions,
+                                                                                                            ]
+                                                                                                          )}
+                                                                                                        >
+                                                                                                          <Welcome />
+                                                                                                          <BrowserRouter>
+                                                                                                            <Routes>
+                                                                                                              <Route
+                                                                                                                path="/"
+                                                                                                                element={
+                                                                                                                  <Main />
+                                                                                                                }
+                                                                                                              />
+                                                                                                              <Route
+                                                                                                                path="/changes"
+                                                                                                                element={
+                                                                                                                  <Modifications />
+                                                                                                                }
+                                                                                                              />
+                                                                                                            </Routes>
+                                                                                                          </BrowserRouter>
+                                                                                                        </VGChangeExceptionsContext.Provider>
                                                                                                       </ForceCompleteContext.Provider>
                                                                                                     </LatestTagsContext.Provider>
                                                                                                   </AutocompleteContext.Provider>

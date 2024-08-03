@@ -5,7 +5,7 @@ import { v4 } from "uuid";
 import {
   sendDeleteRequest,
   sendUpdateRequest,
-} from "../../../../services/VariableGroupServices/VariableGroupInlineService";
+} from "../../../../../../services/VariableGroupServices/VariableGroupInlineService";
 import {
   LocalLoadingContext,
   OrganizationContext,
@@ -14,16 +14,16 @@ import {
   SingleModificationContext,
   SingleOperationContext,
   VariablesContext,
-} from "../../../../contexts/Contexts";
+} from "../../../../../../contexts/Contexts";
 import {
   setOnSingleModificationBack,
   setSingleOperationBack,
-} from "../../../../services/CommonService";
-import OtherVGTableRowButton from "./OtherVGTableRowButton";
-import CopyButton from "../../CopyButton";
-import CustomClipLoader from "../../../CustomClipLoader";
+} from "../../../../../../services/CommonService";
+import CopyButton from "../../../../CopyButton";
+import CustomClipLoader from "../../../../../CustomClipLoader";
+import GetVGTableRowButton from "./GetVGTableRowButton";
 
-const OtherVGTableRowButtons = ({
+const GetVGTableRowButtons = ({
   variableGroup,
   isSecretVariableGroup,
   index,
@@ -53,6 +53,7 @@ const OtherVGTableRowButtons = ({
       vgValueRegex: variableGroup.variableGroupValue,
       keyRegex: variableGroup.variableGroupKey,
       secretIncluded: false,
+      keyIsRegex: false
     };
     setLocalLoading({ loading: true, row: index });
     await sendUpdateRequest(
@@ -132,7 +133,7 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <OtherVGTableRowButton
+            <GetVGTableRowButton
               variableGroup={variableGroup}
               onSingleModification={onSingleModification}
               sendAction={sendUpdate}
@@ -147,7 +148,7 @@ const OtherVGTableRowButtons = ({
           onSingleModification.row === index ? (
             <></>
           ) : (
-            <OtherVGTableRowButton
+            <GetVGTableRowButton
               variableGroup={variableGroup}
               onSingleModification={onSingleModification}
               localLoading={localLoading}
@@ -167,11 +168,11 @@ const OtherVGTableRowButtons = ({
   );
 };
 
-OtherVGTableRowButtons.propTypes = {
+GetVGTableRowButtons.propTypes = {
   inputKey: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   variableGroup: PropTypes.object.isRequired,
   isSecretVariableGroup: PropTypes.bool.isRequired,
 };
 
-export default OtherVGTableRowButtons;
+export default GetVGTableRowButtons;

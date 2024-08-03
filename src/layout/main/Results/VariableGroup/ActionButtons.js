@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   sendDeleteRequest,
   sendAddRequest,
@@ -17,8 +17,11 @@ import {
   ActionTypeContext,
   VariableValueRegexContext,
   VariableGroupsContext,
+  PaginationCounterContext,
+  VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 import MatUIButton from "../../../MatUIButton";
+import { getFilteredVariableGroupsByExceptions } from "../../../../services/HelperFunctions/ExceptionHelperFunctions";
 
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);
@@ -34,6 +37,17 @@ const ActionButtons = () => {
   const { newKey } = useContext(VariableNewKeyContext);
   const { newValue } = useContext(VariableNewValueContext);
   const { valueRegex } = useContext(VariableValueRegexContext);
+  const { setPaginationCounter } = useContext(PaginationCounterContext);
+  const { vgChangeExceptions, setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
+
+  const [filteredVariableGroupsByExceptions, setFilteredVariableGroupsByExceptions] = useState([variableGroups]);
+
+  useEffect(() => {
+    if (variableGroups.length > 0) {
+      let result = getFilteredVariableGroupsByExceptions(variableGroups, vgChangeExceptions);
+      setFilteredVariableGroupsByExceptions(result);
+    }
+  }, [variableGroups, vgChangeExceptions]);
 
   const deleteVariables = async () => {
     await sendDeleteRequest(message, "", setOnDelete);
@@ -67,7 +81,7 @@ const ActionButtons = () => {
 
   const getActionSegment = () => {
     return (
-      (onDelete || onAdd || onUpdate) && (
+      ((onDelete || onAdd || onUpdate) && filteredVariableGroupsByExceptions.length > 0) && (
         <div>
           {getAreYouSureParagraph()}
           <br />
@@ -85,6 +99,8 @@ const ActionButtons = () => {
                 setActionType("List");
                 setVariables([]);
                 setVariableGroups([]);
+                setPaginationCounter(0);
+                setVgChangeExceptions([]);
               }}
               displayName={"Yes"}
             />
@@ -100,6 +116,8 @@ const ActionButtons = () => {
                 }
                 setVariables([]);
                 setVariableGroups([]);
+                setPaginationCounter(0);
+                setVgChangeExceptions([]);
               }}
               displayName={"No"}
             />
@@ -112,7 +130,7 @@ const ActionButtons = () => {
   return (
     <>
       {tableType === "Variable Groups" &&
-        (variables.length > 0 || variableGroups.length > 0) &&
+        (variables.length > 0 || filteredVariableGroupsByExceptions.length > 0) &&
         getActionSegment()}
     </>
   );
