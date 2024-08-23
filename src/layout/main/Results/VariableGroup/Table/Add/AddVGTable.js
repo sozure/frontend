@@ -4,12 +4,18 @@ import { v4 } from "uuid";
 
 import AddVGTableRow from "./AddVGTableRow";
 import PaginationButtons from "../../../PaginationButtons";
-import { PaginationCounterContext, VariableGroupsContext, VGChangeExceptionsContext } from "../../../../../../contexts/Contexts";
+import {
+  PaginationCounterContext,
+  VariableGroupsContext,
+  VGChangeExceptionsContext,
+} from "../../../../../../contexts/Contexts";
 import TableHeader from "../../../TableHeader";
 import { getFilteredVariableGroupsByExceptions } from "../../../../../../services/HelperFunctions/ExceptionHelperFunctions";
 
 const AddVGTable = () => {
-  const { paginationCounter } = useContext(PaginationCounterContext);
+  const { paginationCounter, setPaginationCounter } = useContext(
+    PaginationCounterContext
+  );
   const { variableGroups } = useContext(VariableGroupsContext);
   const { vgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
@@ -17,11 +23,38 @@ const AddVGTable = () => {
     filteredVariableGroupsByExceptions,
     setFilteredVariableGroupsByExceptions,
   ] = useState([variableGroups]);
+
   const number = 5;
+
+  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
+
+  useEffect(() => {
+    if (filteredVariableGroupsByExceptions.length !== 0) {
+      let tempPartOfVariableGroups = filteredVariableGroupsByExceptions.slice(
+        paginationCounter,
+        paginationCounter + number
+      );
+
+      if (tempPartOfVariableGroups.length === 0) {
+        let decreasedPaginationCounter =
+          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
+        setPaginationCounter(decreasedPaginationCounter);
+      }
+
+      setPartOfVariableGroups(tempPartOfVariableGroups);
+    }
+  }, [
+    filteredVariableGroupsByExceptions,
+    paginationCounter,
+    setPaginationCounter,
+  ]);
 
   useEffect(() => {
     if (variableGroups.length !== 0) {
-      let filteredVariableGroups = getFilteredVariableGroupsByExceptions(variableGroups, vgChangeExceptions);
+      let filteredVariableGroups = getFilteredVariableGroupsByExceptions(
+        variableGroups,
+        vgChangeExceptions
+      );
       setFilteredVariableGroupsByExceptions(filteredVariableGroups);
     }
   }, [
@@ -47,13 +80,11 @@ const AddVGTable = () => {
             />
 
             <tbody>
-              {filteredVariableGroupsByExceptions
-                .slice(paginationCounter, paginationCounter + number)
-                .map((variableGroup) => {
-                  return (
-                    <AddVGTableRow key={v4()} variableGroup={variableGroup} />
-                  );
-                })}
+              {partOfVariableGroups.map((variableGroup) => {
+                return (
+                  <AddVGTableRow key={v4()} variableGroup={variableGroup} />
+                );
+              })}
             </tbody>
           </table>
           <PaginationButtons collection={filteredVariableGroupsByExceptions} />

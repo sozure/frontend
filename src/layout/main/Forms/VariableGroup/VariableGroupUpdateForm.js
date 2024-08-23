@@ -16,6 +16,7 @@ import {
   VariablesContext,
   VariableValueRegexContext,
   ProfileNameContext,
+  VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -48,6 +49,7 @@ const VariableGroupUpdateForm = () => {
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { profileName } = useContext(ProfileNameContext);
+  const { setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
   const [keyIsRegex, setKeyIsRegex] = useState(false);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
@@ -77,15 +79,20 @@ const VariableGroupUpdateForm = () => {
     keyIsRegex,
     setKeyIsRegex,
     setMessage,
-    profileName
+    profileName,
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "updateform", toastMs);
+    let incorrectFill = checkRequiredInputs(
+      mandatoryFields,
+      "updateform",
+      toastMs
+    );
     if (!incorrectFill) {
       await sendListVariablesRequest(message, valueRegex, setVariables);
       setOnUpdate(true);
       setPaginationCounter(0);
+      setVgChangeExceptions([]);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
     }
@@ -131,12 +138,16 @@ const VariableGroupUpdateForm = () => {
       <br />
       <br />
       <MatUICheckbox
-          id={"keyIsRegexCheckbox"}
-          name={"keyIsRegexCheckbox"}
-          label={"Key is regex"}
-          setValue={setKeyIsRegex}
-        />
-      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
+        id={"keyIsRegexCheckbox"}
+        name={"keyIsRegexCheckbox"}
+        label={"Key is regex"}
+        setValue={setKeyIsRegex}
+      />
+      <MatUIButton
+        id={"submit_button"}
+        send={send}
+        displayName={"Send request"}
+      />
       <ToastContainer />
     </div>
   );

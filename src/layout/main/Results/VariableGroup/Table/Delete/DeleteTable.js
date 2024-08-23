@@ -14,13 +14,17 @@ import DeleteVGTableRow from "./DeleteVGTableRow";
 
 function DeleteVGTable() {
   const { variables } = useContext(VariablesContext);
-  const { paginationCounter } = useContext(PaginationCounterContext);
+  const { paginationCounter, setPaginationCounter } = useContext(
+    PaginationCounterContext
+  );
   const { vgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
   const [
     filteredVariableGroupsByExceptions,
     setFilteredVariableGroupsByExceptions,
   ] = useState([variables]);
+
+  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
 
   const number = 5;
 
@@ -32,7 +36,30 @@ function DeleteVGTable() {
       );
       setFilteredVariableGroupsByExceptions(filteredVariableGroups);
     }
-  }, [variables, vgChangeExceptions]);
+  }, [variables, vgChangeExceptions, setFilteredVariableGroupsByExceptions]);
+
+  useEffect(() => {
+    if (filteredVariableGroupsByExceptions.length !== 0) {
+      let tempPartOfVariableGroups = filteredVariableGroupsByExceptions.slice(
+        paginationCounter,
+        paginationCounter + number
+      );
+
+      console.log("tempPartOfVariableGroups: ", tempPartOfVariableGroups);
+
+      if (tempPartOfVariableGroups.length === 0) {
+        let decreasedPaginationCounter =
+          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
+        setPaginationCounter(decreasedPaginationCounter);
+      }
+
+      setPartOfVariableGroups(tempPartOfVariableGroups);
+    }
+  }, [
+    filteredVariableGroupsByExceptions,
+    paginationCounter,
+    setPaginationCounter,
+  ]);
 
   const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
     const isMatch = (variableG) =>
@@ -51,7 +78,7 @@ function DeleteVGTable() {
       ) : (
         <>
           <h2>
-            Matched variables (Found variables:{" "}
+            Variables to be deleted (Total:{" "}
             {filteredVariableGroupsByExceptions.length})
           </h2>
           <br />
@@ -67,31 +94,26 @@ function DeleteVGTable() {
             />
 
             <tbody>
-              {filteredVariableGroupsByExceptions
-                .slice(paginationCounter, paginationCounter + number)
-                .map((variableGroup) => {
-                  let variableGroupName = variableGroup.variableGroupName;
-                  let variableGroupValue = variableGroup.variableGroupValue;
-                  let isSecretVariableGroup = variableGroup.secretVariableGroup;
-                  let project = variableGroup.project;
-                  let keyVaultName = variableGroup.keyVaultName;
-                  let index = findIndexOfVariableGroup(
-                    variables,
-                    variableGroup
-                  );
-                  return (
-                    <DeleteVGTableRow
-                      key={v4()}
-                      variableGroup={variableGroup}
-                      variableGroupName={variableGroupName}
-                      variableGroupValue={variableGroupValue}
-                      project={project}
-                      isSecretVariableGroup={isSecretVariableGroup}
-                      keyVaultName={keyVaultName}
-                      index={index}
-                    />
-                  );
-                })}
+              {partOfVariableGroups.map((variableGroup) => {
+                let variableGroupName = variableGroup.variableGroupName;
+                let variableGroupValue = variableGroup.variableGroupValue;
+                let isSecretVariableGroup = variableGroup.secretVariableGroup;
+                let project = variableGroup.project;
+                let keyVaultName = variableGroup.keyVaultName;
+                let index = findIndexOfVariableGroup(variables, variableGroup);
+                return (
+                  <DeleteVGTableRow
+                    key={v4()}
+                    variableGroup={variableGroup}
+                    variableGroupName={variableGroupName}
+                    variableGroupValue={variableGroupValue}
+                    project={project}
+                    isSecretVariableGroup={isSecretVariableGroup}
+                    keyVaultName={keyVaultName}
+                    index={index}
+                  />
+                );
+              })}
             </tbody>
           </table>
           <br />

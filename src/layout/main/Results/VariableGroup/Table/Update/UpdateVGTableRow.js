@@ -35,10 +35,11 @@ const UpdateVGTableRow = ({
   };
 
   const addVgToExceptions = (name, variableKey) => {
-    setVgChangeExceptions([
+    let newExceptions = [
       ...vgChangeExceptions,
       { variableGroupName: name, variableKey: variableKey },
-    ]);
+    ];
+    setVgChangeExceptions(newExceptions);
   };
 
   return (

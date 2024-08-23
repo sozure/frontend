@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { v4 } from "uuid";
 import MatUIButton from "../../../../../MatUIButton";
-import { VGChangeExceptionsContext } from "../../../../../../contexts/Contexts";
+import {
+  VGChangeExceptionsContext,
+} from "../../../../../../contexts/Contexts";
 
 const AddVGTableRow = ({ variableGroup }) => {
   const { vgChangeExceptions, setVgChangeExceptions } = useContext(
@@ -12,7 +14,8 @@ const AddVGTableRow = ({ variableGroup }) => {
   const variableGroupName = variableGroup.variableGroupName;
 
   const addVgToExceptions = (name) => {
-    setVgChangeExceptions([...vgChangeExceptions, { variableGroupName: name }]);
+    let newExceptions = [...vgChangeExceptions, { variableGroupName: name }];
+    setVgChangeExceptions(newExceptions);
   };
 
   return (

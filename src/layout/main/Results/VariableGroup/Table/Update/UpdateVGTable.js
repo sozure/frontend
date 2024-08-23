@@ -14,13 +14,17 @@ import UpdateVGTableRow from "./UpdateVGTableRow";
 
 function UpdateVGTable() {
   const { variables } = useContext(VariablesContext);
-  const { paginationCounter } = useContext(PaginationCounterContext);
+  const { paginationCounter, setPaginationCounter } = useContext(
+    PaginationCounterContext
+  );
   const { vgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
   const [
     filteredVariableGroupsByExceptions,
     setFilteredVariableGroupsByExceptions,
   ] = useState([variables]);
+
+  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
 
   const number = 5;
 
@@ -34,6 +38,27 @@ function UpdateVGTable() {
     }
   }, [variables, vgChangeExceptions]);
 
+  useEffect(() => {
+    if (filteredVariableGroupsByExceptions.length !== 0) {
+      let tempPartOfVariableGroups = filteredVariableGroupsByExceptions.slice(
+        paginationCounter,
+        paginationCounter + number
+      );
+
+      if (tempPartOfVariableGroups.length === 0) {
+        let decreasedPaginationCounter =
+          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
+        setPaginationCounter(decreasedPaginationCounter);
+      }
+
+      setPartOfVariableGroups(tempPartOfVariableGroups);
+    }
+  }, [
+    filteredVariableGroupsByExceptions,
+    paginationCounter,
+    setPaginationCounter,
+  ]);
+
   return (
     <div className="form">
       {(filteredVariableGroupsByExceptions === null) |
@@ -43,7 +68,7 @@ function UpdateVGTable() {
       ) : (
         <>
           <h2>
-            Matched variables (Found variables:{" "}
+            Variables to be updated (Total:{" "}
             {filteredVariableGroupsByExceptions.length})
           </h2>
           <br />
@@ -59,32 +84,28 @@ function UpdateVGTable() {
             />
 
             <tbody>
-              {filteredVariableGroupsByExceptions
-                .slice(paginationCounter, paginationCounter + number)
-                .map((variableGroup) => {
-                  let variableGroupName = variableGroup.variableGroupName;
-                  let variableGroupValue = variableGroup.variableGroupValue;
-                  let isSecretVariableGroup = variableGroup.secretVariableGroup;
-                  let project = variableGroup.project;
-                  let keyVaultName = variableGroup.keyVaultName;
-                  return (
-                    <UpdateVGTableRow
-                      key={v4()}
-                      variableGroup={variableGroup}
-                      variableGroupName={variableGroupName}
-                      variableGroupValue={variableGroupValue}
-                      project={project}
-                      isSecretVariableGroup={isSecretVariableGroup}
-                      keyVaultName={keyVaultName}
-                    />
-                  );
-                })}
+              {partOfVariableGroups.map((variableGroup) => {
+                let variableGroupName = variableGroup.variableGroupName;
+                let variableGroupValue = variableGroup.variableGroupValue;
+                let isSecretVariableGroup = variableGroup.secretVariableGroup;
+                let project = variableGroup.project;
+                let keyVaultName = variableGroup.keyVaultName;
+                return (
+                  <UpdateVGTableRow
+                    key={v4()}
+                    variableGroup={variableGroup}
+                    variableGroupName={variableGroupName}
+                    variableGroupValue={variableGroupValue}
+                    project={project}
+                    isSecretVariableGroup={isSecretVariableGroup}
+                    keyVaultName={keyVaultName}
+                  />
+                );
+              })}
             </tbody>
           </table>
           <br />
-          <PaginationButtons
-            collection={filteredVariableGroupsByExceptions}
-          />
+          <PaginationButtons collection={filteredVariableGroupsByExceptions} />
         </>
       )}
     </div>

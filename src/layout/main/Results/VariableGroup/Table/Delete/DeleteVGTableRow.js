@@ -20,6 +20,7 @@ const DeleteVGTableRow = ({
   const { vgChangeExceptions, setVgChangeExceptions } = useContext(
     VGChangeExceptionsContext
   );
+
   const maxLengthOfVariableValue = 60;
 
   const getVariableGroupValue = (variableGroupValue) => {
@@ -35,10 +36,11 @@ const DeleteVGTableRow = ({
   };
 
   const addVgToExceptions = (name, variableKey) => {
-    setVgChangeExceptions([
+    let newExceptions = [
       ...vgChangeExceptions,
       { variableGroupName: name, variableKey: variableKey },
-    ]);
+    ];
+    setVgChangeExceptions(newExceptions);
   };
 
   return (
