@@ -24,6 +24,22 @@ const PaginationButtons = ({ collection }) => {
     setActualPageNumber(1);
   }, [collection]);
 
+  useEffect(() => {
+    console.log("variables", collection);
+    if (collection.length !== 0) {
+      let tempPartOfVariableGroups = collection.slice(
+        paginationCounter,
+        paginationCounter + number
+      );
+
+      if (tempPartOfVariableGroups.length === 0) {
+        let decreasedPaginationCounter =
+          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
+        setPaginationCounter(decreasedPaginationCounter);
+      }
+    }
+  }, [collection, paginationCounter, setPaginationCounter]);
+
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
     setActualPageNumber(helperPageNum);

@@ -10,7 +10,6 @@ const AddVGTableRow = ({ variableGroup }) => {
   const { vgChangeExceptions, setVgChangeExceptions } = useContext(
     VGChangeExceptionsContext
   );
-
   const variableGroupName = variableGroup.variableGroupName;
 
   const addVgToExceptions = (name) => {

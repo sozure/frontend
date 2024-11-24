@@ -45,8 +45,6 @@ function DeleteVGTable() {
         paginationCounter + number
       );
 
-      console.log("tempPartOfVariableGroups: ", tempPartOfVariableGroups);
-
       if (tempPartOfVariableGroups.length === 0) {
         let decreasedPaginationCounter =
           paginationCounter - number <= 0 ? 0 : paginationCounter - number;

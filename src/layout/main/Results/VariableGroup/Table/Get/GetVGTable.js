@@ -1,5 +1,5 @@
 import "../../../../../../CSS/style.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { v4 } from "uuid";
 
 import {
@@ -12,29 +12,11 @@ import GetVGTableRow from "./GetVGTableRow";
 
 function GetVGTable() {
   const { variables } = useContext(VariablesContext);
-  const { paginationCounter, setPaginationCounter } = useContext(
+  const { paginationCounter } = useContext(
     PaginationCounterContext
   );
-  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
 
   const number = 5;
-
-  useEffect(() => {
-    if (variables.length !== 0) {
-      let tempPartOfVariableGroups = variables.slice(
-        paginationCounter,
-        paginationCounter + number
-      );
-
-      if (tempPartOfVariableGroups.length === 0) {
-        let decreasedPaginationCounter =
-          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-        setPaginationCounter(decreasedPaginationCounter);
-      }
-
-      setPartOfVariableGroups(tempPartOfVariableGroups);
-    }
-  }, [variables, paginationCounter, setPaginationCounter]);
 
   const findIndexOfVariableGroup = (variableGroups, variableGroup) => {
     const isMatch = (variableG) =>
@@ -66,28 +48,33 @@ function GetVGTable() {
             />
 
             <tbody>
-              {partOfVariableGroups.map((variableGroup) => {
-                let variableGroupName = variableGroup.variableGroupName;
-                let variableGroupKey = variableGroup.variableGroupKey;
-                let variableGroupValue = variableGroup.variableGroupValue;
-                let isSecretVariableGroup = variableGroup.secretVariableGroup;
-                let project = variableGroup.project;
-                let keyVaultName = variableGroup.keyVaultName;
-                let index = findIndexOfVariableGroup(variables, variableGroup);
-                return (
-                  <GetVGTableRow
-                    key={v4()}
-                    variableGroup={variableGroup}
-                    variableGroupKey={variableGroupKey}
-                    variableGroupName={variableGroupName}
-                    variableGroupValue={variableGroupValue}
-                    project={project}
-                    isSecretVariableGroup={isSecretVariableGroup}
-                    keyVaultName={keyVaultName}
-                    index={index}
-                  />
-                );
-              })}
+              {variables
+                .slice(paginationCounter, paginationCounter + number)
+                .map((variableGroup) => {
+                  let variableGroupName = variableGroup.variableGroupName;
+                  let variableGroupKey = variableGroup.variableGroupKey;
+                  let variableGroupValue = variableGroup.variableGroupValue;
+                  let isSecretVariableGroup = variableGroup.secretVariableGroup;
+                  let project = variableGroup.project;
+                  let keyVaultName = variableGroup.keyVaultName;
+                  let index = findIndexOfVariableGroup(
+                    variables,
+                    variableGroup
+                  );
+                  return (
+                    <GetVGTableRow
+                      key={v4()}
+                      variableGroup={variableGroup}
+                      variableGroupKey={variableGroupKey}
+                      variableGroupName={variableGroupName}
+                      variableGroupValue={variableGroupValue}
+                      project={project}
+                      isSecretVariableGroup={isSecretVariableGroup}
+                      keyVaultName={keyVaultName}
+                      index={index}
+                    />
+                  );
+                })}
             </tbody>
           </table>
           <br />

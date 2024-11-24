@@ -50,14 +50,17 @@ const ActionButtons = () => {
   }, [variableGroups, vgChangeExceptions]);
 
   const deleteVariables = async () => {
+    message["exceptions"] = vgChangeExceptions;
     await sendDeleteRequest(message, "", setOnDelete);
   };
 
   const addVariables = async () => {
+    message["exceptions"] = vgChangeExceptions;
     await sendAddRequest(message, newKey, newValue, "", setOnAdd);
   };
 
   const updateVariables = async () => {
+    message["exceptions"] = vgChangeExceptions;
     await sendUpdateRequest(message, newValue, valueRegex, setOnUpdate);
   };
 
