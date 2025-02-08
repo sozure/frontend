@@ -1,53 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { v4 } from "uuid";
-
-import AddVGTableRow from "./AddVGTableRow";
-import PaginationButtons from "../../../PaginationButtons";
 import {
-  PaginationCounterContext,
   VariableGroupsContext,
   VGChangeExceptionsContext,
 } from "../../../../../../contexts/Contexts";
-import TableHeader from "../../../TableHeader";
 import { getFilteredVariableGroupsByExceptions } from "../../../../../../services/HelperFunctions/ExceptionHelperFunctions";
+import { DataGrid } from "@mui/x-data-grid";
+import MatUIButton from "../../../../../MatUIButton";
 
 const AddVGTable = () => {
-  const { paginationCounter, setPaginationCounter } = useContext(
-    PaginationCounterContext
-  );
   const { variableGroups } = useContext(VariableGroupsContext);
-  const { vgChangeExceptions } = useContext(VGChangeExceptionsContext);
+  const { vgChangeExceptions, setVgChangeExceptions } = useContext(
+    VGChangeExceptionsContext
+  );
 
   const [
     filteredVariableGroupsByExceptions,
     setFilteredVariableGroupsByExceptions,
-  ] = useState([variableGroups]);
+  ] = useState([]);
 
-  const number = 5;
-
-  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
-
-  useEffect(() => {
-    if (filteredVariableGroupsByExceptions.length !== 0) {
-      let tempPartOfVariableGroups = filteredVariableGroupsByExceptions.slice(
-        paginationCounter,
-        paginationCounter + number
-      );
-
-      if (tempPartOfVariableGroups.length === 0) {
-        let decreasedPaginationCounter =
-          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-        setPaginationCounter(decreasedPaginationCounter);
-      }
-
-      setPartOfVariableGroups(tempPartOfVariableGroups);
-    }
-  }, [
-    filteredVariableGroupsByExceptions,
-    paginationCounter,
-    setPaginationCounter,
-  ]);
+  const columns = [
+    { field: "project", headerName: "Project", width: 425 },
+    {
+      field: "variableGroupName",
+      headerName: "Variable group name",
+      width: 425,
+    },
+    {
+      field: "remove",
+      headerName: "",
+      width: 425,
+      renderCell: (params) => (
+        <MatUIButton
+          id={"remove_add_suggestion"}
+          send={() => {
+            addVgToExceptions(params.row.variableGroupName);
+          }}
+          displayName={"X"}
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (variableGroups.length !== 0) {
@@ -55,13 +48,28 @@ const AddVGTable = () => {
         variableGroups,
         vgChangeExceptions
       );
-      setFilteredVariableGroupsByExceptions(filteredVariableGroups);
+      let result = [];
+      let index = 1;
+      filteredVariableGroups.forEach((variableGroup) => {
+        result.push({
+          id: index,
+          project: variableGroup.project,
+          variableGroupName: variableGroup.variableGroupName,
+        });
+        index++;
+      });
+      setFilteredVariableGroupsByExceptions(result);
     }
   }, [
     variableGroups,
     vgChangeExceptions,
     setFilteredVariableGroupsByExceptions,
   ]);
+
+  const addVgToExceptions = (name) => {
+    let newExceptions = [...vgChangeExceptions, { variableGroupName: name }];
+    setVgChangeExceptions(newExceptions);
+  };
 
   return (
     <div>
@@ -74,20 +82,18 @@ const AddVGTable = () => {
             {filteredVariableGroupsByExceptions.length}
             ).
           </h2>
-          <table>
-            <TableHeader
-              columnList={["Project", "Variable group name", "Remove"]}
-            />
-
-            <tbody>
-              {partOfVariableGroups.map((variableGroup) => {
-                return (
-                  <AddVGTableRow key={v4()} variableGroup={variableGroup} />
-                );
-              })}
-            </tbody>
-          </table>
-          <PaginationButtons collection={filteredVariableGroupsByExceptions} />
+          <DataGrid
+            rows={filteredVariableGroupsByExceptions}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5]}
+          />
         </>
       )}
     </div>
