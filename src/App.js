@@ -58,7 +58,7 @@ import {
 import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
 
-function App() {
+const App = () => {
   let envTenantId =
     process.env.REACT_APP_TENANT_ID === undefined ||
     process.env.REACT_APP_TENANT_ID === ""

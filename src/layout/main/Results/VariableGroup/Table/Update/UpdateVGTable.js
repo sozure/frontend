@@ -1,32 +1,26 @@
 import "../../../../../../CSS/style.css";
 import React, { useContext, useEffect, useState } from "react";
-import { v4 } from "uuid";
 
 import {
-  PaginationCounterContext,
+  OnUpdateContext,
   VariablesContext,
   VGChangeExceptionsContext,
 } from "../../../../../../contexts/Contexts";
-import PaginationButtons from "../../../PaginationButtons";
-import TableHeader from "../../../TableHeader";
 import { getFilteredVariableGroupsByExceptions } from "../../../../../../services/HelperFunctions/ExceptionHelperFunctions";
-import UpdateVGTableRow from "./UpdateVGTableRow";
+import MatUIButton from "../../../../../MatUIButton";
+import { DataGrid } from "@mui/x-data-grid";
 
-function UpdateVGTable() {
+const UpdateVGTable = () => {
+  const { onUpdate } = useContext(OnUpdateContext);
   const { variables } = useContext(VariablesContext);
-  const { paginationCounter, setPaginationCounter } = useContext(
-    PaginationCounterContext
+  const { vgChangeExceptions, setVgChangeExceptions } = useContext(
+    VGChangeExceptionsContext
   );
-  const { vgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
   const [
     filteredVariableGroupsByExceptions,
     setFilteredVariableGroupsByExceptions,
-  ] = useState([variables]);
-
-  const [partOfVariableGroups, setPartOfVariableGroups] = useState([]);
-
-  const number = 5;
+  ] = useState([]);
 
   useEffect(() => {
     if (variables.length !== 0) {
@@ -34,30 +28,73 @@ function UpdateVGTable() {
         variables,
         vgChangeExceptions
       );
-      setFilteredVariableGroupsByExceptions(filteredVariableGroups);
+      let result = [];
+      let index = 1;
+      filteredVariableGroups.forEach((variableGroup) => {
+        result.push({
+          id: index,
+          project: variableGroup.project,
+          variableGroupName: variableGroup.secretVariableGroup
+            ? `${variableGroup.variableGroupName} (${variableGroup.keyVaultName})`
+            : variableGroup.variableGroupName,
+          variableKey: variableGroup.variableGroupKey,
+          variableValue: variableGroup.secretVariableGroup
+            ? "Secret variable, can't show it's value."
+            : variableGroup.variableGroupValue,
+        });
+        index++;
+      });
+      setFilteredVariableGroupsByExceptions(result);
     }
   }, [variables, vgChangeExceptions]);
 
-  useEffect(() => {
-    if (filteredVariableGroupsByExceptions.length !== 0) {
-      let tempPartOfVariableGroups = filteredVariableGroupsByExceptions.slice(
-        paginationCounter,
-        paginationCounter + number
-      );
+  const addVgToExceptions = (name, variableKey) => {
+    let newExceptions = [
+      ...vgChangeExceptions,
+      { variableGroupName: name, variableKey: variableKey },
+    ];
+    setVgChangeExceptions(newExceptions);
+  };
 
-      if (tempPartOfVariableGroups.length === 0) {
-        let decreasedPaginationCounter =
-          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-        setPaginationCounter(decreasedPaginationCounter);
-      }
-
-      setPartOfVariableGroups(tempPartOfVariableGroups);
-    }
-  }, [
-    filteredVariableGroupsByExceptions,
-    paginationCounter,
-    setPaginationCounter,
-  ]);
+  const columns = [
+    { field: "project", headerName: "Project", width: 200 },
+    {
+      field: "variableGroupName",
+      headerName: "Variable group name",
+      width: 250,
+    },
+    {
+      field: "variableKey",
+      headerName: "Variable key",
+      width: 250,
+    },
+    {
+      field: "variableValue",
+      headerName: "Variable value",
+      width: 250,
+    },
+    {
+      field: "remove",
+      headerName: "",
+      width: 250,
+      renderCell: (params) => (
+        <>
+          {onUpdate && (
+            <MatUIButton
+              id={"remove_delete_or_update_suggestion"}
+              send={() => {
+                addVgToExceptions(
+                  params.row.variableGroupName,
+                  params.row.variableKey
+                );
+              }}
+              displayName={"X"}
+            />
+          )}
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="form">
@@ -72,44 +109,22 @@ function UpdateVGTable() {
             {filteredVariableGroupsByExceptions.length})
           </h2>
           <br />
-          <table className="matched-variables-table">
-            <TableHeader
-              columnList={[
-                "Project",
-                "Variable group name",
-                "Variable key",
-                "Variable value",
-                "Remove",
-              ]}
-            />
-
-            <tbody>
-              {partOfVariableGroups.map((variableGroup) => {
-                let variableGroupName = variableGroup.variableGroupName;
-                let variableGroupValue = variableGroup.variableGroupValue;
-                let isSecretVariableGroup = variableGroup.secretVariableGroup;
-                let project = variableGroup.project;
-                let keyVaultName = variableGroup.keyVaultName;
-                return (
-                  <UpdateVGTableRow
-                    key={v4()}
-                    variableGroup={variableGroup}
-                    variableGroupName={variableGroupName}
-                    variableGroupValue={variableGroupValue}
-                    project={project}
-                    isSecretVariableGroup={isSecretVariableGroup}
-                    keyVaultName={keyVaultName}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
-          <br />
-          <PaginationButtons collection={filteredVariableGroupsByExceptions} />
+          <DataGrid
+            rows={filteredVariableGroupsByExceptions}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5]}
+          />
         </>
       )}
     </div>
   );
-}
+};
 
 export default UpdateVGTable;
