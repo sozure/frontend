@@ -7,7 +7,7 @@ import {
   AiOutlineClose,
 } from "react-icons/ai";
 
-const OtherVGTableRowButton = ({
+const GetVGTableRowButton = ({
   variableGroup,
   onSingleModification,
   localLoading,
@@ -47,7 +47,7 @@ const OtherVGTableRowButton = ({
   );
 };
 
-OtherVGTableRowButton.propTypes = {
+GetVGTableRowButton.propTypes = {
   variableGroup: PropTypes.object.isRequired,
   onSingleModification: PropTypes.object.isRequired,
   localLoading: PropTypes.object.isRequired,
@@ -58,4 +58,4 @@ OtherVGTableRowButton.propTypes = {
   type: PropTypes.string.isRequired,
 };
 
-export default OtherVGTableRowButton;
+export default GetVGTableRowButton;

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { sendListVariablesRequest } from "../../../../services/VariableGroupServices/VariableGroupService";
 import {
-  VariableKeyIsRegexContext,
   VariableNewValueContext,
   OnUpdateContext,
   PaginationCounterContext,
@@ -17,6 +16,7 @@ import {
   VariablesContext,
   VariableValueRegexContext,
   ProfileNameContext,
+  VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -31,6 +31,7 @@ import { Input } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MatUIButton from "../../../MatUIButton";
+import MatUICheckbox from "../../../MatUICheckbox";
 
 const VariableGroupUpdateForm = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -47,15 +48,14 @@ const VariableGroupUpdateForm = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { setSingleOperation } = useContext(SingleOperationContext);
   const { setOnSingleModification } = useContext(SingleModificationContext);
-  const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
+  const { setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
+  const [keyIsRegex, setKeyIsRegex] = useState(false);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex, newValue];
   const toastMs = getToastOnClose();
 
   useEffect(() => {
-    let keyIsRegexHelper = false;
-    setKeyIsRegex(keyIsRegexHelper);
     setMessage({
       projectName: projectName,
       pat: pat,
@@ -66,7 +66,7 @@ const VariableGroupUpdateForm = () => {
       setLoading: setLoading,
       setVariables: setVariables,
       secretIncluded: false,
-      keyIsRegex: keyIsRegexHelper,
+      keyIsRegex: keyIsRegex,
     });
   }, [
     projectName,
@@ -76,17 +76,23 @@ const VariableGroupUpdateForm = () => {
     setLoading,
     setVariables,
     organizationName,
+    keyIsRegex,
     setKeyIsRegex,
     setMessage,
-    profileName
+    profileName,
   ]);
 
   const send = async () => {
-    let incorrectFill = checkRequiredInputs(mandatoryFields, "updateform", toastMs);
+    let incorrectFill = checkRequiredInputs(
+      mandatoryFields,
+      "updateform",
+      toastMs
+    );
     if (!incorrectFill) {
       await sendListVariablesRequest(message, valueRegex, setVariables);
       setOnUpdate(true);
       setPaginationCounter(0);
+      setVgChangeExceptions([]);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
     }
@@ -131,8 +137,17 @@ const VariableGroupUpdateForm = () => {
       />
       <br />
       <br />
-
-      <MatUIButton id={"submit_button"} send={send} displayName={"Send request"}/>
+      <MatUICheckbox
+        id={"keyIsRegexCheckbox"}
+        name={"keyIsRegexCheckbox"}
+        label={"Key is regex"}
+        setValue={setKeyIsRegex}
+      />
+      <MatUIButton
+        id={"submit_button"}
+        send={send}
+        displayName={"Send request"}
+      />
       <ToastContainer />
     </div>
   );

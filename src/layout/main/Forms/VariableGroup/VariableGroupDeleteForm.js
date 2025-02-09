@@ -20,6 +20,7 @@ import {
   SingleModificationContext,
   VariableKeyIsRegexContext,
   ProfileNameContext,
+  VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -46,6 +47,7 @@ const VariableGroupDeleteForm = () => {
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
+  const { setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, keyRegex];
   const toastMs = getToastOnClose();
@@ -85,6 +87,7 @@ const VariableGroupDeleteForm = () => {
       setPaginationCounter(0);
       setSingleOperationBack(setSingleOperation);
       setOnSingleModificationBack(setOnSingleModification);
+      setVgChangeExceptions([]);
       setOnDelete(true);
       setPaginationCounter(0);
     }

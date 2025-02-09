@@ -42,7 +42,7 @@ import CreatePRsForm from "./PR/CreatePRsForm";
 import CreatePRForm from "./PR/CreatePRForm";
 import LatestTagForm from "./Tag&Build/LatestTagForm.js/LatestTagForm";
 
-function Form() {
+const Form = () => {
   const { actionType } = useContext(ActionTypeContext);
   const { tableType } = useContext(TableTypeContext);
   const { vgAuthorized } = useContext(VGAuthorizedContext);

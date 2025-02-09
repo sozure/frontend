@@ -8,7 +8,8 @@ const buildRequestBody = (message) => {
     keyFilter: message["keyRegex"],
     containsSecrets: message["secretIncluded"],
     keyIsRegex: message["keyIsRegex"],
-    containsKey: message["containsKey"]
+    containsKey: message["containsKey"],
+    exceptions: message["exceptions"]
   };
 };
 

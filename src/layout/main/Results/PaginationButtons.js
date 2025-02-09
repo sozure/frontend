@@ -22,7 +22,23 @@ const PaginationButtons = ({ collection }) => {
 
   useEffect(() => {
     setActualPageNumber(1);
-  }, [collection])
+  }, [collection]);
+
+  useEffect(() => {
+    console.log("variables", collection);
+    if (collection.length !== 0) {
+      let tempPartOfVariableGroups = collection.slice(
+        paginationCounter,
+        paginationCounter + number
+      );
+
+      if (tempPartOfVariableGroups.length === 0) {
+        let decreasedPaginationCounter =
+          paginationCounter - number <= 0 ? 0 : paginationCounter - number;
+        setPaginationCounter(decreasedPaginationCounter);
+      }
+    }
+  }, [collection, paginationCounter, setPaginationCounter]);
 
   const increasePaginationCounter = () => {
     let helperPageNum = actualPageNumber + 1;
@@ -34,9 +50,9 @@ const PaginationButtons = ({ collection }) => {
   const decreasedPaginationCounter = () => {
     let helperPageNum = actualPageNumber - 1;
     setActualPageNumber(helperPageNum);
-    let increasedPaginationCounter =
+    let decreasedPaginationCounter =
       paginationCounter - number <= 0 ? 0 : paginationCounter - number;
-    setPaginationCounter(increasedPaginationCounter);
+    setPaginationCounter(decreasedPaginationCounter);
   };
 
   return (
@@ -46,30 +62,30 @@ const PaginationButtons = ({ collection }) => {
       </div>
       {collectionLength > number && (
         <div className="pagination-btns">
-        <Button
-          className={paginationCounter === 0 ? "previous" : "next"}
-          disabled={paginationCounter === 0}
-          onClick={decreasedPaginationCounter}
-          variant="text"
-        >
-          Previous
-        </Button>
-        <Button
-          className={
-            paginationCounter + number >= collectionLength
-              ? "previous"
-              : "next"
-          }
-          disabled={
-            (paginationCounter + number >= collectionLength) ||
-            (collectionLength < number)
-          }
-          onClick={increasePaginationCounter}
-          variant="contained"
-        >
-          Next
-        </Button>
-      </div>
+          <Button
+            className={paginationCounter === 0 ? "previous" : "next"}
+            disabled={paginationCounter === 0}
+            onClick={decreasedPaginationCounter}
+            variant="text"
+          >
+            Previous
+          </Button>
+          <Button
+            className={
+              paginationCounter + number >= collectionLength
+                ? "previous"
+                : "next"
+            }
+            disabled={
+              paginationCounter + number >= collectionLength ||
+              collectionLength < number
+            }
+            onClick={increasePaginationCounter}
+            variant="contained"
+          >
+            Next
+          </Button>
+        </div>
       )}
     </div>
   );
