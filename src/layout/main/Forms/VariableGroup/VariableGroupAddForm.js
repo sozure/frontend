@@ -18,6 +18,7 @@ import {
   VariableGroupsContext,
   VariablesContext,
   ProfileNameContext,
+  VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 
 import VariableGroupBaseForm from "./VariableGroupBaseForm";
@@ -50,6 +51,7 @@ const VariableGroupAddForm = () => {
   const { setOnSingleModification } = useContext(SingleModificationContext);
   const { setKeyIsRegex } = useContext(VariableKeyIsRegexContext);
   const { profileName } = useContext(ProfileNameContext);
+  const { setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
   const mandatoryFields = [pat, projectName, vgRegex, newKey, newValue];
   const toastMs = getToastOnClose();
@@ -92,6 +94,7 @@ const VariableGroupAddForm = () => {
       setOnSingleModificationBack(setOnSingleModification);
       setOnAdd(true);
       setPaginationCounter(0);
+      setVgChangeExceptions([]);
     }
   };
 

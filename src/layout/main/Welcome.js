@@ -1,7 +1,7 @@
 import React from "react";
 import "../../CSS/style.css";
 
-function Welcome() {
+const Welcome = () => {
   return (
     <header>
       <div>

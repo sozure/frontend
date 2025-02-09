@@ -12,7 +12,7 @@ import PaginationButtons from "../PaginationButtons";
 import TableHeader from "../TableHeader";
 import KVResultTableRow from "./KVResultTableRow";
 
-function KVResultTable() {
+const KVResultTable = () => {
   const { secrets } = useContext(SecretsContext);
   const { paginationCounter } = useContext(PaginationCounterContext);
   const { onRecover } = useContext(OnRecoverContext);

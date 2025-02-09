@@ -29,7 +29,7 @@ const CustomClipLoader = ({size}) => {
 };
 
 CustomClipLoader.propTypes = {
-  size: PropTypes.number.isRequired
+  size: PropTypes.number
 };
 
 export default CustomClipLoader;
