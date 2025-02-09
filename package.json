@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.14.10",
+    "@mui/x-data-grid": "^7.24.0",
     "@mui/x-date-pickers": "^6.18.1",
     "axios": "^1.7.4",
     "dayjs": "^1.11.10",

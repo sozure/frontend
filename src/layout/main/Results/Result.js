@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import VGTable from "./VariableGroup/VGTable";
+import VGTable from "./VariableGroup/Table/VGTable";
 import {
   ActionTypeContext,
   TableTypeContext,

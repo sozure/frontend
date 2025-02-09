@@ -38,12 +38,14 @@ const sendRequest = async (
 
       if (status === 1 || status === 2) {
         if (controllerSegment === "DeleteInline") {
-          variableGroups.splice(row, 1);
+          let helper = [...variableGroups];
+          helper.splice(row, 1);
+          setVariables(helper);
         } else {
           let variableGroup = variableGroups[row];
-          variableGroup.variableGroupValue = body["newValue"];
+          variableGroup.variableValue = body["newValue"];
+          setVariables(variableGroups);
         }
-        setVariables(variableGroups);
       }
       setLocalLoading({ loading: false, row: -1 });
     })

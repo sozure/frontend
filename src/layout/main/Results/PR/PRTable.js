@@ -1,54 +1,109 @@
 import React, { useContext, useEffect, useState } from "react";
-import TableHeader from "../TableHeader";
-import PaginationButtons from "../PaginationButtons";
 import { ToastContainer } from "react-toastify";
 import { Input } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
+import NearMeIcon from "@mui/icons-material/NearMe";
 
 import {
-  PaginationCounterContext,
   PullRequestsContext,
   VGAuthorizedContext,
 } from "../../../../contexts/Contexts";
-import PRTableBody from "./PRTableBody";
+
+const navigate = (url) => {
+  window.open(url, "_blank");
+};
+
+const columns = [
+  { field: "project", headerName: "Project", width: 150 },
+  {
+    field: "repository",
+    headerName: "Repository",
+    width: 150,
+  },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 150,
+  },
+  {
+    field: "createdBy",
+    headerName: "Created by",
+    width: 150,
+  },
+  {
+    field: "created",
+    headerName: "Created",
+    width: 150,
+  },
+  {
+    field: "size",
+    headerName: "Size",
+    description: "Size of pull request.",
+    width: 150,
+  },
+  {
+    field: "approvers",
+    headerName: "Approvers",
+    width: 150,
+  },
+  {
+    field: "url",
+    headerName: "Navigate",
+    width: 150,
+    renderCell: (params) => (
+      <Box>
+        <Button
+          id={"check_pull_requests"}
+          onClick={() => navigate(params.row.url)}
+          variant="contained"
+        >
+          <NearMeIcon />
+        </Button>
+      </Box>
+    ),
+  },
+];
 
 const PRTable = () => {
-  const tableHeader = [
-    "Project",
-    "Repository",
-    "Title",
-    "Created by",
-    "Created",
-    "Size",
-    "Approvers",
-    "Navigate",
-  ];
-
   const { vgAuthorized } = useContext(VGAuthorizedContext);
-  const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { pullRequests } = useContext(PullRequestsContext);
 
   const [filter, setFilter] = useState("");
-  const [searchPullRequests, setSearchPullRequests] = useState(pullRequests);
+  const [searchPullRequests, setSearchPullRequests] = useState([]);
 
   useEffect(() => {
-    setSearchPullRequests(pullRequests);
+    let result = [];
+    let counter = 1;
+    pullRequests.forEach((element) => {
+      result.push({ id: counter, ...element });
+      counter++;
+    });
+    setSearchPullRequests(result);
   }, [pullRequests]);
 
   const filterPullRequests = (newFilter) => {
     setFilter(newFilter);
-    setPaginationCounter(0);
     if (newFilter !== "") {
       let result = [];
+      let counter = 1;
       pullRequests.forEach((element) => {
         if (
           element.repository.toLowerCase().includes(newFilter.toLowerCase())
         ) {
-          result.push(element);
+          result.push({ id: counter, ...element });
+          counter++;
         }
       });
       setSearchPullRequests(result);
     } else {
-      setSearchPullRequests(pullRequests);
+      let result = [];
+      let counter = 1;
+      pullRequests.forEach((element) => {
+        result.push({ id: counter, ...element });
+        counter++;
+      });
+      setSearchPullRequests(result);
     }
   };
 
@@ -71,13 +126,20 @@ const PRTable = () => {
             <>
               <h2>Found pull requests: {searchPullRequests.length}</h2>
               <br />
-
-              <table className="matched-variables-table">
-                <TableHeader columnList={tableHeader} />
-                <PRTableBody pullRequests={searchPullRequests} />
-              </table>
-              <br />
-              <PaginationButtons collection={searchPullRequests} />
+              <div style={{ height: 400, width: "100%" }}>
+                <DataGrid
+                  rows={searchPullRequests}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 5,
+                      },
+                    },
+                  }}
+                  pageSizeOptions={[5]}
+                />
+              </div>
             </>
           )}
         </div>
