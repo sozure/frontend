@@ -7,7 +7,7 @@ import {
   getToastOnClose,
 } from "./CommonService";
 
-const baseUrl = `${getBaseUrl()}/GitFile`;
+const baseUrl = `${getBaseUrl()}/gitfile`;
 const toastMs = getToastOnClose();
 
 const yamlFilter = process.env.REACT_APP_YAML_FILTER;
@@ -23,7 +23,7 @@ const getConfigFiles = async (
 ) => {
   setLoading(true);
 
-  let url = `${baseUrl}/ConfigFiles`;
+  let url = `${baseUrl}/config`;
   let body = {
     organization: organization,
     repositoryId: repositoryId,

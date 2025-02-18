@@ -55,7 +55,6 @@ import {
   ForceCompleteContext,
   VGChangeExceptionsContext,
 } from "./contexts/Contexts";
-import { Modifications } from "./layout/modifications/Modifications";
 import Welcome from "./layout/main/Welcome";
 
 const App = () => {
@@ -648,12 +647,6 @@ const App = () => {
                                                                                                                 path="/"
                                                                                                                 element={
                                                                                                                   <Main />
-                                                                                                                }
-                                                                                                              />
-                                                                                                              <Route
-                                                                                                                path="/changes"
-                                                                                                                element={
-                                                                                                                  <Modifications />
                                                                                                                 }
                                                                                                               />
                                                                                                             </Routes>

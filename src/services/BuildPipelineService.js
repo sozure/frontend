@@ -8,7 +8,7 @@ import {
   toastSuccessPopUp,
 } from "./CommonService";
 
-const baseUrl = `${getBaseUrl()}/BuildPipeline`;
+const baseUrl = `${getBaseUrl()}/buildpipeline`;
 const toastMs = getToastOnClose();
 
 const getBuildPipelines = async (
@@ -18,7 +18,7 @@ const getBuildPipelines = async (
   setResults,
   setLoading
 ) => {
-  let url = `${baseUrl}/GetAll`;
+  let url = `${baseUrl}/getall`;
   let body = {
     organization: organization,
     project: project,
@@ -62,7 +62,7 @@ const getRepositoryIdByBuildPipeline = async (
   setLoading,
   setResult
 ) => {
-  let url = `${baseUrl}/GetRepositoryId`;
+  let url = `${baseUrl}/getrepositoryid`;
   let body = {
     organization: organization,
     project: project,
@@ -106,7 +106,7 @@ const runBuildPipeline = async (
   definitionId,
   sourceBranch
 ) => {
-  let url = `${baseUrl}/Run`;
+  let url = `${baseUrl}/run`;
   let body = {
     organization: organization,
     project: project,

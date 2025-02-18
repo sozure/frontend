@@ -9,7 +9,7 @@ import {
 } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
-const variableGroupUrl = `${getLibraryBaseUrl()}/VariableGroup`;
+const variableGroupUrl = `${getLibraryBaseUrl()}/variablegroup`;
 const toastMs = getToastOnClose();
 
 const sendListVariablesRequest = async (
@@ -17,7 +17,7 @@ const sendListVariablesRequest = async (
   valueRegex,
   callbackForDataSaving
 ) => {
-  await sendListRequest(message, valueRegex, "Get", callbackForDataSaving);
+  await sendListRequest(message, valueRegex, "", callbackForDataSaving);
 };
 
 const sendListVariableGroupsRequest = async (
@@ -28,7 +28,7 @@ const sendListVariableGroupsRequest = async (
   await sendListRequest(
     message,
     valueRegex,
-    "GetVariableGroups",
+    "variablegroups",
     callbackForDataSaving
   );
 };
@@ -41,7 +41,7 @@ const syncVariableGroups = async (
   setLoading
 ) => {
   let index = message["index"];
-  let url = `${variableGroupUrl}/GetVariableGroups`;
+  let url = `${variableGroupUrl}/variablegroups`;
   let body = buildRequestBody(message);
   body["potentialVariableGroups"] = message["potentialVariableGroups"];
   axios
@@ -81,7 +81,7 @@ const syncVariableGroup = async (
   setResults,
   setLoading
 ) => {
-  let url = `${variableGroupUrl}/GetVariableGroups`;
+  let url = `${variableGroupUrl}/variablegroups`;
   setLoading(true);
   let body = buildRequestBody(message);
   body["potentialVariableGroups"] = message["potentialVariableGroups"];

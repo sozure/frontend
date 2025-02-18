@@ -25,13 +25,13 @@ const toastMs = getToastOnClose();
 const getBaseUrl = () => {
   let backendUrl = process.env.REACT_APP_BACKEND_BASE_URL;
   let backendPort = process.env.REACT_APP_BACKEND_PORT_NUM;
-  return `${backendUrl}:${backendPort}/api`;
+  return `${backendUrl}:${backendPort}/api/azureservice`;
 };
 
 const getLibraryBaseUrl = () => {
   let backendUrl = process.env.REACT_APP_LIBRARY_BACKEND_BASE_URL;
   let backendPort = process.env.REACT_APP_LIBRARY_BACKEND_PORT_NUM;
-  return `${backendUrl}:${backendPort}/api`;
+  return `${backendUrl}:${backendPort}/api/azurelibrary`;
 }
 
 const handleError = (callbackForLoading, err) => {
