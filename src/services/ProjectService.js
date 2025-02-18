@@ -19,14 +19,13 @@ const getProjects = async (
   setSubscriptions,
   setLoading
 ) => {
-  const url = `${baseUrl}/get`;
   const body = {
     organization: organizationName,
     pat: PAT,
   };
   let subscriptions = [];
   axios
-    .post(url, body)
+    .post(baseUrl, body)
     .then((res) => {
       let status = res.data.status;
       let projects = res.data.data;

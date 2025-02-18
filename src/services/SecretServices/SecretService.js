@@ -34,18 +34,19 @@ const sendListKeyVaultsRequest = async (
   setDefaultSubscription,
   setLoading
 ) => {
-  let url = `${secretUrl}/getkeyvaults`;
+  let url = `${secretUrl}/GetKeyVaults`;
   axios
     .post(url, body)
     .then((res) => {
       let status = res.data.status;
       let keyVaults = res.data.data;
+      setLoading(false);
       if (status === 1) {
         callbackForDataSaving(keyVaults);
         setDefaultSubscription(res.data.additionalData);
+        toastSuccessPopUp("Success", "secret_requesting", toastMs);
       } else {
         toastErrorPopUp(getResponseMessage(status), "secret_requesting", toastMs);
-        setLoading(false);
       }
     })
     .catch((err) => {
@@ -90,7 +91,7 @@ const sendListSecretRequest = async (
 };
 
 const sendCopyRequest = async (body) => {
-  let url = `${secretUrl}/copy`;
+  let url = `${secretUrl}/Copy`;
   axios
     .post(url, body)
     .then((res) => {

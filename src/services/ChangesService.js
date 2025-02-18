@@ -15,7 +15,7 @@ const getSecretChanges = async (body, setLoading, setChanges) => {
 };
 
 const getKVChanges = async (body, setLoading, setChanges) => {
-  const url = `${baseUrl}/keyvaultcopies`;
+  const url = `${baseUrl}/keyvaults`;
   await getChanges(url, body, setLoading, setChanges);
 }
 

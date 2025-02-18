@@ -9,7 +9,7 @@ import {
 } from "../CommonService";
 import { buildRequestBody } from "./VariableGroupCommonService";
 
-const variableGroupUrl = `${getLibraryBaseUrl()}/VariableGroup`;
+const variableGroupUrl = `${getLibraryBaseUrl()}/variablegroup`;
 const toastMs = getToastOnClose();
 
 const sendRequest = async (
@@ -35,16 +35,16 @@ const sendRequest = async (
         operation: controllerSegment,
       };
       setSingleOperation(result);
-
       if (status === 1 || status === 2) {
         if (controllerSegment === "DeleteInline") {
           let helper = [...variableGroups];
           helper.splice(row, 1);
           setVariables(helper);
         } else {
-          let variableGroup = variableGroups[row];
+          let helper = [...variableGroups];
+          let variableGroup = helper[row];
           variableGroup.variableValue = body["newValue"];
-          setVariables(variableGroups);
+          setVariables(helper);
         }
       }
       setLocalLoading({ loading: false, row: -1 });

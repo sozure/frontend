@@ -8,14 +8,14 @@ import {
 import axios from "axios";
 import { syncVariableGroups } from "./VariableGroupServices/VariableGroupService";
 
-const baseUrl = `${getBaseUrl()}/ReleasePipeline`;
+const baseUrl = `${getBaseUrl()}/releasepipeline`;
 const toastMs = getToastOnClose();
 
 const getEnvironments = async (
   body,
   setResults
 ) => {
-  let url = `${baseUrl}/GetEnvironments`;
+  let url = `${baseUrl}/environments`;
   axios
     .post(url, body)
     .then((res) => {
@@ -44,7 +44,7 @@ const getVariableGroups = async (
   setResults,
   setLoading
 ) => {
-  let url = `${baseUrl}/GetVariableGroups`;
+  let url = `${baseUrl}/variableGroups`;
   axios
     .post(url, body)
     .then((res) => {
@@ -98,7 +98,7 @@ const getProjectsWithReleasePipeline = async (
   setResults,
   setLoading
 ) => {
-  let url = `${baseUrl}/GetProjects`;
+  let url = `${baseUrl}/projects`;
   let body = {
     organization: organization,
     projects: projects,

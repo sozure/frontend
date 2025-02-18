@@ -8,7 +8,7 @@ import {
 } from "./CommonService";
 import { runBuildPipeline } from "./BuildPipelineService";
 
-const baseUrl = `${getBaseUrl()}/GitVersion`;
+const baseUrl = `${getBaseUrl()}/gitversion`;
 const toastMs = getToastOnClose();
 
 const getBody = (organization, repositoryId, pat) => {
@@ -34,7 +34,7 @@ const getBranches = async (
   setLoading,
   setBranches
 ) => {
-  let url = `${baseUrl}/Branches`;
+  let url = `${baseUrl}/branches`;
   let body = getBody(organization, repositoryId, pat);
   axios
     .post(url, body)
@@ -65,7 +65,7 @@ const getTags = async (
   setLoading,
   setTags
 ) => {
-  let url = `${baseUrl}/Tags`;
+  let url = `${baseUrl}/tags`;
   let body = getBody(organization, repositoryId, pat);
   axios
     .post(url, body)
@@ -92,7 +92,7 @@ const queryLatestTags = async (
   setLoading,
   setLatestTags
 ) => {
-  let url = `${baseUrl}/LatestTags`;
+  let url = `${baseUrl}/latesttags`;
   let repositoryIds = repositories.map((repository) => repository.repositoryId);
   let body = getBody2(organization, repositoryIds, pat);
   axios
@@ -124,7 +124,7 @@ const createTag = async (
   setLatestTags,
   cancel
 ) => {
-  let url = `${baseUrl}/Tag/Create`;
+  let url = `${baseUrl}/tagcreation`;
   let body = {
     organization: model.organization,
     project: model.project,
