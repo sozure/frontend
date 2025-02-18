@@ -25,7 +25,7 @@ const getPullRequests = async (
     project: project,
   };
   axios
-    .post(`${baseUrl}/get`, body)
+    .post(`${baseUrl}/getprs`, body)
     .then(async (res) => {
       let status = res.data.status;
       let pullRequests = res.data.data;
@@ -70,7 +70,7 @@ const createPullRequests = async (
     forceComplete: forceComplete
   };
   axios
-    .post(`${baseUrl}/createmultiple`, body)
+    .post(`${baseUrl}/createprs`, body)
     .then(async (res) => {
       let status = res.data.status;
       let statusMessage = getResponseMessage(status);
@@ -107,7 +107,7 @@ const createPullRequest = async (
     autoComplete: autoComplete
   };
   axios
-    .post(`${baseUrl}/create`, body)
+    .post(`${baseUrl}/createpr`, body)
     .then(async (res) => {
       let status = res.data.status;
       let statusMessage = getResponseMessage(status);

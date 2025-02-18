@@ -25,7 +25,6 @@ const PaginationButtons = ({ collection }) => {
   }, [collection]);
 
   useEffect(() => {
-    console.log("variables", collection);
     if (collection.length !== 0) {
       let tempPartOfVariableGroups = collection.slice(
         paginationCounter,

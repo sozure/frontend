@@ -21,7 +21,7 @@ import {
   VGChangeExceptionsContext,
 } from "../../../../contexts/Contexts";
 import MatUIButton from "../../../MatUIButton";
-import { getFilteredVariableGroupsByExceptions } from "../../../../services/HelperFunctions/ExceptionHelperFunctions";
+import { getFilteredVariableGroupsByExceptions, getFilteredVariablesByExceptions } from "../../../../services/HelperFunctions/ExceptionHelperFunctions";
 
 const ActionButtons = () => {
   const { setActionType } = useContext(ActionTypeContext);
@@ -40,14 +40,22 @@ const ActionButtons = () => {
   const { setPaginationCounter } = useContext(PaginationCounterContext);
   const { vgChangeExceptions, setVgChangeExceptions } = useContext(VGChangeExceptionsContext);
 
-  const [filteredVariableGroupsByExceptions, setFilteredVariableGroupsByExceptions] = useState([variableGroups]);
+  const [filteredVariableGroupsByExceptions, setFilteredVariableGroupsByExceptions] = useState([]);
 
   useEffect(() => {
-    if (variableGroups.length > 0) {
-      let result = getFilteredVariableGroupsByExceptions(variableGroups, vgChangeExceptions);
-      setFilteredVariableGroupsByExceptions(result);
+    if(onAdd){
+      if (variableGroups.length > 0) {
+        let result = getFilteredVariableGroupsByExceptions(variableGroups, vgChangeExceptions);
+        setFilteredVariableGroupsByExceptions(result);
+      }
+    } else if(onDelete || onUpdate){
+      if (variables.length > 0) {
+        let result = getFilteredVariablesByExceptions(variables, vgChangeExceptions);
+        setFilteredVariableGroupsByExceptions(result);
+      }
     }
-  }, [variableGroups, vgChangeExceptions]);
+    
+  }, [variableGroups, variables, vgChangeExceptions, onAdd, onDelete, onUpdate]);
 
   const deleteVariables = async () => {
     message["exceptions"] = vgChangeExceptions;
@@ -72,7 +80,7 @@ const ActionButtons = () => {
     return (
       <p>
         Are you sure you want to {onDelete ? "delete" : addOrUpdate()}{" "}
-        {variables.length > 1 ? "variables?" : "variable?"}
+        {filteredVariableGroupsByExceptions.length > 1 ? "variables?" : "variable?"}
       </p>
     );
   };
@@ -133,7 +141,7 @@ const ActionButtons = () => {
   return (
     <>
       {tableType === "Variable Groups" &&
-        (variables.length > 0 || filteredVariableGroupsByExceptions.length > 0) &&
+        (filteredVariableGroupsByExceptions.length > 0) &&
         getActionSegment()}
     </>
   );

@@ -89,7 +89,7 @@ const MainSelects = () => {
       case "Run pipelines":
         return (
           <MatUISelect
-            collection={["Build", "Release"]}
+            collection={["Build"]}
             inputLabel={"Pipeline action type"}
             id={`pipeline-action-type`}
             selectValue={actionType}
@@ -101,7 +101,7 @@ const MainSelects = () => {
       case "Tags":
         return (
           <MatUISelect
-            collection={["List", "CreateAndBuild"]}
+            collection={["List"]}
             inputLabel={"Tag action type"}
             id={`tag-action-type`}
             selectValue={actionType}
@@ -113,7 +113,7 @@ const MainSelects = () => {
       case "Pull requests":
         return (
           <MatUISelect
-            collection={["List", "Create", "CreateMultiple"]}
+            collection={["List", "Create"]}
             inputLabel={"PR action type"}
             id={`pr-action-type`}
             selectValue={actionType}
@@ -133,7 +133,6 @@ const MainSelects = () => {
         collection={[
           "Secrets",
           "Variable Groups",
-          "Sync configurations",
           "Run pipelines",
           "Tags",
           "Pull requests",
