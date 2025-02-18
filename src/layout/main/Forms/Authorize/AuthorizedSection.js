@@ -10,10 +10,8 @@ import {
   VariableGroupsContext,
   VariablesContext,
 } from "../../../../contexts/Contexts";
-import { useNavigate } from "react-router-dom";
 
 const AuthorizedSection = () => {
-  const navigate = useNavigate();
   const { setVgAuthorized } = useContext(VGAuthorizedContext);
   const { profileName } = useContext(ProfileNameContext);
   const { setVariables } = useContext(VariablesContext);
