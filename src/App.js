@@ -650,12 +650,6 @@ const App = () => {
                                                                                                                   <Main />
                                                                                                                 }
                                                                                                               />
-                                                                                                              <Route
-                                                                                                                path="/changes"
-                                                                                                                element={
-                                                                                                                  <Modifications />
-                                                                                                                }
-                                                                                                              />
                                                                                                             </Routes>
                                                                                                           </BrowserRouter>
                                                                                                         </VGChangeExceptionsContext.Provider>

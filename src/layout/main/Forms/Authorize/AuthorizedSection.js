@@ -43,13 +43,6 @@ const AuthorizedSection = () => {
           }}
         >
           Back to authentication
-        </Button>{" "}
-        <Button
-          variant="contained"
-          id="changes"
-          onClick={() => navigate("/changes")}
-        >
-          See changes history
         </Button>
       </p>
     </div>
