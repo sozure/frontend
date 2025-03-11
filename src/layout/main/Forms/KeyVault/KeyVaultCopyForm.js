@@ -9,7 +9,6 @@ import {
   KeyVaultsContext,
 } from "../../../../contexts/Contexts";
 
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -20,6 +19,7 @@ import {
 import KeyVaultSelectMenu from "../../../KeyVaultSelectMenu";
 import MatUIButton from "../../../MatUIButton";
 import MatUICheckbox from "../../../MatUICheckbox";
+import { Stack } from "@mui/material";
 
 const KeyVaultCopyForm = () => {
   const { tenantId } = useContext(TenantIdContext);
@@ -74,21 +74,23 @@ const KeyVaultCopyForm = () => {
   };
 
   return (
-    <div className="form">
-      <KeyVaultSelectMenu
-        id={"origin"}
-        inputLabel={"Select origin key vault"}
-        keyVaults={keyVaults}
-        keyVaultName={originKeyVault}
-        setKeyVaultName={setOriginKeyVault}
-      />{" "}
-      <KeyVaultSelectMenu
-        id={"destination"}
-        inputLabel={"Select destination key vault"}
-        keyVaults={keyVaults}
-        keyVaultName={destinationKeyVault}
-        setKeyVaultName={setDestinationKeyVault}
-      />
+    <Stack className="form">
+      <Stack direction="row" gap={2} width="600px">
+        <KeyVaultSelectMenu
+          id={"origin"}
+          inputLabel={"Select origin key vault"}
+          keyVaults={keyVaults}
+          keyVaultName={originKeyVault}
+          setKeyVaultName={setOriginKeyVault}
+        />{" "}
+        <KeyVaultSelectMenu
+          id={"destination"}
+          inputLabel={"Select destination key vault"}
+          keyVaults={keyVaults}
+          keyVaultName={destinationKeyVault}
+          setKeyVaultName={setDestinationKeyVault}
+        />
+      </Stack>
       <MatUICheckbox
         id={"overrideNeeded"}
         name={"overrideNeeded"}
@@ -102,7 +104,7 @@ const KeyVaultCopyForm = () => {
         displayName={"Send request"}
       />
       <ToastContainer />
-    </div>
+    </Stack>
   );
 };
 
