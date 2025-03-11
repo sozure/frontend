@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { PaginationCounterContext } from "../../contexts/Contexts";
 
-export const Modifications = () => {
+const Modifications = () => {
   const [ changes, setChanges ] = useState([]);
   const [ entityType, setEntityType ] = useState("Environment variables");
   const { setPaginationCounter } = useContext(PaginationCounterContext);
@@ -28,3 +28,5 @@ export const Modifications = () => {
     </>
   );
 };
+
+export default Modifications;

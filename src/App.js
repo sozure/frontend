@@ -56,6 +56,7 @@ import {
   VGChangeExceptionsContext,
 } from "./contexts/Contexts";
 import Welcome from "./layout/main/Welcome";
+import Modifications from "./layout/modifications/Modifications";
 
 const App = () => {
   let envTenantId =
@@ -649,6 +650,12 @@ const App = () => {
                                                                                                                   <Main />
                                                                                                                 }
                                                                                                               />
+                                                                                                              <Route
+                                                                                                                path="/changes"
+                                                                                                                element={
+                                                                                                                  <Modifications />
+                                                                                                                }
+                                                                                                              />
                                                                                                             </Routes>
                                                                                                           </BrowserRouter>
                                                                                                         </VGChangeExceptionsContext.Provider>
@@ -703,6 +710,6 @@ const App = () => {
       </ActionTypeContext.Provider>
     </KeyVaultNameContext.Provider>
   );
-}
+};
 
 export default App;
