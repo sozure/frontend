@@ -64,7 +64,7 @@ const MainSelects = () => {
         return (
           <MatUISelect
             collection={["List", "Add", "Delete", "Update"]}
-            inputLabel={"VG action type"}
+            inputLabel={"Select action"}
             id={`vg-action-type`}
             selectValue={actionType}
             setSelectValue={handleActionTypeChange}
@@ -76,7 +76,7 @@ const MainSelects = () => {
         return (
           <MatUISelect
             collection={["List", "Copy", "Delete", "Recover"]}
-            inputLabel={"Secret action type"}
+            inputLabel={"Select action"}
             id={`secret-action-type`}
             selectValue={actionType}
             setSelectValue={setActionType}
@@ -90,7 +90,7 @@ const MainSelects = () => {
         return (
           <MatUISelect
             collection={["Build"]}
-            inputLabel={"Pipeline action type"}
+            inputLabel={"Select action"}
             id={`pipeline-action-type`}
             selectValue={actionType}
             setSelectValue={setCustomActionType}
@@ -102,7 +102,7 @@ const MainSelects = () => {
         return (
           <MatUISelect
             collection={["List"]}
-            inputLabel={"Tag action type"}
+            inputLabel={"Select action"}
             id={`tag-action-type`}
             selectValue={actionType}
             setSelectValue={setCustomActionType}
@@ -114,7 +114,7 @@ const MainSelects = () => {
         return (
           <MatUISelect
             collection={["List", "Create"]}
-            inputLabel={"PR action type"}
+            inputLabel={"Select action"}
             id={`pr-action-type`}
             selectValue={actionType}
             setSelectValue={setCustomActionType}
