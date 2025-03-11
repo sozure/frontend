@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Box } from "@mui/material";
 import PropTypes from "prop-types";
 
 const MatUISelect = ({
@@ -14,6 +14,7 @@ const MatUISelect = ({
   return (
     <>
       {required !== undefined && required ? (
+        <Box width="150px">
         <FormControl required fullWidth>
           <InputLabel>{inputLabel}</InputLabel>
           <Select
@@ -38,7 +39,9 @@ const MatUISelect = ({
             ))}
           </Select>
         </FormControl>
+        </Box>
       ) : (
+        <Box width="150px">
         <FormControl fullWidth>
           <InputLabel>{inputLabel}</InputLabel>
           <Select
@@ -63,6 +66,7 @@ const MatUISelect = ({
             ))}
           </Select>
         </FormControl>
+        </Box>
       )}
     </>
   );

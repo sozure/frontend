@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 import {
   KeyVaultNameContext,
+  KeyVaultsContext,
   LoadingContext,
   OrganizationContext,
   PaginationCounterContext,
@@ -22,10 +24,10 @@ import {
   getToastOnClose,
   toastErrorPopUp,
 } from "../../../services/CommonService";
-import { VGModificationsForm } from "./VGModificationsForm";
-import { SecretModificationsForm } from "./SecretModificationsForm";
 import CommonFormElements from "./CommonFormElements";
 import MatUISelect from "../../MatUISelect";
+import ProjectSelectMenu from "../../ProjectSelectMenu";
+import KeyVaultSelectMenu from "../../KeyVaultSelectMenu";
 
 export const ModificationsForm = ({
   entityType,
@@ -37,11 +39,12 @@ export const ModificationsForm = ({
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const { keyVaults } = useContext(KeyVaultsContext);
   const { organizationName } = useContext(OrganizationContext);
   const { projects } = useContext(ProjectsContext);
   const { setLoading } = useContext(LoadingContext);
   const { projectName, setProjectName } = useContext(ProjectNameContext);
-  const { keyVaultName } = useContext(KeyVaultNameContext);
+  const { keyVaultName, setKeyVaultName } = useContext(KeyVaultNameContext);
   const { setPaginationCounter } = useContext(PaginationCounterContext);
 
   const mandatoryFields = [from, to, entityType];
@@ -131,40 +134,49 @@ export const ModificationsForm = ({
     }
     await requestKVChanges(body, setLoading, setChanges);
   };
-
-  const getSpecificForm = () => {
-    switch (entityType) {
-      case "Environment variables":
-        return (
-          <VGModificationsForm
-            setProjectName={setProjectName}
-            projectName={projectName}
-            projects={projects}
-            setUserName={setUserName}
-            userName={userName}
-            setSelectedLimit={setSelectedLimit}
-            selectedLimit={selectedLimit}
-            setFrom={setFrom}
-            from={from}
-            setTo={setTo}
-            to={to}
+  return (
+    <Stack paddingTop={2}>
+      {keyVaults.length === 0 && (
+        <Stack width="620px">
+        <Alert variant="filled" severity="warning">
+          To access secret and key vault copy changes, authenticate first in
+          Secrets table type.
+        </Alert>
+        </Stack>
+      )}
+      <Stack className="form" gap={2}>
+        <Stack direction="row" gap={2}>
+          <MatUISelect
+            collection={
+              keyVaults.length > 0
+                ? ["Environment variables", "Secrets", "Key vault copies"]
+                : ["Environment variables"]
+            }
+            inputLabel={"Select entity type of modification"}
+            id={"entityType"}
+            selectValue={entityType}
+            setSelectValue={setCustomEntityType}
+            allOption={false}
+            required={true}
           />
-        );
-      case "Secrets":
-        return (
-          <SecretModificationsForm
-            setUserName={setUserName}
-            userName={userName}
-            setSelectedLimit={setSelectedLimit}
-            selectedLimit={selectedLimit}
-            setFrom={setFrom}
-            from={from}
-            setTo={setTo}
-            to={to}
-          />
-        );
-      case "Key vault copies":
-        return (
+          {entityType === "Environment variables" && (
+            <ProjectSelectMenu
+              allOption={true}
+              projectName={projectName}
+              setProjectName={setProjectName}
+            />
+          )}
+          {entityType === "Secrets" && (
+            <KeyVaultSelectMenu
+              id={"modifications"}
+              inputLabel={"Select Azure vault"}
+              keyVaults={keyVaults}
+              keyVaultName={keyVaultName}
+              setKeyVaultName={setKeyVaultName}
+            />
+          )}
+        </Stack>
+        <Stack direction="row" gap={2}>
           <CommonFormElements
             setUserName={setUserName}
             userName={userName}
@@ -175,38 +187,19 @@ export const ModificationsForm = ({
             setTo={setTo}
             to={to}
           />
-        );
-      default:
-        toastErrorPopUp(
-          "Invalid record requesting!",
-          "record_requesting",
-          toastMs
-        );
-    }
-  };
-
-  return (
-    <div className="form">
-      <MatUISelect
-        collection={["Environment variables", "Secrets", "Key vault copies"]}
-        inputLabel={"Select entity type of modification"}
-        id={"entityType"}
-        selectValue={entityType}
-        setSelectValue={setCustomEntityType}
-        allOption={false}
-        required={true}
-      />
-      {getSpecificForm()}
-
-      <Button
-        variant="contained"
-        id="changes_search_button"
-        onClick={sendRequest}
-      >
-        Search
-      </Button>
-      <ToastContainer />
-    </div>
+        </Stack>
+        <Stack width="200px">
+          <Button
+            variant="contained"
+            id="changes_search_button"
+            onClick={sendRequest}
+          >
+            Search
+          </Button>
+        </Stack>
+        <ToastContainer />
+      </Stack>
+    </Stack>
   );
 };
 
