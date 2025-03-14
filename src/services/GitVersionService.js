@@ -7,6 +7,7 @@ import {
   getToastOnClose,
 } from "./CommonService";
 import { runBuildPipeline } from "./BuildPipelineService";
+import { sortVersions } from "./HelperFunctions/TagHelperFunctions";
 
 const baseUrl = `${getBaseUrl()}/gitversion`;
 const toastMs = getToastOnClose();
@@ -72,9 +73,10 @@ const getTags = async (
     .then((res) => {
       let status = res.data.status;
       let tags = res.data.data;
+      let sortedTags = sortVersions(tags);
       setLoading(false);
       if (status === 1) {
-        setTags(tags);
+        setTags(sortedTags);
       } else {
         toastErrorPopUp(getResponseMessage(status), "tag_requesting", toastMs);
       }
