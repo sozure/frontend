@@ -152,7 +152,7 @@ export const ModificationsForm = ({
                 ? ["Environment variables", "Secrets", "Key vault copies"]
                 : ["Environment variables"]
             }
-            inputLabel={"Select entity type of modification"}
+            inputLabel={"Select modification type"}
             id={"entityType"}
             selectValue={entityType}
             setSelectValue={setCustomEntityType}
